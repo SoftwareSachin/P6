@@ -704,6 +704,231 @@
   animation: radial-reveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Apple Pay Premium Styles */
+.apple-pay-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.3),
+    0 2px 8px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.apple-pay-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 16px 48px rgba(0,0,0,0.4),
+    0 8px 24px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* Tap-to-Pay Pulsing Animation */
+.tap-to-pay-pulse {
+  position: relative;
+  overflow: hidden;
+}
+
+.tap-to-pay-pulse::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  animation: tap-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes tap-pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Biometric Authentication Effects */
+.biometric-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.biometric-scan::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: biometric-sweep 3s ease-in-out infinite;
+}
+
+@keyframes biometric-sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Card 3D Layered Effects */
+.card-3d-stack {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-3d-stack::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: -4px;
+  bottom: -4px;
+  background: rgba(0,0,0,0.1);
+  border-radius: inherit;
+  z-index: -1;
+  transform: translateZ(-10px);
+}
+
+.card-3d-stack::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: -8px;
+  bottom: -8px;
+  background: rgba(0,0,0,0.05);
+  border-radius: inherit;
+  z-index: -2;
+  transform: translateZ(-20px);
+}
+
+/* Contextual Notification Animations */
+.contextual-notification {
+  animation: slide-in-notification 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slide-in-notification {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Transaction Success Animation */
+.transaction-success {
+  animation: success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes success-bounce {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Seamless Multi-Device Sync Indicator */
+.sync-indicator {
+  position: relative;
+}
+
+.sync-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(52, 152, 219, 0.3);
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: sync-spin 1s linear infinite;
+}
+
+@keyframes sync-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Elegant Contextual Menu */
+.contextual-menu {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  animation: contextual-menu-appear 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes contextual-menu-appear {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Dark Mode Card Effects */
+.dark-mode-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* Accessibility High Contrast Mode */
+@media (prefers-contrast: high) {
+  .apple-pay-card {
+    border: 2px solid rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.8);
+  }
+  
+  .contextual-menu {
+    border: 2px solid rgba(255,255,255,0.5);
+    background: rgba(0,0,0,0.9);
+  }
+}
+
+/* Smooth Page Transitions */
+.page-transition {
+  animation: page-slide-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes page-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 @keyframes morphBounce {
   0%, 100% { 
     transform: scale(1) rotate(0deg);
