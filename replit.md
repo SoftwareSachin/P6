@@ -199,6 +199,15 @@ Changelog:
   * Enhanced button interactions with scale transforms and gradient backgrounds
   * Added animated progress indicators and premium action buttons
   * Achieved Apple Pay-level visual quality with proper contrast and accessibility
+- June 30, 2025. CRITICAL ROUTING AND LAYOUT FIXES:
+  * Fixed duplicate screen rendering issues by restructuring routing logic with conditional returns
+  * Resolved permission screen layout overflow with proper height constraints and flexbox
+  * Added scrollable container for permission cards with hidden scrollbars
+  * Implemented responsive design improvements for mobile viewing
+  * Fixed authentication state management to prevent overlapping routes
+  * Cleaned up routing structure to eliminate previous screen duplication
+  * Enhanced layout containment with proper min-height and overflow handling
+  * Improved navigation flow between onboarding steps
 ```
 
 ## User Preferences
