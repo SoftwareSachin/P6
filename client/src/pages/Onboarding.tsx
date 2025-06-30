@@ -11,6 +11,7 @@ import {
 import { OfflinePaymentFlowSVG } from "@/components/OfflinePaymentFlowSVG";
 import { SecureConnectionSVG } from "@/components/SecureConnectionSVG";
 import upiGif from "@assets/fetchpik.com-iconscout-upcaLHoyqi (1)_1751287545574.gif";
+import secureGif from "@assets/secure_1751287927973.gif";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -315,18 +316,27 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           {/* Spacer */}
           <div className="flex-1"></div>
 
-          {/* Secure Connection Visual with Real UPI GIF - Centered */}
+          {/* Secure Connection Visual with Real GIFs - Centered */}
           <div className="flex justify-center items-center" style={{ marginBottom: '32px' }}>
             <div className="w-full max-w-md relative">
               {/* Background SVG for Bank and OPPB */}
               <SecureConnectionSVG className="w-full h-32" animated={true} />
               
-              {/* Overlay the actual UPI GIF at the correct position */}
+              {/* Overlay the actual UPI GIF at the left position */}
               <div className="absolute top-1/2 left-[50px] transform -translate-y-1/2 -translate-x-1/2">
                 <img 
                   src={upiGif} 
                   alt="UPI Animation" 
                   className="w-20 h-20 object-contain"
+                />
+              </div>
+
+              {/* Overlay the actual Secure GIF at the center position */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                <img 
+                  src={secureGif} 
+                  alt="Secure Bridge Animation" 
+                  className="w-16 h-16 object-contain"
                 />
               </div>
             </div>
