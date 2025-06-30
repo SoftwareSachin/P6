@@ -115,15 +115,93 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
 
     {/* Authentic UPI Logo - Left */}
     <g transform="translate(50, 50)">
-      {/* Authentic UPI Logo - Properly Sized */}
+      {/* Animated Background Pulse */}
+      {animated && (
+        <circle cx="0" cy="0" r="25" fill="none" stroke="#098041" strokeWidth="1" opacity="0.3">
+          <animate attributeName="r" values="20;30;20" dur="3s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" />
+        </circle>
+      )}
+
+      {/* Authentic UPI Logo - Animated */}
       <g transform="scale(0.08) translate(-512, -233)">
-        <path fill="#3d3d3c" d="M98.1 340.7h6.3l-5.9 24.5c-.9 3.6-.7 6.4.5 8.2 1.2 1.8 3.4 2.7 6.7 2.7 3.2 0 5.9-.9 8-2.7 2.1-1.8 3.5-4.6 4.4-8.2l5.9-24.5h6.4l-6 25.1c-1.3 5.4-3.6 9.5-7 12.2-3.3 2.7-7.7 4.1-13.1 4.1-5.4 0-9.1-1.3-11.1-4s-2.4-6.8-1.1-12.2l6-25.2zm31.4 40.3 10-41.9 19 24.6c.5.7 1 1.4 1.5 2.2.5.8 1 1.7 1.6 2.7l6.7-27.9h5.9l-10 41.8-19.4-25.1-1.5-2.1c-.5-.8-.9-1.5-1.2-2.4l-6.7 28h-5.9zm44.2 0 9.6-40.3h6.4l-9.6 40.3h-6.4zm15.5 0 9.6-40.3h21.9l-1.3 5.6h-15.5l-2.4 10H217l-1.4 5.6h-15.5l-3.5 14.5h15.5l-1.4 5.6h-21.9z"/>
-        <path fill="#70706e" d="M740.7 305.6h-43.9l61-220.3h43.9l-61 220.3zM717.9 92.2c-3-4.2-7.7-6.3-14.1-6.3H462.6l-11.9 43.2h219.4l-12.8 46.1H481.8v-.1h-43.9l-36.4 131.5h43.9l24.4-88.2h197.3c6.2 0 12-2.1 17.4-6.3 5.4-4.2 9-9.4 10.7-15.6l24.4-88.2c1.9-6.6 1.3-11.9-1.7-16.1zm-342 199.6c-2.4 8.7-10.4 14.8-19.4 14.8H130.2c-6.2 0-10.8-2.1-13.8-6.3-3-4.2-3.7-9.4-1.9-15.6l55.2-198.8h43.9l-49.3 177.6h175.6l49.3-177.6h43.9l-57.2 205.9z"/>
-        <path fill="#098041" d="M877.5 85.7 933 196.1 816.3 306.5z"/>
-        <path fill="#e97626" d="M838.5 85.7 894 196.1 777.2 306.5z"/>
+        {/* Main UPI Text - Animated */}
+        <path fill="#3d3d3c" d="M98.1 340.7h6.3l-5.9 24.5c-.9 3.6-.7 6.4.5 8.2 1.2 1.8 3.4 2.7 6.7 2.7 3.2 0 5.9-.9 8-2.7 2.1-1.8 3.5-4.6 4.4-8.2l5.9-24.5h6.4l-6 25.1c-1.3 5.4-3.6 9.5-7 12.2-3.3 2.7-7.7 4.1-13.1 4.1-5.4 0-9.1-1.3-11.1-4s-2.4-6.8-1.1-12.2l6-25.2zm31.4 40.3 10-41.9 19 24.6c.5.7 1 1.4 1.5 2.2.5.8 1 1.7 1.6 2.7l6.7-27.9h5.9l-10 41.8-19.4-25.1-1.5-2.1c-.5-.8-.9-1.5-1.2-2.4l-6.7 28h-5.9zm44.2 0 9.6-40.3h6.4l-9.6 40.3h-6.4zm15.5 0 9.6-40.3h21.9l-1.3 5.6h-15.5l-2.4 10H217l-1.4 5.6h-15.5l-3.5 14.5h15.5l-1.4 5.6h-21.9z">
+          {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="4s" repeatCount="indefinite" />}
+        </path>
+        
+        {/* UPI Brand Text - Animated */}
+        <path fill="#70706e" d="M740.7 305.6h-43.9l61-220.3h43.9l-61 220.3zM717.9 92.2c-3-4.2-7.7-6.3-14.1-6.3H462.6l-11.9 43.2h219.4l-12.8 46.1H481.8v-.1h-43.9l-36.4 131.5h43.9l24.4-88.2h197.3c6.2 0 12-2.1 17.4-6.3 5.4-4.2 9-9.4 10.7-15.6l24.4-88.2c1.9-6.6 1.3-11.9-1.7-16.1zm-342 199.6c-2.4 8.7-10.4 14.8-19.4 14.8H130.2c-6.2 0-10.8-2.1-13.8-6.3-3-4.2-3.7-9.4-1.9-15.6l55.2-198.8h43.9l-49.3 177.6h175.6l49.3-177.6h43.9l-57.2 205.9z">
+          {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="3.5s" repeatCount="indefinite" />}
+        </path>
+        
+        {/* Green Triangle - Pulsing Animation */}
+        <path fill="#098041" d="M877.5 85.7 933 196.1 816.3 306.5">
+          {animated && (
+            <>
+              <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite" />
+              <animateTransform
+                attributeName="transform"
+                type="scale"
+                values="1;1.05;1"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </>
+          )}
+        </path>
+        
+        {/* Orange Triangle - Counter Animation */}
+        <path fill="#e97626" d="M838.5 85.7 894 196.1 777.2 306.5">
+          {animated && (
+            <>
+              <animate attributeName="opacity" values="1;0.9;1" dur="2s" repeatCount="indefinite" />
+              <animateTransform
+                attributeName="transform"
+                type="scale"
+                values="1;1.03;1"
+                dur="2.5s"
+                repeatCount="indefinite"
+              />
+            </>
+          )}
+        </path>
+
+        {/* Overall Logo Animation */}
+        {animated && (
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            values="1;1.02;1"
+            dur="5s"
+            repeatCount="indefinite"
+          />
+        )}
       </g>
       
-      <text x="0" y="35" textAnchor="middle" fontSize="10" fontWeight="600" fill="#4A5568">UPI</text>
+      {/* Animated UPI Text Label */}
+      <text x="0" y="35" textAnchor="middle" fontSize="10" fontWeight="600" fill="#4A5568">
+        UPI
+        {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />}
+      </text>
+
+      {/* Flowing Data Points Around Logo */}
+      {animated && (
+        <g opacity="0.6">
+          <circle cx="-20" cy="-15" r="1.5" fill="#098041">
+            <animate attributeName="cx" values="-20;20;-20" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="20" cy="15" r="1.5" fill="#e97626">
+            <animate attributeName="cx" values="20;-20;20" dur="5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;1;0" dur="5s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="-15" cy="20" r="1" fill="#70706e">
+            <animate attributeName="cy" values="20;-20;20" dur="3.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.8;0" dur="3.5s" repeatCount="indefinite" />
+          </circle>
+        </g>
+      )}
     </g>
 
     {/* Secure Connection Line */}
