@@ -49,6 +49,25 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
         <stop offset="80%" stopColor="rgba(16, 185, 129, 0.1)" />
         <stop offset="100%" stopColor="rgba(16, 185, 129, 0.3)" />
       </radialGradient>
+
+      {/* Cube Gradients */}
+      <linearGradient id="cubeTopGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#8B7CF6" stopOpacity="1"/>
+        <stop offset="50%" stopColor="#7C3AED" stopOpacity="0.9"/>
+        <stop offset="100%" stopColor="#6366F1" stopOpacity="0.8"/>
+      </linearGradient>
+      
+      <linearGradient id="cubeLeftGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8"/>
+        <stop offset="50%" stopColor="#4F46E5" stopOpacity="0.7"/>
+        <stop offset="100%" stopColor="#3730A3" stopOpacity="0.6"/>
+      </linearGradient>
+      
+      <linearGradient id="cubeRightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#4F46E5" stopOpacity="0.7"/>
+        <stop offset="50%" stopColor="#3730A3" stopOpacity="0.6"/>
+        <stop offset="100%" stopColor="#1E1B4B" stopOpacity="0.5"/>
+      </linearGradient>
     </defs>
 
 
@@ -172,16 +191,51 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
         {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" begin="1s" repeatCount="indefinite" />}
       </rect>
       
-      {/* OPPB Logo - Premium Diamond */}
-      <g>
-        <path d="M0 -12 L10 0 L0 12 L-10 0 Z" fill="white" opacity="0.95" />
-        <circle cx="0" cy="0" r="5" fill="url(#oppbGradient)" />
-        <text x="0" y="3" textAnchor="middle" fontSize="4" fontWeight="bold" fill="white">O</text>
+      {/* Premium 3D Cube Logo */}
+      <g transform="scale(0.3) translate(-60, -60)">
+        {/* Top Face */}
+        <path
+          d="M50 10 L85 25 L50 40 L15 25 Z"
+          fill="url(#cubeTopGradient)"
+          stroke="rgba(255,255,255,0.4)"
+          strokeWidth="1"
+        />
+        
+        {/* Left Face */}
+        <path
+          d="M15 25 L50 40 L50 75 L15 60 Z"
+          fill="url(#cubeLeftGradient)"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth="1"
+        />
+
+        {/* Right Face */}
+        <path
+          d="M50 40 L85 25 L85 60 L50 75 Z"
+          fill="url(#cubeRightGradient)"
+          stroke="rgba(255,255,255,0.1)"
+          strokeWidth="1"
+        />
+
+        {/* Inner Cube */}
+        <g transform="translate(10, 5)">
+          <path
+            d="M40 20 L60 28 L40 36 L20 28 Z"
+            fill="#3B82F6"
+            opacity="0.9"
+          />
+          <path
+            d="M20 28 L40 36 L40 56 L20 48 Z"
+            fill="#2563EB"
+            opacity="0.8"
+          />
+          <path
+            d="M40 36 L60 28 L60 48 L40 56 Z"
+            fill="#1D4ED8"
+            opacity="0.7"
+          />
+        </g>
       </g>
-      
-      {/* App Name */}
-      <rect x="-15" y="6" width="30" height="8" rx="2" fill="white" opacity="0.9" />
-      <text x="0" y="11" textAnchor="middle" fontSize="4" fontWeight="bold" fill="#8B5CF6">OPPB</text>
       
       {/* App Label */}
       <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#8B5CF6">OPPB</text>
