@@ -553,3 +553,145 @@ export const PremiumCardSVG = ({ className = "w-24 h-16" }: { className?: string
     </g>
   </svg>
 );
+
+// Material Design 3 Permission SVGs with Premium Animations
+export const CameraPermissionSVG = ({ className = "w-16 h-16", animated = true }: { className?: string, animated?: boolean }) => (
+  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#3b82f6" />
+        <stop offset="100%" stopColor="#1e40af" />
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <rect x="8" y="20" width="48" height="32" rx="6" fill="url(#cameraGradient)" filter="url(#glow)"/>
+    <rect x="12" y="16" width="12" height="8" rx="4" fill="url(#cameraGradient)" opacity="0.8"/>
+    <circle cx="32" cy="36" r="8" fill="white" opacity="0.9">
+      {animated && <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite"/>}
+    </circle>
+    <circle cx="32" cy="36" r="5" fill="url(#cameraGradient)">
+      {animated && <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>}
+    </circle>
+    <rect x="44" y="24" width="4" height="4" rx="2" fill="white" opacity="0.8">
+      {animated && <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.5s" repeatCount="indefinite"/>}
+    </rect>
+  </svg>
+);
+
+export const LocationPermissionSVG = ({ className = "w-16 h-16", animated = true }: { className?: string, animated?: boolean }) => (
+  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="locationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#10b981" />
+        <stop offset="100%" stopColor="#047857" />
+      </linearGradient>
+      <filter id="glow2">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <path d="M32 8C24 8 18 14 18 22C18 34 32 52 32 52S46 34 46 22C46 14 40 8 32 8Z" fill="url(#locationGradient)" filter="url(#glow2)">
+      {animated && <animateTransform attributeName="transform" type="scale" values="1;1.1;1" dur="2s" repeatCount="indefinite"/>}
+    </path>
+    <circle cx="32" cy="22" r="6" fill="white" opacity="0.9">
+      {animated && <animate attributeName="r" values="6;8;6" dur="1.5s" repeatCount="indefinite"/>}
+    </circle>
+    <circle cx="32" cy="22" r="3" fill="url(#locationGradient)"/>
+    {animated && (
+      <>
+        <circle cx="32" cy="22" r="12" fill="none" stroke="url(#locationGradient)" strokeWidth="1" opacity="0.3">
+          <animate attributeName="r" values="12;20;12" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="32" cy="22" r="16" fill="none" stroke="url(#locationGradient)" strokeWidth="1" opacity="0.2">
+          <animate attributeName="r" values="16;24;16" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+          <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+      </>
+    )}
+  </svg>
+);
+
+export const SMSPermissionSVG = ({ className = "w-16 h-16", animated = true }: { className?: string, animated?: boolean }) => (
+  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="smsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#f97316" />
+        <stop offset="100%" stopColor="#dc2626" />
+      </linearGradient>
+      <filter id="glow3">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <rect x="8" y="16" width="48" height="32" rx="6" fill="url(#smsGradient)" filter="url(#glow3)">
+      {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>}
+    </rect>
+    <rect x="14" y="22" width="20" height="2" rx="1" fill="white" opacity="0.8">
+      {animated && <animate attributeName="width" values="20;36;20" dur="2.5s" repeatCount="indefinite"/>}
+    </rect>
+    <rect x="14" y="28" width="28" height="2" rx="1" fill="white" opacity="0.6">
+      {animated && <animate attributeName="width" values="28;16;28" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>}
+    </rect>
+    <rect x="14" y="34" width="16" height="2" rx="1" fill="white" opacity="0.4">
+      {animated && <animate attributeName="width" values="16;24;16" dur="2.5s" repeatCount="indefinite" begin="1s"/>}
+    </rect>
+    <circle cx="48" cy="40" r="4" fill="#ef4444">
+      {animated && <animate attributeName="r" values="4;6;4" dur="1s" repeatCount="indefinite"/>}
+    </circle>
+    <text x="48" y="43" textAnchor="middle" className="text-xs font-bold fill-white">3</text>
+  </svg>
+);
+
+export const ContactsPermissionSVG = ({ className = "w-16 h-16", animated = true }: { className?: string, animated?: boolean }) => (
+  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="contactsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#8b5cf6" />
+        <stop offset="100%" stopColor="#ec4899" />
+      </linearGradient>
+      <filter id="glow4">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <circle cx="24" cy="20" r="8" fill="url(#contactsGradient)" filter="url(#glow4)">
+      {animated && <animateTransform attributeName="transform" type="scale" values="1;1.1;1" dur="2s" repeatCount="indefinite"/>}
+    </circle>
+    <circle cx="40" cy="20" r="6" fill="url(#contactsGradient)" opacity="0.8" filter="url(#glow4)">
+      {animated && <animateTransform attributeName="transform" type="scale" values="1;1.1;1" dur="2s" repeatCount="indefinite" begin="0.5s"/>}
+    </circle>
+    <circle cx="32" cy="32" r="4" fill="url(#contactsGradient)" opacity="0.6" filter="url(#glow4)">
+      {animated && <animateTransform attributeName="transform" type="scale" values="1;1.1;1" dur="2s" repeatCount="indefinite" begin="1s"/>}
+    </circle>
+    <path d="M16 40C16 36 20 32 24 32C28 32 32 36 32 40V48H16V40Z" fill="url(#contactsGradient)" opacity="0.7">
+      {animated && <animate attributeName="opacity" values="0.7;0.9;0.7" dur="2s" repeatCount="indefinite"/>}
+    </path>
+    <path d="M32 44C32 40 36 36 40 36C44 36 48 40 48 44V52H32V44Z" fill="url(#contactsGradient)" opacity="0.5">
+      {animated && <animate attributeName="opacity" values="0.5;0.7;0.5" dur="2s" repeatCount="indefinite" begin="0.7s"/>}
+    </path>
+    {animated && (
+      <>
+        <circle cx="24" cy="20" r="12" fill="none" stroke="url(#contactsGradient)" strokeWidth="1" opacity="0.3">
+          <animate attributeName="r" values="12;16;12" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+      </>
+    )}
+  </svg>
+);

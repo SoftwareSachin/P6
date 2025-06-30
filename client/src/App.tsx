@@ -70,11 +70,14 @@ function Router() {
             <Route path="/" component={Landing} />
             <Route path="/onboarding" component={OnboardingWrapper} />
             <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+            <Route path="*" component={Landing} />
           </>
         ) : !hasCompletedOnboarding ? (
           <>
             <Route path="/" component={OnboardingWrapper} />
+            <Route path="/onboarding" component={OnboardingWrapper} />
             <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+            <Route path="*" component={OnboardingWrapper} />
           </>
         ) : (
           <>
@@ -87,9 +90,9 @@ function Router() {
             <Route path="/transaction-history" component={TransactionHistory} />
             <Route path="/profile" component={Profile} />
             <Route path="/settings" component={Settings} />
+            <Route path="*" component={ApplePayDashboard} />
           </>
         )}
-        <Route component={NotFound} />
       </Switch>
     </div>
   );
