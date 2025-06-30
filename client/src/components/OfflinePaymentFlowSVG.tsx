@@ -65,9 +65,9 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     </g>
 
     {/* Bank Connection GIF - Above Bluetooth */}
-    <g transform="translate(200, 35)">
+    <g transform="translate(200, 15)">
       {/* Animated Bank Connection GIF - Made Extra Large */}
-      <foreignObject x="-90" y="-30" width="180" height="60">
+      <foreignObject x="-140" y="-40" width="280" height="80">
         <img 
           src="/src/assets/bank-phone-connection.gif" 
           alt="Bank Connection"
@@ -75,7 +75,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         />
       </foreignObject>
       
-      <text x="0" y="40" textAnchor="middle" fontSize="12" fontWeight="600" fill="#F59E0B">Bank to Phone Connection</text>
+      <text x="0" y="50" textAnchor="middle" fontSize="13" fontWeight="600" fill="#F59E0B">Bank to Phone Connection</text>
     </g>
 
     {/* Central Bluetooth Hub */}
@@ -127,10 +127,10 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         )}
       </path>
       
-      {/* Vertical connection from Bank to Bluetooth - Longer gap */}
-      <path d="M200 75 Q200 112.5 200 115" stroke="url(#connectionFlow)" strokeWidth="2" fill="none" opacity="0.6">
+      {/* Vertical connection from Bank to Bluetooth - Much Longer gap */}
+      <path d="M200 65 Q200 107.5 200 115" stroke="url(#connectionFlow)" strokeWidth="2" fill="none" opacity="0.6">
         {animated && (
-          <animate attributeName="stroke-dasharray" values="0 80;40 40;80 0" dur="2.2s" begin="1s" repeatCount="indefinite" />
+          <animate attributeName="stroke-dasharray" values="0 100;50 50;100 0" dur="2.5s" begin="1s" repeatCount="indefinite" />
         )}
       </path>
     </g>

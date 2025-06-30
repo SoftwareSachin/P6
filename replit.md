@@ -279,7 +279,9 @@ Changelog:
   * Enhanced visual authenticity of the payment ecosystem visualization
 - June 30, 2025. ENHANCED OFFLINE PAYMENT FLOW WITH BANK CONNECTION:
   * Added animated bank-to-phone connection GIF above Bluetooth hub
-  * Made bank connection GIF significantly larger (140x50px) for better visibility
+  * Made bank connection GIF extra large (220x70px) to match Bluetooth hub size
+  * Increased vertical gap between bank GIF and Bluetooth hub (130px separation)
+  * Removed text labels from Bluetooth hub for cleaner appearance
   * Repositioned all elements with proper spacing and alignment
   * Added connecting lines between bank, Bluetooth hub, and phones
   * Complete payment flow now shows: Bank → Bluetooth → Peer-to-Peer transfer
