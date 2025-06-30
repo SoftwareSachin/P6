@@ -51,7 +51,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     </defs>
 
     {/* Left Device (Merchant Phone) - Animated GIF */}
-    <g transform="translate(60, 100)">
+    <g transform="translate(60, 130)">
       {/* Animated Merchant Phone GIF */}
       <foreignObject x="-35" y="-50" width="70" height="100">
         <img 
@@ -64,8 +64,22 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
       <text x="0" y="65" textAnchor="middle" fontSize="12" fontWeight="600" fill="#6366F1">Merchant</text>
     </g>
 
+    {/* Bank Connection GIF - Above Bluetooth */}
+    <g transform="translate(200, 50)">
+      {/* Animated Bank Connection GIF */}
+      <foreignObject x="-40" y="-15" width="80" height="30">
+        <img 
+          src="/src/assets/bank-phone-connection.gif" 
+          alt="Bank Connection"
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
+      </foreignObject>
+      
+      <text x="0" y="25" textAnchor="middle" fontSize="10" fontWeight="600" fill="#F59E0B">Bank to Phone</text>
+    </g>
+
     {/* Central Bluetooth Hub */}
-    <g transform="translate(200, 100)">
+    <g transform="translate(200, 130)">
       {/* Bluetooth Ring */}
       <circle cx="0" cy="0" r="35" fill="none" stroke="url(#bluetoothGlow)" strokeWidth="3" opacity="0.6">
         {animated && <animate attributeName="stroke-dasharray" values="0 220;110 110;220 0" dur="2.5s" repeatCount="indefinite" />}
@@ -85,7 +99,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     </g>
 
     {/* Right Device (User Phone) - Animated GIF */}
-    <g transform="translate(340, 100)">
+    <g transform="translate(340, 130)">
       {/* Animated Phone GIF */}
       <foreignObject x="-35" y="-50" width="70" height="100">
         <img 
@@ -101,16 +115,23 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     {/* Connection Flow Lines */}
     <g>
       {/* Left connection */}
-      <path d="M90 100 Q120 95 175 100" stroke="url(#connectionFlow)" strokeWidth="3" fill="none" opacity="0.8">
+      <path d="M90 130 Q120 125 175 130" stroke="url(#connectionFlow)" strokeWidth="3" fill="none" opacity="0.8">
         {animated && (
           <animate attributeName="stroke-dasharray" values="0 100;50 50;100 0" dur="2s" repeatCount="indefinite" />
         )}
       </path>
       
       {/* Right connection */}
-      <path d="M225 100 Q255 95 315 100" stroke="url(#connectionFlow)" strokeWidth="3" fill="none" opacity="0.8">
+      <path d="M225 130 Q255 125 315 130" stroke="url(#connectionFlow)" strokeWidth="3" fill="none" opacity="0.8">
         {animated && (
           <animate attributeName="stroke-dasharray" values="0 100;50 50;100 0" dur="2s" begin="0.5s" repeatCount="indefinite" />
+        )}
+      </path>
+      
+      {/* Vertical connection from Bank to Bluetooth */}
+      <path d="M200 75 Q200 92.5 200 95" stroke="url(#connectionFlow)" strokeWidth="2" fill="none" opacity="0.6">
+        {animated && (
+          <animate attributeName="stroke-dasharray" values="0 50;25 25;50 0" dur="1.8s" begin="1s" repeatCount="indefinite" />
         )}
       </path>
     </g>
