@@ -6,8 +6,12 @@ import { insertTransactionSchema, insertPaymentRequestSchema } from "@shared/sch
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Temporary: Skip auth setup for now to get the app working
-  // await setupAuth(app);
+  // Set up session support for logout functionality
+  const { getSession } = await import("./replitAuth");
+  app.use(getSession());
+
+  // Global logout state for mock environment
+  let userSignedOut = false;
 
   // Mock user for development
   const mockUser = {
@@ -22,10 +26,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes - temporary mock implementation
   app.get('/api/auth/user', async (req: any, res) => {
     try {
+      // Check if user is signed out in session or global logout flag
+      if (req.session?.signedOut || userSignedOut) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
       res.json(mockUser);
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Logout route
+  app.post('/api/auth/logout', async (req: any, res) => {
+    try {
+      // Set global logout flag for mock environment
+      userSignedOut = true;
+      
+      // Mark session as signed out
+      if (req.session) {
+        req.session.signedOut = true;
+        req.session.user = null;
+      }
+      
+      // Clear the session cookie
+      res.clearCookie('connect.sid');
+      res.json({ message: "Logged out successfully" });
+      
+    } catch (error) {
+      console.error("Error during logout:", error);
+      res.status(500).json({ message: "Failed to logout" });
+    }
+  });
+
+  // Alternative logout route for GET requests (for simple redirects)
+  app.get('/api/logout', async (req: any, res) => {
+    try {
+      // Set global logout flag for mock environment  
+      userSignedOut = true;
+      
+      if (req.session) {
+        req.session.signedOut = true;
+        req.session.user = null;
+      }
+      
+      res.clearCookie('connect.sid');
+      res.redirect('/');
+    } catch (error) {
+      console.error("Error during logout:", error);
+      res.redirect('/');
+    }
+  });
+
+  // Login route to reset the logout state for development
+  app.post('/api/auth/login', async (req: any, res) => {
+    try {
+      // Reset logout flag for mock environment
+      userSignedOut = false;
+      
+      if (req.session) {
+        req.session.signedOut = false;
+        req.session.user = mockUser;
+      }
+      
+      res.json(mockUser);
+    } catch (error) {
+      console.error("Error during login:", error);
+      res.status(500).json({ message: "Failed to login" });
     }
   });
 

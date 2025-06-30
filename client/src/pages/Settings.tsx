@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { LogoutConfirmDialog } from "@/components/LogoutConfirmDialog";
 import { useAuth } from "@/hooks/useAuth";
 import { 
   ArrowLeft, 
@@ -21,17 +22,26 @@ import {
 
 export default function Settings() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, logout, isLoggingOut } = useAuth();
   const [biometricEnabled, setBiometricEnabled] = useState(true);
   const [paymentAlerts, setPaymentAlerts] = useState(true);
   const [promotionalNotifications, setPromotionalNotifications] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const handleBack = () => {
     setLocation("/");
   };
 
-  const handleLogout = () => {
-    window.location.href = "/api/logout";
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    logout();
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutDialog(false);
   };
 
   return (
@@ -58,14 +68,14 @@ export default function Settings() {
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <img 
-                src={user?.profileImageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"}
+                src={(user as any)?.profileImageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"}
                 alt="Profile" 
                 className="w-16 h-16 rounded-full object-cover"
               />
               <div className="flex-1">
-                <h3 className="font-semibold text-lg">{user?.firstName} {user?.lastName}</h3>
-                <p className="text-gray-600">{user?.phoneNumber || "+91 98765 43210"}</p>
-                <p className="text-sm text-gray-500">{user?.email}</p>
+                <h3 className="font-semibold text-lg">{(user as any)?.firstName} {(user as any)?.lastName}</h3>
+                <p className="text-gray-600">{(user as any)?.phoneNumber || "+91 98765 43210"}</p>
+                <p className="text-sm text-gray-500">{(user as any)?.email}</p>
               </div>
               <Button variant="ghost" className="text-primary font-medium p-0 h-auto">
                 Edit
@@ -236,15 +246,24 @@ export default function Settings() {
 
         {/* Logout Button */}
         <Button 
-          onClick={handleLogout}
+          onClick={handleLogoutClick}
           variant="destructive"
           className="w-full py-3 btn-press"
+          disabled={isLoggingOut}
         >
-          Logout
+          {isLoggingOut ? "Signing out..." : "Logout"}
         </Button>
       </div>
 
       <BottomNavigation activeTab="settings" />
+      
+      {/* Logout Confirmation Dialog */}
+      <LogoutConfirmDialog
+        isOpen={showLogoutDialog}
+        onClose={handleLogoutCancel}
+        onConfirm={handleLogoutConfirm}
+        isLoggingOut={isLoggingOut}
+      />
     </div>
   );
 }
