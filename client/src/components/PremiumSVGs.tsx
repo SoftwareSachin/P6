@@ -1,43 +1,93 @@
 import React from 'react';
 
-// Premium SVG Components for OPPB - High Quality Graphics
+// Premium SVG Components for OPPB - Material Design 3.0 Expressive
 export const OPPBLogoSVG = ({ className = "w-20 h-20", animated = false }: { className?: string, animated?: boolean }) => (
   <svg className={className} viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#6366F1" />
-        <stop offset="50%" stopColor="#8B5CF6" />
-        <stop offset="100%" stopColor="#3B82F6" />
+      <linearGradient id="premiumLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#A855F7" />
+        <stop offset="25%" stopColor="#8B5CF6" />
+        <stop offset="50%" stopColor="#7C3AED" />
+        <stop offset="75%" stopColor="#6366F1" />
+        <stop offset="100%" stopColor="#4F46E5" />
       </linearGradient>
-      <filter id="glow">
-        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <linearGradient id="metallicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#F8FAFC" />
+        <stop offset="25%" stopColor="#E2E8F0" />
+        <stop offset="50%" stopColor="#CBD5E1" />
+        <stop offset="75%" stopColor="#94A3B8" />
+        <stop offset="100%" stopColor="#64748B" />
+      </linearGradient>
+      <filter id="premiumGlow">
+        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
         <feMerge> 
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
+      <filter id="glassEffect">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1"/>
+        <feOffset dx="0" dy="2" result="offset"/>
+        <feFlood floodColor="#ffffff" floodOpacity="0.3"/>
+        <feComposite in2="offset" operator="in"/>
+      </filter>
     </defs>
     
-    <circle cx="60" cy="60" r="55" fill="url(#logoGradient)" filter="url(#glow)" 
-            className={animated ? "animate-pulse-glow" : ""} />
+    {/* Premium Background with Glassmorphism */}
+    <circle cx="60" cy="60" r="52" fill="url(#premiumLogoGradient)" filter="url(#premiumGlow)" 
+            className={animated ? "animate-pulse-premium" : ""} />
+    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+    <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
     
-    <g transform="translate(20, 20)">
-      {/* Credit Card Icon */}
-      <rect x="15" y="25" width="50" height="32" rx="6" fill="white" opacity="0.9" />
-      <rect x="15" y="31" width="50" height="6" fill="rgba(99, 102, 241, 0.3)" />
-      <rect x="18" y="42" width="15" height="3" fill="rgba(99, 102, 241, 0.6)" rx="1" />
-      <rect x="18" y="47" width="25" height="2" fill="rgba(99, 102, 241, 0.4)" rx="1" />
+    {/* Premium OPPB Typography */}
+    <g transform="translate(15, 35)" filter="url(#glassEffect)">
+      {/* O - Refined Circle */}
+      <circle cx="15" cy="15" r="12" fill="none" stroke="url(#metallicGradient)" strokeWidth="3" />
+      <circle cx="15" cy="15" r="7" fill="rgba(255,255,255,0.95)" />
+      <circle cx="15" cy="15" r="3" fill="url(#premiumLogoGradient)" />
       
-      {/* Wireless Signal Lines */}
-      <g transform="translate(35, 10)">
-        <path d="M5 15 Q10 5 15 15" stroke="white" strokeWidth="2" fill="none" opacity="0.8"
-              className={animated ? "animate-float" : ""} />
-        <path d="M8 15 Q10 10 12 15" stroke="white" strokeWidth="2" fill="none" opacity="0.9"
-              className={animated ? "animate-float" : ""} style={{ animationDelay: '0.5s' }} />
-        <circle cx="10" cy="15" r="1.5" fill="white" 
-                className={animated ? "animate-pulse" : ""} />
-      </g>
+      {/* P - Modern Geometric */}
+      <rect x="35" y="5" width="3" height="20" fill="url(#metallicGradient)" rx="1.5" />
+      <rect x="35" y="5" width="12" height="3" fill="url(#metallicGradient)" rx="1.5" />
+      <rect x="35" y="13" width="10" height="3" fill="url(#metallicGradient)" rx="1.5" />
+      <rect x="44" y="5" width="3" height="8" fill="url(#metallicGradient)" rx="1.5" />
+      
+      {/* P - Second P */}
+      <rect x="55" y="5" width="3" height="20" fill="url(#metallicGradient)" rx="1.5" />
+      <rect x="55" y="5" width="12" height="3" fill="url(#metallicGradient)" rx="1.5" />
+      <rect x="55" y="13" width="10" height="3" fill="url(#metallicGradient)" rx="1.5" />
+      <rect x="64" y="5" width="3" height="8" fill="url(#metallicGradient)" rx="1.5" />
+      
+      {/* B - Premium Curves */}
+      <rect x="75" y="5" width="3" height="20" fill="url(#metallicGradient)" rx="1.5" />
+      <path d="M78 5 Q88 5 88 10 Q88 15 83 15 Q88 15 88 20 Q88 25 78 25" 
+            fill="none" stroke="url(#metallicGradient)" strokeWidth="3" strokeLinecap="round" />
     </g>
+    
+    {/* Premium Connection Elements */}
+    <g opacity="0.8" transform="translate(60, 60)">
+      <path d="M-15 -15 L15 15" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M15 -15 L-15 15" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="0" cy="0" r="4" fill="rgba(255,255,255,0.95)" />
+      <circle cx="0" cy="0" r="2" fill="url(#premiumLogoGradient)" />
+    </g>
+    
+    {/* Animated Shine Effect */}
+    {animated && (
+      <g>
+        <rect x="0" y="0" width="120" height="120" fill="url(#shineGradient)" opacity="0.3">
+          <animateTransform attributeName="transform" type="translate" 
+            values="-120 0;120 0;-120 0" dur="3s" repeatCount="indefinite" />
+        </rect>
+        <defs>
+          <linearGradient id="shineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="50%" stopColor="rgba(255,255,255,0.3)" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </g>
+    )}
   </svg>
 );
 

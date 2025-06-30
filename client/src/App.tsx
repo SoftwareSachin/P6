@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/Dashboard";
+import PremiumDashboard from "@/pages/PremiumDashboard";
 import QRScanner from "@/pages/QRScanner";
 import SendMoney from "@/pages/SendMoney";
 import OfflinePayments from "@/pages/OfflinePayments";
@@ -39,8 +40,8 @@ function Router() {
           <Route path="/" component={Landing} />
         ) : (
           <>
-            <Route path="/" component={Dashboard} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/" component={PremiumDashboard} />
+            <Route path="/dashboard" component={PremiumDashboard} />
             <Route path="/qr-scanner" component={QRScanner} />
             <Route path="/send-money" component={SendMoney} />
             <Route path="/offline-payments" component={OfflinePayments} />
