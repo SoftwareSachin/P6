@@ -1,20 +1,105 @@
-// Apple Pay Authentic SVG Icons - 1000% Pixel Perfect
-export const AppleLogoSVG = ({ className = "w-11 h-11" }: { className?: string }) => (
+// Premium OPPB Brand Logo - Ultra High-End Design
+export const OPPBPremiumLogoSVG = ({ className = "w-11 h-11", animated = false }: { className?: string, animated?: boolean }) => (
   <svg className={className} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g filter="url(#appleLogo)">
-      <path 
-        d="M32.1 12.3c-1.1 1.3-2.9 2.3-4.6 2-0.2-1.8 0.5-3.7 1.5-4.9 1-1.3 2.7-2.2 4.1-2.3 0.2 1.9-0.5 3.8-1 5.2zm0.9 1.7c-2.3-0.1-4.2 1.3-5.3 1.3-1.1 0-2.7-1.2-4.5-1.2-2.3 0-4.4 1.3-5.6 3.4-2.4 4.1-0.6 10.2 1.7 13.5 1.1 1.6 2.5 3.4 4.3 3.3 1.7-0.1 2.4-1.1 4.5-1.1 2.1 0 2.7 1.1 4.5 1.1 1.9-0.1 3.1-1.6 4.2-3.2 1.3-1.8 1.8-3.6 1.8-3.7-0.1 0-3.4-1.3-3.5-5.1-0.1-3.2 2.6-4.7 2.7-4.8-1.5-2.2-3.8-2.5-4.6-2.5z" 
-        fill="#000000"
-      />
-    </g>
     <defs>
-      <filter id="appleLogo" x="0" y="0" width="44" height="44" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-        <feOffset dy="2"/>
-        <feGaussianBlur stdDeviation="3"/>
-        <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      {/* Premium Gradients */}
+      <linearGradient id="oppbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#667eea" />
+        <stop offset="50%" stopColor="#764ba2" />
+        <stop offset="100%" stopColor="#5b73e8" />
+      </linearGradient>
+      
+      <linearGradient id="oppbAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#00d4ff" />
+        <stop offset="100%" stopColor="#007aff" />
+      </linearGradient>
+      
+      {/* Premium Filters */}
+      <filter id="oppbShadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.1)"/>
       </filter>
+      
+      <filter id="oppbGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2"/>
+        <feColorMatrix values="0 0 0 0 0 0 0 0 0 0.48 0 0 0 0 0.91 0 0 0 0.3 0"/>
+        <feBlend mode="screen"/>
+      </filter>
+      
+      {animated && (
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          from="0 22 22"
+          to="360 22 22"
+          dur="20s"
+          repeatCount="indefinite"
+        />
+      )}
     </defs>
+    
+    {/* Main Logo Circle */}
+    <circle 
+      cx="22" 
+      cy="22" 
+      r="20" 
+      fill="url(#oppbGradient)" 
+      filter="url(#oppbShadow)"
+      className={animated ? "animate-pulse-subtle" : ""}
+    />
+    
+    {/* Inner Geometric Pattern */}
+    <g transform="translate(22, 22)">
+      {/* Center Diamond */}
+      <path 
+        d="M-6 0 L0 -6 L6 0 L0 6 Z" 
+        fill="white" 
+        opacity="0.9"
+        className={animated ? "animate-spin-slow" : ""}
+      />
+      
+      {/* Orbital Rings */}
+      <circle 
+        cx="0" 
+        cy="0" 
+        r="12" 
+        fill="none" 
+        stroke="white" 
+        strokeWidth="1" 
+        opacity="0.3"
+        className={animated ? "animate-spin-reverse" : ""}
+      />
+      
+      <circle 
+        cx="0" 
+        cy="0" 
+        r="8" 
+        fill="none" 
+        stroke="url(#oppbAccent)" 
+        strokeWidth="1.5" 
+        opacity="0.6"
+        strokeDasharray="2 2"
+        className={animated ? "animate-spin-slow" : ""}
+      />
+      
+      {/* Corner Dots */}
+      <circle cx="-10" cy="-10" r="2" fill="white" opacity="0.8"/>
+      <circle cx="10" cy="-10" r="2" fill="white" opacity="0.8"/>
+      <circle cx="10" cy="10" r="2" fill="white" opacity="0.8"/>
+      <circle cx="-10" cy="10" r="2" fill="white" opacity="0.8"/>
+    </g>
+    
+    {/* Premium Outer Ring */}
+    <circle 
+      cx="22" 
+      cy="22" 
+      r="20" 
+      fill="none" 
+      stroke="url(#oppbAccent)" 
+      strokeWidth="0.5" 
+      opacity="0.4"
+      filter="url(#oppbGlow)"
+    />
   </svg>
 );
 
