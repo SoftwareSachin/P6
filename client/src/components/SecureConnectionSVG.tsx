@@ -124,73 +124,101 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
           </circle>
         )}
 
-        {/* Orange Blade */}
+        {/* Orange Triangle Blade - Left */}
         <g>
           {animated && (
             <animateTransform
               attributeName="transform"
               type="rotate"
-              values="0 50 50;3 50 50;0 50 50;-2 50 50;0 50 50"
+              values="0 50 50;2 50 50;0 50 50;-1 50 50;0 50 50"
+              dur="8s"
+              repeatCount="indefinite"
+            />
+          )}
+          
+          {/* Main Orange Triangle */}
+          <path
+            d="M20 20 L50 10 L80 80 L30 85 Z"
+            fill="url(#orangePaymentGradient)"
+            stroke="rgba(255, 255, 255, 0.2)"
+            strokeWidth="0.5"
+          >
+            {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="4s" repeatCount="indefinite" />}
+          </path>
+          
+          {/* Orange 3D Depth */}
+          <path
+            d="M22 22 L50 12 L80 82 L32 87 Z"
+            fill="rgba(230, 81, 0, 0.3)"
+            opacity="0.6"
+          />
+          
+          {/* Orange Highlight */}
+          <path
+            d="M20 20 L50 10 L65 45 L35 50 Z"
+            fill="rgba(255, 255, 255, 0.4)"
+            opacity="0.5"
+          />
+        </g>
+
+        {/* Green Triangle Blade - Right */}
+        <g>
+          {animated && (
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              values="0 50 50;-1.5 50 50;0 50 50;2 50 50;0 50 50"
               dur="6s"
               repeatCount="indefinite"
             />
           )}
           
+          {/* Main Green Triangle */}
           <path
-            d="M25 15 L65 15 L85 55 L45 95 L15 75 Z"
-            fill="url(#orangePaymentGradient)"
-            stroke="rgba(255, 255, 255, 0.3)"
-            strokeWidth="0.8"
-          >
-            {animated && <animate attributeName="opacity" values="0.85;1;0.85" dur="3s" repeatCount="indefinite" />}
-          </path>
-          
-          {/* Orange Highlight */}
-          <path
-            d="M25 15 L65 15 L85 55 L45 95 L15 75 Z"
-            fill="rgba(255, 255, 255, 0.3)"
-            opacity="0.4"
-          />
-        </g>
-
-        {/* Green Blade */}
-        <g>
-          {animated && (
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values="0 50 50;-2 50 50;0 50 50;3 50 50;0 50 50"
-              dur="5s"
-              repeatCount="indefinite"
-            />
-          )}
-          
-          <path
-            d="M75 5 L95 25 L85 65 L45 95 L65 55 Z"
+            d="M50 10 L80 20 L70 85 L40 80 Z"
             fill="url(#greenPaymentGradient)"
-            stroke="rgba(255, 255, 255, 0.2)"
-            strokeWidth="0.8"
+            stroke="rgba(255, 255, 255, 0.15)"
+            strokeWidth="0.5"
           >
-            {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="3.5s" repeatCount="indefinite" />}
+            {animated && <animate attributeName="opacity" values="0.85;1;0.85" dur="5s" repeatCount="indefinite" />}
           </path>
+          
+          {/* Green 3D Depth */}
+          <path
+            d="M50 12 L80 22 L70 87 L40 82 Z"
+            fill="rgba(27, 94, 32, 0.4)"
+            opacity="0.6"
+          />
           
           {/* Green Highlight */}
           <path
-            d="M75 5 L95 25 L85 65 L45 95 L65 55 Z"
-            fill="rgba(255, 255, 255, 0.25)"
-            opacity="0.4"
+            d="M50 10 L80 20 L65 55 L55 50 Z"
+            fill="rgba(255, 255, 255, 0.3)"
+            opacity="0.5"
           />
         </g>
 
-        {/* Central Glow */}
-        <circle cx="65" cy="55" r="6" fill="rgba(255, 255, 255, 0.4)" opacity="0.7">
-          {animated && (
-            <>
-              <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" />
-              <animate attributeName="r" values="4;8;4" dur="2.5s" repeatCount="indefinite" />
-            </>
-          )}
-        </circle>
+        {/* Intersection Area Enhancement */}
+        <path
+          d="M50 10 L65 45 L55 50 L40 80 Z"
+          fill="rgba(255, 165, 0, 0.2)"
+          opacity="0.8"
+        >
+          {animated && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />}
+        </path>
+
+        {/* Dynamic Edge Lines */}
+        <g stroke="rgba(255, 255, 255, 0.6)" strokeWidth="1" fill="none" opacity="0.7">
+          <path d="M20 20 L50 10">
+            {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite" />}
+          </path>
+          <path d="M50 10 L80 20">
+            {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3.5s" repeatCount="indefinite" />}
+          </path>
+          <path d="M80 80 L70 85">
+            {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite" />}
+          </path>
+        </g>
       </g>
       
       <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#FF5722">UPI Pay</text>
