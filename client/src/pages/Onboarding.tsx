@@ -13,6 +13,7 @@ import { SecureConnectionSVG } from "@/components/SecureConnectionSVG";
 import upiGif from "@assets/fetchpik.com-iconscout-upcaLHoyqi (1)_1751287545574.gif";
 import secureGif from "@assets/secure_1751287927973.gif";
 import oppbGif from "@assets/fetchpik.com-iconscout-HcDJX8k50y_1751288241453.gif";
+import secureLockGif from "@assets/fetchpik.com-iconscout-k0urs7I4tM_1751299864960.gif";
 import bankGif from "@assets/fetchpik.com-iconscout-XxqKi5wgpy_1751289691962.gif";
 
 interface OnboardingProps {
@@ -407,7 +408,11 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             <div className="text-center">
               {/* Privacy Icon */}
               <div className="flex justify-center mb-12">
-                <PrivacyLockSVG className="w-16 h-16" />
+                <img 
+                  src={secureLockGif} 
+                  alt="Secure lock animation"
+                  className="w-24 h-24"
+                />
               </div>
               
               {/* Content */}
