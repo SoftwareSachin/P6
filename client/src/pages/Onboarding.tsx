@@ -316,28 +316,35 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           {/* Spacer */}
           <div className="flex-1"></div>
 
-          {/* Secure Connection Visual with Real GIFs - Centered */}
+          {/* Clean GIF-only Visual - Centered */}
           <div className="flex justify-center items-center" style={{ marginBottom: '32px' }}>
-            <div className="w-full max-w-md relative">
-              {/* Background SVG for Bank and OPPB */}
-              <SecureConnectionSVG className="w-full h-32" animated={true} />
-              
-              {/* Overlay the actual UPI GIF at the left position */}
-              <div className="absolute top-1/2 left-[50px] transform -translate-y-1/2 -translate-x-1/2">
+            <div className="flex items-center justify-center space-x-8">
+              {/* UPI GIF */}
+              <div className="flex flex-col items-center">
                 <img 
                   src={upiGif} 
                   alt="UPI Animation" 
                   className="w-20 h-20 object-contain"
                 />
+                <text className="text-xs font-semibold text-gray-600 mt-2">UPI</text>
               </div>
 
-              {/* Overlay the actual Secure GIF at the center position */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
+              {/* Secure Bridge GIF */}
+              <div className="flex flex-col items-center">
                 <img 
                   src={secureGif} 
                   alt="Secure Bridge Animation" 
                   className="w-16 h-16 object-contain"
                 />
+                <text className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</text>
+              </div>
+
+              {/* OPPB Text */}
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">OPPB</span>
+                </div>
+                <text className="text-xs font-semibold text-gray-600 mt-2">OPPB</text>
               </div>
             </div>
           </div>
