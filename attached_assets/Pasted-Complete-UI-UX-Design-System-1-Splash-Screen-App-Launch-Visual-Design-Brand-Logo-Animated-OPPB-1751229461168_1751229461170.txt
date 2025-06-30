@@ -1,0 +1,549 @@
+Complete UI/UX Design System
+1. Splash Screen & App Launch
+Visual Design:
+
+Brand Logo: Animated OPPB logo with gradient background (Purple to Blue, matching PhonePe style)
+Loading Animation: Circular progress indicator with shimmer effect
+Tagline: "Pay Anywhere, Anytime" with fade-in animation
+Background: Gradient mesh similar to GPay's colorful background
+Duration: 2.5 seconds with smooth transitions
+
+2. Onboarding Experience
+Screen 1: Welcome
+
+Header: "Welcome to OPPB" in bold, modern typography
+Illustration: 3D animated payment icons floating
+Description: "India's most trusted payment app, now works offline too!"
+CTA Button: "Get Started" (Purple gradient, rounded corners)
+
+Screen 2: Features Showcase
+
+Carousel Design: Swipeable cards showcasing features
+Card 1: "Pay with QR" with animated QR scanner
+Card 2: "Send Money" with phone-to-phone animation
+Card 3: "Pay Bills" with utility icons grid
+Card 4: "Offline Payments" with mesh network visualization
+Navigation: Dots indicator at bottom (GPay style)
+
+Screen 3: Permissions
+
+Permission Cards: Camera, Location, SMS, Contacts
+Icon Design: Material Design 3 icons with colored backgrounds
+Explanation Text: Clear, simple descriptions for each permission
+Allow Button: Full-width primary button
+
+3. Registration & Login Flow
+Phone Number Entry
+┌─────────────────────────────────┐
+│  🇮🇳 +91  [___________]         │
+│  Enter Mobile Number            │
+│                                 │
+│  [Continue]                     │
+│                                 │
+│  ─────── OR ───────             │
+│                                 │
+│  [📱 Use Biometric Login]       │
+└─────────────────────────────────┘
+
+Country Selector: Dropdown with flag icons (India default)
+Input Field: Large, rounded text field with floating label
+Validation: Real-time validation with green checkmark
+Biometric Option: Fingerprint/Face ID quick login
+
+OTP Verification
+┌─────────────────────────────────┐
+│  Enter OTP sent to +91-XXXXX789 │
+│                                 │
+│  [_] [_] [_] [_] [_] [_]       │
+│                                 │
+│  Resend OTP in 00:30           │
+│                                 │
+│  [Verify & Continue]           │
+└─────────────────────────────────┘
+
+OTP Boxes: Individual animated input boxes (PhonePe style)
+Auto-read SMS: Automatic OTP detection
+Timer: Countdown with resend option
+Error Handling: Red shake animation for wrong OTP
+
+Profile Setup
+
+Profile Photo: Circle avatar with camera/gallery options
+Name Input: Auto-suggestion from contacts
+Email: Optional field with validation
+Bank Account: Link bank account flow (similar to GPay)
+
+4. Home Dashboard (Main Screen)
+Top Section
+┌─────────────────────────────────┐
+│ 👤 Hi Sachin!        🔔 📱 ≡   │
+│                                 │
+│ ┌─ Balance Card ──────────────┐ │
+│ │ 💰 ₹12,547.50              │ │
+│ │ Available Balance           │ │
+│ │ [👁 Show] [+ Add Money]    │ │
+│ └─────────────────────────────┘ │
+└─────────────────────────────────┘
+Header Elements:
+
+Profile Avatar: Circular image with online status indicator
+Greeting: Dynamic time-based greeting
+Notification Bell: Red dot for unread notifications
+Network Status: 📱 (Online) or 📶 (Offline) indicator
+Menu: Hamburger menu (3 lines)
+
+Balance Card:
+
+Card Design: White card with subtle shadow (Material Design)
+Balance Display: Large typography, eye-show/hide toggle
+Add Money Button: Gradient button matching PhonePe purple
+Background: Subtle pattern or gradient
+
+Quick Actions Grid
+┌─────────────────────────────────┐
+│ ┌──┐ ┌──┐ ┌──┐ ┌──┐           │
+│ │📱│ │💸│ │📄│ │🔄│           │
+│ │QR│ │Pay│ │Bill│ │Req│         │
+│ └──┘ └──┘ └──┘ └──┘           │
+│                                 │
+│ ┌──┐ ┌──┐ ┌──┐ ┌──┐           │
+│ │🎯│ │💳│ │📊│ │⚡│           │
+│ │UPI│ │Card│ │Rpt│ │Off│        │
+│ └──┘ └──┘ └──┘ └──┘           │
+└─────────────────────────────────┘
+Action Items (8 icons in 2 rows):
+
+Scan QR: Camera icon with "Scan & Pay"
+Send Money: Arrow with phone icon "To Mobile"
+Pay Bills: Document icon "Recharge & Bills"
+Request Money: Circular arrow "Request"
+UPI ID: @ symbol "My UPI"
+Cards: Credit card icon "Link Card"
+Reports: Chart icon "Transaction History"
+Offline: Network icon with "Offline Payments" (NEW!)
+
+Recent Transactions
+┌─────────────────────────────────┐
+│ Recent Transactions        [>]  │
+│                                 │
+│ 🛒 Zomato          -₹285 ✅     │
+│    Today, 2:30 PM               │
+│                                 │
+│ 👤 Rohit Kumar     +₹500 ✅     │
+│    Yesterday, 6:15 PM           │
+│                                 │
+│ ⚡ Electricity     -₹1,200 ⏳   │
+│    Oct 28, 11:30 AM             │
+│                                 │
+│ 📱 Rahul Singh     -₹50 📶     │
+│    Oct 27, 4:20 PM (Offline)    │
+└─────────────────────────────────┘
+Transaction List Features:
+
+Merchant Icons: Dynamic icons based on transaction type
+Amount Display: Green (+) for credit, Red (-) for debit
+Status Indicators: ✅ Success, ⏳ Pending, 📶 Offline sync
+Time Stamps: Relative time (Today, Yesterday)
+Swipe Actions: Swipe left for options (Repeat, Share, etc.)
+
+5. QR Scanner Interface
+Scanner Screen
+┌─────────────────────────────────┐
+│ ← Scan QR Code            💡 📷 │
+│                                 │
+│ ┌─────────────────────────────┐ │
+│ │  ┌─────────────────────┐   │ │
+│ │  │                     │   │ │
+│ │  │    📱 QR FOCUS     │   │ │
+│ │  │                     │   │ │
+│ │  └─────────────────────┘   │ │
+│ └─────────────────────────────┘ │
+│                                 │
+│ Scan merchant QR to pay         │
+│                                 │
+│ [📷 Gallery] [💡 Flash] [📱 My QR] │
+└─────────────────────────────────┘
+Scanner Features:
+
+Camera Overlay: Animated scanning frame (like PhonePe)
+Focus Square: Moving animation to show active scanning
+Flash Toggle: Auto-detect low light, suggest flash
+Gallery Option: Pick QR from photos
+My QR Code: Quick access to personal QR
+Beep Sound: Success sound on QR detection
+
+QR Detection Result
+┌─────────────────────────────────┐
+│ ← Pay to Merchant          ✖   │
+│                                 │
+│ ┌─ Merchant Card ──────────────┐│
+│ │ 🏪 Ramesh General Store     ││
+│ │ UPI: ramesh@paytm           ││
+│ │ 📍 Malviya Nagar, Jaipur   ││
+│ │ ⭐ 4.8 (127 reviews)       ││
+│ └─────────────────────────────┘│
+│                                 │
+│ Enter Amount                    │
+│ ₹ [_____________]               │
+│                                 │
+│ Add Note (Optional)             │
+│ [For groceries...]              │
+│                                 │
+│ [Pay ₹___] 🔒                   │
+└─────────────────────────────────┘
+Payment Form Features:
+
+Merchant Info Card: Name, UPI ID, location, ratings
+Amount Input: Large, centered number pad
+Smart Suggestions: Recent amounts as quick chips
+Note Field: Optional message with emoji picker
+Security Badge: 🔒 "Secured by OPPB" text
+Pay Button: Dynamic amount display, disabled until valid amount
+
+6. Send Money Interface
+Contact Selection
+┌─────────────────────────────────┐
+│ ← Send Money              🔍    │
+│                                 │
+│ Recent                          │
+│ ○ Rohit  ○ Priya  ○ Amit      │
+│                                 │
+│ ┌─ Search or Enter UPI ───────┐ │
+│ │ 🔍 Name, phone or UPI ID    │ │
+│ └─────────────────────────────┘ │
+│                                 │
+│ Contacts                        │
+│ 👤 Aarav Kumar      9876543210  │
+│ 👤 Divya Sharma     9988776655  │
+│ 👤 Karan Singh      9876567890  │
+│ 👤 Meera Gupta      9123456789  │
+│ 👤 Rohit Verma      9988123456  │
+│                                 │
+│ UPI IDs                         │
+│ @ priya@oksbi                   │
+│ @ amit.kumar@paytm              │
+└─────────────────────────────────┘
+Contact Features:
+
+Recent Contacts: Circular avatars with names
+Search Bar: Auto-complete with contact suggestions
+Contact List: Profile photos, names, phone numbers
+UPI ID Section: Saved UPI IDs with provider icons
+Verification: Green checkmark for verified contacts
+
+Amount Entry
+┌─────────────────────────────────┐
+│ ← To: Rohit Kumar         ✖    │
+│                                 │
+│ ┌─ Contact Card ────────────────┐│
+│ │ 👤 Rohit Kumar              ││
+│ │ +91 98765 43210             ││
+│ │ rohit.verma@paytm           ││
+│ └─────────────────────────────┘│
+│                                 │
+│        Enter Amount             │
+│         ₹ 5,000                │
+│                                 │
+│ ┌─────────────────────────────┐ │
+│ │ 1    2    3                 │ │
+│ │ 4    5    6                 │ │
+│ │ 7    8    9                 │ │
+│ │ .    0    ⌫                 │ │
+│ └─────────────────────────────┘ │
+│                                 │
+│ [₹100] [₹500] [₹1000] [₹2000]  │
+│                                 │
+│ Note: Birthday gift 🎂          │
+│                                 │
+│ [Proceed to Pay]                │
+└─────────────────────────────────┘
+Amount Entry Features:
+
+Large Display: Prominent amount in center
+Number Pad: Custom design with haptic feedback
+Quick Amounts: Commonly used denominations
+Note Field: Emoji support, character counter
+Smart Validation: Real-time balance check
+
+7. Payment Confirmation
+Review Screen
+┌─────────────────────────────────┐
+│ ← Review Payment          ✖    │
+│                                 │
+│ ┌─ Transaction Summary ────────┐│
+│ │ From: Your Account          ││
+│ │ To: Rohit Kumar             ││
+│ │ UPI: rohit.verma@paytm      ││
+│ │                             ││
+│ │ Amount: ₹5,000              ││
+│ │ Note: Birthday gift 🎂       ││
+│ │                             ││
+│ │ Date: Oct 30, 2024          ││
+│ │ Time: 2:45 PM               ││
+│ └─────────────────────────────┘│
+│                                 │
+│ Select Payment Method           │
+│ ● Bank Account (HDFC) ₹12,547  │
+│ ○ UPI Lite                     │
+│ ○ Credit Card (****1234)       │
+│                                 │
+│ [🔒 Pay with PIN]               │
+│                                 │
+│ 🔒 Your payment is secured      │
+│ by 256-bit encryption           │
+└─────────────────────────────────┘
+PIN Entry
+┌─────────────────────────────────┐
+│           Enter UPI PIN         │
+│                                 │
+│         ● ● ● ○ ○ ○            │
+│                                 │
+│ ┌─────────────────────────────┐ │
+│ │ 1    2    3                 │ │
+│ │ 4    5    6                 │ │
+│ │ 7    8    9                 │ │
+│ │      0    ⌫                 │ │
+│ └─────────────────────────────┘ │
+│                                 │
+│ Forgot PIN?                     │
+│                                 │
+│ 👆 Use Biometric                │
+└─────────────────────────────────┘
+Security Features:
+
+PIN Masking: Dots animation as user types
+Biometric Option: Fingerprint/Face unlock
+Auto-clear: Clear PIN after 3 wrong attempts
+Secure Keypad: Randomized number positions (optional)
+
+8. Success/Failure Screens
+Success Animation
+┌─────────────────────────────────┐
+│                                 │
+│             ✅                  │
+│         (Animated)              │
+│                                 │
+│     Payment Successful!         │
+│                                 │
+│        ₹5,000                   │
+│    sent to Rohit Kumar          │
+│                                 │
+│ UPI Ref: 424242424242           │
+│ Oct 30, 2024 • 2:45 PM         │
+│                                 │
+│ [Share Receipt] [Done]          │
+│                                 │
+│ ⭐ Rate your experience         │
+│ ⭐⭐⭐⭐⭐                      │
+└─────────────────────────────────┘
+Success Features:
+
+Animated Checkmark: Green checkmark with bounce animation
+Confetti Effect: Celebration animation (optional)
+Transaction Details: Reference number, timestamp
+Share Options: WhatsApp, SMS, Email receipt
+Rating System: 5-star rating for experience
+
+9. Offline Payment Interface (UNIQUE FEATURE)
+Offline Mode Detection
+┌─────────────────────────────────┐
+│ 📶 Network Unavailable          │
+│                                 │
+│ ┌─ Offline Mode ───────────────┐│
+│ │ 🔴 You're offline           ││
+│ │                             ││
+│ │ Don't worry! You can still  ││
+│ │ make payments using OPPB's  ││
+│ │ offline technology.         ││
+│ │                             ││
+│ │ [Enable Offline Payments]   ││
+│ └─────────────────────────────┘│
+│                                 │
+│ How it works:                   │
+│ 1. 📱 Connect via Bluetooth     │
+│ 2. 💸 Transfer payment data     │
+│ 3. 🔄 Auto-sync when online    │
+│                                 │
+│ [Continue Offline] [Retry]      │
+└─────────────────────────────────┘
+Bluetooth Device Discovery
+┌─────────────────────────────────┐
+│ ← Offline Payment               │
+│                                 │
+│ 🔍 Scanning for devices...      │
+│                                 │
+│ Available Payment Devices:      │
+│                                 │
+│ 📱 Ramesh Store (₹₹₹)          │
+│    Verified Merchant • 10m      │
+│    [Connect]                    │
+│                                 │
+│ 📱 Priya's Phone               │
+│    OPPB User • 5m               │
+│    [Connect]                    │
+│                                 │
+│ 📱 Coffee Corner               │
+│    New Merchant • 15m           │
+│    [Connect]                    │
+│                                 │
+│ 🔄 Scanning... (2 of 5 devices) │
+│                                 │
+│ Can't find device?              │
+│ [Show QR Code] [Manual Entry]   │
+└─────────────────────────────────┘
+Offline Transaction Flow
+┌─────────────────────────────────┐
+│ ← Offline Payment to Ramesh     │
+│                                 │
+│ 🔗 Connected via Bluetooth      │
+│                                 │
+│ ┌─ Merchant Info ──────────────┐│
+│ │ 🏪 Ramesh General Store     ││
+│ │ Verified Merchant           ││
+│ │ Last seen: Online 2h ago    ││
+│ │ Trust Score: ⭐⭐⭐⭐⭐       ││
+│ └─────────────────────────────┘│
+│                                 │
+│ Amount: ₹ 150                   │
+│ Note: Groceries                 │
+│                                 │
+│ ⚠️ Offline Payment              │
+│ This payment will be processed  │
+│ when you're back online         │
+│                                 │
+│ [Confirm Offline Payment]       │
+│                                 │
+│ 🔒 Secured with digital signature│
+└─────────────────────────────────┘
+10. Navigation & Menu System
+Bottom Navigation
+┌─────────────────────────────────┐
+│ [🏠] [💸] [📊] [💳] [👤]      │
+│ Home  Pay   Reports Cards Profile│
+└─────────────────────────────────┘
+Hamburger Menu
+┌─────────────────────────────────┐
+│ ≡                          ✖   │
+│                                 │
+│ 👤 Sachin Gupta                 │
+│    singhal3.sachin7@gmail.com   │
+│    [View Profile]               │
+│                                 │
+│ ──────────────────────────────  │
+│                                 │
+│ 💰 Payments & Bank Accounts     │
+│ 🎁 Refer & Earn                 │
+│ 🏆 Rewards                      │
+│ 📱 OPPB for Business            │
+│ 🔒 Privacy & Security           │
+│ 🌐 Language: English            │
+│ 🎨 Theme: Auto                  │
+│ 📞 Help & Support               │
+│ ⚙️ Settings                     │
+│                                 │
+│ ──────────────────────────────  │
+│                                 │
+│ 📖 Terms & Conditions           │
+│ 🛡️ Privacy Policy               │
+│ 🏢 About OPPB                   │
+│ 🚪 Sign Out                     │
+└─────────────────────────────────┘
+11. Visual Design System
+Color Scheme
+Primary Colors:
+- OPPB Purple: #6739B7 (Main brand color)
+- Success Green: #00C851 (Successful transactions)
+- Error Red: #FF3547 (Failed transactions)
+- Warning Amber: #FFB300 (Pending states)
+- Offline Orange: #FF6900 (Offline indicators)
+
+Neutral Colors:
+- Background: #F8F9FA (Light gray background)
+- Card White: #FFFFFF (Card backgrounds)
+- Text Primary: #1C1C1E (Main text)
+- Text Secondary: #8E8E93 (Secondary text)
+- Border: #E5E5E7 (Dividers and borders)
+Typography
+Font Family: SF Pro Display (iOS) / Roboto (Android)
+
+Sizes:
+- Heading 1: 28px, Bold (Page titles)
+- Heading 2: 24px, Bold (Section headers)
+- Heading 3: 20px, Semibold (Card titles)
+- Body Large: 16px, Regular (Main content)
+- Body: 14px, Regular (Secondary content)
+- Caption: 12px, Regular (Timestamps, helper text)
+- Button: 16px, Semibold (Button labels)
+Animation & Micro-interactions
+Animation Principles:
+- Duration: 200-300ms for micro-interactions
+- Easing: ease-out for entrances, ease-in for exits
+- Spring Physics: For modal presentations
+- Haptic Feedback: Success, error, and button taps
+
+Key Animations:
+- Button Press: Scale down to 0.95, spring back
+- Card Appear: Slide up with fade in
+- Loading States: Skeleton screens with shimmer
+- Success States: Checkmark draw animation
+- Error States: Shake animation for form fields
+12. Accessibility Features
+Universal Design
+Accessibility Features:
+- Voice Over: Complete screen reader support
+- Dynamic Type: Scales with system font size
+- High Contrast: Alternative color schemes
+- Reduce Motion: Respects system animation preferences
+- Voice Control: Full app navigation via voice
+- Switch Control: External switch support
+- Guided Access: Restricted mode for assisted use
+
+Color Accessibility:
+- WCAG AA Compliance: 4.5:1 contrast ratio minimum
+- Color Independence: No color-only information
+- Focus Indicators: Clear keyboard navigation
+- Status Announcements: Screen reader notifications
+13. Advanced Features
+Smart Suggestions
+AI-Powered Features:
+- Smart Amount: Suggests amounts based on merchant
+- Recurring Payments: Auto-detect monthly payments
+- Expense Categories: Auto-categorize transactions
+- Bill Reminders: Proactive payment reminders
+- Fraud Detection: Unusual activity alerts
+- Contact Intelligence: Merge duplicate contacts
+Personalization
+User Customization:
+- Home Screen Widgets: Drag-and-drop customization
+- Quick Actions: Personalized based on usage
+- Theme Selection: Light, Dark, Auto modes
+- Language Preferences: 12 Indian languages
+- Currency Display: Regional number formatting
+- Privacy Controls: Granular permission settings
+Technical Implementation Details
+Frontend Architecture
+Technology Stack:
+- Framework: React Native (Cross-platform)
+- State Management: Redux Toolkit + RTK Query
+- Navigation: React Navigation 6
+- UI Components: Native Base + Custom Components
+- Animations: React Native Reanimated 3
+- Offline Storage: WatermelonDB + AsyncStorage
+- Security: React Native Keychain + Biometrics
+
+Performance Optimizations:
+- Code Splitting: Lazy loading for screens
+- Image Optimization: WebP format, lazy loading
+- Memory Management: Proper cleanup, FlatList optimization
+- Bundle Size: Tree shaking, minification
+- Network: Request caching, retry logic
+Backend Integration
+API Architecture:
+- RESTful APIs: Standard HTTP methods
+- GraphQL: For complex data fetching
+- WebSocket: Real-time transaction updates
+- Push Notifications: FCM/APNS integration
+- Offline Sync: Conflict resolution algorithms
+- Security: JWT tokens, API rate limiting
+This comprehensive UI/UX design exactly matches PhonePe and Google Pay's interface standards while adding innovative offline payment capabilities. Every screen, button, and interaction has been designed to provide users with a familiar yet enhanced payment experience.
+The interface ensures 100% feature parity with existing payment apps while introducing groundbreaking offline functionality that sets OPPB apart in the digital payments market.
