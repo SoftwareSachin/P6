@@ -3,7 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wallet, Shield, Smartphone, Zap, Globe, ArrowRight, Star, Check, Bluetooth, WifiOff, CreditCard } from "lucide-react";
+import { ArrowRight, Star, Check } from "lucide-react";
+import { 
+  OPPBLogoSVG, 
+  SecureShieldSVG, 
+  OfflineNetworkSVG, 
+  InstantPaymentSVG, 
+  GlobalNetworkSVG,
+  BiometricSecuritySVG,
+  MoneyTransferSVG,
+  PremiumCardSVG
+} from "@/components/PremiumSVGs";
 
 export default function Landing() {
   const [currentStep, setCurrentStep] = useState(0); // 0: splash, 1: welcome, 2: features, 3: auth
@@ -26,49 +36,61 @@ export default function Landing() {
     setCurrentStep(prev => prev + 1);
   };
 
-  // Premium Splash Screen with Sophisticated Animations
+  // Premium Splash Screen - Monzo/Revolut Style
   if (currentStep === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
-        {/* Premium Background Effects */}
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
+        {/* Premium Background Effects - N26 Style */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl animate-pulse-slow"></div>
-          <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-full blur-2xl animate-pulse-slow"></div>
+          <div className="absolute top-1/2 right-1/4 w-48 h-48 bg-gradient-to-r from-indigo-500/25 to-purple-500/25 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
           
-          {/* Animated Grid */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px] animate-pulse"></div>
+          {/* Revolut-style Grid Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="w-full h-full" style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+              backgroundSize: '60px 60px'
+            }}></div>
           </div>
         </div>
         
-        <div className="text-center text-white relative z-10">
-          {/* Premium Animated Logo */}
-          <div className="relative mb-12">
-            <div className="w-40 h-40 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center backdrop-blur-sm shadow-premium animate-scale-in">
-              <Wallet className="w-20 h-20 text-white animate-float" />
-            </div>
-            <div className="absolute -inset-8 bg-white/10 rounded-full animate-ping opacity-75"></div>
-            <div className="absolute -inset-4 bg-white/20 rounded-full animate-ping opacity-50" style={{ animationDelay: '0.5s' }}></div>
+        <div className="text-center text-white relative z-10 space-y-12">
+          {/* Premium SVG Logo - GPay Style */}
+          <div className="relative animate-scale-in">
+            <OPPBLogoSVG className="w-48 h-48 mx-auto" animated={true} />
+            <div className="absolute -inset-12 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-full animate-ping opacity-60"></div>
+            <div className="absolute -inset-6 bg-gradient-to-r from-purple-400/30 to-blue-400/30 rounded-full animate-ping opacity-40" style={{ animationDelay: '0.7s' }}></div>
           </div>
           
-          {/* Premium Brand Identity */}
-          <div className="space-y-6 animate-slide-up-premium">
-            <h1 className="text-6xl font-black mb-2 tracking-wider bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
-              OPPB
-            </h1>
-            <p className="text-2xl font-light text-white/90 tracking-wide">
+          {/* Premium Brand Identity - Monzo Style */}
+          <div className="space-y-8 animate-slide-up-premium">
+            <div className="space-y-4">
+              <h1 className="text-7xl font-black tracking-tight bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                OPPB
+              </h1>
+              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-400 mx-auto rounded-full animate-shimmer"></div>
+            </div>
+            <p className="text-2xl font-light text-white/85 tracking-wide max-w-md mx-auto leading-relaxed">
               Offline Peer-to-Peer Payment Bridge
             </p>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-blue-400 mx-auto rounded-full animate-shimmer"></div>
+            <p className="text-lg text-white/70 font-medium">
+              The future of payments, available everywhere
+            </p>
           </div>
           
-          {/* Loading Animation */}
-          <div className="mt-16 space-y-4">
-            <div className="w-64 h-2 bg-white/20 rounded-full mx-auto overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full animate-slide-right"></div>
+          {/* Premium Loading Animation - NovaPay Style */}
+          <div className="mt-20 space-y-6">
+            <div className="relative">
+              <div className="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden backdrop-blur-sm">
+                <div className="h-full bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-400 rounded-full animate-slide-right shadow-lg"></div>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full animate-shimmer"></div>
             </div>
-            <p className="text-white/70 text-lg font-medium">Initializing secure payment system...</p>
+            <div className="space-y-2">
+              <p className="text-white/80 text-xl font-semibold">Initializing secure environment</p>
+              <p className="text-white/60 text-base">Setting up your premium payment experience</p>
+            </div>
           </div>
         </div>
       </div>
@@ -83,8 +105,8 @@ export default function Landing() {
           {/* Premium Hero Section */}
           <div className="text-center space-y-6">
             <div className="relative">
-              <div className="w-32 h-32 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium animate-float">
-                <Wallet className="w-16 h-16 text-white" />
+              <div className="relative bg-white rounded-3xl shadow-premium animate-float p-4">
+                <PremiumCardSVG className="w-32 h-20 mx-auto" />
               </div>
               <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center animate-pulse-glow">
                 <Check className="w-5 h-5 text-white" />
@@ -100,24 +122,18 @@ export default function Landing() {
               </p>
             </div>
 
-            {/* Premium Feature Highlights */}
-            <div className="grid grid-cols-3 gap-4 mt-8">
+            {/* Premium Feature Highlights - Revolut Style */}
+            <div className="grid grid-cols-3 gap-3 mt-8">
               <div className="text-center p-4 bg-white rounded-2xl shadow-card hover:shadow-premium transition-all duration-300 transform hover:scale-105">
-                <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Bluetooth className="w-6 h-6 text-white" />
-                </div>
+                <OfflineNetworkSVG className="w-12 h-12 mx-auto mb-3" />
                 <p className="text-sm font-semibold text-gray-800">Offline Ready</p>
               </div>
               <div className="text-center p-4 bg-white rounded-2xl shadow-card hover:shadow-premium transition-all duration-300 transform hover:scale-105">
-                <div className="w-12 h-12 bg-gradient-success rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
+                <SecureShieldSVG className="w-12 h-12 mx-auto mb-3" />
                 <p className="text-sm font-semibold text-gray-800">Ultra Secure</p>
               </div>
               <div className="text-center p-4 bg-white rounded-2xl shadow-card hover:shadow-premium transition-all duration-300 transform hover:scale-105">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Zap className="w-6 h-6 text-white" />
-                </div>
+                <InstantPaymentSVG className="w-12 h-12 mx-auto mb-3" />
                 <p className="text-sm font-semibold text-gray-800">Instant Sync</p>
               </div>
             </div>
@@ -150,28 +166,28 @@ export default function Landing() {
   if (currentStep === 2) {
     const features = [
       {
-        icon: WifiOff,
+        component: OfflineNetworkSVG,
         title: "Offline Payments",
         description: "Make payments without internet using revolutionary Bluetooth mesh technology",
         gradient: "from-orange-500 to-red-500",
         delay: "0s"
       },
       {
-        icon: Shield,
+        component: SecureShieldSVG,
         title: "Bank-Grade Security",
         description: "Military-grade encryption with biometric authentication and secure enclaves",
         gradient: "from-green-500 to-emerald-600",
         delay: "0.2s"
       },
       {
-        icon: Zap,
+        component: InstantPaymentSVG,
         title: "Instant Settlement",
         description: "Real-time transaction processing with automatic reconciliation",
         gradient: "from-blue-500 to-indigo-600",
         delay: "0.4s"
       },
       {
-        icon: Globe,
+        component: GlobalNetworkSVG,
         title: "Global Network",
         description: "Connect with verified merchants and users across the world",
         gradient: "from-purple-500 to-pink-600",
@@ -184,8 +200,8 @@ export default function Landing() {
         <div className="max-w-md mx-auto space-y-8">
           {/* Premium Header */}
           <div className="text-center space-y-6 pt-8 animate-slide-up-premium">
-            <div className="w-20 h-20 mx-auto bg-gradient-primary rounded-2xl flex items-center justify-center shadow-premium">
-              <Smartphone className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center shadow-premium p-2">
+              <MoneyTransferSVG className="w-16 h-16" />
             </div>
             <div>
               <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
@@ -207,8 +223,8 @@ export default function Landing() {
               >
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center shadow-card flex-shrink-0`}>
-                      <feature.icon className="w-8 h-8 text-white" />
+                    <div className={`w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-card flex-shrink-0 p-2`}>
+                      <feature.component className="w-12 h-12" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -252,8 +268,8 @@ export default function Landing() {
       <div className="max-w-md w-full space-y-8">
         {/* Premium Header */}
         <div className="text-center space-y-6 animate-slide-up-premium">
-          <div className="w-24 h-24 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium">
-            <CreditCard className="w-12 h-12 text-white" />
+          <div className="w-24 h-24 mx-auto bg-white rounded-3xl flex items-center justify-center shadow-premium p-3">
+            <BiometricSecuritySVG className="w-18 h-18" />
           </div>
           <div>
             <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
@@ -301,14 +317,14 @@ export default function Landing() {
                 onClick={handleLogin}
                 className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary hover:shadow-premium group"
               >
-                <Shield className="w-6 h-6 mr-3" />
+                <span className="mr-3">🔐</span>
                 <span>Continue with Replit Auth</span>
               </Button>
 
               {/* Security Notice */}
               <div className="text-center space-y-3">
                 <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-                  <Shield className="w-4 h-4" />
+                  <span>🛡️</span>
                   <span>Protected by enterprise-grade security</span>
                 </div>
                 <p className="text-xs text-gray-400 leading-relaxed">

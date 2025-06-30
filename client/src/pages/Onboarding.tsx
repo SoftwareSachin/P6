@@ -1,8 +1,18 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Camera, MapPin, MessageSquare, Users, Check, Smartphone, Shield, Zap, Globe, Bluetooth, WifiOff, CreditCard, Star, ArrowRight, Lock, Eye, Fingerprint } from "lucide-react";
+import { Camera, MapPin, MessageSquare, Users, Check, ArrowRight, Lock, Eye } from "lucide-react";
 import { COLORS } from "@/lib/constants";
+import { 
+  OPPBLogoSVG, 
+  SecureShieldSVG, 
+  OfflineNetworkSVG, 
+  InstantPaymentSVG, 
+  GlobalNetworkSVG,
+  BiometricSecuritySVG,
+  MoneyTransferSVG,
+  PremiumCardSVG
+} from "@/components/PremiumSVGs";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -39,25 +49,25 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           <div className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl animate-pulse-slow"></div>
           <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
           
-          {/* Premium Floating Elements */}
+          {/* Premium Floating SVG Elements */}
           <div className="absolute top-20 left-16 animate-float" style={{ animationDelay: '0s' }}>
-            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-              <CreditCard className="w-8 h-8 text-white/80" />
+            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm p-2">
+              <PremiumCardSVG className="w-12 h-8" />
             </div>
           </div>
           <div className="absolute top-1/3 right-12 animate-float" style={{ animationDelay: '0.5s' }}>
-            <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
-              <Smartphone className="w-6 h-6 text-white/80" />
+            <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm p-1">
+              <MoneyTransferSVG className="w-10 h-10" />
             </div>
           </div>
           <div className="absolute bottom-1/3 left-8 animate-float" style={{ animationDelay: '1s' }}>
-            <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-              <Shield className="w-7 h-7 text-white/80" />
+            <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm p-2">
+              <SecureShieldSVG className="w-10 h-10" />
             </div>
           </div>
           <div className="absolute bottom-20 right-20 animate-float" style={{ animationDelay: '1.5s' }}>
-            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
-              <Zap className="w-5 h-5 text-white/80" />
+            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm p-1">
+              <InstantPaymentSVG className="w-8 h-8" />
             </div>
           </div>
         </div>
@@ -66,13 +76,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           <div className="text-center text-white max-w-md space-y-8 animate-slide-up-premium">
             {/* Premium Brand Logo */}
             <div className="relative mb-12">
-              <div className="w-40 h-40 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium animate-scale-in">
-                <div className="relative">
-                  <CreditCard className="w-20 h-20 text-white animate-float" />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center animate-pulse-glow">
-                    <Check className="w-5 h-5 text-white" />
-                  </div>
-                </div>
+              <div className="w-40 h-40 mx-auto rounded-3xl flex items-center justify-center shadow-premium animate-scale-in bg-white p-4">
+                <OPPBLogoSVG className="w-32 h-32" animated={true} />
               </div>
               <div className="absolute -inset-8 bg-white/10 rounded-full animate-ping opacity-75"></div>
             </div>
@@ -91,11 +96,11 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             {/* Premium Feature Highlights */}
             <div className="grid grid-cols-2 gap-4 mt-12">
               <div className="glass-effect-premium p-4 rounded-2xl animate-scale-in" style={{ animationDelay: '0.2s' }}>
-                <Bluetooth className="w-8 h-8 text-white mx-auto mb-2" />
+                <OfflineNetworkSVG className="w-8 h-8 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-white/90">Offline Ready</p>
               </div>
               <div className="glass-effect-premium p-4 rounded-2xl animate-scale-in" style={{ animationDelay: '0.4s' }}>
-                <Shield className="w-8 h-8 text-white mx-auto mb-2" />
+                <SecureShieldSVG className="w-8 h-8 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-white/90">Bank Security</p>
               </div>
             </div>
@@ -118,28 +123,28 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   if (currentScreen === 1) {
     const features = [
       {
-        icon: WifiOff,
+        component: OfflineNetworkSVG,
         title: "Offline Payments",
         description: "Make secure payments without internet using Bluetooth mesh technology",
         gradient: "from-orange-500 to-red-500",
         highlight: "Revolutionary Technology"
       },
       {
-        icon: Shield,
+        component: SecureShieldSVG,
         title: "Military-Grade Security",
         description: "Advanced encryption with biometric authentication protects your money",
         gradient: "from-green-500 to-emerald-600",
         highlight: "Bank-Level Protection"
       },
       {
-        icon: Zap,
+        component: InstantPaymentSVG,
         title: "Instant Transactions",
         description: "Lightning-fast payments with real-time settlement and confirmation",
         gradient: "from-blue-500 to-indigo-600",
         highlight: "Zero Waiting Time"
       },
       {
-        icon: Globe,
+        component: GlobalNetworkSVG,
         title: "Global Network",
         description: "Connect with millions of verified merchants and users worldwide",
         gradient: "from-purple-500 to-pink-600",
@@ -152,8 +157,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         <div className="max-w-md mx-auto space-y-8">
           {/* Premium Header */}
           <div className="text-center space-y-6 pt-8 animate-slide-up-premium">
-            <div className="w-24 h-24 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium">
-              <Star className="w-12 h-12 text-white" />
+            <div className="w-24 h-24 mx-auto bg-white rounded-3xl flex items-center justify-center shadow-premium p-3">
+              <MoneyTransferSVG className="w-18 h-18" />
             </div>
             <div>
               <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
@@ -175,8 +180,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               >
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-5">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center shadow-card flex-shrink-0 animate-pulse-glow`}>
-                      <feature.icon className="w-8 h-8 text-white" />
+                    <div className={`w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-card flex-shrink-0 animate-pulse-glow p-2`}>
+                      <feature.component className="w-12 h-12" />
                     </div>
                     <div className="flex-1">
                       <div className="mb-2">
@@ -355,8 +360,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
       <div className="max-w-md mx-auto space-y-8">
         {/* Premium Header */}
         <div className="text-center space-y-6 pt-8 animate-slide-up-premium">
-          <div className="w-24 h-24 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium">
-            <Fingerprint className="w-12 h-12 text-white" />
+          <div className="w-24 h-24 mx-auto bg-white rounded-3xl flex items-center justify-center shadow-premium p-3">
+            <BiometricSecuritySVG className="w-18 h-18" />
           </div>
           <div>
             <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
@@ -372,8 +377,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         <div className="space-y-6">
           <Card className="border-0 shadow-premium overflow-hidden animate-slide-up-premium">
             <CardContent className="p-8 text-center bg-gradient-card">
-              <div className="w-20 h-20 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-card mb-6">
-                <Fingerprint className="w-10 h-10 text-white" />
+              <div className="w-20 h-20 mx-auto bg-white rounded-3xl flex items-center justify-center shadow-card mb-6 p-3">
+                <BiometricSecuritySVG className="w-14 h-14" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 Biometric Authentication
@@ -382,7 +387,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 Use your fingerprint or face ID to secure your transactions and account access
               </p>
               <Button className="btn-primary-premium w-full h-14 text-lg font-bold bg-gradient-primary hover:shadow-premium mb-4">
-                <Fingerprint className="w-5 h-5 mr-3" />
+                <span className="mr-3">🔐</span>
                 Enable Biometrics
               </Button>
               <Button variant="outline" className="w-full h-12 text-base font-semibold border-2 hover:bg-gray-50">
@@ -395,7 +400,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           <div className="grid grid-cols-2 gap-4">
             <Card className="border-0 shadow-card">
               <CardContent className="p-6 text-center">
-                <Shield className="w-8 h-8 text-green-600 mx-auto mb-3" />
+                <SecureShieldSVG className="w-8 h-8 mx-auto mb-3" />
                 <p className="text-sm font-semibold text-gray-800">256-bit Encryption</p>
               </CardContent>
             </Card>

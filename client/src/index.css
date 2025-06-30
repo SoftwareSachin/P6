@@ -454,13 +454,28 @@
   );
 }
 
-/* Premium Keyframe Animations */
+/* Premium Keyframe Animations - Monzo/Revolut Style */
 @keyframes float {
   0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
+    transform: translateY(0px) rotate(0deg) scale(1); 
   }
   50% { 
-    transform: translateY(-12px) rotate(1deg); 
+    transform: translateY(-12px) rotate(1deg) scale(1.02); 
+  }
+}
+
+@keyframes morphBounce {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    border-radius: 20px;
+  }
+  25% {
+    transform: scale(1.05) rotate(1deg);
+    border-radius: 25px;
+  }
+  75% {
+    transform: scale(0.98) rotate(-0.5deg);
+    border-radius: 15px;
   }
 }
 
