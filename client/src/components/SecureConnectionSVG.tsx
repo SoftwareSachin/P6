@@ -1,4 +1,4 @@
-export const SecureConnectionSVG = ({ className = "w-full h-20", animated = true }: { className?: string, animated?: boolean }) => (
+export const SecureConnectionSVG = ({ className = "w-full h-24", animated = true }: { className?: string, animated?: boolean }) => (
   <svg
     className={className}
     viewBox="0 0 300 80"
@@ -63,34 +63,16 @@ export const SecureConnectionSVG = ({ className = "w-full h-20", animated = true
         {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" repeatCount="indefinite" />}
       </rect>
       
-      {/* Original BHIM Logo - Recreated from attached image */}
-      <g transform="scale(0.6)">
-        {/* BHIM Text in original style */}
-        <g fill="white">
-          {/* B */}
-          <path d="M-20 -15 L-20 15 L-8 15 Q-2 15 -2 10 Q-2 5 -8 5 L-20 5 M-20 -15 L-10 -15 Q-4 -15 -4 -10 Q-4 -5 -10 -5 L-20 -5" />
-          
-          {/* H */}
-          <path d="M-2 -15 L-2 15 M-2 0 L8 0 M8 -15 L8 15" strokeWidth="3" stroke="white" fill="none" strokeLinecap="round" />
-          
-          {/* I */}
-          <path d="M12 -15 L12 15 M10 -15 L14 -15 M10 15 L14 15" strokeWidth="3" stroke="white" fill="none" strokeLinecap="round" />
-          
-          {/* M */}
-          <path d="M18 15 L18 -15 L22 -5 L26 -15 L26 15" strokeWidth="3" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
+      {/* Simplified BHIM Logo */}
+      <g>
+        {/* White background for logo */}
+        <rect x="-12" y="-8" width="24" height="16" rx="2" fill="white" opacity="0.95" />
         
-        {/* UPI Text below */}
-        <g fill="white" transform="translate(2, 25)">
-          {/* U */}
-          <path d="M-8 -5 L-8 5 Q-8 8 -5 8 Q-2 8 -2 5 L-2 -5" strokeWidth="2" stroke="white" fill="none" strokeLinecap="round" />
-          
-          {/* P */}
-          <path d="M2 8 L2 -8 L8 -8 Q12 -8 12 -4 Q12 0 8 0 L2 0" strokeWidth="2" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          
-          {/* I */}
-          <path d="M16 -8 L16 8" strokeWidth="2" stroke="white" fill="none" strokeLinecap="round" />
-        </g>
+        {/* BHIM text in bold */}
+        <text x="0" y="-2" textAnchor="middle" fontSize="6" fontWeight="900" fill="#FF6B35" fontFamily="Arial, sans-serif">BHIM</text>
+        
+        {/* UPI text smaller below */}
+        <text x="0" y="4" textAnchor="middle" fontSize="3" fontWeight="700" fill="#FF6B35" fontFamily="Arial, sans-serif">UPI</text>
       </g>
       
       {/* App Label */}
