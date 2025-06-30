@@ -92,35 +92,35 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
     </g>
 
     {/* Bank Icon - Top Center */}
-    <g transform="translate(160, 15)">
+    <g transform="translate(160, 12)">
       {/* Bank Background */}
-      <rect x="-16" y="-10" width="32" height="20" rx="4" fill="#1F2937" filter="url(#softShadow)">
+      <rect x="-14" y="-8" width="28" height="16" rx="3" fill="#1F2937" filter="url(#softShadow)">
         {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite" />}
       </rect>
       
       {/* Bank Icon from image */}
-      <g fill="white" transform="scale(0.7)">
+      <g fill="white" transform="scale(0.6)">
         {/* Roof */}
-        <path d="M0 -8 L-10 0 L10 0 Z" />
+        <path d="M0 -6 L-8 0 L8 0 Z" />
         
         {/* Columns */}
-        <rect x="-8" y="0" width="2.5" height="10" />
-        <rect x="-2.5" y="0" width="2.5" height="10" />
-        <rect x="3" y="0" width="2.5" height="10" />
-        <rect x="8.5" y="0" width="2.5" height="10" />
+        <rect x="-6" y="0" width="2" height="8" />
+        <rect x="-2" y="0" width="2" height="8" />
+        <rect x="2" y="0" width="2" height="8" />
+        <rect x="6" y="0" width="2" height="8" />
         
         {/* Base */}
-        <rect x="-10" y="10" width="20" height="2" />
+        <rect x="-8" y="8" width="16" height="1.5" />
       </g>
       
-      <text x="0" y="20" textAnchor="middle" fontSize="7" fontWeight="600" fill="#1F2937">Bank</text>
+      <text x="0" y="15" textAnchor="middle" fontSize="6" fontWeight="600" fill="#1F2937">Bank</text>
     </g>
 
     {/* Vertical Connection from Bank to Shield */}
     <g>
-      <path d="M160 25 L160 30" stroke="url(#connectionGlow)" strokeWidth="2" fill="none" opacity="0.8">
+      <path d="M160 20 L160 28" stroke="url(#connectionGlow)" strokeWidth="2" fill="none" opacity="0.8">
         {animated && (
-          <animate attributeName="stroke-dasharray" values="0 8;4 4;8 0" dur="1.5s" repeatCount="indefinite" />
+          <animate attributeName="stroke-dasharray" values="0 12;6 6;12 0" dur="1.5s" repeatCount="indefinite" />
         )}
       </path>
     </g>
