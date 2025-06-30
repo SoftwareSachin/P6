@@ -84,10 +84,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             
             {/* Premium Welcome Content */}
             <div className="space-y-6">
-              <h1 className="text-5xl font-black bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+              <h1 className="text-5xl font-black text-white drop-shadow-2xl">
                 Welcome to OPPB
               </h1>
-              <p className="text-xl text-white/90 leading-relaxed">
+              <p className="text-xl text-white drop-shadow-lg leading-relaxed font-medium">
                 Experience the future of digital payments with revolutionary offline technology
               </p>
               <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-blue-400 mx-auto rounded-full animate-shimmer"></div>
@@ -95,20 +95,20 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
             {/* Premium Feature Highlights */}
             <div className="grid grid-cols-2 gap-4 mt-12">
-              <div className="glass-effect-premium p-4 rounded-2xl animate-scale-in" style={{ animationDelay: '0.2s' }}>
+              <div className="bg-white/20 backdrop-blur-lg p-4 rounded-2xl animate-scale-in border border-white/30" style={{ animationDelay: '0.2s' }}>
                 <OfflineNetworkSVG className="w-8 h-8 mx-auto mb-2" />
-                <p className="text-sm font-semibold text-white/90">Offline Ready</p>
+                <p className="text-sm font-bold text-white drop-shadow-md">Offline Ready</p>
               </div>
-              <div className="glass-effect-premium p-4 rounded-2xl animate-scale-in" style={{ animationDelay: '0.4s' }}>
+              <div className="bg-white/20 backdrop-blur-lg p-4 rounded-2xl animate-scale-in border border-white/30" style={{ animationDelay: '0.4s' }}>
                 <SecureShieldSVG className="w-8 h-8 mx-auto mb-2" />
-                <p className="text-sm font-semibold text-white/90">Bank Security</p>
+                <p className="text-sm font-bold text-white drop-shadow-md">Bank Security</p>
               </div>
             </div>
 
             {/* Premium CTA */}
             <Button 
               onClick={nextScreen}
-              className="btn-primary-premium w-full h-16 text-xl font-bold bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm mt-12"
+              className="w-full h-16 text-xl font-bold bg-white/90 hover:bg-white text-gray-900 border-0 backdrop-blur-sm mt-12 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <span className="mr-3">Let's Get Started</span>
               <ArrowRight className="w-6 h-6" />
@@ -161,10 +161,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               <MoneyTransferSVG className="w-18 h-18" />
             </div>
             <div>
-              <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
+              <h1 className="text-3xl font-black text-gray-900 mb-3">
                 Why Choose OPPB?
               </h1>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-700 font-medium">
                 Discover what makes us different
               </p>
             </div>
@@ -192,7 +192,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-gray-700 leading-relaxed font-medium">
                         {feature.description}
                       </p>
                     </div>
@@ -213,7 +213,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           {/* Premium Action Button */}
           <Button 
             onClick={nextScreen}
-            className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary hover:shadow-premium group"
+            className="w-full h-16 text-xl font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
             <span className="mr-3">Continue</span>
             <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />

@@ -154,6 +154,14 @@ Changelog:
   * Contextual micro-interactions with smooth transitions and glass morphism
   * Dynamic gradient backgrounds with responsive visual feedback
   * Complete Apple Pay visual language implementation across all components
+- June 30, 2025. ONBOARDING INTEGRATION AND TEXT VISIBILITY FIXES:
+  * Integrated premium 4-screen onboarding flow into main app routing
+  * Fixed text visibility issues across all onboarding screens with improved contrast
+  * Enhanced welcome screen with solid white text and drop-shadows
+  * Improved feature cards with stronger backgrounds and readable text
+  * Updated button styling for better visibility on both light and dark backgrounds
+  * Added localStorage-based onboarding completion tracking
+  * Public development URL available for external device testing
 ```
 
 ## User Preferences
