@@ -239,10 +239,10 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
       </path>
     </g>
 
-    {/* Premium Bank Icon - Top Center - Larger and Higher */}
-    <g transform="translate(160, 8)">
+    {/* Premium Bank Icon - Top Center - Much Larger and Higher */}
+    <g transform="translate(160, 2)">
       {/* Premium 3D Bank */}
-      <g transform="scale(0.65) translate(-50, -60)">
+      <g transform="scale(0.85) translate(-50, -60)">
         {/* Animated Background Glow */}
         {animated && (
           <circle cx="50" cy="60" r="55" fill="none" stroke="url(#bankBodyGradient)" strokeWidth="0.8" opacity="0.2">
@@ -383,7 +383,7 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
         </g>
       </g>
       
-      <text x="0" y="32" textAnchor="middle" fontSize="7" fontWeight="700" fill="#1F2937" filter="url(#premiumGlow)">
+      <text x="0" y="36" textAnchor="middle" fontSize="8" fontWeight="700" fill="#1F2937" filter="url(#premiumGlow)">
         Bank
         {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />}
       </text>
@@ -391,7 +391,7 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
 
     {/* Extended Vertical Connection from Bank to Shield */}
     <g>
-      <path d="M160 32 L160 40" stroke="url(#connectionGlow)" strokeWidth="2.5" fill="none" opacity="0.8">
+      <path d="M160 38 L160 42" stroke="url(#connectionGlow)" strokeWidth="2.5" fill="none" opacity="0.8">
         {animated && (
           <animate attributeName="stroke-dasharray" values="0 15;7 7;15 0" dur="2s" repeatCount="indefinite" />
         )}
