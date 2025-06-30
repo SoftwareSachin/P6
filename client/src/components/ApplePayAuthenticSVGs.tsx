@@ -1,104 +1,219 @@
-// Premium OPPB Brand Logo - Ultra High-End Design
+// Ultra-Premium OPPB Brand Logo - Strongest High-End Design
 export const OPPBPremiumLogoSVG = ({ className = "w-11 h-11", animated = false }: { className?: string, animated?: boolean }) => (
-  <svg className={className} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className={className} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      {/* Premium Gradients */}
-      <linearGradient id="oppbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#667eea" />
-        <stop offset="50%" stopColor="#764ba2" />
-        <stop offset="100%" stopColor="#5b73e8" />
+      {/* Ultra-Premium Gradient System */}
+      <radialGradient id="oppbCorePrimary" cx="50%" cy="30%" r="70%">
+        <stop offset="0%" stopColor="#1e1b4b" />
+        <stop offset="15%" stopColor="#312e81" />
+        <stop offset="35%" stopColor="#3730a3" />
+        <stop offset="55%" stopColor="#4338ca" />
+        <stop offset="75%" stopColor="#6366f1" />
+        <stop offset="90%" stopColor="#8b5cf6" />
+        <stop offset="100%" stopColor="#a855f7" />
+      </radialGradient>
+      
+      <linearGradient id="oppbMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#ffffff" />
+        <stop offset="20%" stopColor="#f8fafc" />
+        <stop offset="40%" stopColor="#e2e8f0" />
+        <stop offset="60%" stopColor="#cbd5e1" />
+        <stop offset="80%" stopColor="#94a3b8" />
+        <stop offset="100%" stopColor="#64748b" />
       </linearGradient>
-      
-      <linearGradient id="oppbAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#00d4ff" />
-        <stop offset="100%" stopColor="#007aff" />
+
+      <radialGradient id="oppbAccentGlow" cx="50%" cy="50%" r="80%">
+        <stop offset="0%" stopColor="#06b6d4" stopOpacity="1" />
+        <stop offset="30%" stopColor="#3b82f6" stopOpacity="0.9" />
+        <stop offset="60%" stopColor="#8b5cf6" stopOpacity="0.7" />
+        <stop offset="100%" stopColor="#d946ef" stopOpacity="0.5" />
+      </radialGradient>
+
+      <linearGradient id="oppbDiamondCore" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+        <stop offset="25%" stopColor="#e0e7ff" stopOpacity="0.9" />
+        <stop offset="50%" stopColor="#c7d2fe" stopOpacity="0.8" />
+        <stop offset="75%" stopColor="#a5b4fc" stopOpacity="0.7" />
+        <stop offset="100%" stopColor="#818cf8" stopOpacity="0.6" />
       </linearGradient>
-      
-      {/* Premium Filters */}
-      <filter id="oppbShadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.1)"/>
+
+      {/* Advanced Premium Filters */}
+      <filter id="oppbUltraGlow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+        <feOffset in="coloredBlur" dx="0" dy="0" result="offsetBlur"/>
+        <feFlood floodColor="#8b5cf6" floodOpacity="0.6"/>
+        <feComposite in2="offsetBlur" operator="in" result="finalGlow"/>
+        <feMerge> 
+          <feMergeNode in="finalGlow"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
       </filter>
-      
-      <filter id="oppbGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="2"/>
-        <feColorMatrix values="0 0 0 0 0 0 0 0 0 0.48 0 0 0 0 0.91 0 0 0 0.3 0"/>
-        <feBlend mode="screen"/>
+
+      <filter id="oppbDepthShadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="8" stdDeviation="6" floodColor="#000000" floodOpacity="0.4"/>
+        <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#1e1b4b" floodOpacity="0.6"/>
+        <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="#000000" floodOpacity="0.8"/>
       </filter>
-      
-      {animated && (
-        <animateTransform
-          attributeName="transform"
-          attributeType="XML"
-          type="rotate"
-          from="0 22 22"
-          to="360 22 22"
-          dur="20s"
-          repeatCount="indefinite"
-        />
-      )}
+
+      <filter id="oppbMetallicShine" x="-50%" y="-50%" width="200%" height="200%">
+        <feSpecularLighting result="specOut" in="SourceGraphic" specularConstant="3" specularExponent="25" lightingColor="#ffffff">
+          <fePointLight x="30" y="20" z="150"/>
+        </feSpecularLighting>
+        <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut2"/>
+        <feComposite in="SourceGraphic" in2="specOut2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+      </filter>
+
+      <filter id="oppbInnerGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="innerGlow"/>
+        <feOffset in="innerGlow" dx="0" dy="0"/>
+        <feComposite in2="SourceGraphic" operator="in" result="innerGlowComposite"/>
+        <feColorMatrix in="innerGlowComposite" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0"/>
+      </filter>
     </defs>
-    
-    {/* Main Logo Circle */}
-    <circle 
-      cx="22" 
-      cy="22" 
-      r="20" 
-      fill="url(#oppbGradient)" 
-      filter="url(#oppbShadow)"
-      className={animated ? "animate-pulse-subtle" : ""}
+
+    {/* Outer Halo Effect */}
+    <circle
+      cx="60"
+      cy="60"
+      r="55"
+      fill="none"
+      stroke="url(#oppbAccentGlow)"
+      strokeWidth="2"
+      opacity="0.4"
+      className={animated ? "animate-pulse-slow" : ""}
+      filter="url(#oppbUltraGlow)"
     />
-    
-    {/* Inner Geometric Pattern */}
-    <g transform="translate(22, 22)">
-      {/* Center Diamond */}
+
+    {/* Premium Orbital Ring System */}
+    <circle
+      cx="60"
+      cy="60"
+      r="50"
+      fill="none"
+      stroke="url(#oppbCorePrimary)"
+      strokeWidth="3"
+      opacity="0.8"
+      className={animated ? "animate-spin-slow" : ""}
+      strokeDasharray="15 8 5 8"
+      strokeLinecap="round"
+    />
+
+    <circle
+      cx="60"
+      cy="60"
+      r="42"
+      fill="none"
+      stroke="url(#oppbAccentGlow)"
+      strokeWidth="2"
+      opacity="0.7"
+      className={animated ? "animate-spin-reverse" : ""}
+      strokeDasharray="10 5 3 5"
+      strokeLinecap="round"
+    />
+
+    <circle
+      cx="60"
+      cy="60"
+      r="34"
+      fill="none"
+      stroke="url(#oppbMetallic)"
+      strokeWidth="1.5"
+      opacity="0.5"
+      strokeDasharray="6 3"
+    />
+
+    {/* Main Logo Core */}
+    <circle 
+      cx="60" 
+      cy="60" 
+      r="28" 
+      fill="url(#oppbCorePrimary)" 
+      filter="url(#oppbDepthShadow)"
+      className={animated ? "animate-pulse-slow" : ""}
+    />
+
+    {/* Primary Diamond Structure */}
+    <g transform="translate(60, 60)">
+      {/* Outer Diamond Layer */}
       <path 
-        d="M-6 0 L0 -6 L6 0 L0 6 Z" 
-        fill="white" 
+        d="M-20 0 L0 -20 L20 0 L0 20 Z" 
+        fill="url(#oppbDiamondCore)"
         opacity="0.9"
+        filter="url(#oppbMetallicShine)"
         className={animated ? "animate-spin-slow" : ""}
       />
       
-      {/* Orbital Rings */}
+      {/* Middle Diamond Layer */}
+      <path 
+        d="M-14 0 L0 -14 L14 0 L0 14 Z" 
+        fill="url(#oppbMetallic)"
+        opacity="0.8"
+        filter="url(#oppbInnerGlow)"
+      />
+      
+      {/* Inner Diamond Core */}
+      <path 
+        d="M-8 0 L0 -8 L8 0 L0 8 Z" 
+        fill="url(#oppbAccentGlow)"
+        opacity="0.9"
+        className={animated ? "animate-pulse" : ""}
+      />
+
+      {/* Precision Orbital Elements */}
+      <circle 
+        cx="0" 
+        cy="0" 
+        r="18" 
+        fill="none" 
+        stroke="url(#oppbMetallic)" 
+        strokeWidth="1" 
+        opacity="0.4"
+        className={animated ? "animate-spin-reverse" : ""}
+        strokeDasharray="4 4"
+      />
+      
       <circle 
         cx="0" 
         cy="0" 
         r="12" 
         fill="none" 
-        stroke="white" 
-        strokeWidth="1" 
-        opacity="0.3"
-        className={animated ? "animate-spin-reverse" : ""}
-      />
-      
-      <circle 
-        cx="0" 
-        cy="0" 
-        r="8" 
-        fill="none" 
-        stroke="url(#oppbAccent)" 
+        stroke="url(#oppbAccentGlow)" 
         strokeWidth="1.5" 
         opacity="0.6"
-        strokeDasharray="2 2"
+        strokeDasharray="3 3"
         className={animated ? "animate-spin-slow" : ""}
       />
-      
-      {/* Corner Dots */}
-      <circle cx="-10" cy="-10" r="2" fill="white" opacity="0.8"/>
-      <circle cx="10" cy="-10" r="2" fill="white" opacity="0.8"/>
-      <circle cx="10" cy="10" r="2" fill="white" opacity="0.8"/>
-      <circle cx="-10" cy="10" r="2" fill="white" opacity="0.8"/>
+
+      {/* Premium Corner Accents */}
+      <g opacity="0.9">
+        <circle cx="-15" cy="-15" r="2.5" fill="url(#oppbAccentGlow)" filter="url(#oppbInnerGlow)"/>
+        <circle cx="15" cy="-15" r="2.5" fill="url(#oppbAccentGlow)" filter="url(#oppbInnerGlow)"/>
+        <circle cx="15" cy="15" r="2.5" fill="url(#oppbAccentGlow)" filter="url(#oppbInnerGlow)"/>
+        <circle cx="-15" cy="15" r="2.5" fill="url(#oppbAccentGlow)" filter="url(#oppbInnerGlow)"/>
+      </g>
+
+      {/* Central Focal Point */}
+      <circle
+        cx="0"
+        cy="0"
+        r="4"
+        fill="#ffffff"
+        opacity="0.95"
+        filter="url(#oppbUltraGlow)"
+        className={animated ? "animate-pulse" : ""}
+      />
     </g>
-    
-    {/* Premium Outer Ring */}
+
+    {/* Ultimate Outer Ring */}
     <circle 
-      cx="22" 
-      cy="22" 
-      r="20" 
+      cx="60" 
+      cy="60" 
+      r="28" 
       fill="none" 
-      stroke="url(#oppbAccent)" 
-      strokeWidth="0.5" 
-      opacity="0.4"
-      filter="url(#oppbGlow)"
+      stroke="url(#oppbAccentGlow)" 
+      strokeWidth="1" 
+      opacity="0.5"
+      filter="url(#oppbUltraGlow)"
     />
   </svg>
 );
