@@ -17,7 +17,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-xl border-t border-white/10 px-6 py-3 z-50">
+    <div className="fixed bottom-0 left-0 right-0 apple-pay-glass border-t border-white/20 px-6 py-3 z-50">
       <div className="flex justify-around items-center">
         {navItems.map((item) => {
           const IconComponent = item.appleIcon || item.icon;
@@ -30,8 +30,8 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
                 size="sm"
                 className={`flex flex-col items-center space-y-1 h-16 w-16 rounded-2xl transition-all duration-300 ${
                   isActive 
-                    ? 'bg-blue-600 text-white shadow-2xl scale-110 shadow-blue-500/30' 
-                    : 'text-white hover:text-blue-400 hover:bg-white/10'
+                    ? 'apple-pay-gradient text-white shadow-2xl scale-110' 
+                    : 'text-white/90 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <IconComponent className={`h-6 w-6 ${isActive ? 'text-white' : 'text-white'}`} />
