@@ -8,6 +8,7 @@ import {
   CheckmarkSuccessSVG,
   PrivacyLockSVG
 } from "@/components/ApplePayAuthenticSVGs";
+import { OfflinePaymentFlowSVG } from "@/components/OfflinePaymentFlowSVG";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -226,37 +227,17 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   if (currentScreen === 0) {
     return (
       <div className="min-h-screen bg-white relative overflow-hidden apple-pay-background">
-        {/* Premium Animated Background */}
-        <div className="absolute inset-0 opacity-3">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-float-slow"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-gradient-to-br from-purple-500/8 to-indigo-500/8 rounded-full blur-2xl animate-float-reverse"></div>
-          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-gradient-to-br from-indigo-500/6 to-blue-500/6 rounded-full blur-xl animate-pulse-slow"></div>
-        </div>
-        
-        {/* Subtle Grid Pattern */}
-        <div className="absolute inset-0 opacity-2">
-          <div 
-            className="w-full h-full" 
-            style={{ 
-              backgroundImage: `
-                linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px)
-              `,
-              backgroundSize: '20px 20px'
-            }}
-          ></div>
-        </div>
         
         <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
-          {/* OPPB Premium Logo - Exact positioning */}
-          <div className="flex justify-center" style={{ marginTop: '88px' }}>
+          {/* Dynamic Offline Payment Flow SVG - Center positioning */}
+          <div className="flex justify-center" style={{ marginTop: '40px' }}>
             <div className="apple-logo-container">
-              <OPPBPremiumLogoSVG className="w-11 h-11 animate-apple-logo-spring" animated={true} />
+              <OfflinePaymentFlowSVG className="w-72 h-44 animate-apple-logo-spring" animated={true} />
             </div>
           </div>
 
           {/* Headline & Subtext - Exact spacing */}
-          <div className="text-center" style={{ marginTop: '16px' }}>
+          <div className="text-center" style={{ marginTop: '24px' }}>
             <h1 
               className="text-black font-bold"
               style={{ 
@@ -267,7 +248,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 marginBottom: '8px'
               }}
             >
-              Set up OPPB
+              Offline Payments
             </h1>
             <p 
               className="text-black/60 font-normal text-center"
@@ -279,7 +260,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 margin: '0 auto'
               }}
             >
-              Pay safely and securely with your iPhone.
+              Pay merchants even without internet using Bluetooth technology.
             </p>
           </div>
 
