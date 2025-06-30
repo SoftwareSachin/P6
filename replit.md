@@ -285,7 +285,7 @@ Changelog:
   * Repositioned all elements with proper spacing and alignment
   * Added connecting lines between bank, Bluetooth hub, and phones
   * Complete payment flow now shows: Bank → Bluetooth → Peer-to-Peer transfer
-  * External device URL available: https://workspace.womila5382.repl.co
+  * External device URL available: https://9bef8627-7c08-48c4-aede-07476d46c2c1-00-t583dq3ag9cn.worf.replit.dev/
 ```
 
 ## User Preferences
