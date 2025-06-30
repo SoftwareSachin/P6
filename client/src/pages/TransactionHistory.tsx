@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Search, Filter, Download, ArrowUpRight, ArrowDownLeft, Clock, Check, AlertCircle, WifiOff, BarChart3 } from "lucide-react";
-import { TransactionCard } from "@/components/TransactionCard";
+
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { COLORS } from "@/lib/constants";
 import { Link } from "wouter";
@@ -16,7 +16,7 @@ export default function TransactionHistory() {
   // Get transactions from API
   const { data: transactions = [] } = useQuery({
     queryKey: ['/api/transactions']
-  });
+  }) as { data: any[] };
 
   // Mock comprehensive transaction data as specified
   const mockTransactions = [
@@ -118,7 +118,7 @@ export default function TransactionHistory() {
     }
   ];
 
-  const allTransactions = [...transactions, ...mockTransactions];
+  const allTransactions = [...(Array.isArray(transactions) ? transactions : []), ...mockTransactions];
 
   const filterOptions = [
     { id: "all", name: "All", count: allTransactions.length },

@@ -8,8 +8,6 @@ import { useState } from "react";
 import Landing from "@/pages/Landing";
 import Onboarding from "@/pages/Onboarding";
 import PhoneRegistration from "@/pages/PhoneRegistration";
-import Dashboard from "@/pages/Dashboard";
-import PremiumDashboard from "@/pages/PremiumDashboard";
 import ApplePayDashboard from "@/pages/ApplePayDashboard";
 import QRScanner from "@/pages/QRScanner";
 import SendMoney from "@/pages/SendMoney";
