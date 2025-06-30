@@ -8,6 +8,7 @@ import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { ApplePayBiometricSVG, ApplePaySecuritySVG, ApplePayCreditCardSVG, ApplePayPhoneSVG, ApplePayWalletSVG } from "@/components/ApplePaySVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import profileGif from "@assets/fetchpik.com-iconscout-tsfbu03B1n_1751300601390.gif";
 
 export default function Profile() {
   const [showSettings, setShowSettings] = useState(false);
@@ -74,8 +75,8 @@ export default function Profile() {
           <CardContent className="p-6">
             <div className="flex items-center space-x-4 mb-6">
               <div className="relative">
-                <Avatar className="w-20 h-20 border-4 border-white/20">
-                  <AvatarImage src="/api/placeholder/80/80" />
+                <Avatar className="w-24 h-24 border-4 border-white/20">
+                  <AvatarImage src={profileGif} />
                   <AvatarFallback className="apple-pay-gradient text-white text-2xl font-bold">
                     {userName.split(' ').map((n: string) => n[0]).join('')}
                   </AvatarFallback>
