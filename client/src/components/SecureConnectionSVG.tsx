@@ -186,20 +186,17 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
 
     {/* OPPB Icon - Right */}
     <g transform="translate(250, 50)">
-      {/* App Icon Background */}
-      <rect x="-22" y="-22" width="44" height="44" rx="10" fill="url(#oppbGradient)" filter="url(#softShadow)">
-        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" begin="1s" repeatCount="indefinite" />}
-      </rect>
-      
       {/* Premium 3D Cube Logo */}
-      <g transform="scale(0.3) translate(-60, -60)">
+      <g transform="scale(0.5) translate(-50, -50)">
         {/* Top Face */}
         <path
           d="M50 10 L85 25 L50 40 L15 25 Z"
           fill="url(#cubeTopGradient)"
           stroke="rgba(255,255,255,0.4)"
           strokeWidth="1"
-        />
+        >
+          {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />}
+        </path>
         
         {/* Left Face */}
         <path
@@ -223,7 +220,9 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
             d="M40 20 L60 28 L40 36 L20 28 Z"
             fill="#3B82F6"
             opacity="0.9"
-          />
+          >
+            {animated && <animate attributeName="opacity" values="0.7;0.9;0.7" dur="2s" repeatCount="indefinite" />}
+          </path>
           <path
             d="M20 28 L40 36 L40 56 L20 48 Z"
             fill="#2563EB"
@@ -235,6 +234,36 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
             opacity="0.7"
           />
         </g>
+
+        {/* Floating Animation Particles */}
+        {animated && (
+          <g>
+            {[...Array(4)].map((_, i) => (
+              <circle
+                key={i}
+                cx={30 + (i * 15)}
+                cy={20 + (i % 2) * 8}
+                r="1"
+                fill="#8B7CF6"
+                opacity="0.6"
+              >
+                <animate
+                  attributeName="opacity"
+                  values="0;0.8;0"
+                  dur={`${2 + i * 0.3}s`}
+                  repeatCount="indefinite"
+                />
+                <animateTransform
+                  attributeName="transform"
+                  type="translate"
+                  values={`0,0;0,-${3 + i};0,0`}
+                  dur={`${3 + i * 0.2}s`}
+                  repeatCount="indefinite"
+                />
+              </circle>
+            ))}
+          </g>
+        )}
       </g>
       
       {/* App Label */}
