@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Search, Filter, Download, ArrowUpRight, ArrowDownLeft, Clock, Check, AlertCircle, WifiOff } from "lucide-react";
+import { ArrowLeft, Search, Filter, Download, ArrowUpRight, ArrowDownLeft, Clock, Check, AlertCircle, WifiOff, BarChart3 } from "lucide-react";
 import { TransactionCard } from "@/components/TransactionCard";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { COLORS } from "@/lib/constants";

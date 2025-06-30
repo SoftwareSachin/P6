@@ -22,7 +22,9 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(() => {
+    return localStorage.getItem('oppb-onboarding-completed') === 'true';
+  });
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleOnboardingComplete = () => {
