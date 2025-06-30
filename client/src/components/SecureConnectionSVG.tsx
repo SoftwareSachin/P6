@@ -63,13 +63,35 @@ export const SecureConnectionSVG = ({ className = "w-full h-20", animated = true
         {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" repeatCount="indefinite" />}
       </rect>
       
-      {/* BHIM Logo */}
-      <circle cx="0" cy="-5" r="8" fill="white" opacity="0.9" />
-      <text x="0" y="-1" textAnchor="middle" fontSize="6" fontWeight="bold" fill="#FF6B35">B</text>
-      
-      {/* UPI Text */}
-      <rect x="-12" y="2" width="24" height="8" rx="2" fill="white" opacity="0.9" />
-      <text x="0" y="8" textAnchor="middle" fontSize="4" fontWeight="bold" fill="#FF6B35">BHIM UPI</text>
+      {/* Original BHIM Logo - Recreated from attached image */}
+      <g transform="scale(0.6)">
+        {/* BHIM Text in original style */}
+        <g fill="white">
+          {/* B */}
+          <path d="M-20 -15 L-20 15 L-8 15 Q-2 15 -2 10 Q-2 5 -8 5 L-20 5 M-20 -15 L-10 -15 Q-4 -15 -4 -10 Q-4 -5 -10 -5 L-20 -5" />
+          
+          {/* H */}
+          <path d="M-2 -15 L-2 15 M-2 0 L8 0 M8 -15 L8 15" strokeWidth="3" stroke="white" fill="none" strokeLinecap="round" />
+          
+          {/* I */}
+          <path d="M12 -15 L12 15 M10 -15 L14 -15 M10 15 L14 15" strokeWidth="3" stroke="white" fill="none" strokeLinecap="round" />
+          
+          {/* M */}
+          <path d="M18 15 L18 -15 L22 -5 L26 -15 L26 15" strokeWidth="3" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+        
+        {/* UPI Text below */}
+        <g fill="white" transform="translate(2, 25)">
+          {/* U */}
+          <path d="M-8 -5 L-8 5 Q-8 8 -5 8 Q-2 8 -2 5 L-2 -5" strokeWidth="2" stroke="white" fill="none" strokeLinecap="round" />
+          
+          {/* P */}
+          <path d="M2 8 L2 -8 L8 -8 Q12 -8 12 -4 Q12 0 8 0 L2 0" strokeWidth="2" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          
+          {/* I */}
+          <path d="M16 -8 L16 8" strokeWidth="2" stroke="white" fill="none" strokeLinecap="round" />
+        </g>
+      </g>
       
       {/* App Label */}
       <text x="0" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#FF6B35">BHIM UPI</text>

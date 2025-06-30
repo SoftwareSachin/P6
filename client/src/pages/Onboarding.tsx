@@ -265,15 +265,15 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             </p>
           </div>
 
-          {/* Secure Connection Visual */}
-          <div className="flex justify-center items-center" style={{ marginTop: '16px' }}>
-            <div className="w-full max-w-xs">
-              <SecureConnectionSVG className="w-full h-16" animated={true} />
-            </div>
-          </div>
-
           {/* Spacer */}
           <div className="flex-1"></div>
+
+          {/* Secure Connection Visual - Centered */}
+          <div className="flex justify-center items-center" style={{ marginBottom: '32px' }}>
+            <div className="w-full max-w-sm">
+              <SecureConnectionSVG className="w-full h-20" animated={true} />
+            </div>
+          </div>
 
           {/* Swipe to Send Button - Primary CTA */}
           <div className="space-y-4">
