@@ -285,17 +285,12 @@ export const PremiumUserSVG = ({ className = "w-6 h-6" }: { className?: string }
 );
 
 export const PremiumPhoneSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="phoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#10B981" />
-        <stop offset="100%" stopColor="#059669" />
-      </linearGradient>
-    </defs>
-    <rect x="6" y="2" width="12" height="20" rx="3" fill="url(#phoneGradient)" />
-    <rect x="8" y="4" width="8" height="14" rx="1" fill="white" />
-    <circle cx="12" cy="20" r="1" fill="white" />
-  </svg>
+  <img 
+    src="/src/assets/phone-animated.gif" 
+    alt="Phone"
+    className={className}
+    style={{ objectFit: 'contain' }}
+  />
 );
 
 export const PremiumDollarSVG = ({ className = "w-6 h-6" }: { className?: string }) => (

@@ -60,10 +60,12 @@ export const ApplePayQRCodeSVG = ({ className = "w-6 h-6" }: { className?: strin
 );
 
 export const ApplePayPhoneSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-    <line x1="12" y1="18" x2="12.01" y2="18"/>
-  </svg>
+  <img 
+    src="/src/assets/phone-animated.gif" 
+    alt="Phone"
+    className={className}
+    style={{ objectFit: 'contain' }}
+  />
 );
 
 export const ApplePayWalletSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
