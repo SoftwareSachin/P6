@@ -248,24 +248,24 @@ export default function SendMoney() {
               {/* Custom Amount Input */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Custom Amount (₹)</label>
+                  <label className="block text-sm font-bold text-white mb-2">Custom Amount (₹)</label>
                   <Input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0"
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl h-14 text-xl text-center"
+                    className="bg-white/20 border-white/30 text-white placeholder-white/60 rounded-xl h-14 text-xl text-center font-bold backdrop-blur-sm"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Note (Optional)</label>
+                  <label className="block text-sm font-bold text-white mb-2">Note (Optional)</label>
                   <Input
                     type="text"
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     placeholder="What's this for?"
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl h-12"
+                    className="bg-white/20 border-white/30 text-white placeholder-white/60 rounded-xl h-12 font-medium backdrop-blur-sm"
                   />
                 </div>
               </div>
@@ -376,8 +376,8 @@ export default function SendMoney() {
               </div>
             </div>
             
-            <h2 className="text-3xl font-bold text-white">Money Sent!</h2>
-            <p className="text-gray-400 text-lg">₹{amount} sent to {selectedContact?.name}</p>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Money Sent!</h2>
+            <p className="text-white text-lg font-semibold drop-shadow-sm">₹{amount} sent to {selectedContact?.name}</p>
             
             <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 max-w-sm mx-auto">
               <div className="space-y-3 text-sm">
@@ -396,7 +396,7 @@ export default function SendMoney() {
               </div>
             </div>
 
-            <div className="space-y-4 mt-8">
+            <div className="space-y-4 mt-8 pb-24">
               <Link href="/">
                 <Button className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg">
                   Done
@@ -411,7 +411,7 @@ export default function SendMoney() {
                   setAmount("");
                   setNote("");
                 }}
-                className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+                className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white font-bold"
               >
                 Send to Another Contact
               </Button>

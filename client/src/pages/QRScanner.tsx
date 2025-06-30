@@ -173,23 +173,23 @@ export default function QRScanner() {
               {/* Custom Amount Input */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Amount (₹)</label>
+                  <label className="block text-sm font-bold text-white mb-2">Amount (₹)</label>
                   <Input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Enter custom amount"
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl h-14 text-lg"
+                    className="bg-white/20 border-white/30 text-white placeholder-white/60 rounded-xl h-14 text-lg font-bold backdrop-blur-sm"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Note (Optional)</label>
+                  <label className="block text-sm font-bold text-white mb-2">Note (Optional)</label>
                   <Textarea
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     placeholder="Add a payment note..."
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl min-h-[60px] resize-none"
+                    className="bg-white/20 border-white/30 text-white placeholder-white/60 rounded-xl min-h-[60px] resize-none font-medium backdrop-blur-sm"
                   />
                 </div>
               </div>
@@ -197,7 +197,7 @@ export default function QRScanner() {
           </Card>
 
           {/* Action Buttons */}
-          <div className="space-y-4">
+          <div className="space-y-4 pb-24">
             <Button 
               onClick={handlePayment}
               disabled={!amount || parseFloat(amount) <= 0}

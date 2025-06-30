@@ -279,7 +279,7 @@ export default function OfflinePayments() {
             </CardContent>
           </Card>
 
-          <div className="space-y-4">
+          <div className="space-y-4 pb-24">
             <Button 
               onClick={handlePayment}
               className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg"
@@ -371,7 +371,7 @@ export default function OfflinePayments() {
               </div>
             </div>
 
-            <div className="space-y-4 mt-8">
+            <div className="space-y-4 mt-8 pb-24">
               <Link href="/">
                 <Button className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg">
                   Done
