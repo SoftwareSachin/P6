@@ -237,88 +237,215 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
 
     {/* OPPB Icon - Right */}
     <g transform="translate(250, 50)">
-      {/* Premium 3D Cube Logo */}
-      <g transform="scale(0.5) translate(-50, -50)">
-        {/* Top Face */}
-        <path
-          d="M50 10 L85 25 L50 40 L15 25 Z"
-          fill="url(#cubeTopGradient)"
-          stroke="rgba(255,255,255,0.4)"
-          strokeWidth="1"
-        >
-          {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />}
-        </path>
-        
-        {/* Left Face */}
-        <path
-          d="M15 25 L50 40 L50 75 L15 60 Z"
-          fill="url(#cubeLeftGradient)"
-          stroke="rgba(255,255,255,0.2)"
-          strokeWidth="1"
-        />
+      {/* Ultra-Premium Dynamic 3D Cube Logo */}
+      <g transform="scale(0.8) translate(-50, -50)">
+        {/* Outer Glow Ring */}
+        {animated && (
+          <circle cx="50" cy="42" r="45" fill="none" stroke="url(#cubeTopGradient)" strokeWidth="0.5" opacity="0.3">
+            <animate attributeName="r" values="40;50;40" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite" />
+          </circle>
+        )}
 
-        {/* Right Face */}
-        <path
-          d="M50 40 L85 25 L85 60 L50 75 Z"
-          fill="url(#cubeRightGradient)"
-          stroke="rgba(255,255,255,0.1)"
-          strokeWidth="1"
-        />
-
-        {/* Inner Cube */}
-        <g transform="translate(10, 5)">
+        {/* Main Cube with Enhanced 3D */}
+        <g>
+          {animated && (
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              values="0 50 42;360 50 42"
+              dur="20s"
+              repeatCount="indefinite"
+            />
+          )}
+          
+          {/* Top Face - Enhanced */}
           <path
-            d="M40 20 L60 28 L40 36 L20 28 Z"
-            fill="#3B82F6"
-            opacity="0.9"
+            d="M50 10 L85 25 L50 40 L15 25 Z"
+            fill="url(#cubeTopGradient)"
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="1.5"
+            filter="url(#premiumGlow)"
           >
-            {animated && <animate attributeName="opacity" values="0.7;0.9;0.7" dur="2s" repeatCount="indefinite" />}
+            {animated && (
+              <>
+                <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />
+                <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2s" repeatCount="indefinite" />
+              </>
+            )}
           </path>
+          
+          {/* Top Face Highlight */}
           <path
-            d="M20 28 L40 36 L40 56 L20 48 Z"
-            fill="#2563EB"
-            opacity="0.8"
+            d="M50 10 L85 25 L50 40 L15 25 Z"
+            fill="rgba(255,255,255,0.4)"
+            opacity="0.6"
           />
+          
+          {/* Left Face - Enhanced */}
           <path
-            d="M40 36 L60 28 L60 48 L40 56 Z"
-            fill="#1D4ED8"
-            opacity="0.7"
-          />
+            d="M15 25 L50 40 L50 75 L15 60 Z"
+            fill="url(#cubeLeftGradient)"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1.2"
+          >
+            {animated && <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3.5s" repeatCount="indefinite" />}
+          </path>
+
+          {/* Right Face - Enhanced */}
+          <path
+            d="M50 40 L85 25 L85 60 L50 75 Z"
+            fill="url(#cubeRightGradient)"
+            stroke="rgba(255,255,255,0.2)"
+            strokeWidth="1.2"
+          >
+            {animated && <animate attributeName="opacity" values="0.6;0.8;0.6" dur="4s" repeatCount="indefinite" />}
+          </path>
+
+          {/* Inner Cube - More Prominent */}
+          <g transform="translate(8, 3)">
+            <path
+              d="M42 18 L62 26 L42 34 L22 26 Z"
+              fill="#3B82F6"
+              opacity="0.95"
+              stroke="rgba(255,255,255,0.5)"
+              strokeWidth="0.8"
+            >
+              {animated && (
+                <>
+                  <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />
+                  <animateTransform attributeName="transform" type="scale" values="0.9;1.1;0.9" dur="3s" repeatCount="indefinite" />
+                </>
+              )}
+            </path>
+            <path
+              d="M22 26 L42 34 L42 54 L22 46 Z"
+              fill="#2563EB"
+              opacity="0.9"
+              stroke="rgba(255,255,255,0.3)"
+              strokeWidth="0.6"
+            />
+            <path
+              d="M42 34 L62 26 L62 46 L42 54 Z"
+              fill="#1D4ED8"
+              opacity="0.85"
+              stroke="rgba(255,255,255,0.2)"
+              strokeWidth="0.6"
+            />
+
+            {/* Inner Core */}
+            <circle cx="42" cy="30" r="4" fill="#60A5FA" opacity="0.8">
+              {animated && (
+                <>
+                  <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
+                  <animate attributeName="r" values="3;5;3" dur="2.5s" repeatCount="indefinite" />
+                </>
+              )}
+            </circle>
+          </g>
+
+          {/* Dynamic Edge Lines */}
+          <g stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" fill="none">
+            <path d="M50 10 L50 40">
+              {animated && <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />}
+            </path>
+            <path d="M15 25 L50 40">
+              {animated && <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.2s" repeatCount="indefinite" />}
+            </path>
+            <path d="M85 25 L50 40">
+              {animated && <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.4s" repeatCount="indefinite" />}
+            </path>
+            <path d="M50 40 L50 75">
+              {animated && <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.6s" repeatCount="indefinite" />}
+            </path>
+          </g>
         </g>
 
-        {/* Floating Animation Particles */}
+        {/* Enhanced Floating Particles */}
         {animated && (
           <g>
-            {[...Array(4)].map((_, i) => (
-              <circle
-                key={i}
-                cx={30 + (i * 15)}
-                cy={20 + (i % 2) * 8}
-                r="1"
-                fill="#8B7CF6"
-                opacity="0.6"
-              >
-                <animate
-                  attributeName="opacity"
-                  values="0;0.8;0"
-                  dur={`${2 + i * 0.3}s`}
-                  repeatCount="indefinite"
-                />
-                <animateTransform
-                  attributeName="transform"
-                  type="translate"
-                  values={`0,0;0,-${3 + i};0,0`}
-                  dur={`${3 + i * 0.2}s`}
-                  repeatCount="indefinite"
-                />
-              </circle>
+            {[...Array(8)].map((_, i) => (
+              <g key={i}>
+                <circle
+                  cx={25 + (i * 8)}
+                  cy={15 + (i % 3) * 12}
+                  r="1.5"
+                  fill="#8B7CF6"
+                  opacity="0.7"
+                >
+                  <animate
+                    attributeName="opacity"
+                    values="0;1;0"
+                    dur={`${2 + i * 0.2}s`}
+                    begin={`${i * 0.3}s`}
+                    repeatCount="indefinite"
+                  />
+                  <animateTransform
+                    attributeName="transform"
+                    type="translate"
+                    values={`0,0;${Math.cos(i) * 8},${-8 - i};0,0`}
+                    dur={`${4 + i * 0.3}s`}
+                    repeatCount="indefinite"
+                  />
+                  <animate
+                    attributeName="r"
+                    values="1;2.5;1"
+                    dur={`${3 + i * 0.2}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+                
+                {/* Particle Trails */}
+                <path
+                  d={`M${25 + (i * 8)} ${15 + (i % 3) * 12} Q${25 + (i * 8) + 3} ${15 + (i % 3) * 12 - 4} ${25 + (i * 8)} ${15 + (i % 3) * 12 - 8}`}
+                  stroke="#A855F7"
+                  strokeWidth="0.8"
+                  fill="none"
+                  opacity="0.4"
+                >
+                  <animate
+                    attributeName="opacity"
+                    values="0;0.6;0"
+                    dur={`${3 + i * 0.2}s`}
+                    begin={`${i * 0.4}s`}
+                    repeatCount="indefinite"
+                  />
+                </path>
+              </g>
             ))}
+          </g>
+        )}
+
+        {/* Orbital Rings */}
+        {animated && (
+          <g>
+            <circle cx="50" cy="42" r="35" fill="none" stroke="url(#cubeTopGradient)" strokeWidth="0.8" opacity="0.2" strokeDasharray="4 8">
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                values="0 50 42;360 50 42"
+                dur="15s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="50" cy="42" r="28" fill="none" stroke="url(#cubeLeftGradient)" strokeWidth="0.6" opacity="0.3" strokeDasharray="2 6">
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                values="360 50 42;0 50 42"
+                dur="12s"
+                repeatCount="indefinite"
+              />
+            </circle>
           </g>
         )}
       </g>
       
-      {/* App Label */}
-      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#8B5CF6">OPPB</text>
+      {/* Enhanced App Label with Glow */}
+      <text x="0" y="42" textAnchor="middle" fontSize="12" fontWeight="700" fill="#8B5CF6" filter="url(#premiumGlow)">
+        OPPB
+        {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />}
+      </text>
     </g>
 
     {/* Connection Success Indicators */}
