@@ -1,95 +1,44 @@
-import { Home, Send, BarChart3, CreditCard, User } from "lucide-react";
-import { Link, useLocation } from "wouter";
-import { COLORS } from "@/lib/constants";
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+import { Home, User } from "lucide-react";
+import { ApplePayQRCodeSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
 
 interface BottomNavigationProps {
   activeTab: string;
 }
 
 export function BottomNavigation({ activeTab }: BottomNavigationProps) {
-  const [location] = useLocation();
-  
-  const tabs = [
-    {
-      id: "home",
-      name: "Home",
-      icon: Home,
-      route: "/dashboard",
-      emoji: "🏠"
-    },
-    {
-      id: "pay",
-      name: "Pay", 
-      icon: Send,
-      route: "/send-money",
-
-    },
-    {
-      id: "reports",
-      name: "Reports",
-      icon: BarChart3,
-      route: "/transaction-history",
-      emoji: "📊"
-    },
-    {
-      id: "cards",
-      name: "Cards",
-      icon: CreditCard,
-      route: "/cards",
-      emoji: "💳"
-    },
-    {
-      id: "profile",
-      name: "Profile",
-      icon: User,
-      route: "/profile",
-
-    }
+  const navItems = [
+    { icon: Home, appleIcon: null, label: "Home", href: "/", key: "home" },
+    { icon: ApplePayQRCodeSVG, appleIcon: ApplePayQRCodeSVG, label: "Scan", href: "/qr-scanner", key: "scan" },
+    { icon: ApplePaySendMoneySVG, appleIcon: ApplePaySendMoneySVG, label: "Send", href: "/send-money", key: "send" },
+    { icon: ApplePayContactlessSVG, appleIcon: ApplePayContactlessSVG, label: "Offline", href: "/offline-payments", key: "offline" },
+    { icon: User, appleIcon: ApplePayBiometricSVG, label: "Profile", href: "/profile", key: "profile" }
   ];
 
-  const isActive = (route: string) => {
-    if (route === "/dashboard") {
-      return location === "/" || location === "/dashboard";
-    }
-    return location === route;
-  };
-
   return (
-    <div 
-      className="fixed bottom-0 left-0 right-0 border-t bg-white"
-      style={{ borderColor: COLORS.border }}
-    >
-      <div className="flex items-center justify-around py-2 px-4">
-        {tabs.map((tab) => {
-          const active = isActive(tab.route);
+    <div className="fixed bottom-0 left-0 right-0 apple-pay-glass border-t border-white/20 px-6 py-3 z-50">
+      <div className="flex justify-around items-center">
+        {navItems.map((item) => {
+          const IconComponent = item.appleIcon || item.icon;
+          const isActive = activeTab === item.key;
           
           return (
-            <Link key={tab.id} href={tab.route}>
-              <div className="flex flex-col items-center space-y-1 p-2 min-w-[64px]">
-                <div className="relative">
-                  {/* Exact PhonePe/GPay style icons */}
-                  <div 
-                    className={`w-6 h-6 flex items-center justify-center transition-colors ${
-                      active ? 'text-purple-600' : 'text-gray-400'
-                    }`}
-                  >
-                    <tab.icon className="h-6 w-6" />
-                  </div>
-                  
-                  {/* Active indicator dot */}
-                  {active && (
-                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-purple-600 rounded-full"></div>
-                  )}
-                </div>
-                
-                <span 
-                  className={`text-xs font-medium transition-colors ${
-                    active ? 'text-purple-600' : 'text-gray-500'
-                  }`}
-                >
-                  {tab.name}
+            <Link key={item.key} href={item.href}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={`flex flex-col items-center space-y-1 h-16 w-16 rounded-2xl transition-all duration-300 ${
+                  isActive 
+                    ? 'apple-pay-gradient text-white shadow-2xl scale-110' 
+                    : 'text-gray-400 hover:text-white apple-pay-button'
+                }`}
+              >
+                <IconComponent className={`h-6 w-6 ${isActive ? 'text-white drop-shadow-sm' : ''}`} />
+                <span className={`text-xs font-medium ${isActive ? 'text-white drop-shadow-sm' : ''}`}>
+                  {item.label}
                 </span>
-              </div>
+              </Button>
             </Link>
           );
         })}

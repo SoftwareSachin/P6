@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Camera, Image, Flashlight, QrCode, MapPin, Star, Shield, Smartphone, Store, Lock } from "lucide-react";
 import { COLORS } from "@/lib/constants";
 import { Link } from "wouter";
+import { ApplePayQRCodeSVG, ApplePayNFCSVG, ApplePayContactlessSVG, ApplePaySecuritySVG, ApplePayMerchantSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
+import { BottomNavigation } from "@/components/BottomNavigation";
 
 export default function QRScanner() {
   const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'payment'>('scanning');
@@ -28,7 +30,6 @@ export default function QRScanner() {
 
   useEffect(() => {
     if (scanningStage === 'scanning') {
-      // Simulate QR detection after 3 seconds
       const timer = setTimeout(() => {
         setScanningStage('detected');
       }, 3000);
@@ -36,282 +37,237 @@ export default function QRScanner() {
     }
   }, [scanningStage]);
 
-  const handleAmountSelect = (value: number) => {
-    setAmount(value.toString());
-    setSelectedQuickAmount(value);
+  const handleQuickAmount = (amount: number) => {
+    setAmount(amount.toString());
+    setSelectedQuickAmount(amount);
   };
 
   const handlePayment = () => {
-    if (!amount || parseFloat(amount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
-    
-    alert(`Payment of ₹${amount} to ${detectedMerchant.name} successful!`);
-    setScanningStage('scanning');
-    setAmount("");
-    setNote("");
-    setSelectedQuickAmount(null);
+    setScanningStage('payment');
   };
 
-  // Scanning Interface
-  if (scanningStage === 'scanning') {
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: COLORS.background }}>
-        {/* Header */}
-        <div className="flex items-center justify-between p-4" style={{ backgroundColor: COLORS.cardWhite }}>
-          <Link href="/dashboard">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </Link>
-          <h1 className="text-lg font-semibold" style={{ color: COLORS.textPrimary }}>
-            Scan QR Code
-          </h1>
-          <div className="flex space-x-2">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => setFlashEnabled(!flashEnabled)}
-            >
-              <Flashlight className={`h-5 w-5 ${flashEnabled ? 'text-yellow-500' : 'text-gray-500'}`} />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Camera className="h-5 w-5" />
-            </Button>
-          </div>
+  return (
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Apple Pay Style Header */}
+      <div className="flex items-center justify-between p-6 z-10 relative backdrop-blur-xl bg-black/50">
+        <Link href="/">
+          <Button variant="ghost" size="icon" className="apple-pay-button h-12 w-12 rounded-full">
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
+        </Link>
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-white">Scan to Pay</h1>
+          <p className="text-gray-400 text-sm">Position QR code in the frame</p>
         </div>
-
-        {/* Premium Camera Viewfinder - Material Design 3.0 */}
-        <div className="flex-1 relative bg-gradient-to-br from-gray-900 via-black to-gray-800">
-          {/* Premium Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500 rounded-full blur-3xl animate-float"></div>
-            <div className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-blue-500 rounded-full blur-2xl animate-pulse-slow"></div>
-          </div>
-          
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Premium Scanning Frame with Enhanced Design */}
-            <div className="relative w-72 h-72 animate-scale-in">
-              {/* Enhanced Corner Brackets with Gradient */}
-              <div className="absolute top-0 left-0 w-12 h-12">
-                <div className="w-full h-1 bg-gradient-to-r from-white to-purple-400 rounded-full"></div>
-                <div className="w-1 h-full bg-gradient-to-b from-white to-purple-400 rounded-full"></div>
-              </div>
-              <div className="absolute top-0 right-0 w-12 h-12">
-                <div className="w-full h-1 bg-gradient-to-l from-white to-blue-400 rounded-full"></div>
-                <div className="w-1 h-full bg-gradient-to-b from-white to-blue-400 rounded-full ml-auto"></div>
-              </div>
-              <div className="absolute bottom-0 left-0 w-12 h-12">
-                <div className="w-1 h-full bg-gradient-to-t from-white to-purple-400 rounded-full mb-auto"></div>
-                <div className="w-full h-1 bg-gradient-to-r from-white to-purple-400 rounded-full"></div>
-              </div>
-              <div className="absolute bottom-0 right-0 w-12 h-12">
-                <div className="w-1 h-full bg-gradient-to-t from-white to-blue-400 rounded-full ml-auto mb-auto"></div>
-                <div className="w-full h-1 bg-gradient-to-l from-white to-blue-400 rounded-full"></div>
-              </div>
-              
-              {/* Premium Animated Scanning Line */}
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-scan-premium shadow-lg shadow-green-400/50"></div>
-              </div>
-              
-              {/* Center Focus Point */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-white rounded-full animate-pulse-glow"></div>
-              </div>
-              
-              {/* Focus Animation */}
-              <div className="absolute inset-0 border-2 border-green-400 animate-pulse rounded-lg"></div>
-              
-              {/* QR Focus Icon */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white/20 rounded-lg p-4">
-                  <QrCode className="h-12 w-12 text-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Scanning Text */}
-          <div className="absolute bottom-32 left-0 right-0 text-center">
-            <div className="flex items-center justify-center space-x-2 text-white text-lg font-medium mb-2">
-              <Smartphone className="h-5 w-5" />
-              <span>QR FOCUS</span>
-            </div>
-            <p className="text-white/80">
-              Scan merchant QR to pay
-            </p>
-          </div>
-        </div>
-
-        {/* Bottom Actions */}
-        <div className="p-4 space-y-4" style={{ backgroundColor: COLORS.cardWhite }}>
-          <div className="flex justify-center space-x-6">
-            <Button variant="outline" className="flex flex-col items-center space-y-1 p-4 h-auto">
-              <Image className="h-6 w-6" />
-              <span className="text-xs">Gallery</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              className="flex flex-col items-center space-y-1 p-4 h-auto"
-              onClick={() => setFlashEnabled(!flashEnabled)}
-            >
-              <Flashlight className={`h-6 w-6 ${flashEnabled ? 'text-yellow-500' : ''}`} />
-              <span className="text-xs">Flash</span>
-            </Button>
-            <Button variant="outline" className="flex flex-col items-center space-y-1 p-4 h-auto">
-              <QrCode className="h-6 w-6" />
-              <span className="text-xs">My QR</span>
-            </Button>
-          </div>
-        </div>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className={`apple-pay-button h-12 w-12 rounded-full ${flashEnabled ? 'bg-yellow-500/20' : ''}`}
+          onClick={() => setFlashEnabled(!flashEnabled)}
+        >
+          <Flashlight className={`h-6 w-6 ${flashEnabled ? 'text-yellow-400' : 'text-white'}`} />
+        </Button>
       </div>
-    );
-  }
 
-  // QR Detection Result
-  if (scanningStage === 'detected') {
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: COLORS.background }}>
-        {/* Header */}
-        <div className="flex items-center justify-between p-4" style={{ backgroundColor: COLORS.cardWhite }}>
-          <Button variant="ghost" size="icon" onClick={() => setScanningStage('scanning')}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <h1 className="text-lg font-semibold" style={{ color: COLORS.textPrimary }}>
-            Pay to Merchant
-          </h1>
-          <Button variant="ghost" size="icon" onClick={() => setScanningStage('scanning')}>
-            <span className="text-xl">✖</span>
-          </Button>
+      {/* Scanning Stage */}
+      {scanningStage === 'scanning' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          {/* Apple Pay Style Scanner Frame */}
+          <div className="relative w-80 h-80 mb-8">
+            <div className="absolute inset-0 border-4 border-white/30 rounded-3xl overflow-hidden backdrop-blur-xl bg-white/5">
+              {/* Animated scanning line */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <ApplePayQRCodeSVG className="w-20 h-20 text-white/60 animate-pulse" />
+              </div>
+            </div>
+            
+            {/* Corner markers */}
+            <div className="absolute top-2 left-2 w-8 h-8 border-l-4 border-t-4 border-blue-500 rounded-tl-lg"></div>
+            <div className="absolute top-2 right-2 w-8 h-8 border-r-4 border-t-4 border-blue-500 rounded-tr-lg"></div>
+            <div className="absolute bottom-2 left-2 w-8 h-8 border-l-4 border-b-4 border-blue-500 rounded-bl-lg"></div>
+            <div className="absolute bottom-2 right-2 w-8 h-8 border-r-4 border-b-4 border-blue-500 rounded-br-lg"></div>
+          </div>
+
+          <div className="text-center space-y-4 max-w-md">
+            <h2 className="text-2xl font-bold text-white">Scanning for QR Code</h2>
+            <p className="text-gray-400">Point your camera at a QR code to make a payment</p>
+            
+            {/* Scanning animation */}
+            <div className="flex justify-center space-x-2 mt-6">
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
+          </div>
+
+          {/* Quick access buttons */}
+          <div className="grid grid-cols-2 gap-4 mt-12 w-full max-w-sm">
+            <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
+              <Image className="h-6 w-6" />
+              <span className="text-sm">From Gallery</span>
+            </Button>
+            <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
+              <ApplePayContactlessSVG className="h-6 w-6" />
+              <span className="text-sm">NFC Payment</span>
+            </Button>
+          </div>
         </div>
+      )}
 
-        <div className="p-4 space-y-6">
-          {/* Merchant Card - Exact Specification */}
-          <Card className="border-0 shadow-lg">
+      {/* QR Code Detected Stage */}
+      {scanningStage === 'detected' && (
+        <div className="flex-1 px-6 py-8">
+          {/* Merchant Information Card - Apple Pay Style */}
+          <Card className="apple-pay-card mb-6 border-0">
             <CardContent className="p-6">
-              <div className="flex items-start space-x-4">
-                <div 
-                  className="w-16 h-16 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center"
-                >
-                  <Store className="h-6 w-6 text-white" />
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 rounded-full apple-pay-gradient flex items-center justify-center">
+                  <ApplePayMerchantSVG className="w-8 h-8 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <h2 className="text-xl font-bold" style={{ color: COLORS.textPrimary }}>
-                      {detectedMerchant.name}
-                    </h2>
-                    {detectedMerchant.verified && (
-                      <Shield className="h-5 w-5 text-green-500" />
-                    )}
-                  </div>
-                  <p className="text-sm" style={{ color: COLORS.textSecondary }}>
-                    UPI: {detectedMerchant.upiId}
-                  </p>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <MapPin className="h-4 w-4" style={{ color: COLORS.textSecondary }} />
-                    <p className="text-sm" style={{ color: COLORS.textSecondary }}>
-                      {detectedMerchant.location}
-                    </p>
-                  </div>
+                  <h3 className="text-xl font-bold text-white">{detectedMerchant.name}</h3>
+                  <p className="text-gray-400 text-sm">{detectedMerchant.upiId}</p>
                   <div className="flex items-center space-x-2 mt-1">
-                    <div className="flex items-center">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm font-medium ml-1">
-                        {detectedMerchant.rating}
-                      </span>
-                    </div>
-                    <span className="text-sm" style={{ color: COLORS.textSecondary }}>
-                      ({detectedMerchant.reviews} reviews)
-                    </span>
+                    <ApplePayLocationSVG className="w-4 h-4 text-gray-400" />
+                    <p className="text-gray-400 text-xs">{detectedMerchant.location}</p>
                   </div>
+                </div>
+                {detectedMerchant.verified && (
+                  <div className="flex items-center space-x-1 bg-green-500/20 px-3 py-1 rounded-full">
+                    <ApplePaySecuritySVG className="w-4 h-4 text-green-400" />
+                    <span className="text-green-400 text-xs font-medium">Verified</span>
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-1">
+                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                  <span className="text-white font-medium">{detectedMerchant.rating}</span>
+                </div>
+                <span className="text-gray-400 text-sm">({detectedMerchant.reviews} reviews)</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Amount Input Section */}
+          <Card className="apple-pay-card mb-6 border-0">
+            <CardContent className="p-6">
+              <h4 className="text-lg font-semibold text-white mb-4">Enter Amount</h4>
+              
+              {/* Quick Amount Buttons */}
+              <div className="grid grid-cols-4 gap-3 mb-4">
+                {quickAmounts.map((quickAmount) => (
+                  <Button
+                    key={quickAmount}
+                    variant={selectedQuickAmount === quickAmount ? "default" : "outline"}
+                    className={`h-12 rounded-xl ${selectedQuickAmount === quickAmount ? 'apple-pay-gradient text-white' : 'apple-pay-glass text-white border-white/20'}`}
+                    onClick={() => handleQuickAmount(quickAmount)}
+                  >
+                    ₹{quickAmount}
+                  </Button>
+                ))}
+              </div>
+
+              {/* Custom Amount Input */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Amount (₹)</label>
+                  <Input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="Enter custom amount"
+                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl h-14 text-lg"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Note (Optional)</label>
+                  <Textarea
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    placeholder="Add a payment note..."
+                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl min-h-[60px] resize-none"
+                  />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Amount Entry */}
-          <Card className="border-0 shadow-lg">
-            <CardContent className="p-6">
-              <label className="block text-sm font-medium mb-3" style={{ color: COLORS.textPrimary }}>
-                Enter Amount
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-2xl font-bold">
-                  ₹
-                </span>
-                <Input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="0"
-                  className="text-2xl font-bold pl-10 h-16 border-2 focus:border-purple-500"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Amount Selection */}
-          <div>
-            <h3 className="text-sm font-medium mb-3" style={{ color: COLORS.textPrimary }}>
-              Quick amounts:
-            </h3>
-            <div className="grid grid-cols-4 gap-3">
-              {quickAmounts.map((value) => (
-                <Button
-                  key={value}
-                  variant={selectedQuickAmount === value ? "default" : "outline"}
-                  onClick={() => handleAmountSelect(value)}
-                  className="h-12"
-                  style={selectedQuickAmount === value ? { backgroundColor: COLORS.primary } : {}}
-                >
-                  ₹{value}
-                </Button>
-              ))}
-            </div>
+          {/* Action Buttons */}
+          <div className="space-y-4">
+            <Button 
+              onClick={handlePayment}
+              disabled={!amount || parseFloat(amount) <= 0}
+              className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg disabled:opacity-50"
+            >
+              Pay ₹{amount || "0"}
+            </Button>
+            
+            <Button 
+              variant="outline"
+              onClick={() => setScanningStage('scanning')}
+              className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+            >
+              Scan Again
+            </Button>
           </div>
+        </div>
+      )}
 
-          {/* Note Field */}
-          <Card className="border-0 shadow-lg">
-            <CardContent className="p-6">
-              <label className="block text-sm font-medium mb-3" style={{ color: COLORS.textPrimary }}>
-                Add Note (Optional)
-              </label>
-              <Textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="For groceries..."
-                className="border-2 focus:border-purple-500"
-                rows={2}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Payment Button */}
-          <Button 
-            onClick={handlePayment}
-            disabled={!amount || parseFloat(amount) <= 0}
-            className="w-full h-14 text-lg font-semibold"
-            style={{ backgroundColor: COLORS.primary }}
-          >
-            <div className="flex items-center justify-center space-x-2">
-              <span>Pay ₹{amount || '0'}</span>
-              <Lock className="h-4 w-4" />
+      {/* Payment Processing Stage */}
+      {scanningStage === 'payment' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="text-center space-y-6">
+            {/* Success Animation */}
+            <div className="w-32 h-32 mx-auto mb-8 rounded-full apple-pay-gradient flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center">
+                <ApplePayContactlessSVG className="w-12 h-12 text-white animate-pulse" />
+              </div>
             </div>
-          </Button>
+            
+            <h2 className="text-3xl font-bold text-white">Payment Successful!</h2>
+            <p className="text-gray-400 text-lg">₹{amount} paid to {detectedMerchant.name}</p>
+            
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 max-w-sm mx-auto">
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Transaction ID:</span>
+                  <span className="text-white font-mono">TXN123456789</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Date & Time:</span>
+                  <span className="text-white">{new Date().toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Payment Method:</span>
+                  <span className="text-white">OPPB Wallet</span>
+                </div>
+              </div>
+            </div>
 
-          {/* Security Badge */}
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 text-sm" style={{ color: COLORS.textSecondary }}>
-              <Lock className="h-4 w-4" />
-              <span>Secured by OPPB</span>
+            <div className="space-y-4 mt-8">
+              <Link href="/">
+                <Button className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg">
+                  Done
+                </Button>
+              </Link>
+              
+              <Button 
+                variant="outline"
+                onClick={() => setScanningStage('scanning')}
+                className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+              >
+                Scan Another QR
+              </Button>
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
+      )}
 
-  return null;
+      <BottomNavigation activeTab="scan" />
+    </div>
+  );
 }

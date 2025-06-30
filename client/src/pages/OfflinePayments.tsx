@@ -1,428 +1,399 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Wifi, WifiOff, Bluetooth, RefreshCw, QrCode, Edit3, Star, Store, Smartphone, Coffee, Search, Link as LinkIcon, AlertCircle, DollarSign } from "lucide-react";
-import { COLORS } from "@/lib/constants";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Wifi, WifiOff, Bluetooth, Users, MapPin, Signal } from "lucide-react";
 import { Link } from "wouter";
+import { ApplePayContactlessSVG, ApplePayNFCSVG, ApplePaySecuritySVG, ApplePayPhoneSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
+import { BottomNavigation } from "@/components/BottomNavigation";
 
 export default function OfflinePayments() {
-  const [isOffline, setIsOffline] = useState(true);
-  const [step, setStep] = useState<'detection' | 'scanning' | 'transaction'>('detection');
-  const [selectedDevice, setSelectedDevice] = useState<any>(null);
-  const [amount, setAmount] = useState("");
-  const [note, setNote] = useState("");
+  const [isBluetoothEnabled, setIsBluetoothEnabled] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [nearbyDevices, setNearbyDevices] = useState<any[]>([]);
+  const [selectedDevice, setSelectedDevice] = useState<any>(null);
+  const [paymentStage, setPaymentStage] = useState<'discovery' | 'connect' | 'payment' | 'success'>('discovery');
 
-  // Premium icon renderer for device types
-  const renderDeviceIcon = (iconType: string) => {
-    switch (iconType) {
-      case 'store':
-        return <Store className="h-6 w-6 text-white" />;
-      case 'smartphone':
-        return <Smartphone className="h-6 w-6 text-white" />;
-      case 'coffee':
-        return <Coffee className="h-6 w-6 text-white" />;
-      default:
-        return <DollarSign className="h-6 w-6 text-white" />;
-    }
-  };
-
-  // Mock nearby devices for offline payments
-  const nearbyDevices = [
+  const mockNearbyDevices = [
     {
       id: 1,
-      name: "Ramesh Store",
-      type: "Verified Merchant", 
-      distance: "10m",
-      icon: "store",
-      trustScore: 5,
-      status: "available",
+      name: "Rohit's iPhone",
+      type: "iOS",
+      distance: "2m",
+      signal: 85,
+      lastSeen: "Just now",
+      verified: true,
+      upiId: "rohit@paytm"
     },
     {
       id: 2,
-      name: "Priya's Phone",
-      type: "OPPB User",
+      name: "Priya Samsung",
+      type: "Android",
       distance: "5m",
-      icon: "smartphone",
-      trustScore: 4,
-      status: "available",
+      signal: 72,
+      lastSeen: "30s ago",
+      verified: true,
+      upiId: "priya@gpay"
     },
     {
       id: 3,
-      name: "Coffee Corner",
-      type: "New Merchant",
-      distance: "15m",
-      icon: "coffee",
-      trustScore: 3,
-      status: "connecting",
-    },
+      name: "Store Terminal",
+      type: "POS",
+      distance: "1m",
+      signal: 95,
+      lastSeen: "Just now",
+      verified: true,
+      upiId: "merchant@store"
+    }
   ];
 
   useEffect(() => {
-    if (step === 'scanning') {
+    if (isScanning) {
       const timer = setTimeout(() => {
-        setIsScanning(false);
-      }, 3000);
+        setNearbyDevices(mockNearbyDevices);
+      }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [step]);
+  }, [isScanning]);
 
-  const handleEnableOffline = () => {
-    setStep('scanning');
-    setIsScanning(true);
+  const handleBluetoothToggle = () => {
+    setIsBluetoothEnabled(!isBluetoothEnabled);
+    if (!isBluetoothEnabled) {
+      setIsScanning(true);
+    } else {
+      setIsScanning(false);
+      setNearbyDevices([]);
+    }
   };
 
   const handleDeviceSelect = (device: any) => {
     setSelectedDevice(device);
-    setStep('transaction');
+    setPaymentStage('connect');
   };
 
-  const handleOfflinePayment = () => {
-    if (!amount || parseFloat(amount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
-    
-    alert(`Offline payment of ₹${amount} to ${selectedDevice?.name} queued for sync!`);
+  const handlePayment = () => {
+    setPaymentStage('payment');
+    setTimeout(() => {
+      setPaymentStage('success');
+    }, 3000);
   };
 
-  if (step === 'detection') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50">
-        {/* Premium Header with Glass Effect */}
-        <div className="glass-effect-premium backdrop-blur-xl border-b border-white/20 p-4">
-          <div className="flex items-center justify-between">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="icon" className="hover:bg-white/20 rounded-xl">
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-            </Link>
-            <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Offline Payments
-            </h1>
-            <Button variant="ghost" size="icon" className="animate-pulse-glow">
-              <WifiOff className="h-5 w-5" style={{ color: COLORS.offline }} />
-            </Button>
-          </div>
-        </div>
-
-        {/* Premium Network Status Card */}
-        <div className="p-4">
-          <Card className="border-0 shadow-card overflow-hidden">
-            <CardContent className="p-8 text-center bg-gradient-card">
-              <div className="w-24 h-24 rounded-3xl mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-orange-500 to-red-500 animate-pulse-glow">
-                <WifiOff className="h-12 w-12 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold mb-3" style={{ color: COLORS.textPrimary }}>
-                Network Unavailable
-              </h2>
-              <p className="text-base" style={{ color: COLORS.textSecondary }}>
-                Don't worry! You can still make payments offline
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Premium Offline Mode Card */}
-        <div className="p-4">
-          <Card className="border-0 shadow-premium overflow-hidden balance-card-premium">
-            <CardContent className="p-8 text-white relative">
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-16 translate-x-16 animate-float"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/40 rounded-full translate-y-12 -translate-x-12"></div>
-              </div>
-              
-              <div className="relative z-10 text-center">
-                <div className="w-20 h-20 bg-white/20 rounded-3xl mx-auto mb-6 flex items-center justify-center backdrop-blur-sm">
-                  <Bluetooth className="h-10 w-10 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Enable Offline Mode</h3>
-                <p className="text-white/80 text-base mb-8 leading-relaxed">
-                  Use OPPB's revolutionary peer-to-peer technology to make payments without internet connection
-                </p>
-                <Button 
-                  onClick={handleEnableOffline}
-                  className="btn-primary-premium w-full h-14 text-lg font-bold bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm"
-                >
-                  <Bluetooth className="h-5 w-5 mr-3" />
-                  Start Scanning for Devices
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Premium How it Works Section */}
-        <div className="p-4">
-          <h3 className="text-xl font-bold mb-6" style={{ color: COLORS.textPrimary }}>
-            How Offline Payments Work
-          </h3>
-          <div className="space-y-4">
-            <div className="transaction-item-premium">
-              <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-primary shadow-card">
-                  <Bluetooth className="h-7 w-7 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg" style={{ color: COLORS.textPrimary }}>
-                    Connect via Bluetooth
-                  </h4>
-                  <p className="text-base" style={{ color: COLORS.textSecondary }}>
-                    Find nearby OPPB devices automatically using secure mesh networking
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="transaction-item-premium">
-              <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-success shadow-card">
-                  <DollarSign className="h-7 w-7 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg" style={{ color: COLORS.textPrimary }}>
-                    Secure Transaction Exchange
-                  </h4>
-                  <p className="text-base" style={{ color: COLORS.textSecondary }}>
-                    Encrypted payment data transfer with digital signatures
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="transaction-item-premium">
-              <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-orange-400 to-yellow-500 shadow-card">
-                  <RefreshCw className="h-7 w-7 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg" style={{ color: COLORS.textPrimary }}>
-                    Auto-sync When Online
-                  </h4>
-                  <p className="text-base" style={{ color: COLORS.textSecondary }}>
-                    Transactions automatically process when network returns
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Premium Action Buttons */}
-        <div className="p-4 space-y-4">
-          <Button 
-            onClick={handleEnableOffline}
-            className="btn-primary-premium w-full h-14 text-lg font-bold bg-gradient-primary"
-          >
-            <Bluetooth className="h-5 w-5 mr-3" />
-            Continue Offline
-          </Button>
-          <Button variant="outline" className="w-full h-14 text-lg font-semibold border-2 hover:bg-gray-50">
-            <RefreshCw className="h-5 w-5 mr-3" />
-            Retry Connection
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (step === 'scanning') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50">
-        {/* Premium Header */}
-        <div className="glass-effect-premium backdrop-blur-xl border-b border-white/20 p-4">
-          <div className="flex items-center justify-between">
-            <Button variant="ghost" size="icon" onClick={() => setStep('detection')} className="hover:bg-white/20 rounded-xl">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Scanning for Devices
-            </h1>
-            <Button variant="ghost" size="icon" className="animate-pulse-glow">
-              <Bluetooth className="h-5 w-5" style={{ color: COLORS.primary }} />
-            </Button>
-          </div>
-        </div>
-
-        {/* Premium Scanning Animation */}
-        <div className="p-4">
-          <Card className="border-0 shadow-premium overflow-hidden">
-            <CardContent className="p-8 text-center bg-gradient-card">
-              <div className="relative w-32 h-32 mx-auto mb-6">
-                <div className="absolute inset-0 border-4 border-blue-200 rounded-full animate-ping"></div>
-                <div className="absolute inset-2 border-4 border-blue-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-                <div className="w-24 h-24 rounded-full mx-auto flex items-center justify-center bg-gradient-primary animate-pulse-glow">
-                  <Bluetooth className="h-12 w-12 text-white" />
-                </div>
-              </div>
-              <h2 className="text-2xl font-bold mb-3" style={{ color: COLORS.textPrimary }}>
-                Scanning for nearby devices...
-              </h2>
-              <p className="text-base" style={{ color: COLORS.textSecondary }}>
-                Make sure Bluetooth is enabled on both devices
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Premium Nearby Devices List */}
-        <div className="p-4">
-          <h3 className="text-xl font-bold mb-6" style={{ color: COLORS.textPrimary }}>
-            Available Devices
-          </h3>
-          <div className="space-y-3">
-            {nearbyDevices.map((device, index) => (
-              <div 
-                key={device.id} 
-                className="transaction-item-premium cursor-pointer animate-slide-up-premium"
-                style={{ animationDelay: `${index * 0.2}s` }}
-                onClick={() => handleDeviceSelect(device)}
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="relative">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-primary shadow-card">
-                      {renderDeviceIcon(device.icon)}
-                    </div>
-                    <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center ${
-                      device.status === 'available' ? 'bg-green-500' : 'bg-yellow-500'
-                    }`}>
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-bold text-lg" style={{ color: COLORS.textPrimary }}>
-                          {device.name}
-                        </h3>
-                        <p className="text-base font-medium" style={{ color: COLORS.textSecondary }}>
-                          {device.type} • {device.distance}
-                        </p>
-                        <div className="flex items-center space-x-1 mt-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              className={`h-4 w-4 ${i < device.trustScore ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                            />
-                          ))}
-                          <span className="text-sm font-medium ml-2" style={{ color: COLORS.textSecondary }}>
-                            Trust Score
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <div className={`px-3 py-1 rounded-full text-sm font-bold ${
-                          device.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {device.status === 'available' ? 'Available' : 'Connecting...'}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Transaction Step
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50">
-      {/* Premium Header */}
-      <div className="glass-effect-premium backdrop-blur-xl border-b border-white/20 p-4">
-        <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={() => setStep('scanning')} className="hover:bg-white/20 rounded-xl">
-            <ArrowLeft className="h-5 w-5" />
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Apple Pay Style Header */}
+      <div className="flex items-center justify-between p-6 backdrop-blur-xl bg-black/50 relative z-10">
+        <Link href="/">
+          <Button variant="ghost" size="icon" className="apple-pay-button h-12 w-12 rounded-full">
+            <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Offline Payment
-          </h1>
-          <Button variant="ghost" size="icon" className="animate-pulse-glow">
-            <WifiOff className="h-5 w-5" style={{ color: COLORS.offline }} />
-          </Button>
+        </Link>
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-white">Offline Payments</h1>
+          <p className="text-gray-400 text-sm">Pay without internet connection</p>
+        </div>
+        <div className="w-12 h-12 flex items-center justify-center">
+          <WifiOff className="w-6 h-6 text-gray-400" />
         </div>
       </div>
 
-      {/* Premium Merchant Details */}
-      {selectedDevice && (
-        <div className="p-4">
-          <Card className="border-0 shadow-premium overflow-hidden">
-            <CardContent className="p-6 bg-gradient-card">
-              <div className="flex items-center space-x-4 mb-6">
-                <div className="w-20 h-20 rounded-3xl flex items-center justify-center bg-gradient-primary shadow-card">
-                  {renderDeviceIcon(selectedDevice.icon)}
+      {/* Connection Status Card */}
+      <div className="px-6 mb-6">
+        <Card className="apple-pay-card border-0">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isBluetoothEnabled ? 'apple-pay-gradient' : 'bg-gray-700'}`}>
+                  <Bluetooth className={`w-6 h-6 ${isBluetoothEnabled ? 'text-white' : 'text-gray-400'}`} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold" style={{ color: COLORS.textPrimary }}>
-                    {selectedDevice.name}
-                  </h2>
-                  <p className="text-lg" style={{ color: COLORS.textSecondary }}>
-                    {selectedDevice.type}
+                  <h3 className="text-lg font-semibold text-white">Bluetooth Status</h3>
+                  <p className={`text-sm ${isBluetoothEnabled ? 'text-green-400' : 'text-gray-400'}`}>
+                    {isBluetoothEnabled ? 'Connected & Discoverable' : 'Disabled'}
                   </p>
-                  <div className="flex items-center space-x-1 mt-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`h-5 w-5 ${i < selectedDevice.trustScore ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                      />
-                    ))}
-                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Premium Amount Input */}
-      <div className="p-4">
-        <Card className="border-0 shadow-card">
-          <CardContent className="p-6 bg-gradient-card">
-            <h3 className="text-xl font-bold mb-6" style={{ color: COLORS.textPrimary }}>
-              Enter Amount
-            </h3>
+              <Button
+                onClick={handleBluetoothToggle}
+                className={`h-12 px-6 rounded-xl ${isBluetoothEnabled ? 'apple-pay-gradient' : 'apple-pay-glass border-white/20'}`}
+              >
+                {isBluetoothEnabled ? 'Disable' : 'Enable'}
+              </Button>
+            </div>
             
-            <div className="mb-6">
-              <Input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="₹ 0.00"
-                className="text-3xl font-bold text-center h-16 border-2 rounded-2xl"
-                style={{ fontSize: '2rem' }}
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-base font-semibold mb-3" style={{ color: COLORS.textPrimary }}>
-                Add a note (optional)
-              </label>
-              <Textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="What's this payment for?"
-                className="h-24 border-2 rounded-2xl text-base"
-              />
-            </div>
-
-            <Button 
-              onClick={handleOfflinePayment}
-              className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary"
-              disabled={!amount || parseFloat(amount) <= 0}
-            >
-              <DollarSign className="h-6 w-6 mr-3" />
-              Pay ₹{amount || '0'} Offline
-            </Button>
+            {isBluetoothEnabled && (
+              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                <div className="text-center">
+                  <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <ApplePaySecuritySVG className="w-4 h-4 text-blue-400" />
+                  </div>
+                  <p className="text-xs text-gray-400">Encrypted</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <Signal className="w-4 h-4 text-green-400" />
+                  </div>
+                  <p className="text-xs text-gray-400">Strong Signal</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <ApplePayContactlessSVG className="w-4 h-4 text-purple-400" />
+                  </div>
+                  <p className="text-xs text-gray-400">Peer-to-Peer</p>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
+
+      {/* Device Discovery Stage */}
+      {paymentStage === 'discovery' && (
+        <div className="px-6">
+          {/* Scanning Status */}
+          {isBluetoothEnabled && (
+            <Card className="apple-pay-card border-0 mb-6">
+              <CardContent className="p-6 text-center">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full apple-pay-gradient flex items-center justify-center">
+                  <div className={`w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center ${isScanning ? 'animate-pulse' : ''}`}>
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  {isScanning ? 'Scanning for Devices...' : 'Ready to Scan'}
+                </h3>
+                <p className="text-gray-400 text-sm">
+                  {isScanning ? 'Looking for nearby payment-enabled devices' : 'Enable Bluetooth to find nearby devices'}
+                </p>
+                
+                {isScanning && (
+                  <div className="flex justify-center space-x-2 mt-6">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Nearby Devices */}
+          {nearbyDevices.length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                <ApplePayLocationSVG className="w-5 h-5 text-blue-400 mr-2" />
+                Nearby Devices ({nearbyDevices.length})
+              </h3>
+              <div className="space-y-3">
+                {nearbyDevices.map((device) => (
+                  <Card
+                    key={device.id}
+                    className="apple-pay-card border-0 cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                    onClick={() => handleDeviceSelect(device)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-full apple-pay-gradient flex items-center justify-center">
+                          {device.type === 'iOS' && <ApplePayPhoneSVG className="w-6 h-6 text-white" />}
+                          {device.type === 'Android' && <ApplePayContactlessSVG className="w-6 h-6 text-white" />}
+                          {device.type === 'POS' && <ApplePayNFCSVG className="w-6 h-6 text-white" />}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-semibold text-white">{device.name}</h4>
+                            {device.verified && (
+                              <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                                Verified
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-gray-400 text-sm">{device.upiId}</p>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <span className="text-gray-500 text-xs flex items-center">
+                              <MapPin className="w-3 h-3 mr-1" />
+                              {device.distance}
+                            </span>
+                            <span className="text-gray-500 text-xs flex items-center">
+                              <Signal className="w-3 h-3 mr-1" />
+                              {device.signal}%
+                            </span>
+                            <span className="text-gray-500 text-xs">{device.lastSeen}</span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className={`w-3 h-3 rounded-full ${device.signal > 80 ? 'bg-green-500' : device.signal > 60 ? 'bg-yellow-500' : 'bg-red-500'}`}></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* No Bluetooth or No Devices */}
+          {!isBluetoothEnabled && (
+            <div className="text-center py-12">
+              <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gray-800/50 flex items-center justify-center">
+                <Bluetooth className="w-12 h-12 text-gray-500" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Enable Bluetooth</h3>
+              <p className="text-gray-400 max-w-sm mx-auto">
+                Turn on Bluetooth to discover nearby devices and make offline payments
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Connection Stage */}
+      {paymentStage === 'connect' && selectedDevice && (
+        <div className="px-6">
+          <Card className="apple-pay-card border-0 mb-6">
+            <CardContent className="p-6">
+              <div className="text-center mb-6">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full apple-pay-gradient flex items-center justify-center">
+                  <ApplePayContactlessSVG className="w-10 h-10 text-white animate-pulse" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Connecting to {selectedDevice.name}</h3>
+                <p className="text-gray-400">Establishing secure connection...</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex justify-between items-center py-3 border-b border-white/10">
+                  <span className="text-gray-400">Device</span>
+                  <span className="text-white font-medium">{selectedDevice.name}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-white/10">
+                  <span className="text-gray-400">UPI ID</span>
+                  <span className="text-white">{selectedDevice.upiId}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-white/10">
+                  <span className="text-gray-400">Distance</span>
+                  <span className="text-white">{selectedDevice.distance}</span>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <span className="text-gray-400">Signal Strength</span>
+                  <span className="text-green-400 font-medium">{selectedDevice.signal}%</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="space-y-4">
+            <Button 
+              onClick={handlePayment}
+              className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg"
+            >
+              Start Payment
+            </Button>
+            
+            <Button 
+              variant="outline"
+              onClick={() => setPaymentStage('discovery')}
+              className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+            >
+              Choose Different Device
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Stage */}
+      {paymentStage === 'payment' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="text-center space-y-6">
+            <div className="w-32 h-32 mx-auto mb-8 rounded-full apple-pay-gradient flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center">
+                <ApplePayNFCSVG className="w-12 h-12 text-white animate-pulse" animated={true} />
+              </div>
+            </div>
+            
+            <h2 className="text-3xl font-bold text-white">Processing Payment</h2>
+            <p className="text-gray-400 text-lg">Securely transferring via Bluetooth</p>
+            
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 max-w-sm mx-auto">
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Method:</span>
+                  <span className="text-white">Offline P2P</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Security:</span>
+                  <span className="text-green-400">End-to-End Encrypted</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Status:</span>
+                  <span className="text-yellow-400">Processing...</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-center space-x-2 mt-6">
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Stage */}
+      {paymentStage === 'success' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="text-center space-y-6">
+            <div className="w-32 h-32 mx-auto mb-8 rounded-full apple-pay-gradient flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center">
+                <ApplePayContactlessSVG className="w-12 h-12 text-white" />
+              </div>
+            </div>
+            
+            <h2 className="text-3xl font-bold text-white">Offline Payment Successful!</h2>
+            <p className="text-gray-400 text-lg">Payment sent to {selectedDevice?.name}</p>
+            
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 max-w-sm mx-auto">
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Transaction ID:</span>
+                  <span className="text-white font-mono">OFF{Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Method:</span>
+                  <span className="text-white">Bluetooth P2P</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Status:</span>
+                  <span className="text-green-400 font-medium">Completed Offline</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Sync Status:</span>
+                  <span className="text-yellow-400">Will sync when online</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4 mt-8">
+              <Link href="/">
+                <Button className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg">
+                  Done
+                </Button>
+              </Link>
+              
+              <Button 
+                variant="outline"
+                onClick={() => {
+                  setPaymentStage('discovery');
+                  setSelectedDevice(null);
+                }}
+                className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+              >
+                Make Another Payment
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <BottomNavigation activeTab="offline" />
     </div>
   );
 }
