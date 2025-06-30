@@ -227,6 +227,162 @@
     background: var(--gradient-rose-gold);
   }
   
+  /* Apple Pay Premium Styling - Enhanced */
+  .apple-pay-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  .apple-pay-gradient {
+    background: linear-gradient(135deg, #007AFF 0%, #5856D6 30%, #AF52DE 70%, #FF2D92 100%);
+    position: relative;
+  }
+  
+  .apple-pay-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+    border-radius: inherit;
+  }
+  
+  .dark-mode-card {
+    background: rgba(18, 18, 20, 0.95);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.6),
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .tap-to-pay-pulse {
+    animation: apple-pay-pulse 3s infinite ease-in-out;
+    position: relative;
+  }
+  
+  .tap-to-pay-pulse::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(45deg, #007AFF, #5856D6, #AF52DE, #FF2D92);
+    border-radius: inherit;
+    z-index: -1;
+    animation: apple-pay-border-glow 3s infinite ease-in-out;
+  }
+  
+  @keyframes apple-pay-pulse {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 
+        0 0 20px rgba(0, 122, 255, 0.4),
+        0 0 40px rgba(88, 86, 214, 0.3),
+        0 0 60px rgba(175, 82, 222, 0.2);
+    }
+    50% { 
+      transform: scale(1.02);
+      box-shadow: 
+        0 0 30px rgba(0, 122, 255, 0.6),
+        0 0 60px rgba(88, 86, 214, 0.5),
+        0 0 90px rgba(175, 82, 222, 0.4);
+    }
+  }
+  
+  @keyframes apple-pay-border-glow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+  
+  .card-3d-stack {
+    transform-style: preserve-3d;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+    position: relative;
+  }
+  
+  .card-3d-stack::before {
+    content: '';
+    position: absolute;
+    inset: 4px 4px -4px 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: inherit;
+    z-index: -1;
+    transform: translateZ(-10px);
+    filter: blur(8px);
+  }
+  
+  .card-3d-stack:hover {
+    transform: perspective(1000px) rotateY(8deg) rotateX(3deg) translateZ(10px);
+    box-shadow: 
+      0 25px 50px rgba(0, 0, 0, 0.5),
+      0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .transaction-success {
+    border-left: 3px solid #30D158;
+    position: relative;
+  }
+  
+  .transaction-success::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #30D158 0%, #32D74B 100%);
+    box-shadow: 0 0 8px rgba(48, 209, 88, 0.5);
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Apple Pay Glass Morphism Effects */
+  .apple-pay-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 8px 32px rgba(31, 38, 135, 0.37),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Premium Button Styles */
+  .apple-pay-button {
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .apple-pay-button:hover {
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.2) 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 24px rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Enhanced Scroll Behavior */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .smooth-scroll > * {
+    scroll-snap-align: center;
+  }
+
   /* High-Contrast Premium Typography */
   .premium-text-contrast {
     color: hsl(var(--foreground));

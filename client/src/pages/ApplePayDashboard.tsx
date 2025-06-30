@@ -8,7 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
-import { OPPBLogoSVG, PremiumQRScannerSVG, PremiumSendMoneySVG, PremiumSplitBillSVG, PremiumRequestMoneySVG, PremiumRechargeSVG, PremiumOfflinePaySVG, PremiumInsuranceSVG, PremiumRewardsSVG, PremiumBellSVG, PremiumMenuSVG, PremiumShoppingCartSVG, PremiumUserSVG, PremiumPhoneSVG, PremiumDollarSVG, PremiumCreditCardSVG, PremiumSettingsSVG, PremiumHelpSVG, PremiumLogoutSVG } from "@/components/PremiumSVGs";
+import { ApplePayFaceIDSVG, ApplePayCreditCardSVG, ApplePayNFCSVG, ApplePayTapSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayQRCodeSVG, ApplePayPhoneSVG, ApplePayWalletSVG, ApplePayLocationSVG, ApplePayTimeSVG, ApplePaySuccessSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayCardStackSVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
+import { ApplePayQuickActions, ApplePayCardCarousel, ApplePayTransactionRow } from "@/components/ApplePayInterface";
+import { OPPBLogoSVG } from "@/components/PremiumSVGs";
 
 export default function ApplePayDashboard() {
   const [showBalance, setShowBalance] = useState(true);
@@ -76,17 +78,17 @@ export default function ApplePayDashboard() {
       id: 1,
       title: "Metro Pass",
       subtitle: "Valid until Dec 31",
-      icon: "🚇",
+      icon: ApplePayTransitSVG,
       active: true,
       context: "Morning commute detected"
     },
     {
       id: 2,
-      title: "Starbucks Rewards",
-      subtitle: "15 stars available",
-      icon: "☕",
+      title: "Merchant Rewards",
+      subtitle: "15 points available",
+      icon: ApplePayMerchantSVG,
       active: false,
-      context: "Near coffee shop"
+      context: "Near participating store"
     }
   ];
 
@@ -95,7 +97,7 @@ export default function ApplePayDashboard() {
     {
       id: 1,
       merchant: "Zomato",
-      icon: PremiumShoppingCartSVG,
+      icon: ApplePayMerchantSVG,
       amount: -285,
       status: "success",
       time: "Today, 2:30 PM",
@@ -107,7 +109,7 @@ export default function ApplePayDashboard() {
     {
       id: 2,
       merchant: "Rohit Kumar",
-      icon: PremiumUserSVG,
+      icon: ApplePaySendMoneySVG,
       amount: 500,
       status: "success",
       time: "Yesterday, 6:15 PM",
@@ -119,7 +121,7 @@ export default function ApplePayDashboard() {
     {
       id: 3,
       merchant: "BSES Delhi",
-      icon: PremiumRechargeSVG,
+      icon: ApplePayWalletSVG,
       amount: -1200,
       status: "pending",
       time: "Oct 28, 11:30 AM",
@@ -131,7 +133,7 @@ export default function ApplePayDashboard() {
     {
       id: 4,
       merchant: "Airtel Prepaid",
-      icon: PremiumPhoneSVG,
+      icon: ApplePayPhoneSVG,
       amount: -199,
       status: "success",
       time: "Oct 27, 3:45 PM",
@@ -190,7 +192,7 @@ export default function ApplePayDashboard() {
               size="icon" 
               className="relative h-12 w-12 rounded-full bg-gray-800/50 backdrop-blur-xl hover:bg-gray-700/50 transition-all duration-300"
             >
-              <PremiumBellSVG className="h-6 w-6 text-white" />
+              <ApplePaySecuritySVG className="h-6 w-6 text-white" />
               <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-xs text-white p-0 flex items-center justify-center font-bold">
                 2
               </Badge>
@@ -201,7 +203,7 @@ export default function ApplePayDashboard() {
               className="h-12 w-12 rounded-full bg-gray-800/50 backdrop-blur-xl hover:bg-gray-700/50 transition-all duration-300"
               onClick={() => setShowMenu(!showMenu)}
             >
-              <PremiumMenuSVG className="h-6 w-6 text-white" />
+              <MoreHorizontal className="h-6 w-6 text-white" />
             </Button>
           </div>
         </div>
@@ -256,30 +258,13 @@ export default function ApplePayDashboard() {
           </div>
         </div>
 
-        {/* Contextual Passcards & Smart Suggestions */}
+        {/* Apple Pay Style Quick Actions Grid */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-white mb-4">Smart Suggestions</h2>
-          <div className="space-y-3">
-            {smartPasses.map((pass) => (
-              <div key={pass.id} className={`p-4 rounded-2xl backdrop-blur-xl border border-gray-700/50 transition-all duration-300 ${
-                pass.active ? 'bg-blue-500/20 border-blue-500/50' : 'bg-gray-800/50'
-              }`}>
-                <div className="flex items-center space-x-4">
-                  <div className="text-2xl">{pass.icon}</div>
-                  <div className="flex-1">
-                    <p className="text-white font-semibold">{pass.title}</p>
-                    <p className="text-gray-400 text-sm">{pass.subtitle}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-gray-400">{pass.context}</p>
-                    {pass.active && (
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-1 ml-auto animate-pulse"></div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="px-6 mb-6">
+            <h3 className="text-white text-xl font-bold">Quick Actions</h3>
+            <p className="text-gray-400 text-sm mt-1">Tap to access your most-used features</p>
           </div>
+          <ApplePayQuickActions />
         </div>
       </div>
 
@@ -375,12 +360,12 @@ export default function ApplePayDashboard() {
 
               <div className="space-y-2">
                 {[
-                  { icon: PremiumUserSVG, label: "Profile & Settings", href: "/profile" },
-                  { icon: PremiumCreditCardSVG, label: "Payment Methods", href: "/cards" },
-                  { icon: PremiumInsuranceSVG, label: "Security & Privacy", href: "/security" },
-                  { icon: PremiumRewardsSVG, label: "Rewards & Offers", href: "/rewards" },
-                  { icon: PremiumHelpSVG, label: "Help & Support", href: "/help" },
-                  { icon: PremiumLogoutSVG, label: "Sign Out", href: "/logout" }
+                  { icon: ApplePayBiometricSVG, label: "Profile & Settings", href: "/profile" },
+                  { icon: ApplePayCreditCardSVG, label: "Payment Methods", href: "/cards" },
+                  { icon: ApplePaySecuritySVG, label: "Security & Privacy", href: "/security" },
+                  { icon: ApplePayWalletSVG, label: "Rewards & Offers", href: "/rewards" },
+                  { icon: ApplePayContactlessSVG, label: "Help & Support", href: "/help" },
+                  { icon: ApplePayFaceIDSVG, label: "Sign Out", href: "/logout" }
                 ].map((item, index) => {
                   const IconComponent = item.icon;
                   return (
