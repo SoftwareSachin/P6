@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wallet, Shield, Smartphone } from "lucide-react";
+import { Wallet, Shield, Smartphone, Zap, Globe, ArrowRight, Star, Check, Bluetooth, WifiOff, CreditCard } from "lucide-react";
 
 export default function Landing() {
   const [currentStep, setCurrentStep] = useState(0); // 0: splash, 1: welcome, 2: features, 3: auth
@@ -11,10 +11,10 @@ export default function Landing() {
   const [countryCode, setCountryCode] = useState("+91");
 
   useEffect(() => {
-    // Authentic splash screen timing like PhonePe/GPay
+    // Premium splash screen timing
     const timer = setTimeout(() => {
       setCurrentStep(1);
-    }, 2500);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,205 +26,308 @@ export default function Landing() {
     setCurrentStep(prev => prev + 1);
   };
 
-  // Splash Screen - Authentic PhonePe/GPay style
+  // Premium Splash Screen with Sophisticated Animations
   if (currentStep === 0) {
     return (
-      <div className="min-h-screen phonepe-gradient flex items-center justify-center relative overflow-hidden">
-        {/* Background animations */}
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
+        {/* Premium Background Effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-white/5 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-24 h-24 bg-white/5 rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-5 w-16 h-16 bg-white/5 rounded-full animate-pulse delay-500"></div>
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl animate-pulse-slow"></div>
+          <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
+          
+          {/* Animated Grid */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px] animate-pulse"></div>
+          </div>
         </div>
         
         <div className="text-center text-white relative z-10">
-          {/* Enhanced animated logo */}
-          <div className="relative mb-8">
-            <div className="w-32 h-32 mx-auto bg-white/20 rounded-3xl flex items-center justify-center backdrop-blur-sm shadow-2xl animate-bounce">
-              <Wallet className="w-16 h-16 text-white animate-pulse" />
+          {/* Premium Animated Logo */}
+          <div className="relative mb-12">
+            <div className="w-40 h-40 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center backdrop-blur-sm shadow-premium animate-scale-in">
+              <Wallet className="w-20 h-20 text-white animate-float" />
             </div>
-            <div className="absolute -inset-4 bg-white/10 rounded-full animate-ping"></div>
+            <div className="absolute -inset-8 bg-white/10 rounded-full animate-ping opacity-75"></div>
+            <div className="absolute -inset-4 bg-white/20 rounded-full animate-ping opacity-50" style={{ animationDelay: '0.5s' }}></div>
           </div>
           
-          {/* Brand name with animation */}
-          <h1 className="text-5xl font-black mb-4 tracking-wider animate-fade-in">OPPB</h1>
-          <p className="text-white/90 text-xl font-medium mb-8 animate-slide-up">Pay Anywhere, Anytime</p>
-          
-          {/* Loading indicator */}
-          <div className="w-16 h-1 bg-white/30 rounded-full mx-auto overflow-hidden">
-            <div className="h-full bg-white rounded-full animate-slide-right"></div>
+          {/* Premium Brand Identity */}
+          <div className="space-y-6 animate-slide-up-premium">
+            <h1 className="text-6xl font-black mb-2 tracking-wider bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+              OPPB
+            </h1>
+            <p className="text-2xl font-light text-white/90 tracking-wide">
+              Offline Peer-to-Peer Payment Bridge
+            </p>
+            <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-blue-400 mx-auto rounded-full animate-shimmer"></div>
           </div>
           
-          <p className="text-white/70 text-sm mt-6">India's Most Trusted Payment App</p>
+          {/* Loading Animation */}
+          <div className="mt-16 space-y-4">
+            <div className="w-64 h-2 bg-white/20 rounded-full mx-auto overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full animate-slide-right"></div>
+            </div>
+            <p className="text-white/70 text-lg font-medium">Initializing secure payment system...</p>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Welcome Screen
+  // Premium Welcome Screen with Interactive Elements
   if (currentStep === 1) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex flex-col">
-        <div className="flex-1 flex flex-col justify-center px-8 py-12">
-          {/* Welcome illustration */}
-          <div className="text-center mb-12">
-            <div className="relative mb-8">
-              <div className="w-40 h-40 mx-auto bg-gradient-to-br from-purple-500 to-blue-600 rounded-3xl flex items-center justify-center shadow-2xl">
-                <Smartphone className="w-20 h-20 text-white" />
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full space-y-8 animate-slide-up-premium">
+          {/* Premium Hero Section */}
+          <div className="text-center space-y-6">
+            <div className="relative">
+              <div className="w-32 h-32 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium animate-float">
+                <Wallet className="w-16 h-16 text-white" />
               </div>
-              <div className="absolute -top-4 -right-4 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center animate-bounce">
-                <span className="text-2xl">💰</span>
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center animate-pulse-glow">
+                <Check className="w-5 h-5 text-white" />
               </div>
             </div>
             
-            <h1 className="text-4xl font-black text-gray-900 mb-4">Welcome to OPPB</h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              India's most trusted payment app,<br />
-              <span className="text-purple-600 font-semibold">now works offline too!</span>
-            </p>
+            <div className="space-y-4">
+              <h1 className="text-4xl font-black bg-gradient-primary bg-clip-text text-transparent">
+                Welcome to OPPB
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed">
+                The future of payments is here. Pay anywhere, anytime - even when you're offline.
+              </p>
+            </div>
+
+            {/* Premium Feature Highlights */}
+            <div className="grid grid-cols-3 gap-4 mt-8">
+              <div className="text-center p-4 bg-white rounded-2xl shadow-card hover:shadow-premium transition-all duration-300 transform hover:scale-105">
+                <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Bluetooth className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-sm font-semibold text-gray-800">Offline Ready</p>
+              </div>
+              <div className="text-center p-4 bg-white rounded-2xl shadow-card hover:shadow-premium transition-all duration-300 transform hover:scale-105">
+                <div className="w-12 h-12 bg-gradient-success rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-sm font-semibold text-gray-800">Ultra Secure</p>
+              </div>
+              <div className="text-center p-4 bg-white rounded-2xl shadow-card hover:shadow-premium transition-all duration-300 transform hover:scale-105">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Zap className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-sm font-semibold text-gray-800">Instant Sync</p>
+              </div>
+            </div>
           </div>
-          
+
+          {/* Premium CTA Button */}
           <Button 
             onClick={nextStep}
-            className="w-full phonepe-gradient text-white py-6 rounded-2xl font-bold text-xl hover:opacity-90 transition-all duration-300 btn-press-effect shadow-xl"
+            className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary hover:shadow-premium group"
           >
-            Get Started
+            <span className="mr-3">Get Started</span>
+            <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
           </Button>
+
+          {/* Trust Indicators */}
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center space-x-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+            <p className="text-sm text-gray-500">Trusted by 1M+ users worldwide</p>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Features Showcase
+  // Premium Features Showcase with Interactive Cards
   if (currentStep === 2) {
     const features = [
       {
-        icon: "🔍",
-        title: "Pay with QR",
-        description: "Scan any QR code to pay instantly",
-        bgColor: "from-purple-500 to-purple-600"
-      },
-      {
-        icon: "💸",
-        title: "Send Money",
-        description: "Transfer money to anyone instantly",
-        bgColor: "from-blue-500 to-blue-600"
-      },
-      {
-        icon: "📱",
-        title: "Pay Bills",
-        description: "Recharge mobile, pay utilities",
-        bgColor: "from-green-500 to-green-600"
-      },
-      {
-        icon: "📶",
+        icon: WifiOff,
         title: "Offline Payments",
-        description: "Pay even without internet",
-        bgColor: "from-orange-500 to-orange-600"
+        description: "Make payments without internet using revolutionary Bluetooth mesh technology",
+        gradient: "from-orange-500 to-red-500",
+        delay: "0s"
+      },
+      {
+        icon: Shield,
+        title: "Bank-Grade Security",
+        description: "Military-grade encryption with biometric authentication and secure enclaves",
+        gradient: "from-green-500 to-emerald-600",
+        delay: "0.2s"
+      },
+      {
+        icon: Zap,
+        title: "Instant Settlement",
+        description: "Real-time transaction processing with automatic reconciliation",
+        gradient: "from-blue-500 to-indigo-600",
+        delay: "0.4s"
+      },
+      {
+        icon: Globe,
+        title: "Global Network",
+        description: "Connect with verified merchants and users across the world",
+        gradient: "from-purple-500 to-pink-600",
+        delay: "0.6s"
       }
     ];
 
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col">
-        <div className="flex-1 flex flex-col justify-center px-8 py-12">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-black text-gray-900 mb-4">Everything you need</h2>
-            <p className="text-lg text-gray-600">All your payment needs in one app</p>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50 p-4">
+        <div className="max-w-md mx-auto space-y-8">
+          {/* Premium Header */}
+          <div className="text-center space-y-6 pt-8 animate-slide-up-premium">
+            <div className="w-20 h-20 mx-auto bg-gradient-primary rounded-2xl flex items-center justify-center shadow-premium">
+              <Smartphone className="w-10 h-10 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
+                Revolutionary Features
+              </h1>
+              <p className="text-lg text-gray-600">
+                Experience the next generation of digital payments
+              </p>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-2 gap-6 mb-12">
+
+          {/* Premium Feature Cards */}
+          <div className="space-y-6">
             {features.map((feature, index) => (
-              <div key={index} className="text-center">
-                <div className={`w-20 h-20 mx-auto bg-gradient-to-br ${feature.bgColor} rounded-2xl flex items-center justify-center mb-4 shadow-lg`}>
-                  <span className="text-3xl">{feature.icon}</span>
-                </div>
-                <h3 className="font-bold text-lg text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
+              <Card 
+                key={index} 
+                className="border-0 shadow-premium overflow-hidden animate-slide-up-premium hover:shadow-card transition-all duration-500 transform hover:scale-102"
+                style={{ animationDelay: feature.delay }}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center shadow-card flex-shrink-0`}>
+                      <feature.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-          
-          <Button 
-            onClick={nextStep}
-            className="w-full phonepe-gradient text-white py-6 rounded-2xl font-bold text-xl hover:opacity-90 transition-all duration-300 btn-press-effect shadow-xl"
-          >
-            Continue
-          </Button>
+
+          {/* Premium Action Buttons */}
+          <div className="space-y-4 pt-4">
+            <Button 
+              onClick={nextStep}
+              className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary hover:shadow-premium group"
+            >
+              <span className="mr-3">Continue Setup</span>
+              <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => setCurrentStep(1)}
+              className="w-full h-12 text-lg font-semibold border-2 hover:bg-gray-50"
+            >
+              Back
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Enhanced Authentication Screen
+  // Premium Authentication Screen
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col">
-      <div className="flex-1 flex flex-col justify-center px-8 py-12">
-        <div className="text-center mb-12">
-          <div className="w-20 h-20 mx-auto mb-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl">
-            <Shield className="w-10 h-10 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full space-y-8">
+        {/* Premium Header */}
+        <div className="text-center space-y-6 animate-slide-up-premium">
+          <div className="w-24 h-24 mx-auto bg-gradient-primary rounded-3xl flex items-center justify-center shadow-premium">
+            <CreditCard className="w-12 h-12 text-white" />
           </div>
-          <h2 className="text-3xl font-black text-gray-900 mb-4">Secure Login</h2>
-          <p className="text-lg text-gray-600">Access your digital wallet securely</p>
+          <div>
+            <h1 className="text-3xl font-black bg-gradient-primary bg-clip-text text-transparent mb-3">
+              Secure Login
+            </h1>
+            <p className="text-lg text-gray-600">
+              Join the future of digital payments
+            </p>
+          </div>
         </div>
-        
-        <Card className="shadow-2xl border-none mb-8">
-          <CardContent className="p-8">
-            <div className="space-y-8">
-              <div className="text-center">
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Sign in to continue</h3>
-                <p className="text-gray-600">
-                  Secure access to your OPPB account
-                </p>
+
+        {/* Premium Login Card */}
+        <Card className="border-0 shadow-premium overflow-hidden">
+          <CardContent className="p-8 bg-gradient-card">
+            <div className="space-y-6">
+              {/* Premium Phone Input */}
+              <div className="space-y-4">
+                <label className="block text-lg font-semibold text-gray-900">
+                  Phone Number
+                </label>
+                <div className="flex space-x-3">
+                  <Select value={countryCode} onValueChange={setCountryCode}>
+                    <SelectTrigger className="w-24 h-14 border-2 rounded-2xl text-lg font-semibold">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="+91">🇮🇳 +91</SelectItem>
+                      <SelectItem value="+1">🇺🇸 +1</SelectItem>
+                      <SelectItem value="+44">🇬🇧 +44</SelectItem>
+                      <SelectItem value="+86">🇨🇳 +86</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Enter your phone number"
+                    className="flex-1 h-14 border-2 rounded-2xl text-lg px-4"
+                  />
+                </div>
               </div>
-              
+
+              {/* Premium Login Button */}
               <Button 
                 onClick={handleLogin}
-                className="w-full phonepe-gradient text-white py-6 rounded-2xl font-bold text-xl hover:opacity-90 transition-all duration-300 btn-press-effect shadow-xl"
+                className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary hover:shadow-premium group"
               >
-                <div className="flex items-center justify-center gap-3">
-                  <Shield className="w-6 h-6" />
-                  Continue Securely
-                </div>
+                <Shield className="w-6 h-6 mr-3" />
+                <span>Continue with Replit Auth</span>
               </Button>
-              
-              <div className="flex items-center gap-4">
-                <div className="flex-1 h-px bg-gray-300"></div>
-                <span className="text-sm text-gray-500 font-medium">Powered by</span>
-                <div className="flex-1 h-px bg-gray-300"></div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-6">
-                <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl">
-                  <div className="w-10 h-10 bg-purple-500 rounded-xl flex items-center justify-center">
-                    <Wallet className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm text-gray-900">Offline Payments</p>
-                    <p className="text-xs text-gray-600">No internet needed</p>
-                  </div>
+
+              {/* Security Notice */}
+              <div className="text-center space-y-3">
+                <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                  <Shield className="w-4 h-4" />
+                  <span>Protected by enterprise-grade security</span>
                 </div>
-                
-                <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl">
-                  <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm text-gray-900">Bank Security</p>
-                    <p className="text-xs text-gray-600">Military grade</p>
-                  </div>
-                </div>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  By continuing, you agree to our Terms of Service and Privacy Policy. 
+                  Your data is encrypted and never shared with third parties.
+                </p>
               </div>
             </div>
           </CardContent>
         </Card>
-        
-        <div className="text-center">
-          <p className="text-sm text-gray-500">
-            By continuing, you agree to our{" "}
-            <a href="#" className="text-purple-600 font-medium underline">Terms</a> and{" "}
-            <a href="#" className="text-purple-600 font-medium underline">Privacy Policy</a>
-          </p>
-        </div>
+
+        {/* Premium Back Button */}
+        <Button 
+          variant="outline" 
+          onClick={() => setCurrentStep(2)}
+          className="w-full h-12 text-lg font-semibold border-2 hover:bg-gray-50"
+        >
+          Back to Features
+        </Button>
       </div>
     </div>
   );
