@@ -56,9 +56,9 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     </ellipse>
 
     {/* Left Device (Merchant Phone) - Animated GIF */}
-    <g transform="translate(60, 70)">
+    <g transform="translate(60, 100)">
       {/* Animated Merchant Phone GIF */}
-      <foreignObject x="-25" y="-35" width="50" height="70">
+      <foreignObject x="-35" y="-50" width="70" height="100">
         <img 
           src="/src/assets/merchant-phone-animated.gif" 
           alt="Merchant Phone"
@@ -66,18 +66,18 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         />
       </foreignObject>
       
-      <text x="0" y="50" textAnchor="middle" fontSize="10" fontWeight="600" fill="#6366F1">Merchant</text>
+      <text x="0" y="65" textAnchor="middle" fontSize="12" fontWeight="600" fill="#6366F1">Merchant</text>
     </g>
 
     {/* Central Bluetooth Hub */}
     <g transform="translate(200, 100)">
       {/* Bluetooth Ring */}
-      <circle cx="0" cy="0" r="25" fill="none" stroke="url(#bluetoothGlow)" strokeWidth="2" opacity="0.6">
-        {animated && <animate attributeName="stroke-dasharray" values="0 157;78.5 78.5;157 0" dur="2.5s" repeatCount="indefinite" />}
+      <circle cx="0" cy="0" r="35" fill="none" stroke="url(#bluetoothGlow)" strokeWidth="3" opacity="0.6">
+        {animated && <animate attributeName="stroke-dasharray" values="0 220;110 110;220 0" dur="2.5s" repeatCount="indefinite" />}
       </circle>
       
       {/* Animated Bluetooth GIF */}
-      <foreignObject x="-15" y="-15" width="30" height="30">
+      <foreignObject x="-25" y="-25" width="50" height="50">
         <img 
           src="/src/assets/bluetooth-animated.gif" 
           alt="Bluetooth"
@@ -85,14 +85,14 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         />
       </foreignObject>
       
-      <text x="0" y="45" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3B82F6">Bluetooth</text>
-      <text x="0" y="56" textAnchor="middle" fontSize="8" fill="#6B7280">Offline Connection</text>
+      <text x="0" y="55" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3B82F6">Bluetooth</text>
+      <text x="0" y="66" textAnchor="middle" fontSize="8" fill="#6B7280">Offline Connection</text>
     </g>
 
     {/* Right Device (User Phone) - Animated GIF */}
-    <g transform="translate(340, 70)">
+    <g transform="translate(340, 100)">
       {/* Animated Phone GIF */}
-      <foreignObject x="-25" y="-35" width="50" height="70">
+      <foreignObject x="-35" y="-50" width="70" height="100">
         <img 
           src="/src/assets/phone-animated.gif" 
           alt="Phone"
@@ -100,7 +100,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         />
       </foreignObject>
       
-      <text x="0" y="50" textAnchor="middle" fontSize="10" fontWeight="600" fill="#6366F1">Your Phone</text>
+      <text x="0" y="65" textAnchor="middle" fontSize="12" fontWeight="600" fill="#6366F1">Your Phone</text>
     </g>
 
     {/* Connection Flow Lines */}
