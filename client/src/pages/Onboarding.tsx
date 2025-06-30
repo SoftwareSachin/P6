@@ -12,6 +12,7 @@ import { OfflinePaymentFlowSVG } from "@/components/OfflinePaymentFlowSVG";
 import { SecureConnectionSVG } from "@/components/SecureConnectionSVG";
 import upiGif from "@assets/fetchpik.com-iconscout-upcaLHoyqi (1)_1751287545574.gif";
 import secureGif from "@assets/secure_1751287927973.gif";
+import oppbGif from "@assets/fetchpik.com-iconscout-HcDJX8k50y_1751288241453.gif";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -326,7 +327,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   alt="UPI Animation" 
                   className="w-20 h-20 object-contain"
                 />
-                <text className="text-xs font-semibold text-gray-600 mt-2">UPI</text>
+                <span className="text-xs font-semibold text-gray-600 mt-2">UPI</span>
               </div>
 
               {/* Secure Bridge GIF */}
@@ -336,15 +337,17 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   alt="Secure Bridge Animation" 
                   className="w-16 h-16 object-contain"
                 />
-                <text className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</text>
+                <span className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</span>
               </div>
 
-              {/* OPPB Text */}
+              {/* OPPB GIF */}
               <div className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">OPPB</span>
-                </div>
-                <text className="text-xs font-semibold text-gray-600 mt-2">OPPB</text>
+                <img 
+                  src={oppbGif} 
+                  alt="OPPB Mobile Payment Animation" 
+                  className="w-16 h-16 object-contain"
+                />
+                <span className="text-xs font-semibold text-gray-600 mt-2">OPPB</span>
               </div>
             </div>
           </div>
