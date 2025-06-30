@@ -82,20 +82,43 @@ export default function QRScanner() {
           </div>
         </div>
 
-        {/* Camera Viewfinder */}
-        <div className="flex-1 relative bg-black">
+        {/* Premium Camera Viewfinder - Material Design 3.0 */}
+        <div className="flex-1 relative bg-gradient-to-br from-gray-900 via-black to-gray-800">
+          {/* Premium Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500 rounded-full blur-3xl animate-float"></div>
+            <div className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-blue-500 rounded-full blur-2xl animate-pulse-slow"></div>
+          </div>
+          
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* Animated Scanning Frame - Exact PhonePe Style */}
-            <div className="relative w-64 h-64">
-              {/* Corner Brackets */}
-              <div className="absolute top-0 left-0 w-8 h-8 border-l-4 border-t-4 border-white"></div>
-              <div className="absolute top-0 right-0 w-8 h-8 border-r-4 border-t-4 border-white"></div>
-              <div className="absolute bottom-0 left-0 w-8 h-8 border-l-4 border-b-4 border-white"></div>
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-r-4 border-b-4 border-white"></div>
+            {/* Premium Scanning Frame with Enhanced Design */}
+            <div className="relative w-72 h-72 animate-scale-in">
+              {/* Enhanced Corner Brackets with Gradient */}
+              <div className="absolute top-0 left-0 w-12 h-12">
+                <div className="w-full h-1 bg-gradient-to-r from-white to-purple-400 rounded-full"></div>
+                <div className="w-1 h-full bg-gradient-to-b from-white to-purple-400 rounded-full"></div>
+              </div>
+              <div className="absolute top-0 right-0 w-12 h-12">
+                <div className="w-full h-1 bg-gradient-to-l from-white to-blue-400 rounded-full"></div>
+                <div className="w-1 h-full bg-gradient-to-b from-white to-blue-400 rounded-full ml-auto"></div>
+              </div>
+              <div className="absolute bottom-0 left-0 w-12 h-12">
+                <div className="w-1 h-full bg-gradient-to-t from-white to-purple-400 rounded-full mb-auto"></div>
+                <div className="w-full h-1 bg-gradient-to-r from-white to-purple-400 rounded-full"></div>
+              </div>
+              <div className="absolute bottom-0 right-0 w-12 h-12">
+                <div className="w-1 h-full bg-gradient-to-t from-white to-blue-400 rounded-full ml-auto mb-auto"></div>
+                <div className="w-full h-1 bg-gradient-to-l from-white to-blue-400 rounded-full"></div>
+              </div>
               
-              {/* Animated Scanning Line */}
+              {/* Premium Animated Scanning Line */}
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-scan-premium shadow-lg shadow-green-400/50"></div>
+              </div>
+              
+              {/* Center Focus Point */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse"></div>
+                <div className="w-4 h-4 border-2 border-white rounded-full animate-pulse-glow"></div>
               </div>
               
               {/* Focus Animation */}

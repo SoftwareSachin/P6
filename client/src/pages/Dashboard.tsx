@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Plus, QrCode, Send, FileText, RotateCcw, AtSign, CreditCard, BarChart3, Zap, ArrowRight, Bell, Menu, Smartphone, WifiOff, User, MapPin, Star, Clock, Check, AlertCircle, DollarSign, ShoppingCart, Users, Receipt, Phone, Gift, Trophy, Shield, HelpCircle, Settings, Globe, Palette, BookOpen, Building, LogOut } from "lucide-react";
+import { Eye, EyeOff, QrCode, Send, Users, RotateCcw, Zap, Bell, Menu, Smartphone, WifiOff, User, Star, Clock, Check, AlertCircle, DollarSign, ShoppingCart, Receipt, Phone, Gift, Trophy, Shield, Settings, CreditCard, FileText, AtSign, BarChart3, Plus, ArrowRight, Globe, Palette, HelpCircle, BookOpen, Building, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { COLORS } from "@/lib/constants";
@@ -154,57 +154,53 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Balance Card - Exact PhonePe/GPay Design */}
+      {/* Premium Balance Card - Material Design 3.0 */}
       <div className="p-4">
-        <Card className="border-0 shadow-lg overflow-hidden">
-          <CardContent 
-            className="p-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white relative"
-            style={{ background: 'linear-gradient(135deg, #6739B7 0%, #8B5CF6 50%, #3B82F6 100%)' }}
-          >
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-12 -translate-x-12"></div>
+        <Card className="border-0 overflow-hidden balance-card-premium animate-slide-up-premium">
+          <CardContent className="p-0 relative">
+            {/* Premium Background Effects */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -translate-y-20 translate-x-20 animate-float"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/40 rounded-full translate-y-16 -translate-x-16"></div>
+              <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-white/20 rounded-full -translate-x-12 -translate-y-12 animate-pulse-slow"></div>
             </div>
             
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <DollarSign className="h-6 w-6 text-white" />
-                  <span className="text-white/80">Available Balance</span>
+            <div className="relative z-10 p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                    <DollarSign className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-white/80 text-sm font-medium">Available Balance</p>
+                    <p className="text-white/60 text-xs">Last updated: just now</p>
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowBalance(!showBalance)}
-                  className="text-white hover:bg-white/20"
+                  className="text-white hover:bg-white/20 rounded-xl animate-pulse-glow"
                 >
                   {showBalance ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </Button>
               </div>
               
-              <div className="mb-4">
-                <p className="text-3xl font-bold">
-                  ₹{showBalance ? balance : "••••••"}
+              <div className="mb-8">
+                <p className={`text-4xl font-bold text-white transition-all duration-300 ${showBalance ? 'balance-visible' : 'balance-hidden'}`}>
+                  ₹{showBalance ? balance.toLocaleString() : "••••••"}
                 </p>
+                <p className="text-white/60 text-sm mt-1">Indian Rupees</p>
               </div>
               
               <div className="flex space-x-3">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="bg-white/20 hover:bg-white/30 text-white border-0"
-                >
-                  <Eye className="h-4 w-4 mr-2" />
-                  Show
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="bg-white/20 hover:bg-white/30 text-white border-0"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
+                <Button className="btn-primary-premium flex-1 bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm">
+                  <CreditCard className="h-4 w-4 mr-2" />
                   Add Money
+                </Button>
+                <Button className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm rounded-xl">
+                  <Send className="h-4 w-4 mr-2" />
+                  Send Money
                 </Button>
               </div>
             </div>
@@ -212,19 +208,45 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Quick Actions Grid - Exact 4x2 Layout as Specified */}
+      {/* Premium Quick Actions Grid - Material Design 3.0 */}
       <div className="p-4">
-        <div className="grid grid-cols-4 gap-4">
-          {quickActions.map((action) => (
+        <div className="grid grid-cols-4 gap-3">
+          {quickActions.map((action, index) => (
             <Link key={action.id} href={action.route}>
-              <div className="flex flex-col items-center space-y-2 p-3 rounded-xl hover:scale-105 transition-transform">
-                <div 
-                  className="w-12 h-12 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: action.bgColor }}
-                >
-                  <action.icon className="h-6 w-6" style={{ color: action.color }} />
+              <div 
+                className="quick-action-premium animate-scale-in flex flex-col items-center space-y-3 relative"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Premium Icon Container */}
+                <div className="relative">
+                  <div 
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-card animate-shimmer"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${action.color}15 0%, ${action.color}25 100%)`,
+                      border: `1px solid ${action.color}20`
+                    }}
+                  >
+                    <action.icon 
+                      className="h-7 w-7 transition-transform duration-300 group-hover:scale-110" 
+                      style={{ color: action.color }} 
+                    />
+                  </div>
+                  
+                  {/* Subtle glow effect */}
+                  <div 
+                    className="absolute inset-0 rounded-2xl opacity-0 hover:opacity-30 transition-opacity duration-300"
+                    style={{ 
+                      background: `radial-gradient(circle, ${action.color}40 0%, transparent 70%)`,
+                      filter: 'blur(8px)'
+                    }}
+                  ></div>
                 </div>
-                <span className="text-xs text-center font-medium" style={{ color: COLORS.textPrimary }}>
+                
+                {/* Premium Typography */}
+                <span 
+                  className="text-xs text-center font-semibold leading-tight tracking-wide"
+                  style={{ color: COLORS.textPrimary }}
+                >
                   {action.name}
                 </span>
               </div>
@@ -233,55 +255,98 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Recent Transactions - Exact PhonePe/GPay Style */}
+      {/* Premium Recent Transactions - Material Design 3.0 */}
       <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold" style={{ color: COLORS.textPrimary }}>
-            Recent Transactions
-          </h2>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-bold" style={{ color: COLORS.textPrimary }}>
+              Recent Transactions
+            </h2>
+            <p className="text-sm" style={{ color: COLORS.textSecondary }}>
+              Last 7 days activity
+            </p>
+          </div>
           <Link href="/transaction-history">
-            <Button variant="ghost" size="sm">
-              <ArrowRight className="h-4 w-4" />
+            <Button className="btn-primary-premium px-4 py-2 bg-gradient-primary hover:shadow-premium">
+              View All
+              <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </Link>
         </div>
 
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-0">
-            {recentTransactions.map((transaction, index) => (
-              <div key={transaction.id}>
-                <div className="flex items-center space-x-4 p-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+        <div className="space-y-3">
+          {recentTransactions.map((transaction, index) => (
+            <div 
+              key={transaction.id} 
+              className="transaction-item-premium animate-slide-up-premium"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="flex items-center space-x-4">
+                {/* Premium Transaction Icon */}
+                <div className="relative">
+                  <div 
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-card ${
+                      transaction.status === 'success' ? 'bg-gradient-success' : 
+                      transaction.status === 'pending' ? 'bg-gradient-to-br from-orange-400 to-yellow-500' :
+                      'bg-gradient-to-br from-orange-500 to-red-500'
+                    }`}
+                  >
                     {getTransactionIcon(transaction.icon)}
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium" style={{ color: COLORS.textPrimary }}>
-                        {transaction.merchant}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span 
-                          className={`font-semibold ${
-                            transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'
-                          }`}
-                        >
-                          {transaction.type === 'credit' ? '+' : '-'}₹{Math.abs(transaction.amount)}
-                        </span>
-                        {getStatusIcon(transaction.status)}
-                      </div>
+                  
+                  {/* Status Indicator */}
+                  <div className="absolute -bottom-1 -right-1">
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                      transaction.status === 'success' ? 'bg-green-500' :
+                      transaction.status === 'pending' ? 'bg-yellow-500' :
+                      'bg-orange-500'
+                    }`}>
+                      {getStatusIcon(transaction.status)}
                     </div>
-                    <p className="text-sm" style={{ color: COLORS.textSecondary }}>
-                      {transaction.time}
-                    </p>
                   </div>
                 </div>
-                {index < recentTransactions.length - 1 && (
-                  <div className="border-b mx-4" style={{ borderColor: COLORS.border }}></div>
-                )}
+                
+                {/* Transaction Details */}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-bold text-base" style={{ color: COLORS.textPrimary }}>
+                        {transaction.merchant}
+                      </h3>
+                      <p className="text-sm font-medium" style={{ color: COLORS.textSecondary }}>
+                        {transaction.time}
+                      </p>
+                      {transaction.status === 'offline' && (
+                        <Badge className="mt-1 bg-orange-100 text-orange-800 text-xs">
+                          <WifiOff className="h-3 w-3 mr-1" />
+                          Offline Payment
+                        </Badge>
+                      )}
+                    </div>
+                    
+                    {/* Premium Amount Display */}
+                    <div className="text-right">
+                      <p 
+                        className={`font-bold text-lg ${
+                          transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'
+                        }`}
+                      >
+                        {transaction.type === 'credit' ? '+' : '-'}₹{Math.abs(transaction.amount).toLocaleString()}
+                      </p>
+                      <p className={`text-xs font-medium ${
+                        transaction.status === 'success' ? 'text-green-600' :
+                        transaction.status === 'pending' ? 'text-yellow-600' :
+                        'text-orange-600'
+                      }`}>
+                        {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
-          </CardContent>
-        </Card>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Hamburger Menu Overlay */}
