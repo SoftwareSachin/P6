@@ -304,7 +304,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                           </span>
                         )}
                       </div>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3 font-medium">
                         {item.description}
                       </p>
                       <Button
@@ -313,7 +313,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                         className={`h-10 px-4 text-sm font-semibold rounded-xl transition-all duration-300 ${
                           permissions[item.key] 
                             ? 'bg-green-500 text-white cursor-default' 
-                            : 'bg-gradient-primary text-white hover:shadow-card'
+                            : 'bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl'
                         }`}
                       >
                         {permissions[item.key] ? (
@@ -344,7 +344,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           <Button 
             onClick={nextScreen}
             disabled={!permissions.camera || !permissions.location}
-            className="btn-primary-premium w-full h-16 text-xl font-bold bg-gradient-primary hover:shadow-premium group disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-16 text-xl font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span className="mr-3">Continue Setup</span>
             <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
