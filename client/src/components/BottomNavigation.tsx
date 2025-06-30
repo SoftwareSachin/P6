@@ -31,7 +31,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
                 className={`flex flex-col items-center space-y-1 h-16 w-16 rounded-2xl transition-all duration-300 ${
                   isActive 
                     ? 'apple-pay-gradient text-white shadow-2xl scale-110' 
-                    : 'text-gray-400 hover:text-white apple-pay-button'
+                    : 'text-white/80 hover:text-white apple-pay-button'
                 }`}
               >
                 <IconComponent className={`h-6 w-6 ${isActive ? 'text-white drop-shadow-sm' : ''}`} />

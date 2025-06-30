@@ -77,7 +77,7 @@ export default function SendMoney() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
       {/* Apple Pay Style Header */}
       <div className="flex items-center justify-between p-6 backdrop-blur-xl bg-black/50 relative z-10">
         <Link href="/">
@@ -203,7 +203,7 @@ export default function SendMoney() {
                 <Avatar className="w-16 h-16">
                   <AvatarImage src={selectedContact?.avatar} />
                   <AvatarFallback className="bg-blue-500 text-white text-lg">
-                    {selectedContact?.name.split(' ').map(n => n[0]).join('')}
+                    {selectedContact?.name.split(' ').map((n: string) => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">

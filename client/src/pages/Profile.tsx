@@ -46,7 +46,7 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
       {/* Apple Pay Style Header */}
       <div className="flex items-center justify-between p-6 backdrop-blur-xl bg-black/50 relative z-10">
         <Link href="/">
@@ -77,7 +77,7 @@ export default function Profile() {
                 <Avatar className="w-20 h-20 border-4 border-white/20">
                   <AvatarImage src="/api/placeholder/80/80" />
                   <AvatarFallback className="apple-pay-gradient text-white text-2xl font-bold">
-                    {userName.split(' ').map(n => n[0]).join('')}
+                    {userName.split(' ').map((n: string) => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="absolute -bottom-2 -right-2 w-8 h-8 apple-pay-gradient rounded-full flex items-center justify-center">
