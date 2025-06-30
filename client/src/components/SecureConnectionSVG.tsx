@@ -93,31 +93,107 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
         <stop offset="50%" stopColor="rgba(71, 85, 105, 0.2)" stopOpacity="0.8"/>
         <stop offset="100%" stopColor="rgba(71, 85, 105, 0.1)" stopOpacity="0.5"/>
       </linearGradient>
+
+      {/* Payment Logo Gradients */}
+      <linearGradient id="orangePaymentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FF8C00" stopOpacity="1"/>
+        <stop offset="35%" stopColor="#FF6B00" stopOpacity="0.95"/>
+        <stop offset="75%" stopColor="#FF5722" stopOpacity="0.9"/>
+        <stop offset="100%" stopColor="#E65100" stopOpacity="0.85"/>
+      </linearGradient>
+
+      <linearGradient id="greenPaymentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#4CAF50" stopOpacity="1"/>
+        <stop offset="35%" stopColor="#388E3C" stopOpacity="0.95"/>
+        <stop offset="75%" stopColor="#2E7D32" stopOpacity="0.9"/>
+        <stop offset="100%" stopColor="#1B5E20" stopOpacity="0.85"/>
+      </linearGradient>
     </defs>
 
 
 
-    {/* BHIM UPI Icon - Left */}
+    {/* Premium Payment Icon - Left */}
     <g transform="translate(70, 50)">
-      {/* App Icon Background */}
-      <rect x="-22" y="-22" width="44" height="44" rx="10" fill="url(#bhimGradient)" filter="url(#softShadow)">
-        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" repeatCount="indefinite" />}
-      </rect>
-      
-      {/* Simplified BHIM Logo */}
-      <g>
-        {/* White background for logo */}
-        <rect x="-15" y="-10" width="30" height="20" rx="3" fill="white" opacity="0.95" />
-        
-        {/* BHIM text in bold */}
-        <text x="0" y="-2" textAnchor="middle" fontSize="8" fontWeight="900" fill="#FF6B35" fontFamily="Arial, sans-serif">BHIM</text>
-        
-        {/* UPI text smaller below */}
-        <text x="0" y="5" textAnchor="middle" fontSize="4" fontWeight="700" fill="#FF6B35" fontFamily="Arial, sans-serif">UPI</text>
+      {/* Premium Payment Logo */}
+      <g transform="scale(0.6) translate(-50, -50)">
+        {/* Background Glow */}
+        {animated && (
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#FF6B00" strokeWidth="0.5" opacity="0.2">
+            <animate attributeName="r" values="40;50;40" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite" />
+          </circle>
+        )}
+
+        {/* Orange Blade */}
+        <g>
+          {animated && (
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              values="0 50 50;3 50 50;0 50 50;-2 50 50;0 50 50"
+              dur="6s"
+              repeatCount="indefinite"
+            />
+          )}
+          
+          <path
+            d="M25 15 L65 15 L85 55 L45 95 L15 75 Z"
+            fill="url(#orangePaymentGradient)"
+            stroke="rgba(255, 255, 255, 0.3)"
+            strokeWidth="0.8"
+          >
+            {animated && <animate attributeName="opacity" values="0.85;1;0.85" dur="3s" repeatCount="indefinite" />}
+          </path>
+          
+          {/* Orange Highlight */}
+          <path
+            d="M25 15 L65 15 L85 55 L45 95 L15 75 Z"
+            fill="rgba(255, 255, 255, 0.3)"
+            opacity="0.4"
+          />
+        </g>
+
+        {/* Green Blade */}
+        <g>
+          {animated && (
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              values="0 50 50;-2 50 50;0 50 50;3 50 50;0 50 50"
+              dur="5s"
+              repeatCount="indefinite"
+            />
+          )}
+          
+          <path
+            d="M75 5 L95 25 L85 65 L45 95 L65 55 Z"
+            fill="url(#greenPaymentGradient)"
+            stroke="rgba(255, 255, 255, 0.2)"
+            strokeWidth="0.8"
+          >
+            {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="3.5s" repeatCount="indefinite" />}
+          </path>
+          
+          {/* Green Highlight */}
+          <path
+            d="M75 5 L95 25 L85 65 L45 95 L65 55 Z"
+            fill="rgba(255, 255, 255, 0.25)"
+            opacity="0.4"
+          />
+        </g>
+
+        {/* Central Glow */}
+        <circle cx="65" cy="55" r="6" fill="rgba(255, 255, 255, 0.4)" opacity="0.7">
+          {animated && (
+            <>
+              <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="r" values="4;8;4" dur="2.5s" repeatCount="indefinite" />
+            </>
+          )}
+        </circle>
       </g>
       
-      {/* App Label */}
-      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#FF6B35">BHIM UPI</text>
+      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#FF5722">UPI Pay</text>
     </g>
 
     {/* Secure Connection Line */}
