@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Landing from "@/pages/Landing";
 import Onboarding from "@/pages/Onboarding";
 import PhoneRegistration from "@/pages/PhoneRegistration";
@@ -27,9 +27,11 @@ function Router() {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   // Reset onboarding state when user is not authenticated
-  if (!isAuthenticated && hasCompletedOnboarding) {
-    setHasCompletedOnboarding(false);
-  }
+  useEffect(() => {
+    if (!isAuthenticated && hasCompletedOnboarding) {
+      setHasCompletedOnboarding(false);
+    }
+  }, [isAuthenticated, hasCompletedOnboarding]);
 
   const handleOnboardingComplete = () => {
     localStorage.setItem('oppb-onboarding-completed', 'true');
@@ -68,15 +70,11 @@ function Router() {
             <Route path="/" component={Landing} />
             <Route path="/onboarding" component={OnboardingWrapper} />
             <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
-            {/* Fallback all other routes to Landing when not authenticated */}
-            <Route component={Landing} />
           </>
         ) : !hasCompletedOnboarding ? (
           <>
             <Route path="/" component={OnboardingWrapper} />
             <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
-            {/* Fallback to onboarding when authenticated but not completed */}
-            <Route component={OnboardingWrapper} />
           </>
         ) : (
           <>
@@ -89,10 +87,9 @@ function Router() {
             <Route path="/transaction-history" component={TransactionHistory} />
             <Route path="/profile" component={Profile} />
             <Route path="/settings" component={Settings} />
-            {/* Fallback to dashboard for authenticated users */}
-            <Route component={ApplePayDashboard} />
           </>
         )}
+        <Route component={NotFound} />
       </Switch>
     </div>
   );

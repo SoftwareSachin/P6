@@ -186,6 +186,8 @@ Changelog:
   * Implemented proper authentication state management across the app
   * Enhanced useAuth hook with logout mutation and error handling
   * Complete signout flow now properly redirects to landing page
+  * Fixed duplicate screen rendering issue by cleaning up route fallbacks
+  * Improved authentication state transitions and useEffect handling
 ```
 
 ## User Preferences
