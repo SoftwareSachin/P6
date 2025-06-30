@@ -239,27 +239,53 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
       </path>
     </g>
 
-    {/* Premium Bank Icon - Top Center */}
-    <g transform="translate(160, 15)">
+    {/* Premium Bank Icon - Top Center - Larger and Higher */}
+    <g transform="translate(160, 8)">
       {/* Premium 3D Bank */}
-      <g transform="scale(0.4) translate(-50, -60)">
+      <g transform="scale(0.65) translate(-50, -60)">
+        {/* Animated Background Glow */}
+        {animated && (
+          <circle cx="50" cy="60" r="55" fill="none" stroke="url(#bankBodyGradient)" strokeWidth="0.8" opacity="0.2">
+            <animate attributeName="r" values="50;60;50" dur="5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.1;0.3;0.1" dur="5s" repeatCount="indefinite" />
+          </circle>
+        )}
+
         {/* Main Building Foundation */}
-        <rect x="5" y="55" width="90" height="35" rx="2" fill="url(#bankBodyGradient)" stroke="rgba(148, 163, 184, 0.4)" strokeWidth="0.5"/>
+        <rect x="5" y="55" width="90" height="35" rx="2" fill="url(#bankBodyGradient)" stroke="rgba(148, 163, 184, 0.4)" strokeWidth="0.5">
+          {animated && <animateTransform attributeName="transform" type="scale" values="1;1.02;1" dur="6s" repeatCount="indefinite" />}
+        </rect>
         
         {/* Building Steps */}
-        <rect x="0" y="75" width="100" height="8" rx="1" fill="url(#bankShadowGradient)"/>
+        <rect x="0" y="75" width="100" height="8" rx="1" fill="url(#bankShadowGradient)">
+          {animated && <animate attributeName="opacity" values="0.6;0.8;0.6" dur="4s" repeatCount="indefinite" />}
+        </rect>
 
-        {/* Triangular Roof */}
+        {/* Triangular Roof with Enhanced Animation */}
         <path
           d="M50 15 L85 40 L15 40 Z"
           fill="url(#bankRoofGradient)"
           stroke="rgba(148, 163, 184, 0.5)"
           strokeWidth="0.8"
         >
-          {animated && <animate attributeName="opacity" values="0.85;1;0.85" dur="4s" repeatCount="indefinite" />}
+          {animated && (
+            <>
+              <animate attributeName="opacity" values="0.85;1;0.85" dur="4s" repeatCount="indefinite" />
+              <animateTransform attributeName="transform" type="scale" values="1;1.03;1" dur="5s" repeatCount="indefinite" />
+            </>
+          )}
         </path>
 
-        {/* Classical Columns */}
+        {/* Roof Highlight Animation */}
+        <path
+          d="M50 15 L75 30 L25 30 Z"
+          fill="rgba(255, 255, 255, 0.4)"
+          opacity="0.5"
+        >
+          {animated && <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite" />}
+        </path>
+
+        {/* Classical Columns with Individual Animations */}
         {[...Array(6)].map((_, i) => (
           <g key={i}>
             <rect
@@ -270,7 +296,17 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
               fill="url(#bankColumnsGradient)"
               stroke="rgba(29, 78, 216, 0.3)"
               strokeWidth="0.3"
-            />
+            >
+              {animated && (
+                <animate
+                  attributeName="opacity"
+                  values="0.8;1;0.8"
+                  dur={`${3 + i * 0.3}s`}
+                  begin={`${i * 0.2}s`}
+                  repeatCount="indefinite"
+                />
+              )}
+            </rect>
             <rect
               x={17 + i * 11}
               y="38"
@@ -278,16 +314,88 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
               height="3"
               rx="1"
               fill="#F1F5F9"
-            />
+            >
+              {animated && (
+                <animate
+                  attributeName="opacity"
+                  values="0.9;1;0.9"
+                  dur={`${2.5 + i * 0.2}s`}
+                  begin={`${i * 0.15}s`}
+                  repeatCount="indefinite"
+                />
+              )}
+            </rect>
           </g>
         ))}
 
-        {/* Main Entrance */}
-        <rect x="45" y="58" width="10" height="17" rx="1" fill="#1E40AF" opacity="0.8"/>
-        <circle cx="52" cy="66" r="0.8" fill="#F8FAFC" opacity="0.9"/>
+        {/* Main Entrance with Animation */}
+        <rect x="45" y="58" width="10" height="17" rx="1" fill="#1E40AF" opacity="0.8">
+          {animated && <animate attributeName="opacity" values="0.7;0.9;0.7" dur="4s" repeatCount="indefinite" />}
+        </rect>
+        <circle cx="52" cy="66" r="0.8" fill="#F8FAFC" opacity="0.9">
+          {animated && (
+            <>
+              <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="r" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
+            </>
+          )}
+        </circle>
+
+        {/* Floating Elements Around Bank */}
+        {animated && (
+          <g>
+            {[...Array(4)].map((_, i) => (
+              <circle
+                key={i}
+                cx={25 + i * 17}
+                cy={30 + (i % 2) * 8}
+                r="1"
+                fill="#3B82F6"
+                opacity="0.6"
+              >
+                <animate
+                  attributeName="opacity"
+                  values="0;0.8;0"
+                  dur={`${3 + i * 0.4}s`}
+                  begin={`${i * 0.5}s`}
+                  repeatCount="indefinite"
+                />
+                <animateTransform
+                  attributeName="transform"
+                  type="translate"
+                  values={`0,0;0,-${5 + i * 2};0,0`}
+                  dur={`${4 + i * 0.3}s`}
+                  repeatCount="indefinite"
+                />
+              </circle>
+            ))}
+          </g>
+        )}
+
+        {/* Architectural Detail Lines */}
+        <g stroke="rgba(148, 163, 184, 0.6)" strokeWidth="0.5" fill="none">
+          <path d="M15 42 L85 42">
+            {animated && <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />}
+          </path>
+          <path d="M15 73 L85 73">
+            {animated && <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3.5s" repeatCount="indefinite" />}
+          </path>
+        </g>
       </g>
       
-      <text x="0" y="25" textAnchor="middle" fontSize="6" fontWeight="600" fill="#1F2937">Bank</text>
+      <text x="0" y="32" textAnchor="middle" fontSize="7" fontWeight="700" fill="#1F2937" filter="url(#premiumGlow)">
+        Bank
+        {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />}
+      </text>
+    </g>
+
+    {/* Extended Vertical Connection from Bank to Shield */}
+    <g>
+      <path d="M160 32 L160 40" stroke="url(#connectionGlow)" strokeWidth="2.5" fill="none" opacity="0.8">
+        {animated && (
+          <animate attributeName="stroke-dasharray" values="0 15;7 7;15 0" dur="2s" repeatCount="indefinite" />
+        )}
+      </path>
     </g>
 
     {/* Vertical Connection from Bank to Shield */}
