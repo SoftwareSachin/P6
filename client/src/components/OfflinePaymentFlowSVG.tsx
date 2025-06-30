@@ -50,11 +50,6 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
       </filter>
     </defs>
 
-    {/* Central Glow Background */}
-    <ellipse cx="200" cy="100" rx="180" ry="80" fill="url(#centralGlow)" opacity="0.6">
-      {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite" />}
-    </ellipse>
-
     {/* Left Device (Merchant Phone) - Animated GIF */}
     <g transform="translate(60, 100)">
       {/* Animated Merchant Phone GIF */}
