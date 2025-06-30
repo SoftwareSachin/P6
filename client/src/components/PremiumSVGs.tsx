@@ -381,27 +381,32 @@ export const SecureShieldSVG = ({ className = "w-16 h-16" }: { className?: strin
 
 export const OfflineNetworkSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="offlineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#F59E0B" />
-        <stop offset="100%" stopColor="#EF4444" />
-      </linearGradient>
-    </defs>
-    
-    {/* Phone Devices */}
-    <rect x="15" y="25" width="18" height="30" rx="4" fill="url(#offlineGradient)" />
-    <rect x="47" y="25" width="18" height="30" rx="4" fill="url(#offlineGradient)" />
+    {/* Phone Devices as GIFs */}
+    <foreignObject x="15" y="25" width="18" height="30">
+      <img 
+        src="/src/assets/phone-animated.gif" 
+        alt="Phone 1"
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+      />
+    </foreignObject>
+    <foreignObject x="47" y="25" width="18" height="30">
+      <img 
+        src="/src/assets/phone-animated.gif" 
+        alt="Phone 2"
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+      />
+    </foreignObject>
     
     {/* Bluetooth Connection Lines */}
     <g className="animate-pulse">
-      <path d="M33 35 Q40 30 47 35" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
-      <path d="M33 40 Q40 35 47 40" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
-      <path d="M33 45 Q40 40 47 45" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+      <path d="M33 35 Q40 30 47 35" stroke="#3B82F6" strokeWidth="2" fill="none" opacity="0.8" />
+      <path d="M33 40 Q40 35 47 40" stroke="#3B82F6" strokeWidth="2" fill="none" opacity="0.6" />
+      <path d="M33 45 Q40 40 47 45" stroke="#3B82F6" strokeWidth="2" fill="none" opacity="0.8" />
     </g>
     
     {/* Signal Dots */}
-    <circle cx="24" cy="30" r="2" fill="white" className="animate-ping" />
-    <circle cx="56" cy="30" r="2" fill="white" className="animate-ping" style={{ animationDelay: '0.5s' }} />
+    <circle cx="24" cy="30" r="2" fill="#3B82F6" className="animate-ping" />
+    <circle cx="56" cy="30" r="2" fill="#3B82F6" className="animate-ping" style={{ animationDelay: '0.5s' }} />
   </svg>
 );
 
