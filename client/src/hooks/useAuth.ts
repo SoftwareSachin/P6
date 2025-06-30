@@ -28,22 +28,36 @@ export function useAuth() {
       // Clear all cached data on logout
       queryClient.clear();
       
-      // Clear localStorage
+      // Clear localStorage including onboarding completion
       localStorage.removeItem('oppb-onboarding-completed');
+      localStorage.clear(); // Clear any other app-related data
       
-      // Force a page reload to reset the app state
-      window.location.href = '/';
+      // Small delay to ensure state updates, then redirect
+      setTimeout(() => {
+        window.location.href = '/';
+        window.location.reload();
+      }, 100);
     },
     onError: (error) => {
       console.error("Logout failed:", error);
       // Even if logout API fails, clear local state
       queryClient.clear();
       localStorage.removeItem('oppb-onboarding-completed');
-      window.location.href = '/';
+      localStorage.clear();
+      
+      // Redirect anyway to ensure user is logged out on frontend
+      setTimeout(() => {
+        window.location.href = '/';
+        window.location.reload();
+      }, 100);
     }
   });
 
   const logout = () => {
+    // Immediately clear the query cache to trigger re-render
+    queryClient.setQueryData(["/api/auth/user"], null);
+    
+    // Execute the logout mutation
     logoutMutation.mutate();
   };
 

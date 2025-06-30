@@ -21,9 +21,15 @@ import NotFound from "@/pages/not-found";
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(() => {
+    // Check localStorage on every render to handle logout state changes
     return localStorage.getItem('oppb-onboarding-completed') === 'true';
   });
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  // Reset onboarding state when user is not authenticated
+  if (!isAuthenticated && hasCompletedOnboarding) {
+    setHasCompletedOnboarding(false);
+  }
 
   const handleOnboardingComplete = () => {
     localStorage.setItem('oppb-onboarding-completed', 'true');
@@ -62,11 +68,15 @@ function Router() {
             <Route path="/" component={Landing} />
             <Route path="/onboarding" component={OnboardingWrapper} />
             <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+            {/* Fallback all other routes to Landing when not authenticated */}
+            <Route component={Landing} />
           </>
         ) : !hasCompletedOnboarding ? (
           <>
             <Route path="/" component={OnboardingWrapper} />
             <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+            {/* Fallback to onboarding when authenticated but not completed */}
+            <Route component={OnboardingWrapper} />
           </>
         ) : (
           <>
@@ -79,9 +89,10 @@ function Router() {
             <Route path="/transaction-history" component={TransactionHistory} />
             <Route path="/profile" component={Profile} />
             <Route path="/settings" component={Settings} />
+            {/* Fallback to dashboard for authenticated users */}
+            <Route component={ApplePayDashboard} />
           </>
         )}
-        <Route component={NotFound} />
       </Switch>
     </div>
   );
