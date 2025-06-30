@@ -10,6 +10,7 @@ import {
 } from "@/components/ApplePayAuthenticSVGs";
 import { OfflinePaymentFlowSVG } from "@/components/OfflinePaymentFlowSVG";
 import { SecureConnectionSVG } from "@/components/SecureConnectionSVG";
+import upiGif from "@assets/fetchpik.com-iconscout-upcaLHoyqi (1)_1751287545574.gif";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -314,10 +315,20 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           {/* Spacer */}
           <div className="flex-1"></div>
 
-          {/* Secure Connection Visual - Centered */}
+          {/* Secure Connection Visual with Real UPI GIF - Centered */}
           <div className="flex justify-center items-center" style={{ marginBottom: '32px' }}>
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-md relative">
+              {/* Background SVG for Bank and OPPB */}
               <SecureConnectionSVG className="w-full h-32" animated={true} />
+              
+              {/* Overlay the actual UPI GIF at the correct position */}
+              <div className="absolute top-1/2 left-[50px] transform -translate-y-1/2 -translate-x-1/2">
+                <img 
+                  src={upiGif} 
+                  alt="UPI Animation" 
+                  className="w-10 h-10 object-contain"
+                />
+              </div>
             </div>
           </div>
 

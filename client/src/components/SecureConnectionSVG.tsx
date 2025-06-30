@@ -125,90 +125,10 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
 
 
 
-    {/* Animated UPI Logo - Left */}
+    {/* UPI Logo Placeholder - Will be replaced with React component */}
     <g transform="translate(50, 50)">
-      {/* Outer pulsing ring */}
-      {animated && (
-        <circle cx="0" cy="0" r="25" fill="none" stroke="#4A90E2" strokeWidth="1" opacity="0.3">
-          <animate attributeName="r" values="20;30;20" dur="2s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite" />
-        </circle>
-      )}
-      
-      {/* Main UPI circle with gradient */}
-      <circle cx="0" cy="0" r="18" fill="url(#upiGradient)" stroke="#4A90E2" strokeWidth="2">
-        {animated && (
-          <animate attributeName="r" values="18;19;18" dur="1.5s" repeatCount="indefinite" />
-        )}
-      </circle>
-      
-      {/* Inner highlight circle */}
-      <circle cx="0" cy="0" r="12" fill="rgba(255,255,255,0.1)" opacity="0.8">
-        {animated && (
-          <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite" />
-        )}
-      </circle>
-      
-      {/* UPI Text with shadow effect */}
-      <text x="0" y="2" textAnchor="middle" fontSize="11" fontWeight="900" fill="#FFFFFF" filter="url(#textShadow)">
-        UPI
-        {animated && (
-          <animateTransform
-            attributeName="transform"
-            type="scale"
-            values="1;1.05;1"
-            dur="1.5s"
-            repeatCount="indefinite"
-          />
-        )}
-      </text>
-      
-      {/* Rotating dots around the circle */}
-      {animated && (
-        <g>
-          <circle cx="20" cy="0" r="1.5" fill="#4A90E2">
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values="0 0 0;360 0 0"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-            <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="-20" cy="0" r="1.5" fill="#4A90E2">
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values="180 0 0;540 0 0"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-            <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" begin="0.5s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="0" cy="20" r="1.5" fill="#4A90E2">
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values="90 0 0;450 0 0"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-            <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" begin="0.25s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="0" cy="-20" r="1.5" fill="#4A90E2">
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values="270 0 0;630 0 0"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-            <animate attributeName="opacity" values="0.7;1;0.7" dur="1s" begin="0.75s" repeatCount="indefinite" />
-          </circle>
-        </g>
-      )}
-      
+      {/* Placeholder circle for positioning */}
+      <circle cx="0" cy="0" r="20" fill="transparent" stroke="none" />
       <text x="0" y="35" textAnchor="middle" fontSize="10" fontWeight="600" fill="#4A5568">UPI</text>
     </g>
 
