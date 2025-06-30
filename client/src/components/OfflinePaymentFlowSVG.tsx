@@ -171,15 +171,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
       </g>
     )}
 
-    {/* Bottom Labels */}
-    <g transform="translate(200, 175)">
-      <text x="0" y="0" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1F2937" fontFamily="SF Pro Display, -apple-system, sans-serif">
-        Instant Offline Payments
-      </text>
-      <text x="0" y="18" textAnchor="middle" fontSize="12" fill="#6B7280" fontFamily="SF Pro Text, -apple-system, sans-serif">
-        No internet required • Secure Bluetooth technology
-      </text>
-    </g>
+
 
     {/* Success Checkmarks */}
     <g>
