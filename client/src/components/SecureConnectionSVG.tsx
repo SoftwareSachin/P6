@@ -68,6 +68,31 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
         <stop offset="50%" stopColor="#3730A3" stopOpacity="0.6"/>
         <stop offset="100%" stopColor="#1E1B4B" stopOpacity="0.5"/>
       </linearGradient>
+
+      {/* Bank Building Gradients */}
+      <linearGradient id="bankBodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#F8FAFC" stopOpacity="1"/>
+        <stop offset="50%" stopColor="#E2E8F0" stopOpacity="0.95"/>
+        <stop offset="100%" stopColor="#CBD5E1" stopOpacity="0.9"/>
+      </linearGradient>
+      
+      <linearGradient id="bankRoofGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#E2E8F0" stopOpacity="1"/>
+        <stop offset="50%" stopColor="#CBD5E1" stopOpacity="0.95"/>
+        <stop offset="100%" stopColor="#94A3B8" stopOpacity="0.9"/>
+      </linearGradient>
+
+      <linearGradient id="bankColumnsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.9"/>
+        <stop offset="50%" stopColor="#2563EB" stopOpacity="0.8"/>
+        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="0.7"/>
+      </linearGradient>
+
+      <linearGradient id="bankShadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="rgba(71, 85, 105, 0.3)" stopOpacity="1"/>
+        <stop offset="50%" stopColor="rgba(71, 85, 105, 0.2)" stopOpacity="0.8"/>
+        <stop offset="100%" stopColor="rgba(71, 85, 105, 0.1)" stopOpacity="0.5"/>
+      </linearGradient>
     </defs>
 
 
@@ -110,29 +135,55 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
       </path>
     </g>
 
-    {/* Bank Icon - Top Center */}
-    <g transform="translate(160, 12)">
-      {/* Bank Background */}
-      <rect x="-14" y="-8" width="28" height="16" rx="3" fill="#1F2937" filter="url(#softShadow)">
-        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite" />}
-      </rect>
-      
-      {/* Bank Icon from image */}
-      <g fill="white" transform="scale(0.6)">
-        {/* Roof */}
-        <path d="M0 -6 L-8 0 L8 0 Z" />
+    {/* Premium Bank Icon - Top Center */}
+    <g transform="translate(160, 15)">
+      {/* Premium 3D Bank */}
+      <g transform="scale(0.4) translate(-50, -60)">
+        {/* Main Building Foundation */}
+        <rect x="5" y="55" width="90" height="35" rx="2" fill="url(#bankBodyGradient)" stroke="rgba(148, 163, 184, 0.4)" strokeWidth="0.5"/>
         
-        {/* Columns */}
-        <rect x="-6" y="0" width="2" height="8" />
-        <rect x="-2" y="0" width="2" height="8" />
-        <rect x="2" y="0" width="2" height="8" />
-        <rect x="6" y="0" width="2" height="8" />
-        
-        {/* Base */}
-        <rect x="-8" y="8" width="16" height="1.5" />
+        {/* Building Steps */}
+        <rect x="0" y="75" width="100" height="8" rx="1" fill="url(#bankShadowGradient)"/>
+
+        {/* Triangular Roof */}
+        <path
+          d="M50 15 L85 40 L15 40 Z"
+          fill="url(#bankRoofGradient)"
+          stroke="rgba(148, 163, 184, 0.5)"
+          strokeWidth="0.8"
+        >
+          {animated && <animate attributeName="opacity" values="0.85;1;0.85" dur="4s" repeatCount="indefinite" />}
+        </path>
+
+        {/* Classical Columns */}
+        {[...Array(6)].map((_, i) => (
+          <g key={i}>
+            <rect
+              x={18 + i * 11}
+              y="40"
+              width="6"
+              height="35"
+              fill="url(#bankColumnsGradient)"
+              stroke="rgba(29, 78, 216, 0.3)"
+              strokeWidth="0.3"
+            />
+            <rect
+              x={17 + i * 11}
+              y="38"
+              width="8"
+              height="3"
+              rx="1"
+              fill="#F1F5F9"
+            />
+          </g>
+        ))}
+
+        {/* Main Entrance */}
+        <rect x="45" y="58" width="10" height="17" rx="1" fill="#1E40AF" opacity="0.8"/>
+        <circle cx="52" cy="66" r="0.8" fill="#F8FAFC" opacity="0.9"/>
       </g>
       
-      <text x="0" y="15" textAnchor="middle" fontSize="6" fontWeight="600" fill="#1F2937">Bank</text>
+      <text x="0" y="25" textAnchor="middle" fontSize="6" fontWeight="600" fill="#1F2937">Bank</text>
     </g>
 
     {/* Vertical Connection from Bank to Shield */}
