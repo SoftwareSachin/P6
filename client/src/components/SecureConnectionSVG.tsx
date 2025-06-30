@@ -112,116 +112,42 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
 
 
 
-    {/* Premium Payment Icon - Left */}
+    {/* Authentic UPI Logo - Left */}
     <g transform="translate(70, 50)">
-      {/* Premium Payment Logo */}
-      <g transform="scale(0.6) translate(-50, -50)">
-        {/* Background Glow */}
+      {/* Background Circle for Visibility */}
+      <circle cx="0" cy="-5" r="30" fill="rgba(255, 255, 255, 0.95)" stroke="rgba(61, 61, 60, 0.1)" strokeWidth="1" opacity="0.9"/>
+      
+      {/* Background Glow */}
+      {animated && (
+        <circle cx="0" cy="-5" r="35" fill="none" stroke="rgba(61, 61, 60, 0.3)" strokeWidth="0.5" opacity="0.4">
+          <animate attributeName="r" values="30;40;30" dur="4s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite" />
+        </circle>
+      )}
+
+      {/* Authentic UPI Logo */}
+      <g transform="scale(0.1) translate(-512, -130)">
+        <path fill="#3d3d3c" d="M98.1 340.7h6.3l-5.9 24.5c-.9 3.6-.7 6.4.5 8.2 1.2 1.8 3.4 2.7 6.7 2.7 3.2 0 5.9-.9 8-2.7 2.1-1.8 3.5-4.6 4.4-8.2l5.9-24.5h6.4l-6 25.1c-1.3 5.4-3.6 9.5-7 12.2-3.3 2.7-7.7 4.1-13.1 4.1-5.4 0-9.1-1.3-11.1-4s-2.4-6.8-1.1-12.2l6-25.2zm31.4 40.3 10-41.9 19 24.6c.5.7 1 1.4 1.5 2.2.5.8 1 1.7 1.6 2.7l6.7-27.9h5.9l-10 41.8-19.4-25.1-1.5-2.1c-.5-.8-.9-1.5-1.2-2.4l-6.7 28h-5.9zm44.2 0 9.6-40.3h6.4l-9.6 40.3h-6.4zm15.5 0 9.6-40.3h21.9l-1.3 5.6h-15.5l-2.4 10H217l-1.4 5.6h-15.5l-3.5 14.5h15.5l-1.4 5.6h-21.9z"/>
+        <path fill="#70706e" d="M740.7 305.6h-43.9l61-220.3h43.9l-61 220.3zM717.9 92.2c-3-4.2-7.7-6.3-14.1-6.3H462.6l-11.9 43.2h219.4l-12.8 46.1H481.8v-.1h-43.9l-36.4 131.5h43.9l24.4-88.2h197.3c6.2 0 12-2.1 17.4-6.3 5.4-4.2 9-9.4 10.7-15.6l24.4-88.2c1.9-6.6 1.3-11.9-1.7-16.1zm-342 199.6c-2.4 8.7-10.4 14.8-19.4 14.8H130.2c-6.2 0-10.8-2.1-13.8-6.3-3-4.2-3.7-9.4-1.9-15.6l55.2-198.8h43.9l-49.3 177.6h175.6l49.3-177.6h43.9l-57.2 205.9z"/>
+        <path fill="#098041" d="M877.5 85.7 933 196.1 816.3 306.5z"/>
+        <path fill="#e97626" d="M838.5 85.7 894 196.1 777.2 306.5z"/>
+        
+        {/* Subtle animation for authentic logo */}
         {animated && (
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#FF6B00" strokeWidth="0.5" opacity="0.2">
-            <animate attributeName="r" values="40;50;40" dur="4s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite" />
-          </circle>
-        )}
-
-        {/* Orange Triangle Blade - Left */}
-        <g>
-          {animated && (
+          <>
             <animateTransform
               attributeName="transform"
-              type="rotate"
-              values="0 50 50;2 50 50;0 50 50;-1 50 50;0 50 50"
-              dur="8s"
-              repeatCount="indefinite"
-            />
-          )}
-          
-          {/* Main Orange Triangle */}
-          <path
-            d="M20 20 L50 10 L80 80 L30 85 Z"
-            fill="url(#orangePaymentGradient)"
-            stroke="rgba(255, 255, 255, 0.2)"
-            strokeWidth="0.5"
-          >
-            {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="4s" repeatCount="indefinite" />}
-          </path>
-          
-          {/* Orange 3D Depth */}
-          <path
-            d="M22 22 L50 12 L80 82 L32 87 Z"
-            fill="rgba(230, 81, 0, 0.3)"
-            opacity="0.6"
-          />
-          
-          {/* Orange Highlight */}
-          <path
-            d="M20 20 L50 10 L65 45 L35 50 Z"
-            fill="rgba(255, 255, 255, 0.4)"
-            opacity="0.5"
-          />
-        </g>
-
-        {/* Green Triangle Blade - Right */}
-        <g>
-          {animated && (
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values="0 50 50;-1.5 50 50;0 50 50;2 50 50;0 50 50"
+              type="scale"
+              values="1;1.02;1"
               dur="6s"
               repeatCount="indefinite"
             />
-          )}
-          
-          {/* Main Green Triangle */}
-          <path
-            d="M50 10 L80 20 L70 85 L40 80 Z"
-            fill="url(#greenPaymentGradient)"
-            stroke="rgba(255, 255, 255, 0.15)"
-            strokeWidth="0.5"
-          >
-            {animated && <animate attributeName="opacity" values="0.85;1;0.85" dur="5s" repeatCount="indefinite" />}
-          </path>
-          
-          {/* Green 3D Depth */}
-          <path
-            d="M50 12 L80 22 L70 87 L40 82 Z"
-            fill="rgba(27, 94, 32, 0.4)"
-            opacity="0.6"
-          />
-          
-          {/* Green Highlight */}
-          <path
-            d="M50 10 L80 20 L65 55 L55 50 Z"
-            fill="rgba(255, 255, 255, 0.3)"
-            opacity="0.5"
-          />
-        </g>
-
-        {/* Intersection Area Enhancement */}
-        <path
-          d="M50 10 L65 45 L55 50 L40 80 Z"
-          fill="rgba(255, 165, 0, 0.2)"
-          opacity="0.8"
-        >
-          {animated && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />}
-        </path>
-
-        {/* Dynamic Edge Lines */}
-        <g stroke="rgba(255, 255, 255, 0.6)" strokeWidth="1" fill="none" opacity="0.7">
-          <path d="M20 20 L50 10">
-            {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite" />}
-          </path>
-          <path d="M50 10 L80 20">
-            {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3.5s" repeatCount="indefinite" />}
-          </path>
-          <path d="M80 80 L70 85">
-            {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite" />}
-          </path>
-        </g>
+            <animate attributeName="opacity" values="0.95;1;0.95" dur="4s" repeatCount="indefinite" />
+          </>
+        )}
       </g>
       
-      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#FF5722">UPI Pay</text>
+      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#3d3d3c">UPI</text>
     </g>
 
     {/* Secure Connection Line */}
