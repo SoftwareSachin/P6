@@ -377,6 +377,12 @@
     animation: apple-success 1200ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     will-change: transform, opacity, filter;
   }
+
+  @keyframes gridPulse {
+    0% { opacity: 0.05; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0.05; }
+  }
   
   /* Advanced Swipe Indicator - Breathing Effect */
   @keyframes swipe-indicator {

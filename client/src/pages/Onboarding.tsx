@@ -228,8 +228,54 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   if (currentScreen === 0) {
     return (
       <div className="min-h-screen bg-white relative overflow-hidden apple-pay-background">
+        {/* Animated Blue Grid Background */}
+        <div className="absolute inset-0 opacity-10">
+          <svg width="100%" height="100%" className="absolute inset-0">
+            <defs>
+              <pattern id="welcomeGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#3B82F6" strokeWidth="0.5" opacity="0.4">
+                  <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite" />
+                </path>
+              </pattern>
+              <pattern id="welcomeDots" width="80" height="80" patternUnits="userSpaceOnUse">
+                <circle cx="40" cy="40" r="1" fill="#3B82F6" opacity="0.5">
+                  <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite" />
+                  <animate attributeName="r" values="0.8;1.2;0.8" dur="3s" repeatCount="indefinite" />
+                </circle>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#welcomeGrid)" />
+            <rect width="100%" height="100%" fill="url(#welcomeDots)" />
+          </svg>
+          
+          {/* Animated Grid Lines */}
+          <div className="absolute inset-0">
+            {[...Array(10)].map((_, i) => (
+              <div
+                key={`v-${i}`}
+                className="absolute top-0 bottom-0 w-px bg-blue-400"
+                style={{
+                  left: `${(i + 1) * 10}%`,
+                  opacity: 0.12,
+                  animation: `gridPulse ${3 + i * 0.2}s ease-in-out infinite`
+                }}
+              />
+            ))}
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={`h-${i}`}
+                className="absolute left-0 right-0 h-px bg-blue-400"
+                style={{
+                  top: `${(i + 1) * 12.5}%`,
+                  opacity: 0.12,
+                  animation: `gridPulse ${2.5 + i * 0.3}s ease-in-out infinite`
+                }}
+              />
+            ))}
+          </div>
+        </div>
         
-        <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
+        <div className="flex flex-col h-screen relative z-10" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
           {/* Dynamic Offline Payment Flow SVG - Center positioning */}
           <div className="flex justify-center items-center" style={{ marginTop: '20px', height: '180px' }}>
             <div className="w-full max-w-sm">
