@@ -127,23 +127,14 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         {animated && <animate attributeName="stroke-dasharray" values="0 157;78.5 78.5;157 0" dur="2.5s" repeatCount="indefinite" />}
       </circle>
       
-      {/* Inner Bluetooth Icon */}
-      <circle cx="0" cy="0" r="15" fill="url(#bluetoothGlow)" filter="url(#glow)">
-        {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />}
-      </circle>
-      
-      {/* Proper Bluetooth Symbol */}
-      <g>
-        {/* Vertical line */}
-        <path d="M0 -8 L0 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        {/* Top triangle */}
-        <path d="M0 -8 L6 -4 L0 0" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        {/* Bottom triangle */}
-        <path d="M0 0 L6 4 L0 8" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        {/* Cross lines */}
-        <path d="M-4 -6 L6 4" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M-4 6 L6 -4" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-      </g>
+      {/* Animated Bluetooth GIF */}
+      <foreignObject x="-15" y="-15" width="30" height="30">
+        <img 
+          src="/src/assets/bluetooth-animated.gif" 
+          alt="Bluetooth"
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
+      </foreignObject>
       
       <text x="0" y="45" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3B82F6">Bluetooth</text>
       <text x="0" y="56" textAnchor="middle" fontSize="8" fill="#6B7280">Offline Connection</text>
