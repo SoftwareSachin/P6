@@ -1,423 +1,453 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, QrCode, Send, Users, RotateCcw, Zap, Bell, Menu, Smartphone, WifiOff, User, Star, Clock, Check, AlertCircle, DollarSign, ShoppingCart, Receipt, Phone, Gift, Trophy, Shield, Settings, CreditCard, FileText, AtSign, BarChart3, Plus, ArrowRight, Globe, Palette, HelpCircle, BookOpen, Building, LogOut } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { COLORS } from "@/lib/constants";
-import { BottomNavigation } from "@/components/BottomNavigation";
+import { 
+  Scan, 
+  Send, 
+  Users, 
+  CreditCard, 
+  Phone, 
+  Zap, 
+  Shield, 
+  Globe, 
+  Smartphone,
+  Bell,
+  Menu,
+  Eye,
+  EyeOff,
+  ArrowUpRight,
+  ArrowDownRight,
+  TrendingUp,
+  Star,
+  Sparkles
+} from "lucide-react";
 import { Link } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
+import { BottomNavigation } from "@/components/BottomNavigation";
+import { COLORS } from "@/lib/constants";
+import { 
+  PremiumQRScannerSVG, 
+  PremiumSendMoneySVG, 
+  PremiumSplitBillSVG, 
+  PremiumRequestMoneySVG,
+  PremiumRechargeSVG,
+  PremiumOfflinePaySVG,
+  PremiumInsuranceSVG,
+  PremiumRewardsSVG,
+  PremiumBellSVG,
+  PremiumMenuSVG,
+  PremiumShoppingCartSVG,
+  PremiumUserSVG,
+  PremiumPhoneSVG,
+  PremiumDollarSVG,
+  PremiumCreditCardSVG,
+  PremiumSettingsSVG,
+  PremiumHelpSVG,
+  PremiumLogoutSVG,
+  OPPBLogoSVG
+} from "@/components/PremiumSVGs";
+import {
+  ApplePayFaceIDSVG,
+  ApplePayCreditCardSVG,
+  ApplePayNFCSVG,
+  ApplePayTapSVG,
+  ApplePayTransitSVG,
+  ApplePayMerchantSVG,
+  ApplePaySecuritySVG,
+  ApplePayQRCodeSVG,
+  ApplePayPhoneSVG,
+  ApplePayWalletSVG,
+  ApplePayLocationSVG,
+  ApplePayTimeSVG,
+  ApplePaySuccessSVG,
+  ApplePaySendMoneySVG,
+  ApplePayContactlessSVG,
+  ApplePayCardStackSVG,
+  ApplePayBiometricSVG
+} from "@/components/ApplePaySVGs";
 
 export default function Dashboard() {
-  const [showBalance, setShowBalance] = useState(true);
-  const [showMenu, setShowMenu] = useState(false);
-  const { user } = useAuth();
+  const [balanceVisible, setBalanceVisible] = useState(true);
+  const [greeting, setGreeting] = useState("");
 
-  // Get user balance
-  const { data: balanceData } = useQuery({
-    queryKey: ['/api/user/balance'],
-    enabled: !!user
+  const { data: balance, isLoading: balanceLoading } = useQuery({
+    queryKey: ["/api/user/balance"],
   });
 
-  // Get recent transactions
-  const { data: transactions } = useQuery({
-    queryKey: ['/api/transactions'],
-    enabled: !!user
+  const { data: transactions, isLoading: transactionsLoading } = useQuery({
+    queryKey: ["/api/transactions"],
   });
 
-  const balance = (balanceData as any)?.balance || "12547.50";
-  const userName = (user as any)?.name || "Sachin";
-
-  // Helper function to render transaction icons
-  const getTransactionIcon = (iconType: string) => {
-    const iconClasses = "h-5 w-5";
-    switch (iconType) {
-      case "shopping-cart":
-        return <ShoppingCart className={iconClasses} />;
-      case "user":
-        return <User className={iconClasses} />;
-      case "zap":
-        return <Zap className={iconClasses} />;
-      case "phone":
-        return <Phone className={iconClasses} />;
-      default:
-        return <Receipt className={iconClasses} />;
-    }
-  };
-
-  // Mock recent transactions data matching PhonePe/GPay style exactly
-  const recentTransactions = [
-    {
-      id: 1,
-      merchant: "Zomato",
-      icon: "shopping-cart",
-      amount: -285,
-      status: "success",
-      time: "Today, 2:30 PM",
-      type: "debit"
-    },
-    {
-      id: 2,
-      merchant: "Rohit Kumar",
-      icon: "user",
-      amount: 500,
-      status: "success",
-      time: "Yesterday, 6:15 PM",
-      type: "credit"
-    },
-    {
-      id: 3,
-      merchant: "Electricity",
-      icon: "zap",
-      amount: -1200,
-      status: "pending",
-      time: "Oct 28, 11:30 AM",
-      type: "debit"
-    },
-    {
-      id: 4,
-      merchant: "Rahul Singh",
-      icon: "phone",
-      amount: -50,
-      status: "offline",
-      time: "Oct 27, 4:20 PM (Offline)",
-      type: "debit"
-    }
-  ];
-
-  // Get current time greeting exactly as specified
-  const getGreeting = () => {
+  useEffect(() => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
-  };
+    if (hour < 12) setGreeting("Good morning");
+    else if (hour < 17) setGreeting("Good afternoon");
+    else setGreeting("Good evening");
+  }, []);
 
-  // Exact Quick Actions as specified - 8 icons in 2 rows (4x2)
   const quickActions = [
-    { id: 1, name: "Scan & Pay", icon: QrCode, route: "/qr-scanner", color: COLORS.primary, bgColor: `${COLORS.primary}15` },
-    { id: 2, name: "To Mobile", icon: Send, route: "/send-money", color: COLORS.success, bgColor: `${COLORS.success}15` },
-    { id: 3, name: "Recharge & Bills", icon: FileText, route: "/bills", color: COLORS.warning, bgColor: `${COLORS.warning}15` },
-    { id: 4, name: "Request", icon: RotateCcw, route: "/request", color: COLORS.info, bgColor: `${COLORS.info}15` },
-    { id: 5, name: "My UPI", icon: AtSign, route: "/upi", color: COLORS.primary, bgColor: `${COLORS.primary}15` },
-    { id: 6, name: "Link Card", icon: CreditCard, route: "/cards", color: COLORS.secondary, bgColor: `${COLORS.secondary}15` },
-    { id: 7, name: "Transaction History", icon: BarChart3, route: "/transaction-history", color: COLORS.accent, bgColor: `${COLORS.accent}15` },
-    { id: 8, name: "Offline Payments", icon: Zap, route: "/offline-payments", color: COLORS.offline, bgColor: `${COLORS.offline}15` }
+    {
+      icon: ApplePayQRCodeSVG,
+      title: "QR Scanner",
+      subtitle: "Scan & Pay instantly",
+      href: "/qr-scanner",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-blue-500/20 to-indigo-600/20"
+    },
+    {
+      icon: ApplePaySendMoneySVG,
+      title: "Send Money",
+      subtitle: "To anyone, anywhere",
+      href: "/send-money",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-green-500/20 to-emerald-600/20"
+    },
+    {
+      icon: ApplePayCardStackSVG,
+      title: "Split Bill",
+      subtitle: "Share with friends",
+      href: "/split-bill",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-purple-500/20 to-pink-600/20"
+    },
+    {
+      icon: ApplePayContactlessSVG,
+      title: "Request",
+      subtitle: "Get paid fast",
+      href: "/request-money",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-orange-500/20 to-red-500/20"
+    },
+    {
+      icon: ApplePayPhoneSVG,
+      title: "Recharge",
+      subtitle: "Mobile & DTH",
+      href: "/recharge",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-teal-500/20 to-cyan-600/20"
+    },
+    {
+      icon: ApplePayNFCSVG,
+      title: "Offline Pay",
+      subtitle: "No internet needed",
+      href: "/offline-payments",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-indigo-500/20 to-purple-600/20"
+    },
+    {
+      icon: ApplePaySecuritySVG,
+      title: "Insurance",
+      subtitle: "Protect & Save",
+      href: "/insurance",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-rose-500/20 to-pink-600/20"
+    },
+    {
+      icon: ApplePayBiometricSVG,
+      title: "Rewards",
+      subtitle: "Earn cashback",
+      href: "/rewards",
+      gradient: "apple-pay-gradient",
+      glowColor: "from-yellow-500/20 to-amber-600/20"
+    }
   ];
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "success":
-        return <Check className="h-4 w-4 text-green-500" />;
-      case "pending":
-        return <AlertCircle className="h-4 w-4 text-yellow-500" />;
-      case "offline":
-        return <WifiOff className="h-4 w-4 text-orange-500" />;
-      default:
-        return <Clock className="h-4 w-4 text-gray-500" />;
-    }
-  };
+  const recentTransactions = Array.isArray(transactions) ? transactions.slice(0, 3) : [];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: COLORS.background }}>
-      {/* Header Section - Exact PhonePe/GPay Style */}
-      <div className="flex items-center justify-between p-4" style={{ backgroundColor: COLORS.cardWhite }}>
-        <div className="flex items-center space-x-3">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="/api/avatar" />
-            <AvatarFallback style={{ backgroundColor: COLORS.primary, color: 'white' }}>
-              {userName.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pb-20 relative overflow-hidden">
+      {/* Premium Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-2xl animate-pulse-slow"></div>
+        <div className="absolute top-1/2 right-1/4 w-48 h-48 bg-pink-500/10 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      {/* Ultra Premium Status Bar */}
+      <div className="relative z-10 flex items-center justify-between p-6 backdrop-blur-2xl bg-black/20 border-b border-white/10">
+        <div className="flex items-center space-x-4 animate-slide-up-premium">
+          <div className="relative">
+            <div className="w-12 h-12 rounded-2xl apple-pay-gradient flex items-center justify-center p-2 shadow-glow animate-pulse-glow">
+              <OPPBLogoSVG className="w-8 h-8" animated={true} />
+            </div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-black animate-pulse"></div>
+          </div>
           <div>
-            <p className="text-sm" style={{ color: COLORS.textSecondary }}>
-              {getGreeting()}!
-            </p>
-            <p className="font-semibold" style={{ color: COLORS.textPrimary }}>
-              Hi {userName}!
+            <p className="text-lg font-bold text-white">{greeting}</p>
+            <p className="text-sm text-white/70 flex items-center space-x-1">
+              <ApplePayBiometricSVG className="w-4 h-4" />
+              <span>Secured with Face ID</span>
             </p>
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5" style={{ color: COLORS.textPrimary }} />
-            <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="relative w-12 h-12 rounded-2xl p-0 apple-pay-glass hover:bg-white/20 group"
+          >
+            <ApplePayBiometricSVG className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
           </Button>
-          <Button variant="ghost" size="icon">
-            <Smartphone className="h-5 w-5" style={{ color: COLORS.success }} />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={() => setShowMenu(true)}>
-            <Menu className="h-5 w-5" style={{ color: COLORS.textPrimary }} />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="w-12 h-12 rounded-2xl p-0 apple-pay-glass hover:bg-white/20 group"
+          >
+            <PremiumMenuSVG className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </Button>
         </div>
       </div>
 
-      {/* Premium Balance Card - Material Design 3.0 */}
-      <div className="p-4">
-        <Card className="border-0 overflow-hidden balance-card-premium animate-slide-up-premium">
-          <CardContent className="p-0 relative">
-            {/* Premium Background Effects */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -translate-y-20 translate-x-20 animate-float"></div>
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/40 rounded-full translate-y-16 -translate-x-16"></div>
-              <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-white/20 rounded-full -translate-x-12 -translate-y-12 animate-pulse-slow"></div>
-            </div>
-            
-            <div className="relative z-10 p-8">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
-                    <DollarSign className="h-6 w-6 text-white" />
+      <div className="relative z-10 p-6 space-y-8">
+        {/* Ultra Premium Apple Pay Balance Card */}
+        <Card className="border-0 shadow-premium animate-scale-in-premium relative overflow-hidden">
+          <div className="absolute inset-0 apple-pay-gradient"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20"></div>
+          
+          {/* Premium Animated Shimmer Effect */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"></div>
+          </div>
+          
+          {/* Floating Elements */}
+          <div className="absolute top-6 right-6 w-20 h-20 bg-white/5 rounded-full blur-xl animate-float"></div>
+          <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg animate-float" style={{ animationDelay: '1s' }}></div>
+
+          <CardContent className="p-8 text-white relative z-10">
+            <div className="space-y-6">
+              {/* Header Section */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/30 flex items-center justify-center shadow-lg animate-pulse-glow">
+                    <ApplePayWalletSVG className="w-8 h-8 text-white drop-shadow-sm" />
                   </div>
                   <div>
-                    <p className="text-white/80 text-sm font-medium">Available Balance</p>
-                    <p className="text-white/60 text-xs">Last updated: just now</p>
+                    <p className="text-white/90 text-base font-semibold">OPPB Wallet</p>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <Badge className="bg-white/20 text-white text-xs backdrop-blur-sm border-white/30">
+                        <ApplePaySecuritySVG className="w-3 h-3 mr-1" />
+                        Bank Protected
+                      </Badge>
+                      <div className="flex items-center space-x-1">
+                        <Star className="w-3 h-3 text-yellow-300 fill-current" />
+                        <span className="text-xs text-white/80">Premium</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
-                  size="icon"
-                  onClick={() => setShowBalance(!showBalance)}
-                  className="text-white hover:bg-white/20 rounded-xl animate-pulse-glow"
+                  size="sm"
+                  onClick={() => setBalanceVisible(!balanceVisible)}
+                  className="text-white hover:bg-white/20 rounded-2xl w-12 h-12 p-0 backdrop-blur-sm group"
                 >
-                  {showBalance ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {balanceVisible ? 
+                    <EyeOff className="w-6 h-6 group-hover:scale-110 transition-transform" /> : 
+                    <Eye className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                  }
                 </Button>
               </div>
-              
-              <div className="mb-8">
-                <p className={`text-4xl font-bold text-white transition-all duration-300 ${showBalance ? 'balance-visible' : 'balance-hidden'}`}>
-                  ₹{showBalance ? balance.toLocaleString() : "••••••"}
-                </p>
-                <p className="text-white/60 text-sm mt-1">Indian Rupees</p>
-              </div>
-              
-              <div className="flex space-x-3">
-                <Button className="btn-primary-premium flex-1 bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm">
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Add Money
-                </Button>
-                <Button className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm rounded-xl">
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Money
-                </Button>
+
+              {/* Balance Display */}
+              <div className="space-y-4">
+                <div className="flex items-baseline space-x-3">
+                  <span className="text-5xl font-black text-white drop-shadow-lg">
+                    {balanceVisible 
+                      ? balanceLoading 
+                        ? "••••" 
+                        : `₹${parseFloat((balance as any)?.balance || "0").toLocaleString('en-IN')}`
+                      : "••••••••"
+                    }
+                  </span>
+                  {!balanceLoading && (
+                    <div className="flex items-center space-x-1 text-green-300 animate-pulse-glow">
+                      <TrendingUp className="w-5 h-5" />
+                      <span className="text-base font-bold">+2.5%</span>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Financial Insights */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-green-500/20 backdrop-blur-sm flex items-center justify-center">
+                      <ArrowDownRight className="w-5 h-5 text-green-300" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-white/70 font-medium">Income</p>
+                      <p className="text-base font-bold text-green-300">+₹12,450</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-red-500/20 backdrop-blur-sm flex items-center justify-center">
+                      <ArrowUpRight className="w-5 h-5 text-red-300" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-white/70 font-medium">Spent</p>
+                      <p className="text-base font-bold text-red-300">-₹8,230</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Apple Pay Style Action Buttons */}
+                <div className="flex space-x-4 pt-4">
+                  <Button className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 rounded-2xl h-14 font-bold backdrop-blur-xl transition-all duration-300 hover:scale-105 shadow-lg">
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Add Money
+                  </Button>
+                  <Button className="flex-1 bg-white/10 hover:bg-white/20 text-white border-0 rounded-2xl h-14 font-bold backdrop-blur-xl transition-all duration-300 hover:scale-105 shadow-lg">
+                    <Zap className="w-5 h-5 mr-2" />
+                    Pay Bills
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
-      </div>
 
-      {/* Premium Quick Actions Grid - Material Design 3.0 */}
-      <div className="p-4">
-        <div className="grid grid-cols-4 gap-3">
-          {quickActions.map((action, index) => (
-            <Link key={action.id} href={action.route}>
-              <div 
-                className="quick-action-premium animate-scale-in flex flex-col items-center space-y-3 relative"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {/* Premium Icon Container */}
-                <div className="relative">
-                  <div 
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-card animate-shimmer"
-                    style={{ 
-                      background: `linear-gradient(135deg, ${action.color}15 0%, ${action.color}25 100%)`,
-                      border: `1px solid ${action.color}20`
-                    }}
-                  >
-                    <action.icon 
-                      className="h-7 w-7 transition-transform duration-300 group-hover:scale-110" 
-                      style={{ color: action.color }} 
-                    />
-                  </div>
-                  
-                  {/* Subtle glow effect */}
-                  <div 
-                    className="absolute inset-0 rounded-2xl opacity-0 hover:opacity-30 transition-opacity duration-300"
-                    style={{ 
-                      background: `radial-gradient(circle, ${action.color}40 0%, transparent 70%)`,
-                      filter: 'blur(8px)'
-                    }}
-                  ></div>
-                </div>
-                
-                {/* Premium Typography */}
-                <span 
-                  className="text-xs text-center font-semibold leading-tight tracking-wide"
-                  style={{ color: COLORS.textPrimary }}
-                >
-                  {action.name}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Premium Recent Transactions - Material Design 3.0 */}
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-xl font-bold" style={{ color: COLORS.textPrimary }}>
-              Recent Transactions
+        {/* Ultra Premium Quick Actions */}
+        <div className="animate-slide-up-premium" style={{ animationDelay: '0.2s' }}>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-black text-white flex items-center space-x-3">
+              <ApplePayCardStackSVG className="w-8 h-8" />
+              <span>Quick Actions</span>
             </h2>
-            <p className="text-sm" style={{ color: COLORS.textSecondary }}>
-              Last 7 days activity
-            </p>
-          </div>
-          <Link href="/transaction-history">
-            <Button className="btn-primary-premium px-4 py-2 bg-gradient-primary hover:shadow-premium">
+            <Button variant="ghost" className="text-purple-300 font-bold hover:text-white">
               View All
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
-          </Link>
-        </div>
-
-        <div className="space-y-3">
-          {recentTransactions.map((transaction, index) => (
-            <div 
-              key={transaction.id} 
-              className="transaction-item-premium animate-slide-up-premium"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="flex items-center space-x-4">
-                {/* Premium Transaction Icon */}
-                <div className="relative">
-                  <div 
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-card ${
-                      transaction.status === 'success' ? 'bg-gradient-success' : 
-                      transaction.status === 'pending' ? 'bg-gradient-to-br from-orange-400 to-yellow-500' :
-                      'bg-gradient-to-br from-orange-500 to-red-500'
-                    }`}
-                  >
-                    {getTransactionIcon(transaction.icon)}
-                  </div>
-                  
-                  {/* Status Indicator */}
-                  <div className="absolute -bottom-1 -right-1">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                      transaction.status === 'success' ? 'bg-green-500' :
-                      transaction.status === 'pending' ? 'bg-yellow-500' :
-                      'bg-orange-500'
-                    }`}>
-                      {getStatusIcon(transaction.status)}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Transaction Details */}
-                <div className="flex-1">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-bold text-base" style={{ color: COLORS.textPrimary }}>
-                        {transaction.merchant}
-                      </h3>
-                      <p className="text-sm font-medium" style={{ color: COLORS.textSecondary }}>
-                        {transaction.time}
-                      </p>
-                      {transaction.status === 'offline' && (
-                        <Badge className="mt-1 bg-orange-100 text-orange-800 text-xs">
-                          <WifiOff className="h-3 w-3 mr-1" />
-                          Offline Payment
-                        </Badge>
-                      )}
-                    </div>
-                    
-                    {/* Premium Amount Display */}
-                    <div className="text-right">
-                      <p 
-                        className={`font-bold text-lg ${
-                          transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'
-                        }`}
-                      >
-                        {transaction.type === 'credit' ? '+' : '-'}₹{Math.abs(transaction.amount).toLocaleString()}
-                      </p>
-                      <p className={`text-xs font-medium ${
-                        transaction.status === 'success' ? 'text-green-600' :
-                        transaction.status === 'pending' ? 'text-yellow-600' :
-                        'text-orange-600'
-                      }`}>
-                        {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Hamburger Menu Overlay */}
-      {showMenu && (
-        <div className="fixed inset-0 z-50 bg-white">
-          <div className="flex items-center justify-between p-4 border-b">
-            <Menu className="h-6 w-6" style={{ color: COLORS.textPrimary }} />
-            <Button variant="ghost" size="icon" onClick={() => setShowMenu(false)}>
-              <span className="text-xl">✖</span>
             </Button>
           </div>
           
-          <div className="p-4">
-            <div className="flex items-center space-x-4 mb-6">
-              <Avatar className="h-16 w-16">
-                <AvatarFallback style={{ backgroundColor: COLORS.primary, color: 'white' }}>
-                  {userName.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h3 className="text-xl font-bold" style={{ color: COLORS.textPrimary }}>
-                  {userName} Gupta
-                </h3>
-                <p className="text-sm" style={{ color: COLORS.textSecondary }}>
-                  singhal3.sachin7@gmail.com
-                </p>
-                <Button variant="outline" size="sm" className="mt-2">
-                  View Profile
-                </Button>
-              </div>
-            </div>
-
-            <div className="border-t pt-4 space-y-4" style={{ borderColor: COLORS.border }}>
-              <div className="space-y-3">
-                <MenuItem icon={<DollarSign className="h-5 w-5" />} text="Payments & Bank Accounts" />
-                <MenuItem icon={<Gift className="h-5 w-5" />} text="Refer & Earn" />
-                <MenuItem icon={<Trophy className="h-5 w-5" />} text="Rewards" />
-                <MenuItem icon={<Smartphone className="h-5 w-5" />} text="OPPB for Business" />
-                <MenuItem icon={<Shield className="h-5 w-5" />} text="Privacy & Security" />
-                <MenuItem icon={<Globe className="h-5 w-5" />} text="Language: English" />
-                <MenuItem icon={<Palette className="h-5 w-5" />} text="Theme: Auto" />
-                <MenuItem icon={<HelpCircle className="h-5 w-5" />} text="Help & Support" />
-                <MenuItem icon={<Settings className="h-5 w-5" />} text="Settings" />
-              </div>
-
-              <div className="border-t pt-4 space-y-3" style={{ borderColor: COLORS.border }}>
-                <MenuItem icon={<BookOpen className="h-5 w-5" />} text="Terms & Conditions" />
-                <MenuItem icon={<Shield className="h-5 w-5" />} text="Privacy Policy" />
-                <MenuItem icon={<Building className="h-5 w-5" />} text="About OPPB" />
-                <MenuItem icon={<LogOut className="h-5 w-5" />} text="Sign Out" />
-              </div>
-            </div>
+          <div className="grid grid-cols-2 gap-6">
+            {quickActions.map((action, index) => (
+              <Link key={index} href={action.href}>
+                <Card className="border-0 overflow-hidden hover:scale-105 transition-all duration-700 cursor-pointer group card-3d-stack animate-scale-in-premium" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="absolute inset-0 apple-pay-glass"></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${action.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                  
+                  <CardContent className="p-6 relative z-10">
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-3xl apple-pay-gradient flex items-center justify-center shadow-premium group-hover:scale-110 transition-all duration-500 p-3">
+                          <action.icon className="w-10 h-10 text-white drop-shadow-lg" animated={true} />
+                        </div>
+                        <div className="absolute inset-0 w-16 h-16 rounded-3xl apple-pay-gradient animate-pulse-glow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-black text-white text-xl mb-2 group-hover:text-purple-200 transition-colors drop-shadow-sm">{action.title}</h3>
+                        <p className="text-white/80 text-sm font-medium">{action.subtitle}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-2 group-hover:translate-x-0">
+                      <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <ArrowUpRight className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
-      )}
 
-      <div className="pb-20">
-        <BottomNavigation activeTab="home" />
-      </div>
-    </div>
-  );
-}
+        {/* Ultra Premium Recent Transactions */}
+        <div className="animate-slide-up-premium" style={{ animationDelay: '0.4s' }}>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-black text-white flex items-center space-x-3">
+              <ApplePayTimeSVG className="w-8 h-8" />
+              <span>Recent Activity</span>
+            </h2>
+            <Link href="/transactions">
+              <Button variant="ghost" className="text-purple-300 font-bold hover:text-white">
+                View All
+              </Button>
+            </Link>
+          </div>
 
-// Menu Item Component
-function MenuItem({ icon, text }: { icon: React.ReactNode; text: string }) {
-  return (
-    <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
-      <div className="w-6 h-6 flex items-center justify-center">
-        {icon}
+          {transactionsLoading ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="apple-pay-glass border-0">
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-14 h-14 bg-white/20 rounded-3xl animate-pulse"></div>
+                      <div className="flex-1 space-y-3">
+                        <div className="h-5 bg-white/20 rounded-xl animate-pulse"></div>
+                        <div className="h-4 bg-white/10 rounded-lg w-3/4 animate-pulse"></div>
+                      </div>
+                      <div className="h-8 bg-white/20 rounded-xl w-20 animate-pulse"></div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : recentTransactions.length > 0 ? (
+            <div className="space-y-4">
+              {recentTransactions.map((transaction: any, index: number) => (
+                <Card key={transaction.id} className="border-0 apple-pay-glass hover:shadow-premium transition-all duration-500 transaction-row-premium animate-slide-up-premium card-3d-stack" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-5">
+                      <div className={`w-14 h-14 rounded-3xl flex items-center justify-center shadow-premium ${
+                        transaction.type === 'credit' ? 'bg-green-500 shadow-green-500/30' : 'bg-red-500 shadow-red-500/30'
+                      } animate-pulse-glow`}>
+                        {transaction.type === 'credit' ? (
+                          <ArrowDownRight className="w-7 h-7 text-white drop-shadow-sm" />
+                        ) : (
+                          <ArrowUpRight className="w-7 h-7 text-white drop-shadow-sm" />
+                        )}
+                      </div>
+                      
+                      <div className="flex-1">
+                        <h3 className="font-bold text-white text-lg mb-1 drop-shadow-sm">{transaction.description}</h3>
+                        <p className="text-white/70 text-sm flex items-center space-x-2">
+                          <ApplePayTimeSVG className="w-4 h-4" />
+                          <span>{new Date(transaction.createdAt).toLocaleDateString()}</span>
+                        </p>
+                      </div>
+                      
+                      <div className="text-right">
+                        <p className={`font-black text-xl drop-shadow-sm ${
+                          transaction.type === 'credit' ? 'text-green-300' : 'text-red-300'
+                        }`}>
+                          {transaction.type === 'credit' ? '+' : '-'}₹{parseFloat(transaction.amount).toLocaleString('en-IN')}
+                        </p>
+                        <Badge className={`text-xs mt-1 ${
+                          transaction.status === 'completed' ? 'bg-green-500/20 text-green-300 border-green-500/30' : 
+                          transaction.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 
+                          'bg-red-500/20 text-red-300 border-red-500/30'
+                        } backdrop-blur-sm`}>
+                          {transaction.status}
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="border-0 apple-pay-glass">
+              <CardContent className="p-12 text-center">
+                <div className="w-24 h-24 mx-auto mb-8 rounded-3xl apple-pay-gradient flex items-center justify-center shadow-premium animate-pulse-glow">
+                  <ApplePaySuccessSVG className="w-12 h-12 text-white drop-shadow-sm" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-4 drop-shadow-sm">No transactions yet</h3>
+                <p className="text-white/70 mb-8 text-lg">Start your premium payment journey</p>
+                <Link href="/qr-scanner">
+                  <Button className="apple-pay-gradient px-8 py-4 rounded-2xl text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-premium">
+                    <ApplePayQRCodeSVG className="w-6 h-6 mr-3" />
+                    Scan QR Code
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
-      <span style={{ color: COLORS.textPrimary }}>{text}</span>
+
+      <BottomNavigation activeTab="home" />
     </div>
   );
 }
