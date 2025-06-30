@@ -298,6 +298,16 @@
     50% { opacity: 0.8; }
   }
   
+  /* Scrollbar Hide Utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
   .card-3d-stack {
     transform-style: preserve-3d;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);

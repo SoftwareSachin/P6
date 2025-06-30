@@ -62,37 +62,44 @@ function Router() {
     );
   }
 
+  // Determine which component to render based on authentication and onboarding state
+  if (!isAuthenticated) {
+    return (
+      <div className="mobile-container min-h-screen">
+        <Switch>
+          <Route path="/" component={Landing} />
+          <Route path="*" component={Landing} />
+        </Switch>
+      </div>
+    );
+  }
+
+  if (!hasCompletedOnboarding) {
+    return (
+      <div className="mobile-container min-h-screen">
+        <Switch>
+          <Route path="/" component={OnboardingWrapper} />
+          <Route path="/onboarding" component={OnboardingWrapper} />
+          <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+          <Route path="*" component={OnboardingWrapper} />
+        </Switch>
+      </div>
+    );
+  }
+
   return (
-    <div className="mobile-container">
+    <div className="mobile-container min-h-screen">
       <Switch>
-        {!isAuthenticated ? (
-          <>
-            <Route path="/" component={Landing} />
-            <Route path="/onboarding" component={OnboardingWrapper} />
-            <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
-            <Route path="*" component={Landing} />
-          </>
-        ) : !hasCompletedOnboarding ? (
-          <>
-            <Route path="/" component={OnboardingWrapper} />
-            <Route path="/onboarding" component={OnboardingWrapper} />
-            <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
-            <Route path="*" component={OnboardingWrapper} />
-          </>
-        ) : (
-          <>
-            <Route path="/" component={ApplePayDashboard} />
-            <Route path="/dashboard" component={ApplePayDashboard} />
-            <Route path="/qr-scanner" component={QRScanner} />
-            <Route path="/send-money" component={SendMoney} />
-            <Route path="/offline-payments" component={OfflinePayments} />
-            <Route path="/payment" component={PaymentScreen} />
-            <Route path="/transaction-history" component={TransactionHistory} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/settings" component={Settings} />
-            <Route path="*" component={ApplePayDashboard} />
-          </>
-        )}
+        <Route path="/" component={ApplePayDashboard} />
+        <Route path="/dashboard" component={ApplePayDashboard} />
+        <Route path="/qr-scanner" component={QRScanner} />
+        <Route path="/send-money" component={SendMoney} />
+        <Route path="/offline-payments" component={OfflinePayments} />
+        <Route path="/payment" component={PaymentScreen} />
+        <Route path="/transaction-history" component={TransactionHistory} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/settings" component={Settings} />
+        <Route path="*" component={ApplePayDashboard} />
       </Switch>
     </div>
   );
