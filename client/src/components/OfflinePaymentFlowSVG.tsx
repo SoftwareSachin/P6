@@ -55,22 +55,69 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
       {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite" />}
     </ellipse>
 
-    {/* Left Device (Store/Merchant) */}
+    {/* Left Device (Merchant Phone) - 3D Style */}
     <g transform="translate(60, 70)">
-      <rect x="-15" y="-20" width="30" height="40" rx="8" fill="url(#deviceGradient)" filter="url(#softShadow)">
-        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite" />}
+      {/* Phone Shadow/Depth */}
+      <rect x="-13" y="-27" width="28" height="56" rx="9" fill="rgba(0,0,0,0.2)" transform="translate(2, 2)" />
+      
+      {/* Phone Body */}
+      <rect x="-15" y="-30" width="30" height="60" rx="10" fill="url(#deviceGradient)" filter="url(#softShadow)">
+        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.03;1" dur="4s" repeatCount="indefinite" />}
       </rect>
       
+      {/* Phone Side Edge (3D Effect) */}
+      <path d="M15 -30 L17 -28 L17 28 L15 30" fill="rgba(0,0,0,0.15)" />
+      
+      {/* Screen Bezel */}
+      <rect x="-12" y="-27" width="24" height="54" rx="8" fill="#1F2937" />
+      
       {/* Screen */}
-      <rect x="-10" y="-15" width="20" height="25" rx="3" fill="rgba(255,255,255,0.9)" />
-      <rect x="-8" y="-10" width="16" height="6" rx="1" fill="#3B82F6" />
-      <text x="0" y="-6" textAnchor="middle" fontSize="4" fontWeight="bold" fill="white">STORE</text>
+      <rect x="-10" y="-25" width="20" height="50" rx="6" fill="rgba(255,255,255,0.98)" />
       
-      {/* Store icon */}
-      <circle cx="0" cy="5" r="3" fill="#10B981" />
-      <path d="M-2 5 L0 7 L2 3" stroke="white" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+      {/* Status Bar */}
+      <rect x="-9" y="-24" width="18" height="3" rx="1" fill="#F3F4F6" />
+      <circle cx="6" cy="-22.5" r="0.5" fill="#10B981" />
       
-      <text x="0" y="35" textAnchor="middle" fontSize="10" fontWeight="600" fill="#6366F1">Merchant</text>
+      {/* App Header */}
+      <rect x="-9" y="-20" width="18" height="6" rx="1" fill="#6366F1" />
+      <text x="0" y="-16" textAnchor="middle" fontSize="2.5" fontWeight="bold" fill="white">Payment Machine</text>
+      
+      {/* Payment Amount Display */}
+      <rect x="-8" y="-12" width="16" height="8" rx="2" fill="#F9FAFB" stroke="#E5E7EB" strokeWidth="0.3" />
+      <text x="0" y="-7" textAnchor="middle" fontSize="4" fontWeight="bold" fill="#059669">₹299.00</text>
+      
+      {/* Dynamic QR Code */}
+      <rect x="-7" y="-2" width="14" height="14" rx="1" fill="#1F2937" />
+      <rect x="-6" y="-1" width="12" height="12" rx="0.5" fill="white" />
+      <g fill="#1F2937">
+        {animated && (
+          <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" />
+        )}
+        <rect x="-5" y="0" width="2" height="2" />
+        <rect x="-2" y="0" width="2" height="2" />
+        <rect x="1" y="0" width="2" height="2" />
+        <rect x="4" y="0" width="1" height="2" />
+        <rect x="-5" y="3" width="1" height="2" />
+        <rect x="-3" y="3" width="2" height="2" />
+        <rect x="1" y="3" width="1" height="2" />
+        <rect x="3" y="3" width="2" height="2" />
+        <rect x="-5" y="6" width="2" height="2" />
+        <rect x="-2" y="6" width="1" height="2" />
+        <rect x="1" y="6" width="2" height="2" />
+        <rect x="4" y="6" width="1" height="2" />
+      </g>
+      
+      {/* Bottom Buttons */}
+      <rect x="-7" y="15" width="6" height="3" rx="1" fill="#EF4444" />
+      <text x="-4" y="17" textAnchor="middle" fontSize="1.5" fontWeight="bold" fill="white">Cancel</text>
+      
+      <rect x="1" y="15" width="6" height="3" rx="1" fill="#10B981" />
+      <text x="4" y="17" textAnchor="middle" fontSize="1.5" fontWeight="bold" fill="white">Accept</text>
+      
+      {/* Home Indicator */}
+      <rect x="-3" y="22" width="6" height="1" rx="0.5" fill="#9CA3AF" />
+      
+      <text x="0" y="38" textAnchor="middle" fontSize="10" fontWeight="600" fill="#6366F1">Merchant</text>
     </g>
 
     {/* Central Bluetooth Hub */}
@@ -102,24 +149,112 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
       <text x="0" y="56" textAnchor="middle" fontSize="8" fill="#6B7280">Offline Connection</text>
     </g>
 
-    {/* Right Device (User Phone) */}
+    {/* Right Device (User Phone) - 3D Style */}
     <g transform="translate(340, 70)">
-      <rect x="-12" y="-25" width="24" height="50" rx="8" fill="url(#deviceGradient)" filter="url(#softShadow)">
-        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" begin="1s" repeatCount="indefinite" />}
+      {/* Phone Shadow/Depth */}
+      <rect x="-13" y="-27" width="28" height="56" rx="9" fill="rgba(0,0,0,0.2)" transform="translate(2, 2)" />
+      
+      {/* Phone Body */}
+      <rect x="-15" y="-30" width="30" height="60" rx="10" fill="url(#deviceGradient)" filter="url(#softShadow)">
+        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.03;1" dur="4s" begin="1s" repeatCount="indefinite" />}
       </rect>
       
+      {/* Phone Side Edge (3D Effect) */}
+      <path d="M15 -30 L17 -28 L17 28 L15 30" fill="rgba(0,0,0,0.15)" />
+      
+      {/* Screen Bezel */}
+      <rect x="-12" y="-27" width="24" height="54" rx="8" fill="#1F2937" />
+      
       {/* Screen */}
-      <rect x="-8" y="-20" width="16" height="35" rx="3" fill="rgba(255,255,255,0.95)" />
+      <rect x="-10" y="-25" width="20" height="50" rx="6" fill="rgba(255,255,255,0.98)" />
       
-      {/* OPPB App Icon */}
-      <circle cx="0" cy="-12" r="4" fill="#8B5CF6" />
-      <text x="0" y="-9" textAnchor="middle" fontSize="3" fontWeight="bold" fill="white">OPPB</text>
+      {/* Status Bar */}
+      <rect x="-9" y="-24" width="18" height="3" rx="1" fill="#F3F4F6" />
+      <circle cx="6" cy="-22.5" r="0.5" fill="#10B981" />
       
-      {/* Payment Success */}
-      <circle cx="0" cy="2" r="6" fill="url(#successGradient)" />
-      <path d="M-3 2 L-1 4 L3 0" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {/* OPPB App Header */}
+      <rect x="-9" y="-20" width="18" height="6" rx="1" fill="#8B5CF6" />
+      <text x="0" y="-16" textAnchor="middle" fontSize="2.5" fontWeight="bold" fill="white">OPPB Wallet</text>
       
-      <text x="0" y="35" textAnchor="middle" fontSize="10" fontWeight="600" fill="#6366F1">Your Phone</text>
+      {/* Dynamic Payment Success Animation */}
+      <g>
+        {/* Success Background */}
+        <rect x="-8" y="-12" width="16" height="20" rx="3" fill="#F0FDF4" stroke="#22C55E" strokeWidth="0.5">
+          {animated && <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />}
+        </rect>
+        
+        {/* Animated Success Circle */}
+        <circle cx="0" cy="-2" r="6" fill="url(#successGradient)">
+          {animated && (
+            <>
+              <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />
+            </>
+          )}
+        </circle>
+        
+        {/* Animated Checkmark */}
+        <path d="M-3 -2 L-1 0 L3 -4" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          {animated && (
+            <>
+              <animate attributeName="stroke-dasharray" values="0 10;10 0" dur="1s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite" />
+            </>
+          )}
+        </path>
+        
+        {/* Payment Confirmation Text */}
+        <text x="0" y="3" textAnchor="middle" fontSize="2" fontWeight="bold" fill="#059669">Payment</text>
+        <text x="0" y="6" textAnchor="middle" fontSize="2" fontWeight="bold" fill="#059669">Successful!</text>
+      </g>
+      
+      {/* Dynamic Amount Display */}
+      <text x="0" y="12" textAnchor="middle" fontSize="3" fontWeight="bold" fill="#059669">
+        ₹299.00
+        {animated && <animate attributeName="opacity" values="0.7;1;0.7" dur="2.5s" repeatCount="indefinite" />}
+      </text>
+      
+      {/* Success Particles */}
+      {animated && (
+        <g>
+          {[...Array(6)].map((_, i) => (
+            <circle
+              key={i}
+              cx={Math.cos(i * Math.PI / 3) * 12}
+              cy={-2 + Math.sin(i * Math.PI / 3) * 8}
+              r="1"
+              fill="#22C55E"
+              opacity="0.6"
+            >
+              <animate
+                attributeName="opacity"
+                values="0;1;0"
+                dur="2s"
+                begin={`${i * 0.3}s`}
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="r"
+                values="0.5;1.5;0.5"
+                dur="2s"
+                begin={`${i * 0.3}s`}
+                repeatCount="indefinite"
+              />
+            </circle>
+          ))}
+        </g>
+      )}
+      
+      {/* Bottom Action Button */}
+      <rect x="-7" y="17" width="14" height="4" rx="2" fill="#22C55E">
+        {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />}
+      </rect>
+      <text x="0" y="20" textAnchor="middle" fontSize="2" fontWeight="bold" fill="white">Done</text>
+      
+      {/* Home Indicator */}
+      <rect x="-3" y="22" width="6" height="1" rx="0.5" fill="#9CA3AF" />
+      
+      <text x="0" y="38" textAnchor="middle" fontSize="10" fontWeight="600" fill="#6366F1">Your Phone</text>
     </g>
 
     {/* Connection Flow Lines */}
