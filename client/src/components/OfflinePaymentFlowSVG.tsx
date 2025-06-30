@@ -94,8 +94,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         />
       </foreignObject>
       
-      <text x="0" y="55" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3B82F6">Bluetooth</text>
-      <text x="0" y="66" textAnchor="middle" fontSize="8" fill="#6B7280">Offline Connection</text>
+
     </g>
 
     {/* Right Device (User Phone) - Animated GIF */}
