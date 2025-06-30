@@ -230,9 +230,9 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         
         <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
           {/* Dynamic Offline Payment Flow SVG - Center positioning */}
-          <div className="flex justify-center" style={{ marginTop: '40px' }}>
-            <div className="apple-logo-container">
-              <OfflinePaymentFlowSVG className="w-72 h-44 animate-apple-logo-spring" animated={true} />
+          <div className="flex justify-center items-center" style={{ marginTop: '20px', height: '180px' }}>
+            <div className="w-full max-w-sm">
+              <OfflinePaymentFlowSVG className="w-full h-full" animated={true} />
             </div>
           </div>
 
