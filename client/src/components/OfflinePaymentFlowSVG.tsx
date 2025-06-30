@@ -65,9 +65,9 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     </g>
 
     {/* Bank Connection GIF - Above Bluetooth */}
-    <g transform="translate(200, 50)">
-      {/* Animated Bank Connection GIF */}
-      <foreignObject x="-40" y="-15" width="80" height="30">
+    <g transform="translate(200, 45)">
+      {/* Animated Bank Connection GIF - Made Much Larger */}
+      <foreignObject x="-70" y="-25" width="140" height="50">
         <img 
           src="/src/assets/bank-phone-connection.gif" 
           alt="Bank Connection"
@@ -75,7 +75,7 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         />
       </foreignObject>
       
-      <text x="0" y="25" textAnchor="middle" fontSize="10" fontWeight="600" fill="#F59E0B">Bank to Phone</text>
+      <text x="0" y="35" textAnchor="middle" fontSize="11" fontWeight="600" fill="#F59E0B">Bank to Phone Connection</text>
     </g>
 
     {/* Central Bluetooth Hub */}

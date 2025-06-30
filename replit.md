@@ -277,6 +277,13 @@ Changelog:
   * Maintained smooth animations while preserving authentic branding
   * Updated SecureConnectionSVG component with proper scaling and positioning
   * Enhanced visual authenticity of the payment ecosystem visualization
+- June 30, 2025. ENHANCED OFFLINE PAYMENT FLOW WITH BANK CONNECTION:
+  * Added animated bank-to-phone connection GIF above Bluetooth hub
+  * Made bank connection GIF significantly larger (140x50px) for better visibility
+  * Repositioned all elements with proper spacing and alignment
+  * Added connecting lines between bank, Bluetooth hub, and phones
+  * Complete payment flow now shows: Bank → Bluetooth → Peer-to-Peer transfer
+  * External device URL available: https://workspace.womila5382.repl.co
 ```
 
 ## User Preferences
