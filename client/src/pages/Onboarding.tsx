@@ -13,6 +13,7 @@ import { SecureConnectionSVG } from "@/components/SecureConnectionSVG";
 import upiGif from "@assets/fetchpik.com-iconscout-upcaLHoyqi (1)_1751287545574.gif";
 import secureGif from "@assets/secure_1751287927973.gif";
 import oppbGif from "@assets/fetchpik.com-iconscout-HcDJX8k50y_1751288241453.gif";
+import bankGif from "@assets/fetchpik.com-iconscout-XxqKi5wgpy_1751289691962.gif";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -317,37 +318,50 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           {/* Spacer */}
           <div className="flex-1"></div>
 
-          {/* Clean GIF-only Visual - Centered */}
+          {/* Complete Payment Ecosystem with All GIFs */}
           <div className="flex justify-center items-center" style={{ marginBottom: '32px' }}>
-            <div className="flex items-center justify-center space-x-8">
-              {/* UPI GIF */}
+            <div className="flex flex-col items-center space-y-6">
+              {/* Bank GIF - Top Center */}
               <div className="flex flex-col items-center">
                 <img 
-                  src={upiGif} 
-                  alt="UPI Animation" 
-                  className="w-20 h-20 object-contain"
+                  src={bankGif} 
+                  alt="Bank Animation" 
+                  className="w-24 h-24 object-contain"
                 />
-                <span className="text-xs font-semibold text-gray-600 mt-2">UPI</span>
+                <span className="text-xs font-semibold text-gray-600 mt-2">Bank</span>
               </div>
 
-              {/* Secure Bridge GIF */}
-              <div className="flex flex-col items-center">
-                <img 
-                  src={secureGif} 
-                  alt="Secure Bridge Animation" 
-                  className="w-16 h-16 object-contain"
-                />
-                <span className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</span>
-              </div>
+              {/* Payment Flow - Horizontal */}
+              <div className="flex items-center justify-center space-x-8">
+                {/* UPI GIF */}
+                <div className="flex flex-col items-center">
+                  <img 
+                    src={upiGif} 
+                    alt="UPI Animation" 
+                    className="w-20 h-20 object-contain"
+                  />
+                  <span className="text-xs font-semibold text-gray-600 mt-2">UPI</span>
+                </div>
 
-              {/* OPPB GIF */}
-              <div className="flex flex-col items-center">
-                <img 
-                  src={oppbGif} 
-                  alt="OPPB Mobile Payment Animation" 
-                  className="w-16 h-16 object-contain"
-                />
-                <span className="text-xs font-semibold text-gray-600 mt-2">OPPB</span>
+                {/* Secure Bridge GIF */}
+                <div className="flex flex-col items-center">
+                  <img 
+                    src={secureGif} 
+                    alt="Secure Bridge Animation" 
+                    className="w-16 h-16 object-contain"
+                  />
+                  <span className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</span>
+                </div>
+
+                {/* OPPB GIF */}
+                <div className="flex flex-col items-center">
+                  <img 
+                    src={oppbGif} 
+                    alt="OPPB Mobile Payment Animation" 
+                    className="w-16 h-16 object-contain"
+                  />
+                  <span className="text-xs font-semibold text-gray-600 mt-2">OPPB</span>
+                </div>
               </div>
             </div>
           </div>
