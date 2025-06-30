@@ -85,8 +85,18 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
         {animated && <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />}
       </circle>
       
-      {/* Bluetooth Symbol */}
-      <path d="M-5 -8 L5 0 L-5 8 M5 0 L5 -8 M5 0 L5 8" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Proper Bluetooth Symbol */}
+      <g>
+        {/* Vertical line */}
+        <path d="M0 -8 L0 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        {/* Top triangle */}
+        <path d="M0 -8 L6 -4 L0 0" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Bottom triangle */}
+        <path d="M0 0 L6 4 L0 8" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Cross lines */}
+        <path d="M-4 -6 L6 4" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M-4 6 L6 -4" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      </g>
       
       <text x="0" y="45" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3B82F6">Bluetooth</text>
       <text x="0" y="56" textAnchor="middle" fontSize="8" fill="#6B7280">Offline Connection</text>
@@ -162,9 +172,13 @@ export const OfflinePaymentFlowSVG = ({ className = "w-full h-48", animated = tr
     )}
 
     {/* Bottom Labels */}
-    <g transform="translate(200, 180)">
-      <text x="0" y="0" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1F2937">Instant Offline Payments</text>
-      <text x="0" y="12" textAnchor="middle" fontSize="10" fill="#6B7280">No internet required • Secure Bluetooth technology</text>
+    <g transform="translate(200, 175)">
+      <text x="0" y="0" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1F2937" fontFamily="SF Pro Display, -apple-system, sans-serif">
+        Instant Offline Payments
+      </text>
+      <text x="0" y="18" textAnchor="middle" fontSize="12" fill="#6B7280" fontFamily="SF Pro Text, -apple-system, sans-serif">
+        No internet required • Secure Bluetooth technology
+      </text>
     </g>
 
     {/* Success Checkmarks */}
