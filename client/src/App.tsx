@@ -4,7 +4,10 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 import Landing from "@/pages/Landing";
+import Onboarding from "@/pages/Onboarding";
+import PhoneRegistration from "@/pages/PhoneRegistration";
 import Dashboard from "@/pages/Dashboard";
 import PremiumDashboard from "@/pages/PremiumDashboard";
 import ApplePayDashboard from "@/pages/ApplePayDashboard";
@@ -19,6 +22,23 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('oppb-onboarding-completed', 'true');
+    setHasCompletedOnboarding(true);
+  };
+
+  const handlePhoneRegistration = (phone: string) => {
+    setPhoneNumber(phone);
+    // In a real app, this would trigger OTP verification
+    handleOnboardingComplete();
+  };
+
+  // Wrapper components for proper prop passing
+  const OnboardingWrapper = () => <Onboarding onComplete={handleOnboardingComplete} />;
+  const PhoneRegistrationWrapper = () => <PhoneRegistration onComplete={handlePhoneRegistration} />;
 
   if (isLoading) {
     return (
@@ -38,7 +58,16 @@ function Router() {
     <div className="mobile-container">
       <Switch>
         {!isAuthenticated ? (
-          <Route path="/" component={Landing} />
+          <>
+            <Route path="/" component={Landing} />
+            <Route path="/onboarding" component={OnboardingWrapper} />
+            <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+          </>
+        ) : !hasCompletedOnboarding ? (
+          <>
+            <Route path="/" component={OnboardingWrapper} />
+            <Route path="/phone-registration" component={PhoneRegistrationWrapper} />
+          </>
         ) : (
           <>
             <Route path="/" component={ApplePayDashboard} />
