@@ -51,10 +51,7 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
       </radialGradient>
     </defs>
 
-    {/* Security Ring Background */}
-    <ellipse cx="160" cy="50" rx="150" ry="40" fill="url(#securityRing)" opacity="0.6">
-      {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite" />}
-    </ellipse>
+
 
     {/* BHIM UPI Icon - Left */}
     <g transform="translate(70, 50)">
