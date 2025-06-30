@@ -91,6 +91,40 @@ export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true
       </path>
     </g>
 
+    {/* Bank Icon - Top Center */}
+    <g transform="translate(160, 15)">
+      {/* Bank Background */}
+      <rect x="-16" y="-10" width="32" height="20" rx="4" fill="#1F2937" filter="url(#softShadow)">
+        {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite" />}
+      </rect>
+      
+      {/* Bank Icon from image */}
+      <g fill="white" transform="scale(0.7)">
+        {/* Roof */}
+        <path d="M0 -8 L-10 0 L10 0 Z" />
+        
+        {/* Columns */}
+        <rect x="-8" y="0" width="2.5" height="10" />
+        <rect x="-2.5" y="0" width="2.5" height="10" />
+        <rect x="3" y="0" width="2.5" height="10" />
+        <rect x="8.5" y="0" width="2.5" height="10" />
+        
+        {/* Base */}
+        <rect x="-10" y="10" width="20" height="2" />
+      </g>
+      
+      <text x="0" y="20" textAnchor="middle" fontSize="7" fontWeight="600" fill="#1F2937">Bank</text>
+    </g>
+
+    {/* Vertical Connection from Bank to Shield */}
+    <g>
+      <path d="M160 25 L160 30" stroke="url(#connectionGlow)" strokeWidth="2" fill="none" opacity="0.8">
+        {animated && (
+          <animate attributeName="stroke-dasharray" values="0 8;4 4;8 0" dur="1.5s" repeatCount="indefinite" />
+        )}
+      </path>
+    </g>
+
     {/* Central Security Shield */}
     <g transform="translate(160, 50)">
       <circle cx="0" cy="0" r="20" fill="url(#shieldGradient)" filter="url(#premiumGlow)" opacity="0.95">
