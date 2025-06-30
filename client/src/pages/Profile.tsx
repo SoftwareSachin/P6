@@ -75,8 +75,8 @@ export default function Profile() {
           <CardContent className="p-6">
             <div className="flex items-center space-x-4 mb-6">
               <div className="relative">
-                <Avatar className="w-24 h-24 border-4 border-white/20">
-                  <AvatarImage src={profileGif} />
+                <Avatar className="w-28 h-28 border-4 border-white/20">
+                  <AvatarImage src={profileGif} className="w-full h-full object-cover" />
                   <AvatarFallback className="apple-pay-gradient text-white text-2xl font-bold">
                     {userName.split(' ').map((n: string) => n[0]).join('')}
                   </AvatarFallback>
