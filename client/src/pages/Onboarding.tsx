@@ -9,6 +9,7 @@ import {
   PrivacyLockSVG
 } from "@/components/ApplePayAuthenticSVGs";
 import { OfflinePaymentFlowSVG } from "@/components/OfflinePaymentFlowSVG";
+import { SecureConnectionSVG } from "@/components/SecureConnectionSVG";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -262,6 +263,13 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             >
               Pay merchants even without internet using Bluetooth technology.
             </p>
+          </div>
+
+          {/* Secure Connection Visual */}
+          <div className="flex justify-center items-center" style={{ marginTop: '16px' }}>
+            <div className="w-full max-w-xs">
+              <SecureConnectionSVG className="w-full h-16" animated={true} />
+            </div>
           </div>
 
           {/* Spacer */}
