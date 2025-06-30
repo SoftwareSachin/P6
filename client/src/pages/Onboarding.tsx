@@ -270,8 +270,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
           {/* Secure Connection Visual - Centered */}
           <div className="flex justify-center items-center" style={{ marginBottom: '32px' }}>
-            <div className="w-full max-w-xs">
-              <SecureConnectionSVG className="w-full h-24" animated={true} />
+            <div className="w-full max-w-md">
+              <SecureConnectionSVG className="w-full h-32" animated={true} />
             </div>
           </div>
 

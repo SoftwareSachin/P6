@@ -1,7 +1,7 @@
-export const SecureConnectionSVG = ({ className = "w-full h-24", animated = true }: { className?: string, animated?: boolean }) => (
+export const SecureConnectionSVG = ({ className = "w-full h-32", animated = true }: { className?: string, animated?: boolean }) => (
   <svg
     className={className}
-    viewBox="0 0 300 80"
+    viewBox="0 0 320 100"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -52,42 +52,42 @@ export const SecureConnectionSVG = ({ className = "w-full h-24", animated = true
     </defs>
 
     {/* Security Ring Background */}
-    <ellipse cx="150" cy="40" rx="140" ry="35" fill="url(#securityRing)" opacity="0.6">
+    <ellipse cx="160" cy="50" rx="150" ry="40" fill="url(#securityRing)" opacity="0.6">
       {animated && <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite" />}
     </ellipse>
 
     {/* BHIM UPI Icon - Left */}
-    <g transform="translate(60, 40)">
+    <g transform="translate(70, 50)">
       {/* App Icon Background */}
-      <rect x="-18" y="-18" width="36" height="36" rx="8" fill="url(#bhimGradient)" filter="url(#softShadow)">
+      <rect x="-22" y="-22" width="44" height="44" rx="10" fill="url(#bhimGradient)" filter="url(#softShadow)">
         {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" repeatCount="indefinite" />}
       </rect>
       
       {/* Simplified BHIM Logo */}
       <g>
         {/* White background for logo */}
-        <rect x="-12" y="-8" width="24" height="16" rx="2" fill="white" opacity="0.95" />
+        <rect x="-15" y="-10" width="30" height="20" rx="3" fill="white" opacity="0.95" />
         
         {/* BHIM text in bold */}
-        <text x="0" y="-2" textAnchor="middle" fontSize="6" fontWeight="900" fill="#FF6B35" fontFamily="Arial, sans-serif">BHIM</text>
+        <text x="0" y="-2" textAnchor="middle" fontSize="8" fontWeight="900" fill="#FF6B35" fontFamily="Arial, sans-serif">BHIM</text>
         
         {/* UPI text smaller below */}
-        <text x="0" y="4" textAnchor="middle" fontSize="3" fontWeight="700" fill="#FF6B35" fontFamily="Arial, sans-serif">UPI</text>
+        <text x="0" y="5" textAnchor="middle" fontSize="4" fontWeight="700" fill="#FF6B35" fontFamily="Arial, sans-serif">UPI</text>
       </g>
       
       {/* App Label */}
-      <text x="0" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#FF6B35">BHIM UPI</text>
+      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#FF6B35">BHIM UPI</text>
     </g>
 
     {/* Secure Connection Line */}
     <g>
-      <path d="M85 40 Q115 35 135 40" stroke="url(#connectionGlow)" strokeWidth="3" fill="none" opacity="0.9">
+      <path d="M100 50 Q125 45 140 50" stroke="url(#connectionGlow)" strokeWidth="4" fill="none" opacity="0.9">
         {animated && (
           <animate attributeName="stroke-dasharray" values="0 60;30 30;60 0" dur="2s" repeatCount="indefinite" />
         )}
       </path>
       
-      <path d="M165 40 Q185 35 215 40" stroke="url(#connectionGlow)" strokeWidth="3" fill="none" opacity="0.9">
+      <path d="M180 50 Q205 45 225 50" stroke="url(#connectionGlow)" strokeWidth="4" fill="none" opacity="0.9">
         {animated && (
           <animate attributeName="stroke-dasharray" values="0 60;30 30;60 0" dur="2s" begin="0.5s" repeatCount="indefinite" />
         )}
@@ -95,7 +95,7 @@ export const SecureConnectionSVG = ({ className = "w-full h-24", animated = true
     </g>
 
     {/* Central Security Shield */}
-    <g transform="translate(150, 40)">
+    <g transform="translate(160, 50)">
       <circle cx="0" cy="0" r="20" fill="url(#shieldGradient)" filter="url(#premiumGlow)" opacity="0.95">
         {animated && <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite" />}
       </circle>
@@ -135,25 +135,25 @@ export const SecureConnectionSVG = ({ className = "w-full h-24", animated = true
     </g>
 
     {/* OPPB Icon - Right */}
-    <g transform="translate(240, 40)">
+    <g transform="translate(250, 50)">
       {/* App Icon Background */}
-      <rect x="-18" y="-18" width="36" height="36" rx="8" fill="url(#oppbGradient)" filter="url(#softShadow)">
+      <rect x="-22" y="-22" width="44" height="44" rx="10" fill="url(#oppbGradient)" filter="url(#softShadow)">
         {animated && <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2.5s" begin="1s" repeatCount="indefinite" />}
       </rect>
       
       {/* OPPB Logo - Premium Diamond */}
       <g>
-        <path d="M0 -10 L8 0 L0 10 L-8 0 Z" fill="white" opacity="0.95" />
-        <circle cx="0" cy="0" r="4" fill="url(#oppbGradient)" />
-        <text x="0" y="2" textAnchor="middle" fontSize="3" fontWeight="bold" fill="white">O</text>
+        <path d="M0 -12 L10 0 L0 12 L-10 0 Z" fill="white" opacity="0.95" />
+        <circle cx="0" cy="0" r="5" fill="url(#oppbGradient)" />
+        <text x="0" y="3" textAnchor="middle" fontSize="4" fontWeight="bold" fill="white">O</text>
       </g>
       
       {/* App Name */}
-      <rect x="-12" y="5" width="24" height="6" rx="1" fill="white" opacity="0.9" />
-      <text x="0" y="9" textAnchor="middle" fontSize="3" fontWeight="bold" fill="#8B5CF6">OPPB</text>
+      <rect x="-15" y="6" width="30" height="8" rx="2" fill="white" opacity="0.9" />
+      <text x="0" y="11" textAnchor="middle" fontSize="4" fontWeight="bold" fill="#8B5CF6">OPPB</text>
       
       {/* App Label */}
-      <text x="0" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#8B5CF6">OPPB</text>
+      <text x="0" y="38" textAnchor="middle" fontSize="11" fontWeight="600" fill="#8B5CF6">OPPB</text>
     </g>
 
     {/* Connection Success Indicators */}
