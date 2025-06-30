@@ -326,7 +326,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 <img 
                   src={upiGif} 
                   alt="UPI Animation" 
-                  className="w-10 h-10 object-contain"
+                  className="w-20 h-20 object-contain"
                 />
               </div>
             </div>
