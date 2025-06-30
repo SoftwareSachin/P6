@@ -308,36 +308,150 @@
     display: none;
   }
   
-  /* Apple Pay Authentic Animations */
-  @keyframes apple-logo-drop {
+  /* Apple Pay Authentic Animations - 1000% Pixel Perfect */
+  
+  /* Logo Drop Animation - 400ms ease-out with spring effect */
+  @keyframes apple-logo-spring {
     0% {
-      transform: translateY(-20px);
+      transform: scale(0);
       opacity: 0;
     }
     60% {
-      transform: translateY(5px);
+      transform: scale(1.1);
       opacity: 1;
-    }
-    80% {
-      transform: translateY(-2px);
     }
     100% {
-      transform: translateY(0);
+      transform: scale(1.0);
       opacity: 1;
     }
   }
   
-  .animate-apple-logo-drop {
-    animation: apple-logo-drop 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  .animate-apple-logo-spring {
+    animation: apple-logo-spring 400ms ease-out forwards;
+    animation-delay: 300ms;
+    opacity: 0;
   }
   
-  /* Apple Pay System Blue */
+  /* Success Checkmark Animation */
+  @keyframes apple-success {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-apple-success {
+    animation: apple-success 600ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  
+  /* Swipe Indicator Animation */
+  @keyframes swipe-indicator {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(4px);
+    }
+  }
+  
+  .swipe-indicator {
+    animation: swipe-indicator 2s infinite ease-in-out;
+    animation-delay: 1s;
+  }
+  
+  /* Learn More Progressive Fade */
+  @keyframes apple-learn-more-fade {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .apple-learn-more-fade {
+    animation: apple-learn-more-fade 300ms ease-out forwards;
+    animation-delay: 800ms;
+    opacity: 0;
+  }
+  
+  /* Apple Pay Button Styles */
+  .apple-pay-button {
+    transition: all 200ms ease-out;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .apple-pay-button:active {
+    transform: scale(0.98);
+    opacity: 0.85;
+  }
+  
+  .apple-pay-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+  }
+  
+  /* Apple Pay Background Pattern */
+  .apple-pay-background {
+    background: #FFFFFF;
+  }
+  
+  /* Apple Pay Learn More Link */
+  .apple-learn-more-link {
+    transition: all 150ms ease-out;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .apple-learn-more-link:active {
+    opacity: 0.6;
+  }
+  
+  /* Apple Logo Container */
+  .apple-logo-container {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
+  }
+  
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-apple-logo-spring,
+    .animate-apple-success,
+    .swipe-indicator,
+    .apple-learn-more-fade {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  /* Dynamic Type Support */
+  @media (prefers-contrast: high) {
+    .apple-pay-button {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  /* Apple Pay System Colors */
   .apple-system-blue {
-    background-color: #007AFF;
+    background-color: hsl(215, 100%, 60%);
   }
   
   .apple-system-blue:hover {
-    background-color: #0056CC;
+    background-color: hsl(215, 100%, 55%);
+  }
+  
+  /* Shadow Definitions */
+  .shadow-apple-pay {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
   
   .card-3d-stack {

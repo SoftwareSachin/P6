@@ -2,14 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { 
-  OPPBLogoSVG, 
-  SecureShieldSVG, 
-  BiometricSecuritySVG
-} from "@/components/PremiumSVGs";
-import { 
-  ApplePayBiometricSVG, 
-  ApplePaySuccessSVG 
-} from "@/components/ApplePaySVGs";
+  AppleLogoSVG,
+  FaceIDIconSVG,
+  ShieldSecuritySVG,
+  CheckmarkSuccessSVG,
+  PrivacyLockSVG
+} from "@/components/ApplePayAuthenticSVGs";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -26,41 +24,93 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     }
   };
 
-  // Apple Pay Welcome Screen
+  // Apple Pay Welcome Screen - 1000% Authentic
   if (currentScreen === 0) {
     return (
-      <div className="min-h-screen bg-white relative overflow-hidden">
-        <div className="flex flex-col h-screen">
-          <div className="flex-1 flex items-center justify-center pt-20">
-            <div className="text-center space-y-16">
-              <div className="relative">
-                <div className="w-32 h-32 mx-auto flex items-center justify-center animate-apple-logo-drop">
-                  <OPPBLogoSVG className="w-28 h-28" />
-                </div>
-              </div>
-              
-              <div className="space-y-4 max-w-sm mx-auto px-8">
-                <h1 className="text-[34px] font-bold text-black leading-tight tracking-tight" style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                  Set up OPPB
-                </h1>
-                <p className="text-[17px] text-black/50 leading-relaxed font-normal tracking-normal" style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                  Pay safely and securely with your phone.
-                </p>
-              </div>
+      <div className="min-h-screen bg-white relative overflow-hidden apple-pay-background">
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0px, #000 1px, transparent 1px, transparent 20px)' }}></div>
+        </div>
+        
+        <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
+          {/* Apple Logo - Exact positioning */}
+          <div className="flex justify-center" style={{ marginTop: '88px' }}>
+            <div className="apple-logo-container">
+              <AppleLogoSVG className="w-11 h-11 animate-apple-logo-spring" />
             </div>
           </div>
 
-          <div className="px-6 pb-12 space-y-4">
-            <Button 
-              onClick={nextScreen}
-              className="w-full h-11 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-[17px] rounded-[11px] transition-all duration-200 shadow-sm active:scale-[0.98]"
-              style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+          {/* Headline & Subtext - Exact spacing */}
+          <div className="text-center" style={{ marginTop: '16px' }}>
+            <h1 
+              className="text-black font-bold"
+              style={{ 
+                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                fontSize: '34px',
+                lineHeight: '41px',
+                letterSpacing: '-0.5px',
+                marginBottom: '8px'
+              }}
             >
-              Continue
-            </Button>
+              Set up OPPB
+            </h1>
+            <p 
+              className="text-black/60 font-normal text-center"
+              style={{ 
+                fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                fontSize: '17px',
+                lineHeight: '22px',
+                maxWidth: '300px',
+                margin: '0 auto'
+              }}
+            >
+              Pay safely and securely with your iPhone.
+            </p>
+          </div>
+
+          {/* Spacer */}
+          <div className="flex-1"></div>
+
+          {/* Primary CTA - Exact Apple Pay specifications */}
+          <div className="space-y-3">
+            <div className="relative">
+              <Button 
+                onClick={nextScreen}
+                className="apple-pay-button w-full shadow-apple-pay active:opacity-85 transition-opacity duration-200"
+                style={{ 
+                  height: '44px',
+                  borderRadius: '11px',
+                  backgroundColor: 'hsl(215, 100%, 60%)',
+                  fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                  fontSize: '17px',
+                  fontWeight: '600',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+                }}
+              >
+                <span className="flex items-center justify-center space-x-2">
+                  <span>Continue</span>
+                  <ArrowRight className="w-4 h-4 ml-2 swipe-indicator" />
+                </span>
+              </Button>
+            </div>
             
-            <div className="text-center pt-2">
-              <button className="text-blue-500 text-[15px] underline font-normal" style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+            {/* Secondary Action - Learn More */}
+            <div className="text-center apple-learn-more-fade" style={{ marginTop: '12px' }}>
+              <button 
+                className="text-blue-600 font-semibold underline apple-learn-more-link"
+                style={{ 
+                  fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                  fontSize: '17px',
+                  textDecorationThickness: '1px',
+                  textUnderlineOffset: '2px',
+                  minHeight: '44px',
+                  minWidth: '44px',
+                  padding: '12px'
+                }}
+              >
                 Learn More
               </button>
             </div>
@@ -70,88 +120,153 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     );
   }
 
-  // Apple Pay Security Screen  
+  // Apple Pay Security Screen - Private and Secure
   if (currentScreen === 1) {
     return (
       <div className="min-h-screen bg-white relative overflow-hidden">
-        <div className="flex flex-col h-screen">
-          <div className="flex-1 flex items-center justify-center pt-16">
-            <div className="text-center space-y-12 max-w-sm mx-auto px-8">
-              <div className="w-24 h-24 mx-auto">
-                <SecureShieldSVG className="w-full h-full text-blue-500" />
+        <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              {/* Privacy Icon */}
+              <div className="flex justify-center mb-12">
+                <PrivacyLockSVG className="w-16 h-16" />
               </div>
               
-              <div className="space-y-4">
-                <h1 className="text-[28px] font-bold text-black leading-tight tracking-tight" style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              {/* Content */}
+              <div className="space-y-4 max-w-sm mx-auto">
+                <h1 
+                  className="text-black font-bold"
+                  style={{ 
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                    fontSize: '28px',
+                    lineHeight: '34px',
+                    letterSpacing: '-0.3px'
+                  }}
+                >
                   Private and secure
                 </h1>
-                <p className="text-[17px] text-black/60 leading-relaxed font-normal" style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                <p 
+                  className="text-black/60 font-normal"
+                  style={{ 
+                    fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                    fontSize: '17px',
+                    lineHeight: '22px'
+                  }}
+                >
                   OPPB doesn't store your payment information on your device or share it with merchants.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center space-x-2 pb-8">
+          {/* Progress Indicators */}
+          <div className="flex justify-center space-x-2 mb-8">
             <div className="w-2 h-2 bg-black/20 rounded-full"></div>
-            <div className="w-6 h-2 bg-blue-500 rounded-full"></div>
+            <div className="w-6 h-2 bg-blue-600 rounded-full" style={{ backgroundColor: 'hsl(215, 100%, 60%)' }}></div>
             <div className="w-2 h-2 bg-black/20 rounded-full"></div>
             <div className="w-2 h-2 bg-black/20 rounded-full"></div>
           </div>
 
-          <div className="px-6 pb-12">
-            <Button 
-              onClick={nextScreen}
-              className="w-full h-11 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-[17px] rounded-[11px] transition-all duration-200 shadow-sm active:scale-[0.98]"
-              style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
-            >
-              Continue
-            </Button>
-          </div>
+          {/* Continue Button */}
+          <Button 
+            onClick={nextScreen}
+            className="apple-pay-button w-full active:opacity-85 transition-opacity duration-200"
+            style={{ 
+              height: '44px',
+              borderRadius: '11px',
+              backgroundColor: 'hsl(215, 100%, 60%)',
+              fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+              fontSize: '17px',
+              fontWeight: '600',
+              color: '#FFFFFF',
+              border: 'none',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+            }}
+          >
+            Continue
+          </Button>
         </div>
       </div>
     );
   }
 
-  // Apple Pay Face ID Screen
+  // Apple Pay Face ID Screen - Biometric Prompt Flow
   if (currentScreen === 2) {
     return (
       <div className="min-h-screen bg-white relative overflow-hidden">
-        <div className="flex flex-col h-screen">
-          <div className="flex-1 flex items-center justify-center pt-16">
-            <div className="text-center space-y-12 max-w-sm mx-auto px-8">
-              <div className="w-24 h-24 mx-auto">
-                <BiometricSecuritySVG className="w-full h-full text-blue-500" />
+        <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              {/* Face ID Icon */}
+              <div className="flex justify-center mb-12">
+                <FaceIDIconSVG className="w-16 h-16" />
               </div>
               
-              <div className="space-y-4">
-                <h1 className="text-[28px] font-bold text-black leading-tight tracking-tight" style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              {/* Content */}
+              <div className="space-y-4 max-w-sm mx-auto">
+                <h1 
+                  className="text-black font-bold"
+                  style={{ 
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                    fontSize: '28px',
+                    lineHeight: '34px',
+                    letterSpacing: '-0.3px'
+                  }}
+                >
                   Use Face ID
                 </h1>
-                <p className="text-[17px] text-black/60 leading-relaxed font-normal" style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                  Use Face ID to authorize payments and access your account securely.
+                <p 
+                  className="text-black/60 font-normal"
+                  style={{ 
+                    fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                    fontSize: '17px',
+                    lineHeight: '22px'
+                  }}
+                >
+                  Use Face ID to approve payments and access your account securely.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center space-x-2 pb-8">
+          {/* Progress Indicators */}
+          <div className="flex justify-center space-x-2 mb-8">
             <div className="w-2 h-2 bg-black/20 rounded-full"></div>
             <div className="w-2 h-2 bg-black/20 rounded-full"></div>
-            <div className="w-6 h-2 bg-blue-500 rounded-full"></div>
+            <div className="w-6 h-2 bg-blue-600 rounded-full" style={{ backgroundColor: 'hsl(215, 100%, 60%)' }}></div>
             <div className="w-2 h-2 bg-black/20 rounded-full"></div>
           </div>
 
-          <div className="px-6 pb-12 space-y-3">
+          {/* Action Buttons */}
+          <div className="space-y-3">
             <Button 
               onClick={nextScreen}
-              className="w-full h-11 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-[17px] rounded-[11px] transition-all duration-200 shadow-sm active:scale-[0.98]"
-              style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+              className="apple-pay-button w-full active:opacity-85 transition-opacity duration-200"
+              style={{ 
+                height: '44px',
+                borderRadius: '11px',
+                backgroundColor: 'hsl(215, 100%, 60%)',
+                fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                fontSize: '17px',
+                fontWeight: '600',
+                color: '#FFFFFF',
+                border: 'none',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+              }}
             >
               Use Face ID
             </Button>
             <div className="text-center">
-              <button className="text-blue-500 text-[17px] font-normal" style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <button 
+                className="text-blue-600 font-normal"
+                style={{ 
+                  fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                  fontSize: '17px',
+                  minHeight: '44px',
+                  minWidth: '44px',
+                  padding: '12px'
+                }}
+              >
                 Set Up Later in Settings
               </button>
             </div>
@@ -161,45 +276,70 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     );
   }
 
-  // Apple Pay Complete Screen
+  // Apple Pay Complete Screen - Setup Complete
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      <div className="flex flex-col h-screen">
-        <div className="flex-1 flex items-center justify-center pt-16">
-          <div className="text-center space-y-12 max-w-sm mx-auto px-8">
-            <div className="w-24 h-24 mx-auto">
-              <div className="w-full h-full bg-green-500 rounded-full flex items-center justify-center">
-                <div className="w-12 h-12 text-white">✓</div>
-              </div>
+      <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            {/* Success Icon */}
+            <div className="flex justify-center mb-12">
+              <CheckmarkSuccessSVG className="w-16 h-16 animate-apple-success" />
             </div>
             
-            <div className="space-y-4">
-              <h1 className="text-[28px] font-bold text-black leading-tight tracking-tight" style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+            {/* Content */}
+            <div className="space-y-4 max-w-sm mx-auto">
+              <h1 
+                className="text-black font-bold"
+                style={{ 
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                  fontSize: '28px',
+                  lineHeight: '34px',
+                  letterSpacing: '-0.3px'
+                }}
+              >
                 You're all set!
               </h1>
-              <p className="text-[17px] text-black/60 leading-relaxed font-normal" style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <p 
+                className="text-black/60 font-normal"
+                style={{ 
+                  fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                  fontSize: '17px',
+                  lineHeight: '22px'
+                }}
+              >
                 OPPB is ready to use. Start making secure payments with confidence.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center space-x-2 pb-8">
+        {/* Progress Indicators */}
+        <div className="flex justify-center space-x-2 mb-8">
           <div className="w-2 h-2 bg-black/20 rounded-full"></div>
           <div className="w-2 h-2 bg-black/20 rounded-full"></div>
           <div className="w-2 h-2 bg-black/20 rounded-full"></div>
-          <div className="w-6 h-2 bg-blue-500 rounded-full"></div>
+          <div className="w-6 h-2 bg-blue-600 rounded-full" style={{ backgroundColor: 'hsl(215, 100%, 60%)' }}></div>
         </div>
 
-        <div className="px-6 pb-12">
-          <Button 
-            onClick={onComplete}
-            className="w-full h-11 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-[17px] rounded-[11px] transition-all duration-200 shadow-sm active:scale-[0.98]"
-            style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
-          >
-            Get Started
-          </Button>
-        </div>
+        {/* Get Started Button */}
+        <Button 
+          onClick={onComplete}
+          className="apple-pay-button w-full active:opacity-85 transition-opacity duration-200"
+          style={{ 
+            height: '44px',
+            borderRadius: '11px',
+            backgroundColor: 'hsl(215, 100%, 60%)',
+            fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+            fontSize: '17px',
+            fontWeight: '600',
+            color: '#FFFFFF',
+            border: 'none',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+          }}
+        >
+          Get Started
+        </Button>
       </div>
     </div>
   );
