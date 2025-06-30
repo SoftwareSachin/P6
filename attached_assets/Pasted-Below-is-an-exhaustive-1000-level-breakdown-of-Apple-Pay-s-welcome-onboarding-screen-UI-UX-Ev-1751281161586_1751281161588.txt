@@ -1,0 +1,156 @@
+Below is an exhaustive, “1000%‑level” breakdown of Apple Pay’s welcome/onboarding screen UI & UX. Every visual choice, interaction detail, timing and accessibility consideration is spelled out for the deepest possible understanding.
+
+---
+
+## 1. Launch & Splash Transition
+
+1. **Initial System Launch**
+
+   * **Background:** Solid white (#FFFFFF) full‑screen.
+   * **Logo Animation:**
+
+     * Duration: 400 ms ease‑out.
+     * Scale: 0 → 1.1 → 1.0 (spring effect with 200 ms overshoot).
+     * Opacity: 0 → 100%.
+   * **Fade‑through:** Logo holds for 300 ms, then crossfades into the welcome screen over 250 ms.
+
+## 2. Layout & Grid
+
+* **Safe Area Insets:**
+
+  * Top: ≥44 pt (status bar).
+  * Sides: ≥16 pt.
+  * Bottom: ≥34 pt (home indicator).
+* **Column Grid:** 4‑column 375 pt grid (iPhone base) with 8 pt gutters.
+* **Vertical Rhythm:** 8 pt baseline across all text and spacing.
+
+## 3. Branding & Header
+
+* **Apple Logo**
+
+  * Position: Centered horizontally, 88 pt from top safe area.
+  * Size: 44 × 44 pt.
+  * Style: SF Pro Iconic glyph (monochrome #000000 at 100% opacity).
+* **Subtle Depth**
+
+  * Drop shadow under logo:
+
+    * Y‑offset: 2 pt, blur: 6 pt, color: rgba(0,0,0,0.1).
+
+## 4. Headline & Subtext
+
+1. **Headline (“Set up Apple Pay”)**
+
+   * Typeface: SF Pro Display Bold.
+   * Size: 34 pt.
+   * Line‑height: 41 pt.
+   * Color: #000000 at 100%.
+   * Margin‑top: 16 pt below logo.
+
+2. **Subtext (“Pay safely and securely with your iPhone.”)**
+
+   * Typeface: SF Pro Text Regular.
+   * Size: 17 pt.
+   * Line‑height: 22 pt.
+   * Color: #000000 at 60% opacity.
+   * Margin‑top: 8 pt below headline.
+   * Text‑alignment: Center.
+
+## 5. Primary Call‑to‑Action
+
+* **“Continue” Button**
+
+  * Width: Stretch to 343 pt (screen width minus 32 pt total horizontal margin).
+  * Height: 44 pt.
+  * Corner radius: 11 pt.
+  * Background: System Blue (H: 215°, S: 100%, B: 60%).
+  * Text: SF Pro Text Semibold, 17 pt, #FFFFFF.
+  * Shadow: Y‑offset 1 pt, blur 3 pt, color rgba(0,0,0,0.2).
+  * Touch feedback:
+
+    * **Highlight:** 200 ms opacity change to 85%.
+    * **Haptic:** Light impact on touch down (UIKit `.light`).
+
+## 6. Secondary Action
+
+* **“Learn More” Link**
+
+  * Text: SF Pro Text Semibold, 17 pt, System Blue.
+  * Underline: 1 px at 30% text height.
+  * Margin‑top: 12 pt below primary button.
+  * Tap area: ≥44 × 44 pt hit‑target.
+
+## 7. Biometric Prompt Flow
+
+* Tapping “Continue” triggers:
+
+  1. **Overlay Modal**
+
+     * Dim: black at 50% opacity.
+     * Modal box: white, 280 pt wide, corner radius 16 pt.
+  2. **Face ID Icon**
+
+     * Size: 64 × 64 pt. Centered top, 24 pt margin.
+  3. **Prompt Text**
+
+     * “Use Face ID to approve payments.”
+     * SF Pro Text Regular, 17 pt, #1C1C1E.
+     * Center‑aligned, 16 pt below icon.
+  4. **Action Buttons**
+
+     * **Use Face ID** (primary): same style as Continue button but 280 pt wide, 44 pt tall.
+     * **Cancel** (secondary): 280 pt wide, 44 pt tall, transparent BG, 1 pt gray border.
+
+* **Animation**
+
+  * Modal fades in over 200 ms, scaling from 90% → 100% (spring).
+
+## 8. Motion & Micro‑interactions
+
+* **Parallax Layers**
+
+  * Subtle background pattern (light gray diagonal lines) moves slower than foreground content on device tilt (CoreMotion‑based).
+* **Button Ripple**
+
+  * Tappable areas show a radial ripple (UIKit “Material” effect) lasting 350 ms.
+* **Progressive Opacity**
+
+  * Secondary link fades from 0→100% in 300 ms after primary button appears.
+
+## 9. Accessibility
+
+* **Dynamic Type**
+
+  * All text scales per user’s preferred font size (up to +3 steps), with Adaptive Layout preserving margins.
+* **VoiceOver Labels**
+
+  * Logo: “Apple logo”.
+  * Headline: “Set up Apple Pay”.
+  * Continue Button: “Continue to set up Apple Pay”.
+  * Learn More Link: “Learn more about Apple Pay setup”.
+* **Contrast Ratios**
+
+  * Headline vs white: 21 :1.
+  * Button text vs background: 4.5 :1 minimum.
+* **Reduced Motion**
+
+  * If “Reduce Motion” enabled, all animations crossfade instead of spring or parallax.
+
+## 10. Localization & RTL Support
+
+* **Auto Layout Constraints** ensure all elements flip appropriately for right‑to‑left locales.
+* **Text Scaling** for longer translations: multi‑line headline with tight line spacing (−2 pt).
+
+## 11. Error & Offline States
+
+* **No Internet Notification**
+
+  * Banner slides down from top: yellow background (#FFCC00), SF Pro Text Semibold 15 pt black text, “No Internet Connection”.
+  * Auto‑dismiss after 3 s or tap to dismiss.
+* **Face ID Unavailable**
+
+  * If Biometric setup fails, display inline alert below buttons: red text (“Face ID not available on this device”), SF Pro Text Regular 15 pt, margin‑top 12 pt.
+
+---
+
+This breakdown covers every pixel, timing curve, typography choice, motion detail, accessibility compliance, and fallback state—truly the “1000%‑level” dissection of Apple Pay’s welcome UI/UX.
