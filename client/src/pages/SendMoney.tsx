@@ -3,9 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowLeft, Search, Star, Phone, Mail, Plus } from "lucide-react";
+import { ArrowLeft, Search, Phone, Mail, Plus } from "lucide-react";
 import { Link } from "wouter";
 import { ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayPhoneSVG, ApplePaySecuritySVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
+import { PremiumFavoritesSVG, PremiumStarSVG } from "@/components/PremiumSVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
 
@@ -78,7 +79,7 @@ export default function SendMoney() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Apple Pay Style Header */}
       <div className="flex items-center justify-between p-6 backdrop-blur-xl bg-black/50 relative z-10">
         <Link href="/">
@@ -134,7 +135,7 @@ export default function SendMoney() {
           {/* Favorites Section */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-              <Star className="w-5 h-5 text-yellow-400 mr-2" />
+              <PremiumFavoritesSVG className="w-5 h-5 mr-2" />
               Favorites
             </h3>
             <div className="grid grid-cols-4 gap-4">
@@ -177,7 +178,7 @@ export default function SendMoney() {
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">
                           <h4 className="font-semibold text-white">{contact.name}</h4>
-                          {contact.favorite && <Star className="w-4 h-4 text-yellow-400 fill-current" />}
+                          {contact.favorite && <PremiumStarSVG className="w-4 h-4" filled={true} />}
                         </div>
                         <p className="text-gray-400 text-sm">{contact.upiId}</p>
                         <p className="text-gray-500 text-xs">Last sent: {contact.lastTransaction}</p>

@@ -655,6 +655,51 @@ export const SMSPermissionSVG = ({ className = "w-16 h-16", animated = true }: {
   </svg>
 );
 
+export const PremiumStarSVG = ({ className = "w-5 h-5", filled = false }: { className?: string, filled?: boolean }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFD700" />
+        <stop offset="50%" stopColor="#FFA500" />
+        <stop offset="100%" stopColor="#FF8C00" />
+      </linearGradient>
+      <filter id="starShadow">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#FFD700" floodOpacity="0.3"/>
+      </filter>
+    </defs>
+    <path
+      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+      fill={filled ? "url(#starGradient)" : "none"}
+      stroke="url(#starGradient)"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      filter="url(#starShadow)"
+    />
+  </svg>
+);
+
+export const PremiumFavoritesSVG = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="favoritesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFD700" />
+        <stop offset="50%" stopColor="#FFA500" />
+        <stop offset="100%" stopColor="#FF8C00" />
+      </linearGradient>
+      <filter id="favoritesShadow">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#FFD700" floodOpacity="0.4"/>
+      </filter>
+    </defs>
+    <path
+      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+      fill="url(#favoritesGradient)"
+      filter="url(#favoritesShadow)"
+    />
+    <circle cx="12" cy="12" r="9" fill="none" stroke="url(#favoritesGradient)" strokeWidth="0.5" opacity="0.3"/>
+  </svg>
+);
+
 export const ContactsPermissionSVG = ({ className = "w-16 h-16", animated = true }: { className?: string, animated?: boolean }) => (
   <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
