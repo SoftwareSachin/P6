@@ -436,25 +436,30 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               </div>
               
               {/* Content */}
-              <div className="space-y-6">
-                <div>
+              <div className="space-y-8">
+                <div className="text-center">
                   <h1 
-                    className="text-black font-bold mb-3"
+                    className="text-black font-bold mb-4"
                     style={{ 
                       fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                      fontSize: '28px',
-                      lineHeight: '34px',
-                      letterSpacing: '-0.3px'
+                      fontSize: '32px',
+                      lineHeight: '38px',
+                      letterSpacing: '-0.8px',
+                      fontWeight: '700',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.1)'
                     }}
                   >
                     {!isOtpSent ? 'Enter your mobile number' : 'Enter verification code'}
                   </h1>
                   <p 
-                    className="text-black/60 font-normal"
+                    className="text-black/70 font-normal max-w-xs mx-auto"
                     style={{ 
                       fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                      fontSize: '17px',
-                      lineHeight: '22px'
+                      fontSize: '18px',
+                      lineHeight: '24px',
+                      letterSpacing: '-0.2px',
+                      fontWeight: '400',
+                      textShadow: '0 0.5px 1px rgba(0,0,0,0.08)'
                     }}
                   >
                     {!isOtpSent ? 
