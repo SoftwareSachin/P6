@@ -16,6 +16,9 @@ import PaymentScreen from "@/pages/PaymentScreen";
 import TransactionHistory from "@/pages/TransactionHistory";
 import Profile from "@/pages/Profile";
 import Settings from "@/pages/Settings";
+import Merchants from "@/pages/Merchants";
+import Transit from "@/pages/Transit";
+import Wallet from "@/pages/Wallet";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -99,6 +102,9 @@ function Router() {
         <Route path="/transaction-history" component={TransactionHistory} />
         <Route path="/profile" component={Profile} />
         <Route path="/settings" component={Settings} />
+        <Route path="/merchants" component={Merchants} />
+        <Route path="/transit" component={Transit} />
+        <Route path="/wallet" component={Wallet} />
         <Route path="*" component={ApplePayDashboard} />
       </Switch>
     </div>

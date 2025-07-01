@@ -1372,6 +1372,33 @@
     transform: scale(1.1) translateZ(10px);
   }
 
+  /* Ultra-Premium Merchant Cards */
+  .ultra-premium-merchant-card {
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform, box-shadow;
+    animation: card-entrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  .ultra-premium-merchant-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+      0 20px 50px rgba(0,0,0,0.2),
+      0 10px 25px rgba(0,0,0,0.15),
+      0 0 0 1px rgba(255,255,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  /* Hide scrollbars for horizontal scroll */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .quick-action-premium:active {
     transform: translateY(-2px) scale(1.02);
     transition-duration: 0.1s;
