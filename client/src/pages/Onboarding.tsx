@@ -31,6 +31,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   const [mobileNumber, setMobileNumber] = useState('');
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
+  const [swipeKey, setSwipeKey] = useState(0); // Force SwipeToSend re-render
   // Remove blocking asset preloading for faster initial load
   // Assets will load progressively as needed
 
@@ -51,6 +52,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   const sendOtp = () => {
     if (mobileNumber.length === 10) {
       setIsOtpSent(true);
+      setSwipeKey(prev => prev + 1); // Force SwipeToSend re-render
       // In a real app, this would send an actual OTP
       console.log('OTP sent to:', mobileNumber);
     }
@@ -491,6 +493,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     </div>
                     
                     <SwipeToSend
+                      key={`mobile-send-${swipeKey}`}
                       onComplete={sendOtp}
                       text="Swipe to Send OTP"
                       variant="primary"
@@ -529,6 +532,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
                     
                     <SwipeToSend
+                      key={`otp-verify-${swipeKey}`}
                       onComplete={verifyOtp}
                       text="Swipe to Verify"
                       variant="primary"
@@ -550,6 +554,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                         onClick={() => {
                           setIsOtpSent(false);
                           setOtp('');
+                          setSwipeKey(prev => prev + 1); // Reset SwipeToSend component
                         }}
                       >
                         Change Number
