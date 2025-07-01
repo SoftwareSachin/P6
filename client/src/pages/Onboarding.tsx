@@ -177,6 +177,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     className="w-16 h-16 object-contain"
                     loading="lazy"
                   />
+                  <span className="text-xs font-semibold text-gray-600 mt-2 text-center">Secure Bridge</span>
                 </div>
 
                 {/* OPPB GIF */}
@@ -187,6 +188,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     className="w-16 h-16 object-contain"
                     loading="lazy"
                   />
+                  <span className="text-xs font-semibold text-gray-600 mt-2 text-center">OPPB</span>
                 </div>
               </div>
             </div>
