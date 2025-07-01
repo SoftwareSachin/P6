@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +10,10 @@ import { PremiumFavoritesSVG, PremiumStarSVG } from "@/components/PremiumSVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
 import authGif from "@assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif";
+import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
 
 export default function SendMoney() {
-  const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'success'>('contacts');
+  const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'processing' | 'success'>('contacts');
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -189,8 +190,18 @@ export default function SendMoney() {
   };
 
   const handlePayment = () => {
-    setStep('success');
+    setStep('processing');
   };
+
+  // Processing stage delay - 3 seconds before showing success
+  useEffect(() => {
+    if (step === 'processing') {
+      const timer = setTimeout(() => {
+        setStep('success');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   // Handler functions for quick actions
   const handlePhoneAction = () => {
@@ -774,6 +785,33 @@ export default function SendMoney() {
               variant="glass"
               size="medium"
             />
+          </div>
+        </div>
+      )}
+
+      {/* Payment Processing Stage */}
+      {step === 'processing' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="text-center space-y-6">
+            {/* Processing Animation with Your GIF */}
+            <div className="w-40 h-40 mx-auto mb-8 flex items-center justify-center">
+              <img 
+                src={paymentProcessingGif} 
+                alt="Processing Payment" 
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            </div>
+            
+            <h2 className="text-3xl font-bold text-white">Processing Payment...</h2>
+            <p className="text-gray-400 text-lg">Please wait while we process your payment to {selectedContact?.name}</p>
+            
+            {/* Processing dots animation */}
+            <div className="flex justify-center space-x-2 mt-6">
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
           </div>
         </div>
       )}
