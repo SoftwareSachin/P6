@@ -4,10 +4,18 @@ import { apiRequest } from "@/lib/queryClient";
 export function useAuth() {
   const queryClient = useQueryClient();
   
-  const { data: user, isLoading } = useQuery({
+  const { data: user, isLoading, error } = useQuery({
     queryKey: ["/api/auth/user"],
     retry: false,
+    throwOnError: false,
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
   });
+
+  // Log authentication errors for debugging
+  if (error) {
+    console.warn('Authentication check failed:', error);
+  }
 
   const logoutMutation = useMutation({
     mutationFn: async () => {

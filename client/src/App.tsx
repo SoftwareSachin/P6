@@ -112,14 +112,43 @@ function Router() {
 }
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
+  try {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  } catch (error) {
+    console.error('App component error:', error);
+    return (
+      <div style={{ 
+        padding: '20px', 
+        textAlign: 'center', 
+        fontFamily: 'system-ui',
+        color: '#d63031'
+      }}>
+        <h2>Application Error</h2>
+        <p>The OPPB app encountered an error. Please reload the page.</p>
+        <button 
+          onClick={() => window.location.reload()}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#6c5ce7',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}
+        >
+          Reload Application
+        </button>
+      </div>
+    );
+  }
 }
 
 export default App;
