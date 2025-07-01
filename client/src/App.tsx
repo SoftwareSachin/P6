@@ -6,7 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { ErrorHandler } from "@/lib/errorHandler";
 import { NetworkStatus, LoadingWithError } from "@/components/ErrorBoundary";
-import { ErrorMonitorDashboard, ErrorToastManager } from "@/components/ErrorMonitorDashboard";
+import { ErrorToastManager } from "@/components/ErrorMonitorDashboard";
 import { useState, useEffect } from "react";
 import Landing from "@/pages/Landing";
 import Onboarding from "@/pages/Onboarding";
@@ -121,7 +121,7 @@ function App() {
         <TooltipProvider>
           <NetworkStatus />
           <ErrorToastManager />
-          <ErrorMonitorDashboard />
+
           <Toaster />
           <Router />
         </TooltipProvider>
