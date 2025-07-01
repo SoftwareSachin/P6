@@ -425,13 +425,14 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center w-full max-w-sm mx-auto">
-              {/* Phone Icon */}
+              {/* Phone GIF */}
               <div className="flex justify-center mb-12">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-xl">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-white">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+                <img 
+                  src="@assets/fetchpik.com-iconscout-riQeVK60Iq_1751389368477.gif" 
+                  alt="Mobile Phone Animation" 
+                  className="w-24 h-24 object-contain"
+                  loading="lazy"
+                />
               </div>
               
               {/* Content */}
