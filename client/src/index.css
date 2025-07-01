@@ -897,6 +897,38 @@
     opacity: 1;
   }
   
+  /* Premium Shimmer Animation for Apple Pay Cards */
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  /* Enhanced Card 3D Transforms */
+  .premium-card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .premium-card-3d:hover {
+    transform: perspective(1000px) rotateY(-5deg) rotateX(2deg) translateZ(20px);
+  }
+  
+  /* Advanced Pulse Animation for Selected State */
+  @keyframes premium-pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(102,126,234,0.4);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 30px rgba(102,126,234,0.6);
+    }
+  }
+  
   /* Motion-Rich Transitions */
   .motion-rich {
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);

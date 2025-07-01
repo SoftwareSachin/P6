@@ -208,50 +208,150 @@ export default function ApplePayDashboard() {
           </div>
         </div>
 
-        {/* Unified Wallet Interface - Horizontally Scrollable Card Carousel */}
+        {/* Ultra-Premium Payment Card - Apple Pay Inspired */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-white mb-4">Payment Methods</h2>
           <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
             {paymentCards.map((card, index) => (
               <div
                 key={card.id}
-                className={`min-w-[320px] h-[200px] rounded-3xl relative overflow-hidden cursor-pointer apple-pay-card card-3d-stack ${
-                  selectedCard === index ? 'scale-105 tap-to-pay-pulse' : 'scale-100'
+                className={`min-w-[340px] h-[220px] rounded-3xl relative overflow-hidden cursor-pointer transition-all duration-700 ease-out ${
+                  selectedCard === index ? 'scale-105 shadow-2xl' : 'scale-100 shadow-lg'
                 }`}
-                style={{ background: card.gradient }}
                 onClick={() => setSelectedCard(index)}
+                style={{
+                  background: `
+                    linear-gradient(135deg, 
+                      rgba(255,255,255,0.25) 0%, 
+                      rgba(255,255,255,0.1) 25%, 
+                      transparent 50%, 
+                      rgba(0,0,0,0.1) 75%, 
+                      rgba(0,0,0,0.2) 100%
+                    ),
+                    ${card.gradient}
+                  `,
+                  backdropFilter: 'blur(40px)',
+                  WebkitBackdropFilter: 'blur(40px)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  boxShadow: selectedCard === index 
+                    ? '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 40px rgba(102,126,234,0.3), inset 0 1px 0 rgba(255,255,255,0.4)'
+                    : '0 15px 30px -8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+                  transform: selectedCard === index 
+                    ? 'perspective(1000px) rotateY(0deg) translateZ(20px)' 
+                    : 'perspective(1000px) rotateY(2deg) translateZ(0px)'
+                }}
               >
-                {/* Card Shadow Layer */}
-                <div className="absolute inset-0 bg-black/10 rounded-3xl"></div>
+                {/* Premium Shimmer Effect */}
+                <div 
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%)',
+                    animation: selectedCard === index ? 'shimmer 3s infinite' : 'none'
+                  }}
+                />
                 
-                {/* Card Content */}
-                <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-white/80 text-sm font-medium">{card.type}</p>
-                      <p className="text-white text-lg font-bold">{card.cardNumber}</p>
+                {/* Advanced Light Reflection */}
+                <div 
+                  className="absolute top-0 left-0 w-full h-[2px]"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)',
+                    borderRadius: '1px'
+                  }}
+                />
+                
+                {/* Card Content with Enhanced Typography */}
+                <div className="relative z-10 p-7 h-full flex flex-col justify-between">
+                  {/* Header Section */}
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <p className="text-white/90 text-sm font-semibold tracking-wide">{card.type}</p>
+                      <p className="text-white text-xl font-bold tracking-wider" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                        {card.cardNumber}
+                      </p>
                     </div>
-                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">{card.logo}</span>
+                    
+                    {/* Premium Logo Badge */}
+                    <div 
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1))',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        boxShadow: '0 8px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4)'
+                      }}
+                    >
+                      <span className="text-white font-bold text-sm" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                        {card.logo}
+                      </span>
                     </div>
                   </div>
                   
-                  <div>
-                    <p className="text-white/60 text-xs font-medium">Balance</p>
-                    <p className="text-white text-2xl font-bold">₹{card.balance.toLocaleString()}</p>
+                  {/* Balance Section with Premium Typography */}
+                  <div className="space-y-2">
+                    <p className="text-white/70 text-xs font-medium uppercase tracking-[0.1em]" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                      Available Balance
+                    </p>
+                    <p 
+                      className="text-white text-3xl font-bold tracking-tight"
+                      style={{ 
+                        fontFamily: 'SF Pro Display, system-ui',
+                        textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                      }}
+                    >
+                      ₹{card.balance.toLocaleString('en-IN')}
+                    </p>
+                    
+                    {/* Premium Default Badge */}
                     {card.isDefault && (
-                      <Badge className="mt-2 bg-white/20 text-white border-0 text-xs">Default</Badge>
+                      <div 
+                        className="inline-flex items-center mt-3 px-4 py-2 text-xs font-semibold text-white rounded-full"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1))',
+                          backdropFilter: 'blur(15px)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                        }}
+                      >
+                        <div className="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse" />
+                        Primary Card
+                      </div>
                     )}
                   </div>
                 </div>
 
-                {/* Tap-to-Pay Indicator */}
+                {/* Premium Tap-to-Pay Indicator */}
                 {selectedCard === index && (
-                  <div className="absolute top-4 right-4">
-                    <div className="w-8 h-8 rounded-full bg-white/30 backdrop-blur-xl flex items-center justify-center">
-                      <div className="w-4 h-4 rounded-full bg-white animate-pulse"></div>
+                  <div className="absolute top-6 right-6">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.2))',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                      }}
+                    >
+                      <div 
+                        className="w-5 h-5 rounded-full bg-white"
+                        style={{
+                          boxShadow: '0 0 10px rgba(255,255,255,0.8)',
+                          animation: 'pulse 2s infinite'
+                        }}
+                      />
                     </div>
                   </div>
+                )}
+
+                {/* Exclusive Edge Glow for Selected Card */}
+                {selectedCard === index && (
+                  <div 
+                    className="absolute inset-0 rounded-3xl pointer-events-none"
+                    style={{
+                      background: 'linear-gradient(45deg, transparent, rgba(102,126,234,0.3), transparent)',
+                      filter: 'blur(1px)',
+                      opacity: 0.6
+                    }}
+                  />
                 )}
               </div>
             ))}
