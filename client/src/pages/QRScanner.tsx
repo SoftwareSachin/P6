@@ -48,7 +48,7 @@ export default function QRScanner() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Apple Pay Style Header */}
       <div className="flex items-center justify-between p-6 z-10 relative backdrop-blur-xl bg-black/50">
         <Link href="/">
