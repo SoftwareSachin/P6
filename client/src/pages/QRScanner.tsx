@@ -9,9 +9,10 @@ import { Link } from "wouter";
 import { ApplePayQRCodeSVG, ApplePayNFCSVG, ApplePayContactlessSVG, ApplePaySecuritySVG, ApplePayMerchantSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
+import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
 
 export default function QRScanner() {
-  const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'payment'>('scanning');
+  const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'processing' | 'payment'>('scanning');
   const [flashEnabled, setFlashEnabled] = useState(false);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -44,7 +45,11 @@ export default function QRScanner() {
   };
 
   const handlePayment = () => {
-    setScanningStage('payment');
+    setScanningStage('processing');
+    // Show processing animation for 3 seconds
+    setTimeout(() => {
+      setScanningStage('payment');
+    }, 3000);
   };
 
   return (
@@ -218,6 +223,33 @@ export default function QRScanner() {
       )}
 
       {/* Payment Processing Stage */}
+      {scanningStage === 'processing' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="text-center space-y-6">
+            {/* Processing Animation with Your GIF */}
+            <div className="w-40 h-40 mx-auto mb-8 flex items-center justify-center">
+              <img 
+                src={paymentProcessingGif} 
+                alt="Processing Payment" 
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            </div>
+            
+            <h2 className="text-3xl font-bold text-white">Processing Payment...</h2>
+            <p className="text-gray-400 text-lg">Please wait while we process your payment to {detectedMerchant.name}</p>
+            
+            {/* Processing dots animation */}
+            <div className="flex justify-center space-x-2 mt-6">
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Success Stage */}
       {scanningStage === 'payment' && (
         <div className="flex-1 flex flex-col items-center justify-center px-6">
           <div className="text-center space-y-6">
