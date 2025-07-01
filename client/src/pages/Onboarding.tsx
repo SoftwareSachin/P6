@@ -229,7 +229,16 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   // Apple Pay Security Screen - Private and Secure
   if (currentScreen === 1) {
     return (
-      <div className={`min-h-screen bg-white relative overflow-hidden transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+      <div className={`min-h-screen relative overflow-hidden transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`} style={{
+        background: `
+          radial-gradient(circle at 30% 70%, rgba(52, 199, 89, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 70% 30%, rgba(120, 119, 246, 0.10) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(255, 119, 246, 0.08) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)
+        `,
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)'
+      }}>
         <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
