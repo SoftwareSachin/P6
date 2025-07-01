@@ -151,7 +151,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 <img 
                   src={bankGif} 
                   alt="Bank Animation" 
-                  className="w-24 h-24 object-contain"
+                  className="w-32 h-32 object-contain"
                   loading="lazy"
                 />
               </div>
@@ -174,7 +174,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <img 
                     src={secureGif} 
                     alt="Secure Bridge Animation" 
-                    className="w-16 h-16 object-contain"
+                    className="w-20 h-20 object-contain"
                     loading="lazy"
                   />
                   <span className="text-xs font-semibold text-gray-600 mt-2 text-center">Secure Bridge</span>
@@ -185,7 +185,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <img 
                     src={oppbGif} 
                     alt="OPPB Mobile Payment Animation" 
-                    className="w-16 h-16 object-contain"
+                    className="w-20 h-20 object-contain"
                     loading="lazy"
                   />
                   <span className="text-xs font-semibold text-gray-600 mt-2 text-center">OPPB</span>
