@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Clock, Check, AlertCircle, ArrowRight, MapPin, MoreHorizontal } from "lucide-react";
+import { Eye, EyeOff, Clock, Check, AlertCircle, ArrowRight, MapPin, MoreHorizontal, RefreshCw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
+import { ErrorHandler, ErrorCode, useErrorHandler } from "@/lib/errorHandler";
+import { LoadingWithError, InlineError } from "@/components/ErrorBoundary";
 import { ApplePayFaceIDSVG, ApplePayCreditCardSVG, ApplePayNFCSVG, ApplePayTapSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayQRCodeSVG, ApplePayPhoneSVG, ApplePayWalletSVG, ApplePayLocationSVG, ApplePayTimeSVG, ApplePaySuccessSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayCardStackSVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
 import { ApplePayQuickActions, ApplePayCardCarousel, ApplePayTransactionRow } from "@/components/ApplePayInterface";
 import { OPPBLogoSVG } from "@/components/PremiumSVGs";
@@ -17,22 +19,91 @@ export default function ApplePayDashboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedCard, setSelectedCard] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { user } = useAuth();
+  const { user, isAuthenticated: authStatus, error: authError } = useAuth();
+  const { createError, getUserFriendlyMessage } = useErrorHandler();
 
-  // Get user balance
-  const { data: balanceData } = useQuery({
+  // Get user balance with comprehensive error handling
+  const { 
+    data: balanceData, 
+    isLoading: balanceLoading, 
+    error: balanceError,
+    refetch: refetchBalance 
+  } = useQuery({
     queryKey: ['/api/user/balance'],
-    enabled: !!user
+    enabled: !!user && authStatus,
+    retry: (failureCount, error: any) => {
+      if (error?.code === ErrorCode.AUTH_ERROR) return false;
+      return failureCount < 3;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+    staleTime: 30000 // 30 seconds
   });
 
-  // Get recent transactions
-  const { data: transactions } = useQuery({
+  // Get recent transactions with error handling
+  const { 
+    data: transactions, 
+    isLoading: transactionsLoading, 
+    error: transactionsError,
+    refetch: refetchTransactions 
+  } = useQuery({
     queryKey: ['/api/transactions'],
-    enabled: !!user
+    enabled: !!user && authStatus,
+    retry: (failureCount, error: any) => {
+      if (error?.code === ErrorCode.AUTH_ERROR) return false;
+      return failureCount < 2;
+    },
+    retryDelay: 2000,
+    staleTime: 60000 // 1 minute
   });
 
-  const balance = (balanceData as any)?.balance || 12547.50;
-  const userName = (user as any)?.name || "Sachin";
+  // Safe data extraction with fallbacks
+  const balance = parseFloat((balanceData as any)?.balance) || 0;
+  const userName = (user as any)?.name || (user as any)?.email?.split('@')[0] || "User";
+
+  // Error recovery functions
+  const handleRefreshData = useCallback(async () => {
+    try {
+      await Promise.all([
+        refetchBalance(),
+        refetchTransactions()
+      ]);
+    } catch (error) {
+      createError(
+        ErrorCode.UNKNOWN_ERROR,
+        'Failed to refresh dashboard data',
+        error,
+        { context: 'dashboard_refresh' }
+      );
+    }
+  }, [refetchBalance, refetchTransactions, createError]);
+
+  // Check for critical errors that need user attention
+  const hasCriticalError = authError || 
+    (balanceError && (balanceError as any)?.code === ErrorCode.AUTH_ERROR) ||
+    (transactionsError && (transactionsError as any)?.code === ErrorCode.AUTH_ERROR);
+
+  // Handle errors with useEffect
+  useEffect(() => {
+    if (balanceError && !(balanceError as any)?.code) {
+      createError(
+        ErrorCode.SERVER_ERROR,
+        'Failed to load account balance',
+        balanceError,
+        { context: 'dashboard_balance_fetch' }
+      );
+    }
+  }, [balanceError, createError]);
+
+  useEffect(() => {
+    if (transactionsError && !(transactionsError as any)?.code) {
+      createError(
+        ErrorCode.SERVER_ERROR,
+        'Failed to load recent transactions',
+        transactionsError,
+        { context: 'dashboard_transactions_fetch' }
+      );
+    }
+  }, [transactionsError, createError]);
 
   const getGreeting = () => {
     const hour = new Date().getHours();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -10,54 +10,198 @@ import { Label } from "@/components/ui/label";
 import { PaymentModal } from "@/components/PaymentModal";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Check, WifiOff, CreditCard } from "lucide-react";
+import { ErrorHandler, ErrorCode, useErrorHandler } from "@/lib/errorHandler";
+import { LoadingWithError, InlineError } from "@/components/ErrorBoundary";
+import { ArrowLeft, Check, WifiOff, CreditCard, AlertTriangle } from "lucide-react";
 
 export default function PaymentScreen() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { createError, getUserFriendlyMessage, getRetryStrategy } = useErrorHandler();
   const [amount, setAmount] = useState("450");
   const [note, setNote] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("offline");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [paymentError, setPaymentError] = useState<any>(null);
 
   const processPaymentMutation = useMutation({
     mutationFn: async (paymentData: any) => {
-      return await apiRequest("POST", "/api/payments/process", paymentData);
+      try {
+        setPaymentError(null);
+        const response = await apiRequest("POST", "/api/payments/process", paymentData, {
+          timeout: 15000,
+          context: { 
+            action: 'payment_processing',
+            amount: paymentData.amount,
+            method: paymentData.method 
+          }
+        });
+        return response;
+      } catch (error: any) {
+        // Enhanced error handling for payments
+        if (error?.code === ErrorCode.INSUFFICIENT_FUNDS) {
+          throw createError(
+            ErrorCode.INSUFFICIENT_FUNDS,
+            'Insufficient balance for this transaction',
+            error,
+            { context: 'payment_processing', amount: paymentData.amount }
+          );
+        } else if (error?.code === ErrorCode.MERCHANT_ERROR) {
+          throw createError(
+            ErrorCode.MERCHANT_ERROR,
+            'Merchant is currently unavailable',
+            error,
+            { context: 'payment_processing' }
+          );
+        } else if (error?.code === ErrorCode.NETWORK_ERROR) {
+          throw createError(
+            ErrorCode.NETWORK_ERROR,
+            'Connection failed. Please check your internet and try again',
+            error,
+            { context: 'payment_processing' }
+          );
+        } else {
+          throw createError(
+            ErrorCode.PAYMENT_ERROR,
+            'Payment processing failed. Please try again',
+            error,
+            { context: 'payment_processing' }
+          );
+        }
+      }
     },
     onSuccess: () => {
       setShowPaymentModal(true);
+      setPaymentError(null);
+      
+      toast({
+        title: "Payment Successful",
+        description: `₹${amount} paid successfully`,
+        variant: "default",
+      });
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      setPaymentError(error);
+      const friendlyMessage = getUserFriendlyMessage(error);
+      
       toast({
         title: "Payment Failed",
-        description: error.message,
+        description: friendlyMessage,
         variant: "destructive",
+      });
+
+      // Log error for monitoring
+      console.error('Payment processing failed:', {
+        error,
+        amount,
+        paymentMethod,
+        timestamp: new Date().toISOString()
       });
     },
+    retry: (failureCount, error: any) => {
+      const strategy = getRetryStrategy(error);
+      return strategy.canRetry && failureCount < (strategy.maxRetries || 1);
+    },
+    retryDelay: (attemptIndex) => {
+      return Math.min(1000 * Math.pow(2, attemptIndex), 5000);
+    }
   });
 
-  const handleBack = () => {
-    setLocation("/qr-scanner");
-  };
+  const handleBack = useCallback(() => {
+    try {
+      setLocation("/qr-scanner");
+    } catch (error) {
+      createError(
+        ErrorCode.UNKNOWN_ERROR,
+        'Navigation failed',
+        error,
+        { context: 'payment_screen_navigation' }
+      );
+    }
+  }, [setLocation, createError]);
 
-  const handleProcessPayment = () => {
+  const validatePaymentInput = useCallback(() => {
+    const errors: string[] = [];
     const paymentAmount = parseFloat(amount);
-    if (paymentAmount <= 0) {
-      toast({
-        title: "Invalid Amount",
-        description: "Please enter a valid amount",
-        variant: "destructive",
-      });
-      return;
+
+    // Amount validation
+    if (!amount || amount.trim() === '') {
+      errors.push('Please enter an amount');
+    } else if (isNaN(paymentAmount) || paymentAmount <= 0) {
+      errors.push('Please enter a valid amount greater than 0');
+    } else if (paymentAmount > 100000) {
+      errors.push('Maximum payment amount is ₹1,00,000');
+    } else if (paymentAmount < 1) {
+      errors.push('Minimum payment amount is ₹1');
     }
 
-    processPaymentMutation.mutate({
-      merchantName: "Tech Store",
-      amount: paymentAmount,
-      note,
-      isOffline: paymentMethod === "offline",
-    });
-  };
+    // Note validation (optional but if provided, should be reasonable)
+    if (note && note.length > 100) {
+      errors.push('Payment note cannot exceed 100 characters');
+    }
+
+    // Payment method validation
+    if (!['online', 'offline'].includes(paymentMethod)) {
+      errors.push('Please select a valid payment method');
+    }
+
+    // Offline payment specific validations
+    if (paymentMethod === 'offline' && !navigator.onLine) {
+      // This is actually okay for offline payments
+    }
+
+    setValidationErrors(errors);
+    return errors.length === 0;
+  }, [amount, note, paymentMethod]);
+
+  const handleProcessPayment = useCallback(() => {
+    try {
+      // Clear previous errors
+      setPaymentError(null);
+      setValidationErrors([]);
+
+      // Validate input
+      if (!validatePaymentInput()) {
+        createError(
+          ErrorCode.VALIDATION_ERROR,
+          'Please correct the validation errors',
+          { validationErrors },
+          { context: 'payment_validation' }
+        );
+        return;
+      }
+
+      const paymentAmount = parseFloat(amount);
+
+      // Additional runtime checks
+      if (!navigator.onLine && paymentMethod === 'online') {
+        createError(
+          ErrorCode.OFFLINE_ERROR,
+          'Cannot process online payment while offline. Please use offline payment.',
+          null,
+          { context: 'payment_offline_check' }
+        );
+        return;
+      }
+
+      processPaymentMutation.mutate({
+        merchantName: "Tech Store",
+        amount: paymentAmount,
+        note: note.trim(),
+        isOffline: paymentMethod === "offline",
+        timestamp: new Date().toISOString(),
+        sessionId: `payment_${Date.now()}`
+      });
+    } catch (error) {
+      createError(
+        ErrorCode.UNKNOWN_ERROR,
+        'Failed to initiate payment',
+        error,
+        { context: 'payment_initiation' }
+      );
+    }
+  }, [amount, note, paymentMethod, validatePaymentInput, validationErrors, processPaymentMutation, createError]);
 
   const addQuickAmount = (quickAmount: number) => {
     const currentAmount = parseFloat(amount) || 0;

@@ -301,29 +301,41 @@ function schedulePeriodicMaintenance() {
   console.log('[SW] ✓ Periodic maintenance scheduled');
 }
 
-// Advanced fetch event handler with intelligent caching strategies
+// Advanced fetch event handler with comprehensive error handling
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
   
-  // Skip non-HTTP requests
-  if (!url.protocol.startsWith('http')) {
-    return;
-  }
-  
-  // Route requests to appropriate strategies
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(handleAPIRequest(request, url));
-  } else if (isStaticAsset(url)) {
-    event.respondWith(handleStaticAsset(request, url));
-  } else if (isImageRequest(url)) {
-    event.respondWith(handleImageRequest(request, url));
-  } else if (isFontRequest(url)) {
-    event.respondWith(handleFontRequest(request, url));
-  } else if (request.mode === 'navigate') {
-    event.respondWith(handleNavigationRequest(request, url));
-  } else {
-    event.respondWith(handleGenericRequest(request, url));
+  try {
+    const url = new URL(request.url);
+    
+    // Skip non-HTTP requests
+    if (!url.protocol.startsWith('http')) {
+      return;
+    }
+    
+    // Route requests to appropriate strategies with error handling
+    if (url.pathname.startsWith('/api/')) {
+      event.respondWith(handleAPIRequest(request, url));
+    } else if (isStaticAsset(url)) {
+      event.respondWith(handleStaticAsset(request, url));
+    } else if (isImageRequest(url)) {
+      event.respondWith(handleImageRequest(request, url));
+    } else if (isFontRequest(url)) {
+      event.respondWith(handleFontRequest(request, url));
+    } else if (request.mode === 'navigate') {
+      event.respondWith(handleNavigationRequest(request, url));
+    } else {
+      event.respondWith(handleGenericRequest(request, url));
+    }
+  } catch (error) {
+    console.error('[SW] Fetch event error:', error);
+    // Fallback to network for any routing errors
+    event.respondWith(fetch(request).catch(() => {
+      return new Response('Service worker error occurred', { 
+        status: 500, 
+        statusText: 'Service Worker Error' 
+      });
+    }));
   }
 });
 
