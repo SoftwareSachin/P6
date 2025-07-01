@@ -118,5 +118,87 @@ function renderApp() {
   }
 }
 
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('✓ PWA Service Worker registered successfully:', registration.scope);
+      
+      // Handle updates
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('✓ New PWA content is available');
+              // Optionally show update notification to user
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error('PWA Service Worker registration failed:', error);
+    }
+  });
+}
+
+// PWA Install Prompt
+let deferredPrompt: any;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  console.log('✓ PWA install prompt triggered');
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // Show custom install button or banner
+  const installButton = document.createElement('button');
+  installButton.textContent = 'Install OPPB App';
+  installButton.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    z-index: 9999;
+    transition: all 0.3s ease;
+  `;
+  
+  installButton.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const result = await deferredPrompt.userChoice;
+      console.log('PWA install result:', result.outcome);
+      deferredPrompt = null;
+      installButton.remove();
+    }
+  });
+  
+  installButton.addEventListener('mouseenter', () => {
+    installButton.style.transform = 'translateY(-2px)';
+    installButton.style.boxShadow = '0 6px 16px rgba(99, 102, 241, 0.5)';
+  });
+  
+  installButton.addEventListener('mouseleave', () => {
+    installButton.style.transform = 'translateY(0)';
+    installButton.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
+  });
+  
+  document.body.appendChild(installButton);
+});
+
+// Handle PWA installation
+window.addEventListener('appinstalled', () => {
+  console.log('✓ OPPB PWA installed successfully');
+  deferredPrompt = null;
+});
+
 // Render the app
 renderApp();

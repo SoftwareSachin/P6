@@ -1,0 +1,49 @@
+<svg width="512" height="512" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient id="oppbCorePrimary" cx="50%" cy="25%" r="75%">
+<stop offset="0%" stop-color="#000000" />
+<stop offset="8%" stop-color="#0f0728" />
+<stop offset="18%" stop-color="#1e1b4b" />
+<stop offset="30%" stop-color="#312e81" />
+<stop offset="45%" stop-color="#3730a3" />
+<stop offset="60%" stop-color="#4338ca" />
+<stop offset="75%" stop-color="#6366f1" />
+<stop offset="88%" stop-color="#8b5cf6" />
+<stop offset="96%" stop-color="#a855f7" />
+<stop offset="100%" stop-color="#c084fc" />
+</radialGradient>
+<linearGradient id="oppbMetallic" x1="10%" y1="10%" x2="90%" y2="90%">
+<stop offset="0%" stop-color="#ffffff" />
+<stop offset="12%" stop-color="#f8fafc" />
+<stop offset="25%" stop-color="#f1f5f9" />
+<stop offset="40%" stop-color="#e2e8f0" />
+<stop offset="55%" stop-color="#cbd5e1" />
+<stop offset="70%" stop-color="#94a3b8" />
+<stop offset="85%" stop-color="#64748b" />
+<stop offset="100%" stop-color="#334155" />
+</linearGradient>
+</defs>
+<rect width="120" height="120" rx="20" fill="url(#oppbCorePrimary)"/>
+<circle cx="60" cy="60" r="50" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+<g transform="translate(15, 35)">
+<circle cx="15" cy="15" r="12" fill="none" stroke="url(#oppbMetallic)" stroke-width="3" />
+<circle cx="15" cy="15" r="7" fill="rgba(255,255,255,0.95)" />
+<circle cx="15" cy="15" r="3" fill="url(#oppbCorePrimary)" />
+<rect x="35" y="5" width="3" height="20" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="35" y="5" width="12" height="3" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="35" y="13" width="10" height="3" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="44" y="5" width="3" height="8" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="55" y="5" width="3" height="20" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="55" y="5" width="12" height="3" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="55" y="13" width="10" height="3" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="64" y="5" width="3" height="8" fill="url(#oppbMetallic)" rx="1.5" />
+<rect x="75" y="5" width="3" height="20" fill="url(#oppbMetallic)" rx="1.5" />
+<path d="M78 5 Q88 5 88 10 Q88 15 83 15 Q88 15 88 20 Q88 25 78 25" fill="none" stroke="url(#oppbMetallic)" stroke-width="3" stroke-linecap="round" />
+</g>
+<g opacity="0.8" transform="translate(60, 60)">
+<path d="M-15 -15 L15 15" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" />
+<path d="M15 -15 L-15 15" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" />
+<circle cx="0" cy="0" r="4" fill="rgba(255,255,255,0.95)" />
+<circle cx="0" cy="0" r="2" fill="url(#oppbCorePrimary)" />
+</g>
+</svg>

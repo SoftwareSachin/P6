@@ -301,6 +301,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PWA-specific routes
+  app.get('/manifest.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/manifest+json');
+    res.setHeader('Cache-Control', 'public, max-age=0');
+    // The manifest.json file will be served from client/public by Vite
+  });
+
+  app.get('/sw.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.setHeader('Cache-Control', 'public, max-age=0');
+    res.setHeader('Service-Worker-Allowed', '/');
+    // The sw.js file will be served from client/public by Vite
+  });
+
+  // Serve PWA icons
+  app.get('/icons/*', (req, res) => {
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year cache for icons
+    // Icons will be served from client/public/icons by Vite
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
