@@ -18,6 +18,12 @@ export default function SendMoney() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isUpiSearch, setIsUpiSearch] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showPhoneInput, setShowPhoneInput] = useState(false);
+  const [showNearbyDevices, setShowNearbyDevices] = useState(false);
+  const [showNewContact, setShowNewContact] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [newContactName, setNewContactName] = useState("");
+  const [newContactUpi, setNewContactUpi] = useState("");
 
   const allContacts = [
     {
@@ -104,6 +110,40 @@ export default function SendMoney() {
 
   const recentContacts = allContacts.slice(0, 4);
 
+  // Nearby devices simulation for Apple Pay-style contactless
+  const nearbyDevices = [
+    {
+      id: 'nearby-1',
+      name: 'iPhone 15 Pro',
+      owner: 'Rahul Sharma',
+      distance: '2 meters',
+      signal: 'strong',
+      upiId: 'rahul.sharma@paytm',
+      avatar: '/api/placeholder/40/40',
+      lastSeen: 'now'
+    },
+    {
+      id: 'nearby-2',
+      name: 'Samsung Galaxy S24',
+      owner: 'Aditi Patel',
+      distance: '5 meters',
+      signal: 'medium',
+      upiId: 'aditi@ybl',
+      avatar: '/api/placeholder/40/40',
+      lastSeen: '2 minutes ago'
+    },
+    {
+      id: 'nearby-3',
+      name: 'OPPB Wallet',
+      owner: 'Vikram Singh',
+      distance: '8 meters',
+      signal: 'weak',
+      upiId: 'vikram@okaxis',
+      avatar: '/api/placeholder/40/40',
+      lastSeen: '5 minutes ago'
+    }
+  ];
+
   const quickAmounts = [100, 500, 1000, 2000];
 
   // Search functionality with UPI ID detection
@@ -149,6 +189,57 @@ export default function SendMoney() {
 
   const handlePayment = () => {
     setStep('success');
+  };
+
+  // Handler functions for quick actions
+  const handlePhoneAction = () => {
+    setShowPhoneInput(true);
+    setShowNearbyDevices(false);
+    setShowNewContact(false);
+  };
+
+  const handleNearbyAction = () => {
+    setShowNearbyDevices(true);
+    setShowPhoneInput(false);
+    setShowNewContact(false);
+  };
+
+  const handleNewContactAction = () => {
+    setShowNewContact(true);
+    setShowPhoneInput(false);
+    setShowNearbyDevices(false);
+  };
+
+  const handlePhoneSubmit = () => {
+    if (phoneNumber.length >= 10) {
+      const newContact = {
+        id: Date.now(),
+        name: `+91 ${phoneNumber}`,
+        phone: `+91 ${phoneNumber}`,
+        avatar: '/api/placeholder/40/40',
+        upiId: `${phoneNumber}@upi`,
+        favorite: false,
+        lastTransaction: 'New contact',
+        verified: false
+      };
+      handleContactSelect(newContact);
+    }
+  };
+
+  const handleNewContactSubmit = () => {
+    if (newContactName && newContactUpi) {
+      const newContact = {
+        id: Date.now(),
+        name: newContactName,
+        phone: '+91 99999 99999',
+        avatar: '/api/placeholder/40/40',
+        upiId: newContactUpi,
+        favorite: false,
+        lastTransaction: 'New contact',
+        verified: false
+      };
+      handleContactSelect(newContact);
+    }
   };
 
   return (
@@ -232,27 +323,215 @@ export default function SendMoney() {
           {/* Quick Actions - Only show if not searching */}
           {searchQuery.length === 0 && (
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
+              <Button 
+                onClick={handlePhoneAction}
+                className={`apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2 transition-all duration-300 ${showPhoneInput ? 'apple-pay-gradient scale-105' : ''}`}
+              >
                 <Phone className="h-6 w-6" />
                 <span className="text-sm">Phone</span>
               </Button>
-              <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
+              <Button 
+                onClick={handleNearbyAction}
+                className={`apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2 transition-all duration-300 ${showNearbyDevices ? 'apple-pay-gradient scale-105' : ''}`}
+              >
                 <ApplePayContactlessSVG className="h-6 w-6" />
                 <span className="text-sm">Nearby</span>
               </Button>
-              <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
+              <Button 
+                onClick={handleNewContactAction}
+                className={`apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2 transition-all duration-300 ${showNewContact ? 'apple-pay-gradient scale-105' : ''}`}
+              >
                 <Plus className="h-6 w-6" />
                 <span className="text-sm">New</span>
               </Button>
             </div>
           )}
 
-          {/* Favorites Section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-              <PremiumFavoritesSVG className="w-5 h-5 mr-2" />
-              Favorites
-            </h3>
+          {/* Phone Number Input Feature */}
+          {showPhoneInput && (
+            <div className="mb-6">
+              <div className="apple-pay-card border-0 p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Send to Phone Number</h3>
+                    <p className="text-gray-400 text-sm">Enter mobile number to send money</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">Mobile Number</label>
+                    <div className="flex">
+                      <div className="flex items-center px-3 bg-white/10 border border-white/20 border-r-0 rounded-l-xl">
+                        <span className="text-white text-sm">+91</span>
+                      </div>
+                      <Input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        placeholder="9876543210"
+                        className="flex-1 bg-white/10 border-white/20 border-l-0 text-white placeholder-gray-400 rounded-r-xl rounded-l-none h-12"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-3">
+                    <SwipeToSend
+                      onComplete={handlePhoneSubmit}
+                      text="Swipe to Continue"
+                      variant="primary"
+                      size="medium"
+                      disabled={phoneNumber.length < 10}
+                    />
+                    <Button 
+                      onClick={() => setShowPhoneInput(false)}
+                      className="apple-pay-glass border-white/20 text-white flex-1 h-12 rounded-xl"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Nearby Devices Feature */}
+          {showNearbyDevices && (
+            <div className="mb-6">
+              <div className="apple-pay-card border-0 p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <ApplePayContactlessSVG className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-white">Nearby Devices</h3>
+                    <p className="text-gray-400 text-sm">Contactless payment via Bluetooth</p>
+                  </div>
+                  <Button 
+                    onClick={() => setShowNearbyDevices(false)}
+                    variant="ghost"
+                    size="icon"
+                    className="text-gray-400 hover:text-white"
+                  >
+                    ×
+                  </Button>
+                </div>
+                
+                <div className="space-y-3">
+                  {nearbyDevices.map((device) => (
+                    <div
+                      key={device.id}
+                      onClick={() => handleContactSelect({
+                        id: device.id,
+                        name: device.owner,
+                        phone: '+91 99999 99999',
+                        avatar: device.avatar,
+                        upiId: device.upiId,
+                        favorite: false,
+                        lastTransaction: device.lastSeen,
+                        verified: device.signal === 'strong'
+                      })}
+                      className="flex items-center space-x-4 p-4 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 transition-all duration-200"
+                    >
+                      <div className="relative">
+                        <Avatar className="w-12 h-12">
+                          <AvatarImage src={device.avatar} />
+                          <AvatarFallback className="bg-blue-500 text-white">
+                            {device.owner.split(' ').map((n: string) => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-black ${
+                          device.signal === 'strong' ? 'bg-green-500' : 
+                          device.signal === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}></div>
+                      </div>
+                      
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-white">{device.owner}</h4>
+                        <p className="text-gray-400 text-sm">{device.name}</p>
+                        <p className="text-gray-500 text-xs">{device.distance} • {device.lastSeen}</p>
+                      </div>
+                      
+                      <div className="text-right">
+                        <div className={`w-2 h-2 rounded-full ${
+                          device.signal === 'strong' ? 'bg-green-400' : 
+                          device.signal === 'medium' ? 'bg-yellow-400' : 'bg-red-400'
+                        } animate-pulse`}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* New Contact Feature */}
+          {showNewContact && (
+            <div className="mb-6">
+              <div className="apple-pay-card border-0 p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <Plus className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Add New Contact</h3>
+                    <p className="text-gray-400 text-sm">Create new payment contact</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">Contact Name</label>
+                    <Input
+                      type="text"
+                      value={newContactName}
+                      onChange={(e) => setNewContactName(e.target.value)}
+                      placeholder="Enter full name"
+                      className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl h-12"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">UPI ID</label>
+                    <Input
+                      type="text"
+                      value={newContactUpi}
+                      onChange={(e) => setNewContactUpi(e.target.value)}
+                      placeholder="name@bank"
+                      className="bg-white/10 border-white/20 text-white placeholder-gray-400 rounded-xl h-12"
+                    />
+                  </div>
+                  
+                  <div className="flex space-x-3">
+                    <SwipeToSend
+                      onComplete={handleNewContactSubmit}
+                      text="Swipe to Add Contact"
+                      variant="primary"
+                      size="medium"
+                      disabled={!newContactName || !newContactUpi}
+                    />
+                    <Button 
+                      onClick={() => setShowNewContact(false)}
+                      className="apple-pay-glass border-white/20 text-white flex-1 h-12 rounded-xl"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Favorites Section - Only show when no special features are active */}
+          {!showPhoneInput && !showNearbyDevices && !showNewContact && searchQuery.length === 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                <PremiumFavoritesSVG className="w-5 h-5 mr-2" />
+                Favorites
+              </h3>
             <div className="grid grid-cols-4 gap-4">
               {recentContacts.filter(c => c.favorite).map((contact) => (
                 <Button
@@ -270,9 +549,11 @@ export default function SendMoney() {
                 </Button>
               ))}
             </div>
-          </div>
+            </div>
+          )}
 
-          {/* Recent Contacts */}
+          {/* Recent Contacts - Only show when no special features are active */}
+          {!showPhoneInput && !showNearbyDevices && !showNewContact && (
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Recent</h3>
             <div className="space-y-3">
@@ -319,6 +600,7 @@ export default function SendMoney() {
               ))}
             </div>
           </div>
+          )}
         </div>
       )}
 
