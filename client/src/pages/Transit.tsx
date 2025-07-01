@@ -3,9 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BottomNavigation } from "@/components/BottomNavigation";
-import { ArrowLeft, Train, Bus, MapPin, Clock, Zap, CreditCard, QrCode } from "lucide-react";
-import { Link } from "wouter";
-import { ApplePayTransitSVG, ApplePayQRCodeSVG, ApplePayCardStackSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
+import { ArrowLeft, Clock } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { ApplePayTransitSVG } from "@/components/ApplePaySVGs";
+import { MetroIconSVG, BusIconSVG, QRScanIconSVG, TopUpIconSVG, RouteIconSVG, HistoryIconSVG, TrainIconSVG } from "@/components/PremiumTransitSVGs";
 
 interface TransitPass {
   id: number;
@@ -14,7 +15,7 @@ interface TransitPass {
   balance: number;
   validUntil: string;
   status: "active" | "expired" | "low_balance";
-  icon: string;
+  IconComponent: React.ComponentType<{className?: string, animated?: boolean}>;
   color: string;
 }
 
@@ -37,7 +38,7 @@ export default function Transit() {
   const [showAddPass, setShowAddPass] = useState(false);
 
   useEffect(() => {
-    // Mock transit passes data
+    // Premium transit passes data
     setTransitPasses([
       {
         id: 1,
@@ -46,7 +47,7 @@ export default function Transit() {
         balance: 247.50,
         validUntil: "Dec 31, 2025",
         status: "active",
-        icon: "🚇",
+        IconComponent: MetroIconSVG,
         color: "linear-gradient(135deg, #007AFF 0%, #5856D6 100%)"
       },
       {
@@ -56,7 +57,7 @@ export default function Transit() {
         balance: 89.20,
         validUntil: "Jan 15, 2026",
         status: "low_balance",
-        icon: "🚌",
+        IconComponent: BusIconSVG,
         color: "linear-gradient(135deg, #30D158 0%, #00C896 100%)"
       },
       {
@@ -66,7 +67,7 @@ export default function Transit() {
         balance: 156.75,
         validUntil: "Mar 10, 2026",
         status: "active",
-        icon: "🚂",
+        IconComponent: TrainIconSVG,
         color: "linear-gradient(135deg, #FF9F0A 0%, #FF6B35 100%)"
       }
     ]);
@@ -109,40 +110,64 @@ export default function Transit() {
     ]);
   }, []);
 
+  const [, setLocation] = useLocation();
+
   const quickActions = [
     {
       id: 1,
       title: "Scan QR",
       subtitle: "Quick Entry",
-      icon: QrCode,
-      action: () => {},
-      color: "bg-blue-500"
+      IconComponent: QRScanIconSVG,
+      action: () => setLocation('/qr-scanner'),
+      gradient: "linear-gradient(135deg, #007AFF 0%, #5856D6 100%)",
+      animated: true
     },
     {
       id: 2,
       title: "Top Up",
       subtitle: "Add Money",
-      icon: CreditCard,
-      action: () => {},
-      color: "bg-green-500"
+      IconComponent: TopUpIconSVG,
+      action: () => handleTopUp(),
+      gradient: "linear-gradient(135deg, #30D158 0%, #00C896 100%)",
+      animated: true
     },
     {
       id: 3,
       title: "Plan Route",
       subtitle: "Journey",
-      icon: MapPin,
-      action: () => {},
-      color: "bg-purple-500"
+      IconComponent: RouteIconSVG,
+      action: () => handlePlanRoute(),
+      gradient: "linear-gradient(135deg, #AF52DE 0%, #5856D6 100%)",
+      animated: true
     },
     {
       id: 4,
       title: "History",
       subtitle: "Past Trips",
-      icon: Clock,
-      action: () => {},
-      color: "bg-orange-500"
+      IconComponent: HistoryIconSVG,
+      action: () => setLocation('/transactions'),
+      gradient: "linear-gradient(135deg, #FF9F0A 0%, #FF6B35 100%)",
+      animated: true
     }
   ];
+
+  const handleTopUp = () => {
+    const selectedTransitPass = transitPasses[selectedPass];
+    if (selectedTransitPass) {
+      const topUpAmount = 100; // ₹100 top up
+      setTransitPasses(prev => prev.map(pass => 
+        pass.id === selectedTransitPass.id 
+          ? { ...pass, balance: pass.balance + topUpAmount, status: "active" as const }
+          : pass
+      ));
+      console.log(`Topped up ₹${topUpAmount} to ${selectedTransitPass.name}`);
+    }
+  };
+
+  const handlePlanRoute = () => {
+    console.log('Planning route with smart recommendations');
+    // In a real app, this would open route planning interface
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
@@ -212,8 +237,8 @@ export default function Transit() {
                   {/* Pass Header */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-2xl">
-                        {pass.icon}
+                      <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                        <pass.IconComponent className="w-8 h-8" animated={selectedPass === index} />
                       </div>
                       <div>
                         <p className="text-white font-semibold text-lg">{pass.type}</p>
@@ -256,29 +281,33 @@ export default function Transit() {
             {quickActions.map((action) => (
               <Card
                 key={action.id}
-                className="ultra-premium-card border-0 cursor-pointer"
+                className="ultra-premium-card border-0 cursor-pointer transition-all duration-500 hover:scale-105"
                 style={{
                   background: `
                     linear-gradient(135deg, 
-                      rgba(255,255,255,0.12) 0%, 
-                      rgba(255,255,255,0.06) 50%, 
-                      rgba(255,255,255,0.04) 100%
-                    )
+                      rgba(255,255,255,0.15) 0%, 
+                      rgba(255,255,255,0.08) 50%, 
+                      rgba(255,255,255,0.05) 100%
+                    ),
+                    ${action.gradient}
                   `,
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.15)'
+                  backdropFilter: 'blur(25px)',
+                  WebkitBackdropFilter: 'blur(25px)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  boxShadow: '0 20px 40px -12px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.1)'
                 }}
                 onClick={action.action}
               >
-                <CardContent className="p-5 h-[100px] flex flex-col justify-center">
-                  <div className="flex flex-col items-center text-center space-y-2">
-                    <div className={`w-12 h-12 rounded-xl ${action.color} flex items-center justify-center`}>
-                      <action.icon className="w-6 h-6 text-white" />
+                <CardContent className="p-6 h-[120px] flex flex-col justify-center">
+                  <div className="flex flex-col items-center text-center space-y-3">
+                    <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/30">
+                      <action.IconComponent className="w-8 h-8" animated={action.animated} />
                     </div>
                     <div>
-                      <h3 className="text-white font-semibold text-sm">{action.title}</h3>
-                      <p className="text-white/70 text-xs">{action.subtitle}</p>
+                      <h3 className="text-white font-bold text-sm" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                        {action.title}
+                      </h3>
+                      <p className="text-white/80 text-xs font-medium">{action.subtitle}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -309,12 +338,14 @@ export default function Transit() {
               >
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                      route.type === 'metro' ? 'bg-blue-500/20' : 'bg-green-500/20'
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center backdrop-blur-sm border ${
+                      route.type === 'metro' 
+                        ? 'bg-blue-500/20 border-blue-400/30' 
+                        : 'bg-green-500/20 border-green-400/30'
                     }`}>
                       {route.type === 'metro' ? 
-                        <Train className="w-6 h-6 text-blue-400" /> :
-                        <Bus className="w-6 h-6 text-green-400" />
+                        <MetroIconSVG className="w-8 h-8" animated={true} /> :
+                        <BusIconSVG className="w-8 h-8" animated={true} />
                       }
                     </div>
 
