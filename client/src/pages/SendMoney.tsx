@@ -9,6 +9,7 @@ import { ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayPhoneSVG, ApplePa
 import { PremiumFavoritesSVG, PremiumStarSVG } from "@/components/PremiumSVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
+import authGif from "@assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif";
 
 export default function SendMoney() {
   const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'success'>('contacts');
@@ -749,7 +750,7 @@ export default function SendMoney() {
             <CardContent className="p-6 text-center">
               <div className="w-20 h-12 mx-auto mb-4 flex items-center justify-center">
                 <img 
-                  src="/attached_assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif" 
+                  src={authGif} 
                   alt="Authentication"
                   className="w-full h-full object-contain rounded-lg"
                 />
