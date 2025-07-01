@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPPB - Video Production Capture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+        
+        .cta {
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .video-placeholder .play-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .logo {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">OPPB</div>
+        <div class="subtitle">Offline Peer-to-Peer Payment Bridge</div>
+        
+        <div class="video-placeholder">
+            <div class="play-icon">▶</div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🎨 Premium Design</h3>
+                <p>Apple Pay-inspired interface with sophisticated animations and glass morphism effects</p>
+            </div>
+            <div class="feature">
+                <h3>📱 Offline Payments</h3>
+                <p>Revolutionary Bluetooth-based peer-to-peer transactions without internet connectivity</p>
+            </div>
+            <div class="feature">
+                <h3>🔒 Bank-Grade Security</h3>
+                <p>Secure BHIM UPI integration with biometric authentication and encrypted transactions</p>
+            </div>
+            <div class="feature">
+                <h3>⚡ Instant Processing</h3>
+                <p>Real-time balance updates and seamless payment confirmation with swipe interactions</p>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <a href="#" class="btn">Experience the Future of Payments</a>
+        </div>
+    </div>
+    
+    <script>
+        // Add some interactive elements for video capture
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature');
+            
+            features.forEach((feature, index) => {
+                setTimeout(() => {
+                    feature.style.opacity = '0';
+                    feature.style.transform = 'translateY(20px)';
+                    feature.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        feature.style.opacity = '1';
+                        feature.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+        
+        // Simulate video playback for demonstration
+        const videoPlaceholder = document.querySelector('.video-placeholder');
+        const playIcon = document.querySelector('.play-icon');
+        
+        videoPlaceholder.addEventListener('click', function() {
+            playIcon.innerHTML = '⏸';
+            videoPlaceholder.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            
+            setTimeout(() => {
+                playIcon.innerHTML = '▶';
+                videoPlaceholder.style.background = 'rgba(0, 0, 0, 0.3)';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
