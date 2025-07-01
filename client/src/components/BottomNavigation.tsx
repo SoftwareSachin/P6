@@ -125,7 +125,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
                             }
                             ${isHovered && !isActive ? 'scale-110' : ''}
                           `} 
-                          animated={isActive}
+{...(isActive && item.appleIcon ? { animated: true } : {})}
                         />
                       </div>
 

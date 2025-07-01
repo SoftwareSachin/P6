@@ -47,143 +47,271 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
-      {/* Apple Pay Style Header */}
-      <div className="flex items-center justify-between p-6 backdrop-blur-xl bg-black/50 relative z-10">
-        <Link href="/">
-          <Button variant="ghost" size="icon" className="apple-pay-button h-12 w-12 rounded-full">
-            <ArrowLeft className="h-6 w-6" />
-          </Button>
-        </Link>
-        <div className="text-center">
-          <h1 className="text-xl font-bold text-white">Profile</h1>
-          <p className="text-gray-400 text-sm">Manage your account</p>
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Animated Background Elements - Matching Dashboard */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Primary gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 via-black to-gray-900/50" />
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-600/10 rounded-full blur-xl animate-float" />
+        <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-purple-500/15 to-pink-600/15 rounded-full blur-lg animate-float-delay" />
+        <div className="absolute bottom-40 left-20 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-cyan-500/10 rounded-full blur-lg animate-pulse" />
+        <div className="absolute bottom-20 right-10 w-28 h-28 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-xl animate-float-slow" />
+        
+        {/* Grid overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="h-full w-full" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }} />
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="apple-pay-button h-12 w-12 rounded-full"
-          onClick={() => setShowSettings(!showSettings)}
-        >
-          <Settings className="h-6 w-6" />
-        </Button>
+        
+        {/* Subtle light rays */}
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
+        <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-purple-500/20 to-transparent" />
+      </div>
+      {/* Ultra-Premium Apple Pay Style Header */}
+      <div className="relative z-10 px-6 pt-6">
+        {/* Header with glass morphism */}
+        <div className="flex items-center justify-between p-4 backdrop-blur-2xl bg-white/5 rounded-3xl border border-white/10 shadow-2xl">
+          <Link href="/">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-lg" />
+              <Button variant="ghost" size="icon" className="relative h-12 w-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-110">
+                <ArrowLeft className="h-6 w-6 text-white" />
+              </Button>
+            </div>
+          </Link>
+          
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+              Profile
+            </h1>
+            <p className="text-white/60 text-sm font-medium">Personal Dashboard</p>
+          </div>
+          
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full blur-lg" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative h-12 w-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-110"
+              onClick={() => setShowSettings(!showSettings)}
+            >
+              <Settings className={`h-6 w-6 text-white transition-transform duration-300 ${showSettings ? 'rotate-45' : ''}`} />
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="px-6 pb-20">
-        {/* Profile Header Card */}
-        <Card className="apple-pay-card border-0 mb-6">
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="relative">
-                <Avatar className="w-28 h-28 border-4 border-white/20">
-                  <AvatarImage src={profileImage} className="w-full h-full object-cover" />
-                  <AvatarFallback className="apple-pay-gradient text-white text-2xl font-bold">
-                    {userName.split(' ').map((n: string) => n[0]).join('')}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 apple-pay-gradient rounded-full flex items-center justify-center">
-                  <ApplePayBiometricSVG className="w-4 h-4 text-white" />
-                </div>
-              </div>
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold text-white mb-1">{userName}</h2>
-                <p className="text-gray-400 text-sm mb-2">{userEmail}</p>
-                <p className="text-gray-500 text-sm">{userPhone}</p>
-                <div className="flex items-center space-x-2 mt-2">
-                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                    <ApplePaySecuritySVG className="w-3 h-3 mr-1" />
-                    Verified
-                  </Badge>
-                  <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
-                    Premium
-                  </Badge>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Stats Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {profileStats.map((stat, index) => (
-                <div key={index} className="text-center p-3 rounded-xl bg-white/5 backdrop-blur-sm">
-                  <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <stat.icon className="w-4 h-4 text-blue-400" />
+      <div className="px-6 pb-20 relative z-10">
+        {/* Ultra-Premium Profile Header Card */}
+        <div className="mt-6 mb-8 relative">
+          {/* Card glow effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 rounded-3xl blur-xl scale-105" />
+          
+          <Card className="relative backdrop-blur-2xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl">
+            <CardContent className="p-8">
+              <div className="flex items-center space-x-6 mb-8">
+                <div className="relative">
+                  {/* Avatar glow ring */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full p-1 animate-pulse">
+                    <div className="bg-black rounded-full w-full h-full" />
                   </div>
-                  <p className="text-lg font-bold text-white">{stat.value}</p>
-                  <p className="text-xs text-gray-400">{stat.label}</p>
+                  
+                  <Avatar className="relative w-32 h-32 border-4 border-transparent">
+                    <AvatarImage src={profileImage} className="w-full h-full object-cover rounded-full" />
+                    <AvatarFallback className="bg-gradient-to-br from-blue-500 via-purple-600 to-blue-500 text-white text-3xl font-bold">
+                      {userName.split(' ').map((n: string) => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                  
+                  {/* Verification badge with animation */}
+                  <div className="absolute -bottom-2 -right-2 relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full blur-md animate-pulse" />
+                    <div className="relative w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center border-2 border-white/20">
+                      <ApplePayBiometricSVG className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent mb-2">
+                    {userName}
+                  </h2>
+                  <p className="text-white/70 text-base mb-1 font-medium">{userEmail}</p>
+                  <p className="text-white/50 text-sm mb-4">{userPhone}</p>
+                  
+                  <div className="flex items-center space-x-3">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-green-500/30 rounded-xl blur-md" />
+                      <Badge className="relative bg-green-500/20 text-green-300 border border-green-500/30 backdrop-blur-xl px-3 py-1">
+                        <ApplePaySecuritySVG className="w-4 h-4 mr-2" />
+                        Verified
+                      </Badge>
+                    </div>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-blue-500/30 rounded-xl blur-md" />
+                      <Badge className="relative bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-xl px-3 py-1">
+                        <Star className="w-4 h-4 mr-2" />
+                        Premium
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        {/* Menu Sections */}
+              {/* Ultra-Premium Stats Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                {profileStats.map((stat, index) => (
+                  <div key={index} className="relative group">
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    
+                    <div className="relative text-center p-5 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
+                      {/* Icon with animated background */}
+                      <div className="relative w-12 h-12 mx-auto mb-3">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-md animate-pulse" 
+                             style={{ animationDelay: `${index * 0.2}s` }} />
+                        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center border border-white/20">
+                          <stat.icon className="w-6 h-6 text-blue-300" />
+                        </div>
+                      </div>
+                      
+                      <p className="text-xl font-bold text-white mb-1">{stat.value}</p>
+                      <p className="text-xs text-white/60 font-medium">{stat.label}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Ultra-Premium Menu Sections */}
         {menuSections.map((section, sectionIndex) => (
-          <div key={sectionIndex} className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-4 px-2">{section.title}</h3>
-            <Card className="apple-pay-card border-0">
-              <CardContent className="p-0">
-                {section.items.map((item, itemIndex) => {
-                  const IconComponent = item.appleIcon || item.icon;
-                  return (
-                    <Link key={itemIndex} href={item.href}>
-                      <div className={`flex items-center justify-between p-4 hover:bg-white/5 transition-colors duration-200 ${
-                        itemIndex !== section.items.length - 1 ? 'border-b border-white/10' : ''
-                      }`}>
-                        <div className="flex items-center space-x-4">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-                            <IconComponent className="w-5 h-5 text-blue-400" />
+          <div key={sectionIndex} className="mb-8">
+            <h3 className="text-xl font-bold text-white mb-6 px-2 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+              {section.title}
+            </h3>
+            
+            <div className="relative">
+              {/* Section glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-3xl blur-xl" />
+              
+              <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/10 rounded-3xl shadow-xl">
+                <CardContent className="p-0">
+                  {section.items.map((item, itemIndex) => {
+                    const IconComponent = item.appleIcon || item.icon;
+                    return (
+                      <Link key={itemIndex} href={item.href}>
+                        <div className={`group relative flex items-center justify-between p-6 hover:bg-white/10 transition-all duration-300 ${
+                          itemIndex !== section.items.length - 1 ? 'border-b border-white/5' : ''
+                        } ${itemIndex === 0 ? 'rounded-t-3xl' : ''} ${itemIndex === section.items.length - 1 ? 'rounded-b-3xl' : ''}`}>
+                          
+                          {/* Hover effect background */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-3xl" />
+                          
+                          <div className="relative flex items-center space-x-5">
+                            {/* Enhanced icon with glow */}
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/15 to-purple-500/15 flex items-center justify-center border border-white/20 group-hover:scale-110 transition-all duration-300">
+                                <IconComponent className="w-6 h-6 text-blue-300 group-hover:text-white transition-colors duration-300" />
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <p className="font-semibold text-white text-lg group-hover:text-blue-100 transition-colors duration-300">
+                                {item.label}
+                              </p>
+                              {item.badge && (
+                                <div className="relative mt-2">
+                                  <div className="absolute inset-0 bg-orange-500/20 rounded-lg blur-md" />
+                                  <Badge className="relative bg-orange-500/15 text-orange-300 border border-orange-500/30 backdrop-blur-xl text-xs px-2 py-1">
+                                    {item.badge}
+                                  </Badge>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-white">{item.label}</p>
-                            {item.badge && (
-                              <Badge className="mt-1 bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs">
-                                {item.badge}
-                              </Badge>
-                            )}
+                          
+                          {/* Enhanced chevron */}
+                          <div className="relative">
+                            <ChevronRight className="w-6 h-6 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
                           </div>
                         </div>
-                        <ChevronRight className="w-5 h-5 text-gray-400" />
-                      </div>
-                    </Link>
-                  );
-                })}
-              </CardContent>
-            </Card>
+                      </Link>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         ))}
 
-        {/* Quick Actions */}
-        <Card className="apple-pay-card border-0 mb-6">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
-                <Download className="h-6 w-6" />
-                <span className="text-sm">Export Data</span>
-              </Button>
-              <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
-                <Share className="h-6 w-6" />
-                <span className="text-sm">Share App</span>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Sign Out Section */}
-        <Card className="apple-pay-card border-0 border-red-500/20">
-          <CardContent className="p-0">
-            <Link href="/api/logout">
-              <div className="flex items-center justify-center p-4 hover:bg-red-500/10 transition-colors duration-200">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-                    <LogOut className="w-5 h-5 text-red-400" />
+        {/* Ultra-Premium Quick Actions */}
+        <div className="mb-8 relative">
+          <h3 className="text-xl font-bold text-white mb-6 px-2 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+            Quick Actions
+          </h3>
+          
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-3xl blur-xl" />
+            
+            <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/10 rounded-3xl shadow-xl">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    <Button className="relative w-full h-20 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/15 transition-all duration-300 transform hover:scale-105 flex flex-col items-center justify-center space-y-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+                        <Download className="h-5 w-5 text-blue-300" />
+                      </div>
+                      <span className="text-sm font-medium text-white">Export Data</span>
+                    </Button>
                   </div>
-                  <span className="font-medium text-red-400">Sign Out</span>
+                  
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    <Button className="relative w-full h-20 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/15 transition-all duration-300 transform hover:scale-105 flex flex-col items-center justify-center space-y-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center">
+                        <Share className="h-5 w-5 text-purple-300" />
+                      </div>
+                      <span className="text-sm font-medium text-white">Share App</span>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Ultra-Premium Sign Out Section */}
+        <div className="mb-8 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-orange-500/10 to-red-500/10 rounded-3xl blur-xl" />
+          
+          <Card className="relative backdrop-blur-2xl bg-red-500/5 border border-red-500/20 rounded-3xl shadow-xl">
+            <CardContent className="p-0">
+              <Link href="/api/logout">
+                <div className="group flex items-center justify-center p-6 hover:bg-red-500/10 transition-all duration-300 rounded-3xl">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-red-500/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    <div className="relative flex items-center space-x-4">
+                      <div className="w-12 h-12 rounded-2xl bg-red-500/15 flex items-center justify-center border border-red-500/30 group-hover:scale-110 transition-all duration-300">
+                        <LogOut className="w-6 h-6 text-red-400 group-hover:text-red-300 transition-colors duration-300" />
+                      </div>
+                      <span className="font-semibold text-red-400 text-lg group-hover:text-red-300 transition-colors duration-300">
+                        Sign Out
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* App Version Info */}
         <div className="text-center mt-8 mb-4">
