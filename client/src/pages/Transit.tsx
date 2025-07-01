@@ -36,6 +36,7 @@ export default function Transit() {
   const [transitPasses, setTransitPasses] = useState<TransitPass[]>([]);
   const [recentRoutes, setRecentRoutes] = useState<TransitRoute[]>([]);
   const [showAddPass, setShowAddPass] = useState(false);
+  const [isAddingPass, setIsAddingPass] = useState(false);
 
   useEffect(() => {
     // Premium transit passes data
@@ -169,6 +170,53 @@ export default function Transit() {
     // In a real app, this would open route planning interface
   };
 
+  const handleAddPass = async () => {
+    setIsAddingPass(true);
+    
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const newPassOptions = [
+      {
+        id: Date.now(),
+        type: "Express Bus",
+        name: "Mumbai Airport Link",
+        balance: 200.00,
+        validUntil: "Jun 30, 2026",
+        status: "active" as const,
+        IconComponent: BusIconSVG,
+        color: "linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)"
+      },
+      {
+        id: Date.now() + 1,
+        type: "Ferry Pass",
+        name: "Gateway Ferry",
+        balance: 150.00,
+        validUntil: "Aug 15, 2026",
+        status: "active" as const,
+        IconComponent: TrainIconSVG,
+        color: "linear-gradient(135deg, #00C896 0%, #007AFF 100%)"
+      },
+      {
+        id: Date.now() + 2,
+        type: "Premium Metro",
+        name: "Delhi Metro Gold",
+        balance: 500.00,
+        validUntil: "Dec 31, 2026",
+        status: "active" as const,
+        IconComponent: MetroIconSVG,
+        color: "linear-gradient(135deg, #FFD60A 0%, #FF9F0A 100%)"
+      }
+    ];
+    
+    // Add random new pass
+    const randomPass = newPassOptions[Math.floor(Math.random() * newPassOptions.length)];
+    setTransitPasses(prev => [...prev, randomPass]);
+    setSelectedPass(transitPasses.length); // Select the new pass
+    setIsAddingPass(false);
+    console.log(`Added new pass: ${randomPass.name}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Header */}
@@ -199,78 +247,150 @@ export default function Transit() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setShowAddPass(true)}
-              className="border-blue-400/30 text-blue-400 hover:bg-blue-400/10 rounded-xl"
+              onClick={handleAddPass}
+              disabled={isAddingPass}
+              className="border-blue-400/40 text-blue-400 hover:bg-blue-400/20 hover:border-blue-400/60 rounded-xl transition-all duration-300 backdrop-blur-sm bg-blue-400/5"
+              style={{
+                background: isAddingPass 
+                  ? 'linear-gradient(135deg, rgba(0,122,255,0.15) 0%, rgba(88,86,214,0.15) 100%)'
+                  : 'linear-gradient(135deg, rgba(0,122,255,0.08) 0%, rgba(88,86,214,0.08) 100%)',
+                boxShadow: '0 8px 16px -4px rgba(0,122,255,0.2)',
+                fontFamily: 'SF Pro Display, system-ui'
+              }}
             >
-              + Add Pass
+              {isAddingPass ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin mr-2" />
+                  Adding...
+                </>
+              ) : (
+                '+ Add Pass'
+              )}
             </Button>
           </div>
 
-          <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
-            {transitPasses.map((pass, index) => (
-              <Card
-                key={pass.id}
-                className={`min-w-[300px] cursor-pointer transition-all duration-500 ${
-                  selectedPass === index ? 'scale-105 z-10' : 'scale-95 opacity-80'
-                }`}
-                onClick={() => setSelectedPass(index)}
-                style={{
-                  background: `
-                    linear-gradient(135deg, 
-                      rgba(255,255,255,0.15) 0%, 
-                      rgba(255,255,255,0.05) 25%, 
-                      transparent 50%, 
-                      rgba(0,0,0,0.05) 75%, 
-                      rgba(0,0,0,0.1) 100%
-                    ),
-                    ${pass.color}
-                  `,
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  boxShadow: selectedPass === index 
-                    ? '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 40px rgba(0,122,255,0.3)'
-                    : '0 15px 30px -8px rgba(0,0,0,0.3)'
-                }}
-              >
-                <CardContent className="p-6 h-44 relative">
-                  {/* Pass Header */}
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                        <pass.IconComponent className="w-8 h-8" animated={selectedPass === index} />
+          <div className="flex space-x-6 overflow-x-auto hide-scrollbar pb-6">
+            {transitPasses.map((pass, index) => {
+              const isSelected = selectedPass === index;
+              return (
+                <Card
+                  key={pass.id}
+                  className={`min-w-[340px] cursor-pointer transition-all duration-700 transform-gpu hover:cursor-pointer ${
+                    isSelected ? 'scale-110 z-30 rotate-1' : 'scale-95 opacity-75 hover:scale-100 hover:opacity-90'
+                  }`}
+                  onClick={() => setSelectedPass(index)}
+                  style={{
+                    background: `
+                      linear-gradient(145deg, 
+                        rgba(255,255,255,0.35) 0%, 
+                        rgba(255,255,255,0.18) 20%, 
+                        rgba(255,255,255,0.12) 40%, 
+                        transparent 60%, 
+                        rgba(0,0,0,0.1) 80%, 
+                        rgba(0,0,0,0.2) 100%
+                      ),
+                      ${pass.color}
+                    `,
+                    backdropFilter: 'blur(30px) saturate(1.8) contrast(1.2)',
+                    WebkitBackdropFilter: 'blur(30px) saturate(1.8) contrast(1.2)',
+                    border: isSelected 
+                      ? '2px solid rgba(255,255,255,0.5)' 
+                      : '1px solid rgba(255,255,255,0.2)',
+                    boxShadow: isSelected 
+                      ? '0 40px 80px -20px rgba(0,0,0,0.7), 0 0 80px rgba(0,122,255,0.5), inset 0 2px 8px rgba(255,255,255,0.3), inset 0 -2px 8px rgba(0,0,0,0.15)'
+                      : '0 25px 50px -15px rgba(0,0,0,0.5), 0 10px 20px -5px rgba(0,0,0,0.3), inset 0 1px 4px rgba(255,255,255,0.15)',
+                    borderRadius: '24px',
+                    transformStyle: 'preserve-3d',
+                    perspective: '1000px',
+                    fontFamily: 'SF Pro Display, system-ui'
+                  }}
+                >
+                  <CardContent className="p-8 h-52 relative overflow-hidden">
+                    {/* Ultra-Premium Header */}
+                    <div className="flex justify-between items-start mb-8">
+                      <div className="flex items-center space-x-4">
+                        <div 
+                          className="w-14 h-14 rounded-2xl flex items-center justify-center backdrop-blur-lg"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 100%)',
+                            border: '1px solid rgba(255,255,255,0.3)',
+                            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.1)'
+                          }}
+                        >
+                          <pass.IconComponent className="w-9 h-9 text-white" animated={isSelected} />
+                        </div>
+                        <div>
+                          <p className="text-white font-bold text-xl tracking-tight">{pass.type}</p>
+                          <p className="text-white/80 text-sm font-medium">{pass.name}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-white font-semibold text-lg">{pass.type}</p>
-                        <p className="text-white/70 text-sm">{pass.name}</p>
+                      <Badge
+                        className={`text-xs font-bold px-3 py-1.5 backdrop-blur-lg border-0 ${
+                          pass.status === 'active' ? 'bg-green-500/30 text-green-200' :
+                          pass.status === 'low_balance' ? 'bg-yellow-500/30 text-yellow-200' :
+                          'bg-red-500/30 text-red-200'
+                        }`}
+                        style={{
+                          background: pass.status === 'active' 
+                            ? 'linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(34,197,94,0.2) 100%)'
+                            : pass.status === 'low_balance'
+                            ? 'linear-gradient(135deg, rgba(234,179,8,0.4) 0%, rgba(234,179,8,0.2) 100%)'
+                            : 'linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(239,68,68,0.2) 100%)',
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                        }}
+                      >
+                        {pass.status === 'active' ? 'ACTIVE' :
+                         pass.status === 'low_balance' ? 'LOW BALANCE' : 'EXPIRED'}
+                      </Badge>
+                    </div>
+
+                    {/* Ultra-Premium Balance Display */}
+                    <div className="space-y-3 mb-6">
+                      <p className="text-white/70 text-sm font-medium tracking-wide">Current Balance</p>
+                      <div className="relative">
+                        <p 
+                          className="text-white text-4xl font-black tracking-tight"
+                          style={{
+                            textShadow: '0 2px 8px rgba(0,0,0,0.3), 0 0 16px rgba(255,255,255,0.1)',
+                            fontFeatureSettings: '"tnum" 1'
+                          }}
+                        >
+                          ₹{pass.balance.toFixed(2)}
+                        </p>
+                        {isSelected && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                        )}
                       </div>
                     </div>
-                    <Badge
-                      className={`${
-                        pass.status === 'active' ? 'bg-green-500/20 text-green-400' :
-                        pass.status === 'low_balance' ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-red-500/20 text-red-400'
-                      }`}
-                    >
-                      {pass.status === 'active' ? 'Active' :
-                       pass.status === 'low_balance' ? 'Low Balance' : 'Expired'}
-                    </Badge>
-                  </div>
 
-                  {/* Balance */}
-                  <div className="space-y-2">
-                    <p className="text-white/70 text-sm">Balance</p>
-                    <p className="text-white text-3xl font-bold">₹{pass.balance.toFixed(2)}</p>
-                  </div>
+                    {/* Ultra-Premium Footer */}
+                    <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                      <div>
+                        <p className="text-white/60 text-xs font-medium tracking-wider uppercase">Valid Until</p>
+                        <p className="text-white text-sm font-bold">{pass.validUntil}</p>
+                      </div>
+                      {isSelected && (
+                        <div className="flex items-center space-x-1">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                          <span className="text-green-400 text-xs font-bold">SELECTED</span>
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Valid Until */}
-                  <div className="absolute bottom-6 left-6">
-                    <p className="text-white/70 text-xs">Valid until</p>
-                    <p className="text-white text-sm font-medium">{pass.validUntil}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    {/* Ultra-Premium Card Shimmer Effect */}
+                    {isSelected && (
+                      <div 
+                        className="absolute inset-0 opacity-30 pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)',
+                          animation: 'shimmer 3s infinite'
+                        }}
+                      />
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
 
