@@ -747,10 +747,13 @@ export default function SendMoney() {
           {/* Biometric Authentication */}
           <Card className="apple-pay-card border-0 mb-6">
             <CardContent className="p-6 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full apple-pay-gradient flex items-center justify-center">
-                <ApplePayBiometricSVG className="w-8 h-8 text-white" />
+              <div className="w-20 h-12 mx-auto mb-4 flex items-center justify-center">
+                <img 
+                  src="/attached_assets/fetchpik.com-iconscout-2k3t9SnXHL_1751392919451.gif" 
+                  alt="Authentication"
+                  className="w-full h-full object-contain rounded-lg"
+                />
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Authenticate Payment</h4>
               <p className="text-gray-400 text-sm">Use Face ID or Touch ID to confirm</p>
             </CardContent>
           </Card>
