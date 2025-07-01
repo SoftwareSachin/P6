@@ -8,6 +8,7 @@ import { COLORS } from "@/lib/constants";
 import { Link } from "wouter";
 import { ApplePayQRCodeSVG, ApplePayNFCSVG, ApplePayContactlessSVG, ApplePaySecuritySVG, ApplePayMerchantSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { SwipeToSend } from "@/components/SwipeToSend";
 
 export default function QRScanner() {
   const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'payment'>('scanning');
@@ -198,21 +199,20 @@ export default function QRScanner() {
 
           {/* Action Buttons */}
           <div className="space-y-4 pb-24">
-            <Button 
-              onClick={handlePayment}
+            <SwipeToSend
+              onComplete={handlePayment}
+              text={`Swipe to Pay ₹${amount || "0"}`}
+              variant="success"
+              size="large"
               disabled={!amount || parseFloat(amount) <= 0}
-              className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg disabled:opacity-50"
-            >
-              Pay ₹{amount || "0"}
-            </Button>
+            />
             
-            <Button 
-              variant="outline"
-              onClick={() => setScanningStage('scanning')}
-              className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
-            >
-              Scan Again
-            </Button>
+            <SwipeToSend
+              onComplete={() => setScanningStage('scanning')}
+              text="Swipe to Scan Again"
+              variant="glass"
+              size="medium"
+            />
           </div>
         </div>
       )}

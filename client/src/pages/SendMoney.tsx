@@ -7,6 +7,7 @@ import { ArrowLeft, Search, Star, Phone, Mail, Plus } from "lucide-react";
 import { Link } from "wouter";
 import { ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayPhoneSVG, ApplePaySecuritySVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { SwipeToSend } from "@/components/SwipeToSend";
 
 export default function SendMoney() {
   const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'success'>('contacts');
@@ -273,22 +274,21 @@ export default function SendMoney() {
           </Card>
 
           {/* Action Buttons */}
-          <div className="space-y-4">
-            <Button 
-              onClick={handleAmountSubmit}
+          <div className="space-y-4 pb-24">
+            <SwipeToSend
+              onComplete={handleAmountSubmit}
+              text="Swipe to Continue"
+              variant="primary"
+              size="large"
               disabled={!amount || parseFloat(amount) <= 0}
-              className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg disabled:opacity-50"
-            >
-              Continue
-            </Button>
+            />
             
-            <Button 
-              variant="outline"
-              onClick={() => setStep('contacts')}
-              className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
-            >
-              Change Contact
-            </Button>
+            <SwipeToSend
+              onComplete={() => setStep('contacts')}
+              text="Swipe to Change Contact"
+              variant="glass"
+              size="medium"
+            />
           </div>
         </div>
       )}
@@ -346,21 +346,20 @@ export default function SendMoney() {
           </Card>
 
           {/* Action Buttons */}
-          <div className="space-y-4">
-            <Button 
-              onClick={handlePayment}
-              className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg"
-            >
-              Pay ₹{amount}
-            </Button>
+          <div className="space-y-4 pb-24">
+            <SwipeToSend
+              onComplete={handlePayment}
+              text={`Swipe to Pay ₹${amount}`}
+              variant="success"
+              size="large"
+            />
             
-            <Button 
-              variant="outline"
-              onClick={() => setStep('amount')}
-              className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
-            >
-              Edit Amount
-            </Button>
+            <SwipeToSend
+              onComplete={() => setStep('amount')}
+              text="Swipe to Edit Amount"
+              variant="glass"
+              size="medium"
+            />
           </div>
         </div>
       )}
@@ -397,24 +396,24 @@ export default function SendMoney() {
             </div>
 
             <div className="space-y-4 mt-8 pb-24">
-              <Link href="/">
-                <Button className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg">
-                  Done
-                </Button>
-              </Link>
+              <SwipeToSend
+                onComplete={() => window.location.href = '/'}
+                text="Swipe to Complete"
+                variant="success"
+                size="large"
+              />
               
-              <Button 
-                variant="outline"
-                onClick={() => {
+              <SwipeToSend
+                onComplete={() => {
                   setStep('contacts');
                   setSelectedContact(null);
                   setAmount("");
                   setNote("");
                 }}
-                className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white font-bold"
-              >
-                Send to Another Contact
-              </Button>
+                text="Swipe to Send Again"
+                variant="glass"
+                size="medium"
+              />
             </div>
           </div>
         </div>

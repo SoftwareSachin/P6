@@ -6,6 +6,7 @@ import { ArrowLeft, Wifi, WifiOff, Bluetooth, Users, MapPin, Signal } from "luci
 import { Link } from "wouter";
 import { ApplePayContactlessSVG, ApplePayNFCSVG, ApplePaySecuritySVG, ApplePayPhoneSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { SwipeToSend } from "@/components/SwipeToSend";
 
 export default function OfflinePayments() {
   const [isBluetoothEnabled, setIsBluetoothEnabled] = useState(false);
@@ -280,21 +281,19 @@ export default function OfflinePayments() {
           </Card>
 
           <div className="space-y-4 pb-24">
-            <Button 
-              onClick={handlePayment}
-              className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg"
-            >
-              Start Payment
-            </Button>
+            <SwipeToSend
+              onComplete={handlePayment}
+              text="Swipe to Start Payment"
+              variant="primary"
+              size="large"
+            />
             
-            <Button 
-              variant="outline"
-              onClick={() => setPaymentStage('discovery')}
-              className="w-full h-12 rounded-xl bg-white/10 backdrop-blur-xl border-white/30 text-white font-semibold hover:bg-white/20 transition-all duration-200"
-              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}
-            >
-              Choose Different Device
-            </Button>
+            <SwipeToSend
+              onComplete={() => setPaymentStage('discovery')}
+              text="Swipe to Choose Different Device"
+              variant="glass"
+              size="medium"
+            />
           </div>
         </div>
       )}
@@ -373,23 +372,22 @@ export default function OfflinePayments() {
             </div>
 
             <div className="space-y-4 mt-8 pb-24">
-              <Link href="/">
-                <Button className="w-full h-14 rounded-2xl apple-pay-gradient text-white font-semibold text-lg">
-                  Done
-                </Button>
-              </Link>
+              <SwipeToSend
+                onComplete={() => window.location.href = '/'}
+                text="Swipe to Complete"
+                variant="success"
+                size="large"
+              />
               
-              <Button 
-                variant="outline"
-                onClick={() => {
+              <SwipeToSend
+                onComplete={() => {
                   setPaymentStage('discovery');
                   setSelectedDevice(null);
                 }}
-                className="w-full h-12 rounded-xl bg-white/10 backdrop-blur-xl border-white/30 text-white font-semibold hover:bg-white/20 transition-all duration-200"
-                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}
-              >
-                Make Another Payment
-              </Button>
+                text="Swipe for Another Payment"
+                variant="glass"
+                size="medium"
+              />
             </div>
           </div>
         </div>
