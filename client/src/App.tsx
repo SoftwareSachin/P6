@@ -4,6 +4,9 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
+import { ErrorHandler } from "@/lib/errorHandler";
+import { NetworkStatus, LoadingWithError } from "@/components/ErrorBoundary";
+import { ErrorMonitorDashboard, ErrorToastManager } from "@/components/ErrorMonitorDashboard";
 import { useState, useEffect } from "react";
 import Landing from "@/pages/Landing";
 import Onboarding from "@/pages/Onboarding";
@@ -116,6 +119,9 @@ function App() {
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <NetworkStatus />
+          <ErrorToastManager />
+          <ErrorMonitorDashboard />
           <Toaster />
           <Router />
         </TooltipProvider>

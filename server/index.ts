@@ -40,12 +40,78 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+  // Enhanced error handling middleware
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+    // Log error with detailed context
+    const errorContext = {
+      method: req.method,
+      url: req.url,
+      userAgent: req.get('User-Agent'),
+      ip: req.ip || req.connection.remoteAddress,
+      timestamp: new Date().toISOString(),
+      userId: (req.session as any)?.userId || 'anonymous'
+    };
+    
+    console.error("OPPB Server Error:", {
+      message: err.message,
+      name: err.name,
+      stack: err.stack,
+      context: errorContext
+    });
 
-    res.status(status).json({ message });
-    throw err;
+    // Determine error type and status code
+    let statusCode = err.status || err.statusCode || 500;
+    let errorCode = 'SERVER_ERROR';
+    let message = err.message || 'Internal server error';
+
+    // Map specific error types
+    switch (err.name) {
+      case 'ValidationError':
+        statusCode = 400;
+        errorCode = 'VALIDATION_ERROR';
+        break;
+      case 'UnauthorizedError':
+        statusCode = 401;
+        errorCode = 'AUTH_ERROR';
+        message = 'Authentication required';
+        break;
+      case 'ForbiddenError':
+        statusCode = 403;
+        errorCode = 'AUTH_ERROR';
+        message = 'Access denied';
+        break;
+      case 'NotFoundError':
+        statusCode = 404;
+        errorCode = 'SERVER_ERROR';
+        message = 'Resource not found';
+        break;
+      case 'PaymentError':
+        statusCode = 400;
+        errorCode = 'PAYMENT_ERROR';
+        break;
+      case 'InsufficientFundsError':
+        statusCode = 400;
+        errorCode = 'INSUFFICIENT_FUNDS';
+        message = 'Insufficient balance for this transaction';
+        break;
+    }
+
+    // Send structured error response
+    const errorResponse = {
+      error: {
+        code: errorCode,
+        message: message,
+        timestamp: Date.now()
+      }
+    };
+
+    // Include debug info in development
+    if (process.env.NODE_ENV === 'development') {
+      (errorResponse.error as any).details = err.message;
+      (errorResponse.error as any).stack = err.stack;
+    }
+
+    res.status(statusCode).json(errorResponse);
   });
 
   // importantly only setup vite in development and after

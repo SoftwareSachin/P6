@@ -1,7 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import "./index.css";
+import { queryClient } from "@/lib/queryClient";
+import { ErrorHandler } from "@/lib/errorHandler";
+import { ErrorBoundary as ComprehensiveErrorBoundary, NetworkStatus } from "@/components/ErrorBoundary";
 
 // PWA Type Declarations
 declare global {
@@ -84,15 +88,8 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-// Global error handlers
-window.addEventListener('unhandledrejection', (event) => {
-  console.error('Unhandled promise rejection:', event.reason);
-  event.preventDefault();
-});
-
-window.addEventListener('error', (event) => {
-  console.error('Global error:', event.error);
-});
+// Initialize global error handling
+ErrorHandler.setupGlobalErrorHandlers();
 
 // Safe app rendering
 function renderApp() {
