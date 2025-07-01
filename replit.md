@@ -298,6 +298,14 @@ Changelog:
   * Authentication API responding properly with cached user data
   * Public URL: https://31913c36-ddd3-4cf6-a581-90dcc037abcf-00-12gchgo280hg4.worf.replit.dev/
   * Project ready for deployment and further development
+- July 1, 2025. ENHANCED SWIPE-TO-SEND MECHANICS AND WELCOME SCREEN REFINEMENTS:
+  * Implemented realistic physics-based swipe mechanics with velocity tracking and momentum
+  * Added elastic snap-back animations with friction and proper completion threshold (95%)
+  * Enhanced visual feedback with dynamic scaling, rotation, and glow effects during interaction
+  * Optimized performance with RequestAnimationFrame and GPU acceleration
+  * Refined welcome screen layout by removing bank text and aligning UPI text properly
+  * Maintained glassmorphism background with radial gradients and backdrop blur effects
+  * Improved loading performance by removing blocking asset preloading
 ```
 
 ## User Preferences

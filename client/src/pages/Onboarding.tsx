@@ -47,7 +47,16 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   // Apple Pay Welcome Screen - 1000% Authentic
   if (currentScreen === 0) {
     return (
-      <div className="min-h-screen bg-white relative overflow-hidden apple-pay-background">
+      <div className="min-h-screen relative overflow-hidden apple-pay-background" style={{
+        background: `
+          radial-gradient(circle at 20% 80%, rgba(120, 119, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 119, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 40%, rgba(119, 246, 255, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)
+        `,
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)'
+      }}>
         {/* Animated Blue Grid Background */}
         <div className="absolute inset-0 opacity-10">
           <svg width="100%" height="100%" className="absolute inset-0">
