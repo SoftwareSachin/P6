@@ -27,6 +27,9 @@ interface OnboardingProps {
 export default function Onboarding({ onComplete }: OnboardingProps) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [isOtpSent, setIsOtpSent] = useState(false);
   // Remove blocking asset preloading for faster initial load
   // Assets will load progressively as needed
 
@@ -35,13 +38,29 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     
     // Smooth transition delay
     setTimeout(() => {
-      if (currentScreen < 3) {
+      if (currentScreen < 4) {
         setCurrentScreen(prev => prev + 1);
       } else {
         onComplete();
       }
       setIsTransitioning(false);
     }, 150);
+  };
+
+  const sendOtp = () => {
+    if (mobileNumber.length === 10) {
+      setIsOtpSent(true);
+      // In a real app, this would send an actual OTP
+      console.log('OTP sent to:', mobileNumber);
+    }
+  };
+
+  const verifyOtp = () => {
+    if (otp === '123456') { // Demo OTP
+      nextScreen();
+    } else {
+      alert('Invalid OTP. Please use 123456 for demo.');
+    }
   };
 
   // Apple Pay Welcome Screen - 1000% Authentic
@@ -383,6 +402,157 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               >
                 Set Up Later in Settings
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Mobile Number Authentication Screen
+  if (currentScreen === 3) {
+    return (
+      <div className={`min-h-screen relative overflow-hidden transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`} style={{
+        background: `
+          radial-gradient(circle at 60% 40%, rgba(255, 119, 246, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 40% 70%, rgba(0, 122, 255, 0.10) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(52, 199, 89, 0.08) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)
+        `,
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)'
+      }}>
+        <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center w-full max-w-sm mx-auto">
+              {/* Phone Icon */}
+              <div className="flex justify-center mb-12">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-xl">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Content */}
+              <div className="space-y-6">
+                <div>
+                  <h1 
+                    className="text-black font-bold mb-3"
+                    style={{ 
+                      fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                      fontSize: '28px',
+                      lineHeight: '34px',
+                      letterSpacing: '-0.3px'
+                    }}
+                  >
+                    {!isOtpSent ? 'Enter your mobile number' : 'Enter verification code'}
+                  </h1>
+                  <p 
+                    className="text-black/60 font-normal"
+                    style={{ 
+                      fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                      fontSize: '17px',
+                      lineHeight: '22px'
+                    }}
+                  >
+                    {!isOtpSent ? 
+                      'We\'ll send you a verification code to secure your account.' :
+                      `We sent a 6-digit code to +91 ${mobileNumber}`
+                    }
+                  </p>
+                </div>
+
+                {/* Input Field */}
+                {!isOtpSent ? (
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <div className="flex items-center bg-white/10 backdrop-blur-md rounded-16 border border-white/20 shadow-lg">
+                        <span className="px-4 py-4 text-black/60 font-medium">+91</span>
+                        <input
+                          type="tel"
+                          placeholder="9876543210"
+                          value={mobileNumber}
+                          onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                          className="flex-1 px-4 py-4 bg-transparent text-black placeholder-black/40 outline-none font-medium"
+                          style={{ 
+                            fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                            fontSize: '17px'
+                          }}
+                        />
+                      </div>
+                    </div>
+                    
+                    <SwipeToSend
+                      onComplete={sendOtp}
+                      text="Swipe to Send OTP"
+                      variant="primary"
+                      size="medium"
+                      disabled={mobileNumber.length !== 10}
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex justify-center space-x-3">
+                      {[...Array(6)].map((_, i) => (
+                        <input
+                          key={i}
+                          type="text"
+                          maxLength={1}
+                          value={otp[i] || ''}
+                          onChange={(e) => {
+                            const newOtp = otp.split('');
+                            newOtp[i] = e.target.value;
+                            setOtp(newOtp.join(''));
+                            
+                            // Auto-focus next input
+                            if (e.target.value && i < 5) {
+                              const nextInput = e.target.parentElement?.children[i + 1] as HTMLInputElement;
+                              nextInput?.focus();
+                            }
+                          }}
+                          className="w-12 h-12 text-center bg-white/10 backdrop-blur-md rounded-12 border border-white/20 shadow-lg text-black font-bold text-xl outline-none focus:border-blue-500 focus:bg-white/20 transition-all"
+                          style={{ 
+                            fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                          }}
+                        />
+                      ))}
+                    </div>
+                    
+                    <div className="text-center">
+                      <p className="text-black/60 text-sm mb-4">Demo OTP: 123456</p>
+                    </div>
+                    
+                    <SwipeToSend
+                      onComplete={verifyOtp}
+                      text="Swipe to Verify"
+                      variant="primary"
+                      size="medium"
+                      disabled={otp.length !== 6}
+                    />
+                    
+                    <div className="text-center">
+                      <button 
+                        className="text-blue-600 font-normal"
+                        style={{ 
+                          fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                          fontSize: '17px',
+                          minHeight: '44px',
+                          minWidth: '44px',
+                          padding: '12px',
+                          transition: 'opacity 0.2s ease'
+                        }}
+                        onClick={() => {
+                          setIsOtpSent(false);
+                          setOtp('');
+                        }}
+                      >
+                        Change Number
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
