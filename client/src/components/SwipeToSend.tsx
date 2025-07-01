@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { ArrowRight, Check } from "lucide-react";
 
 interface SwipeToSendProps {
@@ -21,8 +21,13 @@ export function SwipeToSend({
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [velocity, setVelocity] = useState(0);
+  const [lastPosition, setLastPosition] = useState(0);
+  const [lastTime, setLastTime] = useState(0);
   const sliderRef = useRef<HTMLButtonElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number>();
 
   const sizes = {
     small: { height: 44, sliderSize: 36, padding: 4, fontSize: '14px' },
@@ -68,23 +73,98 @@ export function SwipeToSend({
     if (!trackRef.current) return 0;
     const rect = trackRef.current.getBoundingClientRect();
     const maxMove = rect.width - currentSize.sliderSize - currentSize.padding * 2;
-    const position = Math.min(Math.max(0, clientX - rect.left - currentSize.sliderSize / 2), maxMove);
-    return (position / maxMove) * 100;
+    const rawPosition = clientX - rect.left - currentSize.sliderSize / 2;
+    const clampedPosition = Math.min(Math.max(0, rawPosition), maxMove);
+    return (clampedPosition / maxMove) * 100;
   }, [currentSize]);
 
+  // Physics-based animation for release
+  const animateRelease = useCallback(() => {
+    if (isCompleted) return;
+    
+    const friction = 0.92;
+    const threshold = 90;
+    
+    const animate = () => {
+      setProgress(prev => {
+        const newVel = velocity * friction;
+        setVelocity(newVel);
+        
+        const newProgress = prev + newVel;
+        
+        // If we have enough velocity and are close to completion
+        if (newProgress >= threshold && Math.abs(newVel) > 0.5) {
+          setIsCompleted(true);
+          setTimeout(() => onComplete(), 200);
+          return 100;
+        }
+        
+        // Snap back with elastic easing
+        if (newProgress < threshold && Math.abs(newVel) < 0.1) {
+          const snapBackProgress = newProgress * 0.85;
+          return snapBackProgress < 1 ? 0 : snapBackProgress;
+        }
+        
+        return Math.max(0, Math.min(100, newProgress));
+      });
+      
+      if (Math.abs(velocity) > 0.1 && !isCompleted) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        setIsAnimating(false);
+      }
+    };
+    
+    setIsAnimating(true);
+    animate();
+  }, [velocity, isCompleted, onComplete]);
+
+  // Cleanup animation on unmount
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (disabled || isCompleted) return;
+    if (disabled || isCompleted || isAnimating) return;
     e.preventDefault();
     setIsDragging(true);
+    
+    // Reset physics state
+    setVelocity(0);
+    setLastPosition(e.clientX);
+    setLastTime(Date.now());
+    
+    // Cancel any ongoing animation
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
-      const newProgress = getPosition(e.clientX);
+      const currentTime = Date.now();
+      const currentPos = e.clientX;
+      const newProgress = getPosition(currentPos);
+      
+      // Calculate velocity for physics
+      const timeDelta = currentTime - lastTime;
+      if (timeDelta > 0) {
+        const positionDelta = currentPos - lastPosition;
+        const newVelocity = (positionDelta / timeDelta) * 16; // Normalize to 60fps
+        setVelocity(newVelocity);
+        setLastPosition(currentPos);
+        setLastTime(currentTime);
+      }
+      
       setProgress(newProgress);
       
-      if (newProgress >= 90) {
+      // Immediate completion with haptic-like feedback
+      if (newProgress >= 95) {
         setIsCompleted(true);
         setIsDragging(false);
-        setTimeout(() => onComplete(), 300);
+        setTimeout(() => onComplete(), 150);
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       }
@@ -92,8 +172,8 @@ export function SwipeToSend({
 
     const handleMouseUp = () => {
       setIsDragging(false);
-      if (progress < 90) {
-        setProgress(0);
+      if (progress < 95) {
+        animateRelease();
       }
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
@@ -101,22 +181,47 @@ export function SwipeToSend({
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-  }, [disabled, isCompleted, getPosition, progress, onComplete]);
+  }, [disabled, isCompleted, isAnimating, getPosition, progress, onComplete, lastTime, lastPosition, animateRelease]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (disabled || isCompleted) return;
+    if (disabled || isCompleted || isAnimating) return;
     e.preventDefault();
     setIsDragging(true);
+    
+    const touch = e.touches[0];
+    // Reset physics state
+    setVelocity(0);
+    setLastPosition(touch.clientX);
+    setLastTime(Date.now());
+    
+    // Cancel any ongoing animation
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
 
     const handleTouchMove = (e: TouchEvent) => {
       const touch = e.touches[0];
-      const newProgress = getPosition(touch.clientX);
+      const currentTime = Date.now();
+      const currentPos = touch.clientX;
+      const newProgress = getPosition(currentPos);
+      
+      // Calculate velocity for physics
+      const timeDelta = currentTime - lastTime;
+      if (timeDelta > 0) {
+        const positionDelta = currentPos - lastPosition;
+        const newVelocity = (positionDelta / timeDelta) * 16; // Normalize to 60fps
+        setVelocity(newVelocity);
+        setLastPosition(currentPos);
+        setLastTime(currentTime);
+      }
+      
       setProgress(newProgress);
       
-      if (newProgress >= 90) {
+      // Immediate completion with haptic-like feedback
+      if (newProgress >= 95) {
         setIsCompleted(true);
         setIsDragging(false);
-        setTimeout(() => onComplete(), 300);
+        setTimeout(() => onComplete(), 150);
         document.removeEventListener('touchmove', handleTouchMove);
         document.removeEventListener('touchend', handleTouchEnd);
       }
@@ -124,8 +229,8 @@ export function SwipeToSend({
 
     const handleTouchEnd = () => {
       setIsDragging(false);
-      if (progress < 90) {
-        setProgress(0);
+      if (progress < 95) {
+        animateRelease();
       }
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
@@ -133,10 +238,13 @@ export function SwipeToSend({
 
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
     document.addEventListener('touchend', handleTouchEnd);
-  }, [disabled, isCompleted, getPosition, progress, onComplete]);
+  }, [disabled, isCompleted, isAnimating, getPosition, progress, onComplete, lastTime, lastPosition, animateRelease]);
 
-  const sliderLeft = Math.min(progress, 90);
-  const trackColor = progress >= 90 ? currentVariant.completeBg : currentVariant.bg;
+  const sliderLeft = Math.min(progress, 95);
+  const trackColor = progress >= 95 ? currentVariant.completeBg : currentVariant.bg;
+  const isNearCompletion = progress >= 80;
+  const sliderScale = isDragging ? 1.05 : (isNearCompletion ? 1.02 : 1);
+  const trackGlow = isNearCompletion ? '0 0 20px rgba(52, 199, 89, 0.4)' : 'none';
 
   return (
     <div className={`w-full ${className}`}>
@@ -152,10 +260,12 @@ export function SwipeToSend({
           border: `1px solid ${currentVariant.border}`,
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          boxShadow: `${currentVariant.shadow}, inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: `${currentVariant.shadow}, ${trackGlow}, inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
+          transition: isDragging ? 'none' : 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.6 : 1
+          opacity: disabled ? 0.6 : 1,
+          transform: `scale(${sliderScale})`,
+          willChange: 'transform, box-shadow'
         }}
       >
         {/* Progress Fill */}
@@ -241,11 +351,13 @@ export function SwipeToSend({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
             transition: isDragging ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             zIndex: 10,
-            transform: `scale(${isDragging ? 0.95 : (isCompleted ? 1.1 : 1)})`,
-            willChange: 'transform, left'
+            transform: `scale(${isDragging ? 0.95 : (isCompleted ? 1.1 : (isNearCompletion ? 1.05 : 1))}) ${isDragging ? 'rotate(5deg)' : 'rotate(0deg)'}`,
+            willChange: 'transform, left',
+            boxShadow: isDragging ? 
+              '0 8px 30px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)' :
+              '0 4px 20px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
           }}
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
