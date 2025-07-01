@@ -2081,3 +2081,34 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+/* Ultra-Premium Payment Button Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes confetti-0 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(20px, -30px) rotate(180deg); opacity: 0; }
+}
+
+@keyframes confetti-1 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-20px, -35px) rotate(-180deg); opacity: 0; }
+}
+
+@keyframes confetti-2 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(25px, -25px) rotate(270deg); opacity: 0; }
+}
+
+@keyframes confetti-3 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-25px, -40px) rotate(-270deg); opacity: 0; }
+}
+
+@keyframes haptic-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 0; }
+}

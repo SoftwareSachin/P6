@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { ArrowLeft, Search, MapPin, Clock } from "lucide-react";
 import { Link } from "wouter";
-import { ApplePayMerchantSVG, ApplePayQRCodeSVG, ApplePayContactlessSVG } from "@/components/ApplePaySVGs";
+import { ApplePayMerchantSVG, ApplePayContactlessSVG, ApplePayQRCodeSVG } from "@/components/ApplePaySVGs";
+import { UltraPremiumPaymentButton } from "@/components/UltraPremiumPaymentButton";
+import { PremiumPaymentModal } from "@/components/PremiumPaymentModal";
 import { 
   CoffeeSVG, 
   BurgerSVG, 
@@ -41,6 +43,9 @@ export default function Merchants() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [merchants, setMerchants] = useState<Merchant[]>([]);
+  const [selectedMerchant, setSelectedMerchant] = useState<Merchant | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentAmount, setPaymentAmount] = useState(0);
 
   useEffect(() => {
     // Mock merchants data - in real app, this would come from API
@@ -148,6 +153,22 @@ export default function Merchants() {
                            merchant.category.toLowerCase().includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
+
+  const handlePaymentInitiate = (merchant: Merchant) => {
+    setSelectedMerchant(merchant);
+    // Generate a random amount between ₹50-₹500 for demo
+    const randomAmount = Math.floor(Math.random() * 450) + 50;
+    setPaymentAmount(randomAmount);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentComplete = () => {
+    setTimeout(() => {
+      setShowPaymentModal(false);
+      setSelectedMerchant(null);
+      setPaymentAmount(0);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
@@ -330,18 +351,11 @@ export default function Merchants() {
 
                     {/* Ultra-Premium Action Buttons */}
                     <div className="flex items-center space-x-3 mt-6">
-                      <Button
-                        size="sm"
-                        className="flex-1 h-12 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95"
-                        style={{
-                          background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
-                          boxShadow: '0 4px 16px rgba(0, 122, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-                          fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
-                        }}
-                      >
-                        <ApplePayQRCodeSVG className="w-5 h-5 mr-2" />
-                        Pay Now
-                      </Button>
+                      <UltraPremiumPaymentButton
+                        onPaymentInitiate={() => handlePaymentInitiate(merchant)}
+                        merchantName={merchant.name}
+                        className="flex-1"
+                      />
                       {merchant.acceptsOffline && (
                         <Button
                           size="sm"
@@ -398,6 +412,18 @@ export default function Merchants() {
 
       <div className="pb-24" />
       <BottomNavigation activeTab="merchants" />
+
+      {/* Premium Payment Modal */}
+      {selectedMerchant && (
+        <PremiumPaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          merchantName={selectedMerchant.name}
+          merchantIcon={selectedMerchant.icon}
+          amount={paymentAmount}
+          onPaymentComplete={handlePaymentComplete}
+        />
+      )}
     </div>
   );
 }
