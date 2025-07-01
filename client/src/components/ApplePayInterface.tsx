@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 import { ApplePayQRCodeSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayWalletSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
 
 // Apple Pay Style Quick Actions Grid
@@ -44,7 +45,7 @@ export const ApplePayQuickActions = () => {
       title: "My Wallet",
       subtitle: "Cards & Passes",
       icon: ApplePayWalletSVG,
-      href: "/profile",
+      href: "/wallet",
       gradient: "linear-gradient(135deg, #BF5AF2 0%, #AF52DE 100%)",
       glowColor: "rgba(191, 90, 242, 0.3)",
       description: "Manage payment methods"
@@ -54,7 +55,7 @@ export const ApplePayQuickActions = () => {
       title: "Transit",
       subtitle: "Metro & Bus",
       icon: ApplePayTransitSVG,
-      href: "/transaction-history",
+      href: "/transit",
       gradient: "linear-gradient(135deg, #FF375F 0%, #FF3B30 100%)",
       glowColor: "rgba(255, 55, 95, 0.3)",
       description: "Public transportation"
@@ -64,7 +65,7 @@ export const ApplePayQuickActions = () => {
       title: "Merchants",
       subtitle: "Near You",
       icon: ApplePayMerchantSVG,
-      href: "/settings",
+      href: "/merchants",
       gradient: "linear-gradient(135deg, #64D2FF 0%, #007AFF 100%)",
       glowColor: "rgba(100, 210, 255, 0.3)",
       description: "Find nearby stores"
@@ -74,7 +75,7 @@ export const ApplePayQuickActions = () => {
   return (
     <div className="grid grid-cols-2 gap-4 px-6">
       {quickActions.map((action, index) => (
-        <a 
+        <Link 
           key={action.id} 
           href={action.href}
           style={{ animationDelay: `${index * 0.1}s` }}
@@ -196,7 +197,7 @@ export const ApplePayQuickActions = () => {
               }}
             />
           </Card>
-        </a>
+        </Link>
       ))}
     </div>
   );
