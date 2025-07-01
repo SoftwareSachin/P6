@@ -16,8 +16,10 @@ export default function SendMoney() {
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isUpiSearch, setIsUpiSearch] = useState(false);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
 
-  const recentContacts = [
+  const allContacts = [
     {
       id: 1,
       name: "Rohit Kumar",
@@ -25,7 +27,8 @@ export default function SendMoney() {
       avatar: "/api/placeholder/40/40",
       upiId: "rohit@paytm",
       favorite: true,
-      lastTransaction: "Yesterday"
+      lastTransaction: "Yesterday",
+      verified: true
     },
     {
       id: 2,
@@ -34,7 +37,8 @@ export default function SendMoney() {
       avatar: "/api/placeholder/40/40",
       upiId: "priya@gpay",
       favorite: true,
-      lastTransaction: "2 days ago"
+      lastTransaction: "2 days ago",
+      verified: true
     },
     {
       id: 3,
@@ -43,7 +47,8 @@ export default function SendMoney() {
       avatar: "/api/placeholder/40/40",
       upiId: "amit@phonepe",
       favorite: false,
-      lastTransaction: "1 week ago"
+      lastTransaction: "1 week ago",
+      verified: true
     },
     {
       id: 4,
@@ -52,16 +57,84 @@ export default function SendMoney() {
       avatar: "/api/placeholder/40/40",
       upiId: "sneha@paytm",
       favorite: false,
-      lastTransaction: "2 weeks ago"
+      lastTransaction: "2 weeks ago",
+      verified: true
+    },
+    {
+      id: 5,
+      name: "Rajesh Gupta",
+      phone: "+91 98123 45678",
+      avatar: "/api/placeholder/40/40",
+      upiId: "rajesh@ybl",
+      favorite: false,
+      lastTransaction: "3 weeks ago",
+      verified: true
+    },
+    {
+      id: 6,
+      name: "Kavya Nair",
+      phone: "+91 89012 34567",
+      avatar: "/api/placeholder/40/40",
+      upiId: "kavya@okaxis",
+      favorite: false,
+      lastTransaction: "1 month ago",
+      verified: true
+    },
+    {
+      id: 7,
+      name: "Arjun Reddy",
+      phone: "+91 78901 23456",
+      avatar: "/api/placeholder/40/40",
+      upiId: "arjun@icici",
+      favorite: false,
+      lastTransaction: "2 months ago",
+      verified: false
+    },
+    {
+      id: 8,
+      name: "Meera Shah",
+      phone: "+91 67890 12345",
+      avatar: "/api/placeholder/40/40",
+      upiId: "meera@hdfc",
+      favorite: false,
+      lastTransaction: "3 months ago",
+      verified: true
     }
   ];
 
+  const recentContacts = allContacts.slice(0, 4);
+
   const quickAmounts = [100, 500, 1000, 2000];
 
-  const filteredContacts = recentContacts.filter(contact => 
-    contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    contact.phone.includes(searchQuery)
-  );
+  // Search functionality with UPI ID detection
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    
+    // Check if it's a UPI ID format (contains @ symbol)
+    if (query.includes('@')) {
+      setIsUpiSearch(true);
+      // Search for UPI ID in all contacts
+      const upiResults = allContacts.filter(contact => 
+        contact.upiId.toLowerCase().includes(query.toLowerCase())
+      );
+      setSearchResults(upiResults);
+    } else {
+      setIsUpiSearch(false);
+      // Regular name/phone search
+      if (query.length > 0) {
+        const results = allContacts.filter(contact => 
+          contact.name.toLowerCase().includes(query.toLowerCase()) ||
+          contact.phone.includes(query) ||
+          contact.upiId.toLowerCase().includes(query.toLowerCase())
+        );
+        setSearchResults(results);
+      } else {
+        setSearchResults([]);
+      }
+    }
+  };
+
+  const filteredContacts = searchQuery.length > 0 ? searchResults : recentContacts;
 
   const handleContactSelect = (contact: any) => {
     setSelectedContact(contact);
@@ -111,26 +184,68 @@ export default function SendMoney() {
               type="text"
               placeholder="Search contacts or enter UPI ID"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 h-14 rounded-2xl bg-white/10 border-white/20 text-white placeholder-gray-400 text-lg"
+              onChange={(e) => handleSearch(e.target.value)}
+              className="pl-12 h-14 rounded-2xl bg-white/10 border-white/20 text-white placeholder-gray-400 text-lg focus:bg-white/20 focus:border-blue-400 transition-all duration-300"
             />
+            
+            {/* Search Suggestions - Apple Style */}
+            {searchQuery.length > 0 && isUpiSearch && (
+              <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                      <Mail className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-white text-sm font-medium">UPI ID Search</p>
+                      <p className="text-gray-400 text-xs">Enter complete UPI ID (e.g., name@bank)</p>
+                    </div>
+                  </div>
+                  {searchQuery.includes('@') && !searchResults.length && (
+                    <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3">
+                      <p className="text-orange-400 text-sm">No matching UPI ID found</p>
+                      <p className="text-gray-400 text-xs">Check spelling or try a different UPI ID</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
-              <Phone className="h-6 w-6" />
-              <span className="text-sm">Phone</span>
-            </Button>
-            <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
-              <ApplePayContactlessSVG className="h-6 w-6" />
-              <span className="text-sm">Nearby</span>
-            </Button>
-            <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
-              <Plus className="h-6 w-6" />
-              <span className="text-sm">New</span>
-            </Button>
-          </div>
+          {/* Search Results Summary */}
+          {searchQuery.length > 0 && (
+            <div className="px-6 mb-4">
+              <div className="flex items-center justify-between">
+                <p className="text-gray-400 text-sm">
+                  {searchResults.length} {searchResults.length === 1 ? 'result' : 'results'} for "{searchQuery}"
+                </p>
+                {isUpiSearch && (
+                  <div className="flex items-center space-x-1 bg-blue-500/20 px-2 py-1 rounded-lg">
+                    <Mail className="w-3 h-3 text-blue-400" />
+                    <span className="text-blue-400 text-xs font-medium">UPI</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Quick Actions - Only show if not searching */}
+          {searchQuery.length === 0 && (
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
+                <Phone className="h-6 w-6" />
+                <span className="text-sm">Phone</span>
+              </Button>
+              <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
+                <ApplePayContactlessSVG className="h-6 w-6" />
+                <span className="text-sm">Nearby</span>
+              </Button>
+              <Button className="apple-pay-glass h-20 rounded-2xl flex flex-col items-center justify-center space-y-2">
+                <Plus className="h-6 w-6" />
+                <span className="text-sm">New</span>
+              </Button>
+            </div>
+          )}
 
           {/* Favorites Section */}
           <div className="mb-6">
@@ -148,7 +263,7 @@ export default function SendMoney() {
                   <Avatar className="w-10 h-10">
                     <AvatarImage src={contact.avatar} />
                     <AvatarFallback className="bg-blue-500 text-white text-sm">
-                      {contact.name.split(' ').map(n => n[0]).join('')}
+                      {contact.name.split(' ').map((n: string) => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
                   <span className="text-xs text-center leading-tight">{contact.name.split(' ')[0]}</span>
@@ -169,16 +284,28 @@ export default function SendMoney() {
                 >
                   <CardContent className="p-4">
                     <div className="flex items-center space-x-4">
-                      <Avatar className="w-12 h-12">
-                        <AvatarImage src={contact.avatar} />
-                        <AvatarFallback className="bg-blue-500 text-white">
-                          {contact.name.split(' ').map(n => n[0]).join('')}
-                        </AvatarFallback>
-                      </Avatar>
+                      <div className="relative">
+                        <Avatar className="w-12 h-12">
+                          <AvatarImage src={contact.avatar} />
+                          <AvatarFallback className="bg-blue-500 text-white">
+                            {contact.name.split(' ').map((n: string) => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        {contact.verified && (
+                          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-black">
+                            <ApplePaySecuritySVG className="w-3 h-3 text-white" />
+                          </div>
+                        )}
+                      </div>
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">
                           <h4 className="font-semibold text-white">{contact.name}</h4>
                           {contact.favorite && <PremiumStarSVG className="w-4 h-4" filled={true} />}
+                          {contact.verified && (
+                            <div className="bg-green-500/20 px-2 py-0.5 rounded-lg">
+                              <span className="text-green-400 text-xs font-medium">Verified</span>
+                            </div>
+                          )}
                         </div>
                         <p className="text-gray-400 text-sm">{contact.upiId}</p>
                         <p className="text-gray-500 text-xs">Last sent: {contact.lastTransaction}</p>
