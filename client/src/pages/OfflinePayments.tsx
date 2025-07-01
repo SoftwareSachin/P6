@@ -290,7 +290,8 @@ export default function OfflinePayments() {
             <Button 
               variant="outline"
               onClick={() => setPaymentStage('discovery')}
-              className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+              className="w-full h-12 rounded-xl bg-white/10 backdrop-blur-xl border-white/30 text-white font-semibold hover:bg-white/20 transition-all duration-200"
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}
             >
               Choose Different Device
             </Button>
@@ -384,7 +385,8 @@ export default function OfflinePayments() {
                   setPaymentStage('discovery');
                   setSelectedDevice(null);
                 }}
-                className="w-full h-12 rounded-xl apple-pay-glass border-white/20 text-white"
+                className="w-full h-12 rounded-xl bg-white/10 backdrop-blur-xl border-white/30 text-white font-semibold hover:bg-white/20 transition-all duration-200"
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}
               >
                 Make Another Payment
               </Button>

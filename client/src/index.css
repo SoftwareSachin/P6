@@ -308,6 +308,23 @@
     display: none;
   }
   
+  /* Enhanced Text Visibility for Outline Buttons */
+  .apple-pay-glass {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .apple-pay-glass:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-1px) !important;
+  }
+  
   /* Premium Welcome Screen Animations - Modern GPU-Accelerated */
   
   /* Logo Spring Entrance - Enhanced Physics */
