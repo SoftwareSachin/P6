@@ -301,7 +301,16 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   // Apple Pay Face ID Screen - Biometric Prompt Flow
   if (currentScreen === 2) {
     return (
-      <div className={`min-h-screen bg-white relative overflow-hidden transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+      <div className={`min-h-screen relative overflow-hidden transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`} style={{
+        background: `
+          radial-gradient(circle at 40% 60%, rgba(0, 122, 255, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 60% 40%, rgba(52, 199, 89, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 30% 80%, rgba(255, 119, 246, 0.10) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)
+        `,
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)'
+      }}>
         <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
@@ -383,7 +392,16 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
   // Apple Pay Complete Screen - Setup Complete
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{
+      background: `
+        radial-gradient(circle at 50% 30%, rgba(52, 199, 89, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 20% 70%, rgba(48, 209, 88, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 60%, rgba(0, 122, 255, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%)
+      `,
+      backdropFilter: 'blur(22px)',
+      WebkitBackdropFilter: 'blur(22px)'
+    }}>
       <div className="flex flex-col h-screen" style={{ paddingTop: '44px', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '34px' }}>
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
