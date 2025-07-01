@@ -18,6 +18,7 @@ export default function QRScanner() {
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
+  const [cameraPermission, setCameraPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
 
   // Mock merchant data as detected from QR scan
   const detectedMerchant = {
@@ -31,18 +32,48 @@ export default function QRScanner() {
 
   const quickAmounts = [100, 500, 1000, 2000];
 
+  // Request camera permission on component mount
   useEffect(() => {
-    if (scanningStage === 'scanning') {
+    const requestCameraPermission = async () => {
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: 'environment' } // Use back camera
+          });
+          setCameraPermission('granted');
+          // Stop the stream immediately as we're just checking permission
+          stream.getTracks().forEach(track => track.stop());
+        } else {
+          setCameraPermission('denied');
+        }
+      } catch (error) {
+        console.log('Camera permission denied:', error);
+        setCameraPermission('denied');
+      }
+    };
+
+    requestCameraPermission();
+  }, []);
+
+  // QR scanning simulation - any QR will redirect to Ramesh's store
+  useEffect(() => {
+    if (scanningStage === 'scanning' && cameraPermission === 'granted') {
       const timer = setTimeout(() => {
         setScanningStage('detected');
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [scanningStage]);
+  }, [scanningStage, cameraPermission]);
 
   const handleQuickAmount = (amount: number) => {
     setAmount(amount.toString());
     setSelectedQuickAmount(amount);
+  };
+
+  const handleFlashToggle = () => {
+    setFlashEnabled(!flashEnabled);
+    // Visual feedback for flash toggle - actual flash control would require native mobile app
+    console.log(`Flashlight ${!flashEnabled ? 'enabled' : 'disabled'}`);
   };
 
   const handlePayment = () => {
@@ -52,6 +83,50 @@ export default function QRScanner() {
       setScanningStage('payment');
     }, 3000);
   };
+
+  // Camera Permission Screen
+  if (cameraPermission === 'pending') {
+    return (
+      <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center">
+        <div className="text-center space-y-6 px-6">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-blue-600/20 flex items-center justify-center">
+            <Camera className="h-12 w-12 text-blue-400" />
+          </div>
+          <h2 className="text-2xl font-bold">Camera Access Required</h2>
+          <p className="text-gray-400 max-w-sm mx-auto">
+            We need camera access to scan QR codes for payments. Your camera will only be used for scanning.
+          </p>
+          <div className="flex justify-center space-x-2 mt-6">
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Camera Permission Denied Screen
+  if (cameraPermission === 'denied') {
+    return (
+      <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center">
+        <div className="text-center space-y-6 px-6">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-red-600/20 flex items-center justify-center">
+            <Lock className="h-12 w-12 text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold">Camera Access Denied</h2>
+          <p className="text-gray-400 max-w-sm mx-auto">
+            Camera access is required to scan QR codes. Please enable camera permission in your browser settings and refresh the page.
+          </p>
+          <Link href="/">
+            <Button className="apple-pay-glass border-white/20 text-white px-8 py-3 rounded-xl">
+              Go Back
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -70,7 +145,7 @@ export default function QRScanner() {
           variant="ghost" 
           size="icon" 
           className={`apple-pay-button h-12 w-12 rounded-full ${flashEnabled ? 'bg-yellow-500/20' : ''}`}
-          onClick={() => setFlashEnabled(!flashEnabled)}
+          onClick={handleFlashToggle}
         >
           <Flashlight className={`h-6 w-6 ${flashEnabled ? 'text-yellow-400' : 'text-white'}`} />
         </Button>
