@@ -10,6 +10,7 @@ import { ApplePayQRCodeSVG, ApplePayNFCSVG, ApplePayContactlessSVG, ApplePaySecu
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
 import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
+import paymentSuccessGif from "@assets/fetchpik.com-iconscout-ko4OKHjzX0_1751390540547.gif";
 
 export default function QRScanner() {
   const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'processing' | 'payment'>('scanning');
@@ -254,10 +255,13 @@ export default function QRScanner() {
         <div className="flex-1 flex flex-col items-center justify-center px-6">
           <div className="text-center space-y-6">
             {/* Success Animation */}
-            <div className="w-32 h-32 mx-auto mb-8 rounded-full apple-pay-gradient flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center">
-                <ApplePayContactlessSVG className="w-12 h-12 text-white animate-pulse" />
-              </div>
+            <div className="w-40 h-40 mx-auto mb-8 flex items-center justify-center">
+              <img 
+                src={paymentSuccessGif} 
+                alt="Payment Success" 
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
             </div>
             
             <h2 className="text-3xl font-bold text-white">Payment Successful!</h2>
