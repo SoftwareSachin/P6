@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Premium SVG Components for OPPB - Material Design 3.0 Expressive
 export const OPPBLogoSVG = ({ className = "w-20 h-20", animated = false }: { className?: string, animated?: boolean }) => (
   <svg className={className} viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
