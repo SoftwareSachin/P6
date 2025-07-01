@@ -431,7 +431,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 <img 
                   src={phoneGif} 
                   alt="Mobile Phone Animation" 
-                  className="w-24 h-24 object-contain"
+                  className="w-32 h-32 object-contain"
                   loading="lazy"
                 />
               </div>
