@@ -1,6 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import TestApp from "./TestApp";
+import { QueryClientProvider } from "@tanstack/react-query";
+import App from "./App";
+import "./index.css";
+import { queryClient } from "@/lib/queryClient";
 
 // Initialize the app
 function init() {
@@ -11,8 +14,12 @@ function init() {
   }
 
   const root = createRoot(rootElement);
-  root.render(<TestApp />);
-  console.log("✓ Test app rendered successfully");
+  root.render(
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  );
+  console.log("✓ OPPB app rendered successfully");
 }
 
 // Start the app when DOM is ready
