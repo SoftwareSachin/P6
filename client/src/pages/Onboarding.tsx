@@ -27,32 +27,8 @@ interface OnboardingProps {
 export default function Onboarding({ onComplete }: OnboardingProps) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
-
-  // Preload all GIF assets to prevent loading glitches
-  React.useEffect(() => {
-    const preloadAssets = async () => {
-      const assets = [secureLockGif, faceIdGif, bankGif, upiGif, secureGif, oppbGif];
-      const promises = assets.map(src => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = resolve;
-          img.onerror = reject;
-          img.src = src;
-        });
-      });
-      
-      try {
-        await Promise.all(promises);
-        setAssetsLoaded(true);
-      } catch (error) {
-        console.warn('Some assets failed to preload:', error);
-        setAssetsLoaded(true); // Continue anyway
-      }
-    };
-
-    preloadAssets();
-  }, []);
+  // Remove blocking asset preloading for faster initial load
+  // Assets will load progressively as needed
 
   const nextScreen = () => {
     setIsTransitioning(true);
@@ -176,6 +152,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   src={bankGif} 
                   alt="Bank Animation" 
                   className="w-24 h-24 object-contain"
+                  loading="lazy"
                 />
                 <span className="text-xs font-semibold text-gray-600 mt-2">Bank</span>
               </div>
@@ -188,6 +165,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     src={upiGif} 
                     alt="UPI Animation" 
                     className="w-20 h-20 object-contain"
+                    loading="lazy"
                   />
                   <span className="text-xs font-semibold text-gray-600 mt-2">UPI</span>
                 </div>
@@ -198,6 +176,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     src={secureGif} 
                     alt="Secure Bridge Animation" 
                     className="w-16 h-16 object-contain"
+                    loading="lazy"
                   />
                   <span className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</span>
                 </div>
@@ -208,6 +187,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     src={oppbGif} 
                     alt="OPPB Mobile Payment Animation" 
                     className="w-16 h-16 object-contain"
+                    loading="lazy"
                   />
                   <span className="text-xs font-semibold text-gray-600 mt-2">OPPB</span>
                 </div>
@@ -260,10 +240,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   src={secureLockGif} 
                   alt="Secure lock animation"
                   className="w-24 h-24 transition-all duration-200"
-                  style={{ 
-                    opacity: assetsLoaded ? 1 : 0,
-                    transform: assetsLoaded ? 'scale(1)' : 'scale(0.9)'
-                  }}
+                  loading="lazy"
                 />
               </div>
               
@@ -326,10 +303,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   src={faceIdGif} 
                   alt="Face ID animation"
                   className="w-24 h-24 transition-all duration-200"
-                  style={{ 
-                    opacity: assetsLoaded ? 1 : 0,
-                    transform: assetsLoaded ? 'scale(1)' : 'scale(0.9)'
-                  }}
+                  loading="lazy"
                 />
               </div>
               
