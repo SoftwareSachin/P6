@@ -15,7 +15,8 @@ export const ApplePayQuickActions = () => {
       subtitle: "Instant Pay",
       icon: ApplePayQRCodeSVG,
       href: "/qr-scanner",
-      gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      gradient: "linear-gradient(135deg, #007AFF 0%, #5856D6 100%)",
+      glowColor: "rgba(0, 122, 255, 0.3)",
       description: "Scan and pay instantly"
     },
     {
@@ -24,7 +25,8 @@ export const ApplePayQuickActions = () => {
       subtitle: "To Anyone",
       icon: ApplePaySendMoneySVG,
       href: "/send-money",
-      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      gradient: "linear-gradient(135deg, #30D158 0%, #00C896 100%)",
+      glowColor: "rgba(48, 209, 88, 0.3)",
       description: "Transfer to contacts"
     },
     {
@@ -33,7 +35,8 @@ export const ApplePayQuickActions = () => {
       subtitle: "Contactless",
       icon: ApplePayContactlessSVG,
       href: "/offline-payments",
-      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      gradient: "linear-gradient(135deg, #FF9F0A 0%, #FF6B35 100%)",
+      glowColor: "rgba(255, 159, 10, 0.3)",
       description: "Pay without internet"
     },
     {
@@ -41,8 +44,9 @@ export const ApplePayQuickActions = () => {
       title: "My Wallet",
       subtitle: "Cards & Passes",
       icon: ApplePayWalletSVG,
-      href: "/wallet",
-      gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+      href: "/profile",
+      gradient: "linear-gradient(135deg, #BF5AF2 0%, #AF52DE 100%)",
+      glowColor: "rgba(191, 90, 242, 0.3)",
       description: "Manage payment methods"
     },
     {
@@ -50,8 +54,9 @@ export const ApplePayQuickActions = () => {
       title: "Transit",
       subtitle: "Metro & Bus",
       icon: ApplePayTransitSVG,
-      href: "/transit",
-      gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+      href: "/transaction-history",
+      gradient: "linear-gradient(135deg, #FF375F 0%, #FF3B30 100%)",
+      glowColor: "rgba(255, 55, 95, 0.3)",
       description: "Public transportation"
     },
     {
@@ -59,57 +64,139 @@ export const ApplePayQuickActions = () => {
       title: "Merchants",
       subtitle: "Near You",
       icon: ApplePayMerchantSVG,
-      href: "/merchants",
-      gradient: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+      href: "/settings",
+      gradient: "linear-gradient(135deg, #64D2FF 0%, #007AFF 100%)",
+      glowColor: "rgba(100, 210, 255, 0.3)",
       description: "Find nearby stores"
-    },
-    {
-      id: 7,
-      title: "Security",
-      subtitle: "Privacy",
-      icon: ApplePaySecuritySVG,
-      href: "/security",
-      gradient: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
-      description: "Security settings"
-    },
-    {
-      id: 8,
-      title: "Profile",
-      subtitle: "Account",
-      icon: ApplePayBiometricSVG,
-      href: "/profile",
-      gradient: "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)",
-      description: "Manage your account"
     }
   ];
 
   return (
     <div className="grid grid-cols-2 gap-4 px-6">
-      {quickActions.map((action) => (
-        <Card
-          key={action.id}
-          className="group relative overflow-hidden border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-105 cursor-pointer"
-          style={{ background: action.gradient }}
+      {quickActions.map((action, index) => (
+        <a 
+          key={action.id} 
+          href={action.href}
+          style={{ animationDelay: `${index * 0.1}s` }}
         >
-          <CardContent className="p-6 relative z-10">
-            <div className="flex flex-col items-center text-center space-y-3">
-              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl border border-white/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <action.icon className="w-6 h-6 text-white drop-shadow-sm" />
+          <Card
+            className="group relative overflow-hidden border-0 cursor-pointer ultra-premium-card"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255,255,255,0.15) 0%, 
+                  rgba(255,255,255,0.05) 25%, 
+                  transparent 50%, 
+                  rgba(0,0,0,0.05) 75%, 
+                  rgba(0,0,0,0.1) 100%
+                ),
+                ${action.gradient}
+              `,
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              boxShadow: `
+                0 8px 32px rgba(0,0,0,0.12),
+                0 4px 16px rgba(0,0,0,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.2),
+                inset 0 -1px 0 rgba(0,0,0,0.1)
+              `,
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: 'translateZ(0) scale(1)',
+              willChange: 'transform, box-shadow'
+            }}
+          >
+            <CardContent className="p-5 relative z-10 h-[120px] flex flex-col justify-center">
+              <div className="flex flex-col items-center text-center space-y-2">
+                {/* Ultra-Premium Icon Container */}
+                <div 
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center icon-container group-hover:scale-110 transition-all duration-300"
+                  style={{
+                    background: `
+                      linear-gradient(135deg, 
+                        rgba(255,255,255,0.25) 0%, 
+                        rgba(255,255,255,0.15) 50%, 
+                        rgba(255,255,255,0.1) 100%
+                      )
+                    `,
+                    backdropFilter: 'blur(15px)',
+                    WebkitBackdropFilter: 'blur(15px)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    boxShadow: `
+                      0 4px 16px rgba(0,0,0,0.15),
+                      inset 0 1px 0 rgba(255,255,255,0.4),
+                      inset 0 -1px 0 rgba(0,0,0,0.1)
+                    `
+                  }}
+                >
+                  <action.icon className="w-7 h-7 text-white drop-shadow-lg" />
+                </div>
+                
+                {/* Premium Text with SF Pro Typography */}
+                <div className="space-y-0.5">
+                  <h3 
+                    className="text-white font-semibold text-base leading-tight"
+                    style={{ 
+                      fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15)'
+                    }}
+                  >
+                    {action.title}
+                  </h3>
+                  <p 
+                    className="text-white/75 text-sm font-medium leading-tight"
+                    style={{ 
+                      fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.2)'
+                    }}
+                  >
+                    {action.subtitle}
+                  </p>
+                </div>
               </div>
-              <div className="space-y-1">
-                <h3 className="text-white font-semibold text-lg drop-shadow-sm">{action.title}</h3>
-                <p className="text-white/80 text-sm font-medium">{action.subtitle}</p>
-                <p className="text-white/60 text-xs">{action.description}</p>
-              </div>
-            </div>
-          </CardContent>
-          
-          {/* Subtle gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
-          {/* Glass morphism effect */}
-          <div className="absolute inset-0 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </Card>
+            </CardContent>
+            
+            {/* Advanced Shimmer Effect */}
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+              style={{
+                background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%)',
+                animation: 'shimmer 2s infinite'
+              }}
+            />
+            
+            {/* Premium Light Reflection */}
+            <div 
+              className="absolute top-0 left-0 w-full h-[2px] opacity-60"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)',
+                borderRadius: '1px'
+              }}
+            />
+            
+            {/* Interactive Glow Effect */}
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-all duration-300"
+              style={{
+                background: `radial-gradient(circle at center, ${action.glowColor} 0%, transparent 70%)`,
+                filter: 'blur(12px)'
+              }}
+            />
+            
+            {/* Depth Shadow Enhancement */}
+            <div 
+              className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+              style={{
+                boxShadow: `
+                  0 16px 48px rgba(0,0,0,0.2),
+                  0 8px 24px ${action.glowColor},
+                  0 4px 12px ${action.glowColor},
+                  0 0 0 1px rgba(255,255,255,0.1)
+                `
+              }}
+            />
+          </Card>
+        </a>
       ))}
     </div>
   );
