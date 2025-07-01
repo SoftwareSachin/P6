@@ -526,9 +526,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                       ))}
                     </div>
                     
-                    <div className="text-center">
-                      <p className="text-black/60 text-sm mb-4">Demo OTP: 123456</p>
-                    </div>
+
                     
                     <SwipeToSend
                       onComplete={verifyOtp}
