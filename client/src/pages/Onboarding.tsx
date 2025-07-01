@@ -47,16 +47,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   // Apple Pay Welcome Screen - 1000% Authentic
   if (currentScreen === 0) {
     return (
-      <div className="min-h-screen relative overflow-hidden apple-pay-background" style={{
-        background: `
-          radial-gradient(circle at 20% 80%, rgba(120, 119, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(255, 119, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 40%, rgba(119, 246, 255, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)
-        `,
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)'
-      }}>
+      <div className="min-h-screen bg-white relative overflow-hidden apple-pay-background">
         {/* Animated Blue Grid Background */}
         <div className="absolute inset-0 opacity-10">
           <svg width="100%" height="100%" className="absolute inset-0">
@@ -154,7 +145,6 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   className="w-24 h-24 object-contain"
                   loading="lazy"
                 />
-                <span className="text-xs font-semibold text-gray-600 mt-2">Bank</span>
               </div>
 
               {/* Payment Flow - Horizontal */}
@@ -167,7 +157,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     className="w-20 h-20 object-contain"
                     loading="lazy"
                   />
-                  <span className="text-xs font-semibold text-gray-600 mt-2">UPI</span>
+                  <span className="text-xs font-semibold text-gray-600 mt-2 text-center">UPI</span>
                 </div>
 
                 {/* Secure Bridge GIF */}
@@ -178,7 +168,6 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     className="w-16 h-16 object-contain"
                     loading="lazy"
                   />
-                  <span className="text-xs font-semibold text-gray-600 mt-2">Secure Bridge</span>
                 </div>
 
                 {/* OPPB GIF */}
@@ -189,7 +178,6 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     className="w-16 h-16 object-contain"
                     loading="lazy"
                   />
-                  <span className="text-xs font-semibold text-gray-600 mt-2">OPPB</span>
                 </div>
               </div>
             </div>
