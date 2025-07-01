@@ -17,6 +17,7 @@ import oppbGif from "@assets/fetchpik.com-iconscout-HcDJX8k50y_1751288241453.gif
 import secureLockGif from "@assets/fetchpik.com-iconscout-k0urs7I4tM_1751299864960.gif";
 import faceIdGif from "@assets/fetchpik.com-iconscout-OgCXD3bivW_1751300056814.gif";
 import bankGif from "@assets/fetchpik.com-iconscout-XxqKi5wgpy_1751289691962.gif";
+import phoneGif from "@assets/fetchpik.com-iconscout-riQeVK60Iq_1751389368477.gif";
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -428,7 +429,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               {/* Phone GIF */}
               <div className="flex justify-center mb-12">
                 <img 
-                  src="@assets/fetchpik.com-iconscout-riQeVK60Iq_1751389368477.gif" 
+                  src={phoneGif} 
                   alt="Mobile Phone Animation" 
                   className="w-24 h-24 object-contain"
                   loading="lazy"
