@@ -41,7 +41,7 @@ export default function ApplePayDashboard() {
     return "Good evening";
   };
 
-  // Premium Payment Cards - Apple Pay Style
+  // Premium Payment Cards - Apple Pay Style with Enhanced Bank Selection
   const paymentCards = [
     {
       id: 1,
@@ -50,25 +50,42 @@ export default function ApplePayDashboard() {
       balance: 12547.50,
       gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       logo: "OPPB",
-      isDefault: true
+      isDefault: true,
+      chipColor: "#FFD700",
+      bankType: "digital"
     },
     {
       id: 2,
-      type: "HDFC Platinum",
+      type: "HDFC Regalia",
       cardNumber: "••• 8392",
       balance: 8920.30,
-      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      gradient: "linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 50%, #FFA8A8 100%)",
       logo: "HDFC",
-      isDefault: false
+      isDefault: false,
+      chipColor: "#C0392B",
+      bankType: "private"
     },
     {
       id: 3,
-      type: "SBI Gold",
+      type: "SBI Platinum",
       cardNumber: "••• 1657",
       balance: 5634.75,
-      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      gradient: "linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)",
       logo: "SBI",
-      isDefault: false
+      isDefault: false,
+      chipColor: "#2ECC71",
+      bankType: "government"
+    },
+    {
+      id: 4,
+      type: "Bank of Baroda",
+      cardNumber: "••• 9124",
+      balance: 3250.40,
+      gradient: "linear-gradient(135deg, #F39C12 0%, #E67E22 50%, #D35400 100%)",
+      logo: "BOB",
+      isDefault: false,
+      chipColor: "#F39C12",
+      bankType: "government"
     }
   ];
 
@@ -215,8 +232,8 @@ export default function ApplePayDashboard() {
             {paymentCards.map((card, index) => (
               <div
                 key={card.id}
-                className={`min-w-[340px] h-[220px] rounded-3xl relative overflow-hidden cursor-pointer transition-all duration-700 ease-out ${
-                  selectedCard === index ? 'scale-105 shadow-2xl' : 'scale-100 shadow-lg'
+                className={`min-w-[340px] h-[220px] rounded-3xl relative overflow-hidden cursor-pointer premium-card-hover ${
+                  selectedCard === index ? 'premium-card-selected' : 'premium-card-idle'
                 }`}
                 onClick={() => setSelectedCard(index)}
                 style={{
@@ -238,7 +255,8 @@ export default function ApplePayDashboard() {
                     : '0 15px 30px -8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
                   transform: selectedCard === index 
                     ? 'perspective(1000px) rotateY(0deg) translateZ(20px)' 
-                    : 'perspective(1000px) rotateY(2deg) translateZ(0px)'
+                    : 'perspective(1000px) rotateY(2deg) translateZ(0px)',
+                  animation: selectedCard === index ? 'premium-pulse 3s infinite, card-glow 2s infinite' : 'none'
                 }}
               >
                 {/* Premium Shimmer Effect */}
@@ -263,21 +281,42 @@ export default function ApplePayDashboard() {
                 <div className="relative z-10 p-7 h-full flex flex-col justify-between">
                   {/* Header Section */}
                   <div className="flex items-start justify-between">
-                    <div className="space-y-1">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-3">
+                        {/* Premium EMV Chip */}
+                        <div 
+                          className="w-8 h-6 rounded-md flex items-center justify-center chip-shimmer"
+                          style={{
+                            background: `linear-gradient(135deg, ${card.chipColor} 0%, ${card.chipColor}CC 100%)`,
+                            border: '1px solid rgba(255,255,255,0.3)',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)'
+                          }}
+                        >
+                          <div className="w-4 h-3 bg-gradient-to-br from-white/30 to-transparent rounded-sm" />
+                        </div>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium text-white/80 ${
+                          card.bankType === 'digital' ? 'bg-blue-500/30' :
+                          card.bankType === 'private' ? 'bg-purple-500/30' : 'bg-green-500/30'
+                        }`}>
+                          {card.bankType === 'digital' ? '⚡ Digital' : 
+                           card.bankType === 'private' ? '🏢 Private' : '🏛️ Govt'}
+                        </div>
+                      </div>
                       <p className="text-white/90 text-sm font-semibold tracking-wide">{card.type}</p>
-                      <p className="text-white text-xl font-bold tracking-wider" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                      <p className="text-white text-xl font-bold tracking-wider number-animate" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
                         {card.cardNumber}
                       </p>
                     </div>
                     
-                    {/* Premium Logo Badge */}
+                    {/* Premium Logo Badge with Enhanced Animation */}
                     <div 
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center logo-pulse"
                       style={{
                         background: 'linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1))',
                         backdropFilter: 'blur(20px)',
                         border: '1px solid rgba(255,255,255,0.3)',
-                        boxShadow: '0 8px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4)'
+                        boxShadow: '0 8px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4)',
+                        animation: selectedCard === index ? 'logo-bounce 2s infinite' : 'none'
                       }}
                     >
                       <span className="text-white font-bold text-sm" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
