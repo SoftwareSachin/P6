@@ -749,7 +749,7 @@ export default function SendMoney() {
             <CardContent className="p-6 text-center">
               <div className="w-20 h-12 mx-auto mb-4 flex items-center justify-center">
                 <img 
-                  src="/attached_assets/fetchpik.com-iconscout-2k3t9SnXHL_1751392919451.gif" 
+                  src="/attached_assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif" 
                   alt="Authentication"
                   className="w-full h-full object-contain rounded-lg"
                 />
