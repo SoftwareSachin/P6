@@ -15,6 +15,7 @@ import { ApplePayQuickActions, ApplePayCardCarousel, ApplePayTransactionRow } fr
 import { OPPBLogoSVG } from "@/components/PremiumSVGs";
 import { IOSMemojiSVG } from "@/components/iOSMemojiSVG";
 import { UltraPremiumChipSVG } from "@/components/UltraPremiumChipSVG";
+import { PremiumProfileIconSVG, PremiumCardsIconSVG, PremiumSecurityIconSVG, PremiumRewardsIconSVG, PremiumHelpIconSVG, PremiumLogoutIconSVG, PremiumSettingsIconSVG } from "@/components/PremiumMenuIcons";
 
 export default function ApplePayDashboard() {
   const [showBalance, setShowBalance] = useState(true);
@@ -551,47 +552,100 @@ export default function ApplePayDashboard() {
         </div>
       </div>
 
-      {/* Elegant Onboarding Overlay */}
+      {/* Ultra-Premium Dynamic Menu Overlay */}
       {showMenu && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl">
-          <div className="absolute right-0 top-0 h-full w-80 bg-gray-900/95 backdrop-blur-xl border-l border-gray-700/50">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-3">
-                  <OPPBLogoSVG className="w-10 h-10" animated />
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl animate-in fade-in-0 duration-300">
+          <div className="absolute right-0 top-0 h-full w-96 bg-gradient-to-br from-gray-900/98 via-gray-800/95 to-black/98 backdrop-blur-3xl border-l border-white/10 shadow-2xl animate-in slide-in-from-right-full duration-500 ease-out">
+            
+            {/* Floating light rays background */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-1/4 -right-10 w-32 h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent rotate-45 animate-pulse" />
+              <div className="absolute top-1/2 -right-5 w-24 h-px bg-gradient-to-r from-transparent via-purple-500/15 to-transparent rotate-12 animate-pulse delay-1000" />
+              <div className="absolute top-3/4 -right-8 w-28 h-px bg-gradient-to-r from-transparent via-indigo-500/10 to-transparent -rotate-45 animate-pulse delay-2000" />
+            </div>
+
+            <div className="relative p-8 h-full flex flex-col">
+              {/* Ultra-Premium Header */}
+              <div className="flex items-center justify-between mb-12">
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-lg animate-pulse" />
+                    <div className="relative p-3 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl backdrop-blur-xl border border-white/15">
+                      <OPPBLogoSVG className="w-8 h-8" animated />
+                    </div>
+                  </div>
                   <div>
-                    <h3 className="font-bold text-white">OPPB Wallet</h3>
-                    <p className="text-sm text-gray-400">Premium Digital Experience</p>
+                    <h3 className="text-xl font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                      OPPB Wallet
+                    </h3>
+                    <p className="text-sm text-white/60 font-medium">Premium Digital Experience</p>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setShowMenu(false)} className="text-gray-400 hover:text-white">
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
+                
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/15 to-pink-500/15 rounded-full blur-md animate-pulse" />
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setShowMenu(false)} 
+                    className="relative h-12 w-12 rounded-full bg-white/8 backdrop-blur-xl border border-white/15 text-white/80 hover:text-white hover:bg-white/15 transition-all duration-300 hover:scale-105"
+                  >
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
 
-              <div className="space-y-2">
+              {/* Ultra-Dynamic Menu Items */}
+              <div className="space-y-3 flex-1">
                 {[
-                  { icon: ApplePayBiometricSVG, label: "Profile & Settings", href: "/profile" },
-                  { icon: ApplePayCreditCardSVG, label: "Payment Methods", href: "/cards" },
-                  { icon: ApplePaySecuritySVG, label: "Security & Privacy", href: "/security" },
-                  { icon: ApplePayWalletSVG, label: "Rewards & Offers", href: "/rewards" },
-                  { icon: ApplePayContactlessSVG, label: "Help & Support", href: "/help" },
-                  { icon: ApplePayFaceIDSVG, label: "Sign Out", href: "/logout" }
+                  { icon: PremiumProfileIconSVG, label: "Profile & Settings", href: "/profile", delay: "delay-100" },
+                  { icon: PremiumCardsIconSVG, label: "Payment Methods", href: "/wallet", delay: "delay-200" },
+                  { icon: PremiumSecurityIconSVG, label: "Security & Privacy", href: "/settings", delay: "delay-300" },
+                  { icon: PremiumRewardsIconSVG, label: "Rewards & Offers", href: "/rewards", delay: "delay-400" },
+                  { icon: PremiumHelpIconSVG, label: "Help & Support", href: "/help", delay: "delay-500" },
+                  { icon: PremiumLogoutIconSVG, label: "Sign Out", href: "/logout", delay: "delay-600" }
                 ].map((item, index) => {
                   const IconComponent = item.icon;
                   return (
-                    <Link key={item.label} href={item.href}>
-                      <Button 
-                        variant="ghost" 
-                        className="w-full justify-start rounded-2xl h-12 text-white hover:bg-gray-800/50 transition-all duration-300"
-                        onClick={() => setShowMenu(false)}
-                      >
-                        <IconComponent className="h-5 w-5 mr-3 text-gray-400" />
-                        {item.label}
-                      </Button>
-                    </Link>
+                    <div key={item.label} className={`animate-in slide-in-from-right-8 fade-in-0 duration-700 ${item.delay}`}>
+                      <Link href={item.href}>
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start rounded-2xl h-16 text-white hover:bg-white/10 transition-all duration-500 group relative overflow-hidden border border-transparent hover:border-white/20 hover:shadow-2xl hover:shadow-white/5"
+                          onClick={() => setShowMenu(false)}
+                        >
+                          {/* Button glow effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          
+                          <div className="relative flex items-center space-x-4">
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-white/10 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                              <div className="relative p-2 rounded-xl bg-white/5 group-hover:bg-white/15 transition-colors duration-300">
+                                <IconComponent className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" animated />
+                              </div>
+                            </div>
+                            <span className="text-base font-semibold group-hover:text-white/90 transition-colors duration-300">
+                              {item.label}
+                            </span>
+                          </div>
+                          
+                          {/* Arrow indicator */}
+                          <div className="absolute right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                            <ArrowRight className="h-4 w-4 text-white/60" />
+                          </div>
+                        </Button>
+                      </Link>
+                    </div>
                   );
                 })}
+              </div>
+
+              {/* Premium Footer */}
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <div className="text-center">
+                  <p className="text-xs text-white/40 font-medium">OPPB Premium v1.0.0</p>
+                  <p className="text-xs text-white/30 mt-1">Ultra-Premium Digital Wallet</p>
+                </div>
               </div>
             </div>
           </div>
