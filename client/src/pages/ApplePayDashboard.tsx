@@ -14,6 +14,7 @@ import { ApplePayFaceIDSVG, ApplePayCreditCardSVG, ApplePayNFCSVG, ApplePayTapSV
 import { ApplePayQuickActions, ApplePayCardCarousel, ApplePayTransactionRow } from "@/components/ApplePayInterface";
 import { OPPBLogoSVG } from "@/components/PremiumSVGs";
 import { IOSMemojiSVG } from "@/components/iOSMemojiSVG";
+import { UltraPremiumChipSVG } from "@/components/UltraPremiumChipSVG";
 
 export default function ApplePayDashboard() {
   const [showBalance, setShowBalance] = useState(true);
@@ -359,17 +360,12 @@ export default function ApplePayDashboard() {
                   <div className="flex items-start justify-between">
                     <div className="space-y-2">
                       <div className="flex items-center space-x-3">
-                        {/* Premium EMV Chip */}
-                        <div 
-                          className="w-8 h-6 rounded-md flex items-center justify-center chip-shimmer"
-                          style={{
-                            background: `linear-gradient(135deg, ${card.chipColor} 0%, ${card.chipColor}CC 100%)`,
-                            border: '1px solid rgba(255,255,255,0.3)',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)'
-                          }}
-                        >
-                          <div className="w-4 h-3 bg-gradient-to-br from-white/30 to-transparent rounded-sm" />
-                        </div>
+                        {/* Ultra-Premium EMV Chip */}
+                        <UltraPremiumChipSVG 
+                          className="w-8 h-6" 
+                          chipColor={card.chipColor}
+                          animated={true}
+                        />
                         <div className={`px-2 py-1 rounded-full text-xs font-medium text-white/80 ${
                           card.bankType === 'digital' ? 'bg-blue-500/30' :
                           card.bankType === 'private' ? 'bg-purple-500/30' : 'bg-green-500/30'
