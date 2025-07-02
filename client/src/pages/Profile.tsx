@@ -124,12 +124,12 @@ export default function Profile() {
                   
                   <Avatar className="relative w-24 h-24 border-2 border-transparent">
                     <AvatarImage 
-                      src="/attached_assets/fetchpik.com-iconscout-cD6YCe4IBW_1751468631121.gif" 
+                      src="/avatar.gif" 
                       className="w-full h-full object-cover rounded-full" 
                     />
                     <AvatarFallback className="bg-gradient-to-br from-blue-500 via-purple-600 to-blue-500 text-white text-xl font-bold flex items-center justify-center">
                       <img 
-                        src="/attached_assets/fetchpik.com-iconscout-cD6YCe4IBW_1751468631121.gif" 
+                        src="/avatar.gif" 
                         alt="Profile Avatar"
                         className="w-full h-full object-cover rounded-full"
                       />

@@ -266,7 +266,7 @@ export default function ApplePayDashboard() {
             <div className="relative">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center shadow-2xl overflow-hidden">
                 <img 
-                  src="/attached_assets/fetchpik.com-iconscout-cD6YCe4IBW_1751468631121.gif" 
+                  src="/avatar.gif" 
                   alt="Profile Avatar"
                   className="w-full h-full object-cover rounded-full"
                 />
