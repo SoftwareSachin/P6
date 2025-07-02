@@ -123,9 +123,16 @@ export default function Profile() {
                   </div>
                   
                   <Avatar className="relative w-24 h-24 border-2 border-transparent">
-                    <AvatarImage src={profileImage} className="w-full h-full object-cover rounded-full" />
+                    <AvatarImage 
+                      src="/attached_assets/fetchpik.com-iconscout-cD6YCe4IBW_1751468631121.gif" 
+                      className="w-full h-full object-cover rounded-full" 
+                    />
                     <AvatarFallback className="bg-gradient-to-br from-blue-500 via-purple-600 to-blue-500 text-white text-xl font-bold flex items-center justify-center">
-                      <IOSMemojiSVG className="w-20 h-20" />
+                      <img 
+                        src="/attached_assets/fetchpik.com-iconscout-cD6YCe4IBW_1751468631121.gif" 
+                        alt="Profile Avatar"
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </AvatarFallback>
                   </Avatar>
                   
