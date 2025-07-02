@@ -261,45 +261,101 @@ export default function ApplePayDashboard() {
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Premium Header - Apple Pay Style */}
-      <div className="px-6 pt-12 pb-6 relative z-10">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center shadow-2xl overflow-hidden">
+      {/* Ultra-Premium Dynamic Header - Apple Pay Inspired */}
+      <div className="px-6 pt-12 pb-6 relative z-10 overflow-hidden">
+        {/* Floating background elements */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-8 left-1/4 w-2 h-2 bg-blue-400/20 rounded-full animate-pulse delay-1000" />
+          <div className="absolute top-16 right-1/3 w-1 h-1 bg-purple-400/30 rounded-full animate-pulse delay-2000" />
+          <div className="absolute top-20 left-1/2 w-1.5 h-1.5 bg-indigo-400/25 rounded-full animate-pulse delay-3000" />
+        </div>
+
+        <div className="flex items-center justify-between mb-8 relative">
+          {/* Left Section - Avatar & Greeting */}
+          <div className="flex items-center space-x-5">
+            {/* Ultra-Premium Avatar with Dynamic Effects */}
+            <div className="relative group">
+              {/* Multi-layered glow rings */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-blue-500/30 rounded-full animate-spin-slow blur-md" />
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 rounded-full animate-pulse scale-110 blur-lg" />
+              
+              {/* Main avatar container */}
+              <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-gray-800/90 via-gray-700/90 to-gray-900/90 backdrop-blur-xl border-2 border-white/15 shadow-2xl overflow-hidden group-hover:scale-105 transition-all duration-500">
                 <img 
                   src="/avatar.gif" 
                   alt="Profile Avatar"
                   className="w-full h-full object-cover rounded-full"
                 />
+                
+                {/* Subtle overlay with breathing effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 rounded-full animate-pulse" />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-4 border-black rounded-full"></div>
+              
+              {/* Enhanced online indicator */}
+              <div className="absolute -bottom-1 -right-1">
+                <div className="absolute inset-0 bg-green-400 rounded-full animate-ping scale-150" />
+                <div className="relative w-7 h-7 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-3 border-black shadow-lg flex items-center justify-center">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">{getGreeting()}</h1>
-              <p className="text-gray-400 text-sm">Your digital wallet</p>
+            
+            {/* Ultra-Premium Greeting Text */}
+            <div className="space-y-1">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-100 via-white to-blue-50 bg-clip-text text-transparent animate-in slide-in-from-left-4 duration-700" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                {getGreeting()}
+              </h1>
+              <p className="text-white/60 text-sm font-medium tracking-wide animate-in slide-in-from-left-4 duration-700 delay-200">
+                Your digital wallet
+              </p>
             </div>
           </div>
           
-          <div className="flex items-center space-x-3">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="relative h-12 w-12 rounded-full bg-gray-800/50 backdrop-blur-xl hover:bg-gray-700/50 transition-all duration-300"
-            >
-              <ApplePaySecuritySVG className="h-6 w-6 text-white" />
-              <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-xs text-white p-0 flex items-center justify-center font-bold">
-                2
-              </Badge>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-12 w-12 rounded-full bg-gray-800/50 backdrop-blur-xl hover:bg-gray-700/50 transition-all duration-300"
-              onClick={() => setShowMenu(!showMenu)}
-            >
-              <MoreHorizontal className="h-6 w-6 text-white" />
-            </Button>
+          {/* Right Section - Premium Action Buttons */}
+          <div className="flex items-center space-x-4">
+            {/* Security/Notifications Button */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full blur-lg animate-pulse" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative h-14 w-14 rounded-full bg-white/8 backdrop-blur-2xl border border-white/15 hover:bg-white/15 transition-all duration-500 hover:scale-110 group"
+              >
+                <div className="relative">
+                  <ApplePaySecuritySVG className="h-7 w-7 text-white group-hover:text-blue-200 transition-colors duration-300" />
+                  
+                  {/* Ultra-premium notification badge */}
+                  <div className="absolute -top-3 -right-3">
+                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping scale-125" />
+                    <div className="relative w-7 h-7 bg-gradient-to-br from-red-500 to-red-600 rounded-full border-2 border-white/20 shadow-2xl flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-xs font-bold text-white">2</span>
+                    </div>
+                  </div>
+                </div>
+              </Button>
+            </div>
+            
+            {/* Ultra-Premium Menu Button */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-500/15 to-gray-600/15 rounded-full blur-lg group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative h-14 w-14 rounded-full bg-white/8 backdrop-blur-2xl border border-white/15 hover:bg-white/15 transition-all duration-500 hover:scale-110 group"
+                onClick={() => setShowMenu(!showMenu)}
+              >
+                <div className="relative">
+                  <MoreHorizontal className="h-7 w-7 text-white group-hover:text-blue-200 transition-all duration-300 group-hover:rotate-90" />
+                  
+                  {/* Subtle pulsing dot indicators */}
+                  <div className="absolute inset-0 flex items-center justify-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-1 h-1 bg-white/40 rounded-full animate-pulse delay-100" />
+                    <div className="w-1 h-1 bg-white/40 rounded-full animate-pulse delay-200" />
+                    <div className="w-1 h-1 bg-white/40 rounded-full animate-pulse delay-300" />
+                  </div>
+                </div>
+              </Button>
+            </div>
           </div>
         </div>
 

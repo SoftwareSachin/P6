@@ -382,6 +382,16 @@
     opacity: 0;
     will-change: transform, opacity, filter;
   }
+
+  /* Slow spin animation for premium glow rings */
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+  }
   
   /* Success Animation - Morphing Checkmark */
   @keyframes apple-success {
