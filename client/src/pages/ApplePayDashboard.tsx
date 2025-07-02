@@ -13,6 +13,7 @@ import { LoadingWithError, InlineError } from "@/components/ErrorBoundary";
 import { ApplePayFaceIDSVG, ApplePayCreditCardSVG, ApplePayNFCSVG, ApplePayTapSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayQRCodeSVG, ApplePayPhoneSVG, ApplePayWalletSVG, ApplePayLocationSVG, ApplePayTimeSVG, ApplePaySuccessSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayCardStackSVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
 import { ApplePayQuickActions, ApplePayCardCarousel, ApplePayTransactionRow } from "@/components/ApplePayInterface";
 import { OPPBLogoSVG } from "@/components/PremiumSVGs";
+import { IOSMemojiSVG } from "@/components/iOSMemojiSVG";
 
 export default function ApplePayDashboard() {
   const [showBalance, setShowBalance] = useState(true);
@@ -263,8 +264,8 @@ export default function ApplePayDashboard() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center shadow-2xl">
-                <span className="text-2xl font-bold text-white">{userName.charAt(0).toUpperCase()}</span>
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center shadow-2xl overflow-hidden">
+                <IOSMemojiSVG className="w-14 h-14" />
               </div>
               <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-4 border-black rounded-full"></div>
             </div>

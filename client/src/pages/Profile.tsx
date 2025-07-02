@@ -8,6 +8,7 @@ import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { ApplePayBiometricSVG, ApplePaySecuritySVG, ApplePayCreditCardSVG, ApplePayPhoneSVG, ApplePayWalletSVG } from "@/components/ApplePaySVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { IOSMemojiSVG } from "@/components/iOSMemojiSVG";
 import profileImage from "@assets/image_1751300832470.png";
 
 export default function Profile() {
@@ -123,8 +124,8 @@ export default function Profile() {
                   
                   <Avatar className="relative w-24 h-24 border-2 border-transparent">
                     <AvatarImage src={profileImage} className="w-full h-full object-cover rounded-full" />
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 via-purple-600 to-blue-500 text-white text-xl font-bold">
-                      {userName.split(' ').map((n: string) => n[0]).join('')}
+                    <AvatarFallback className="bg-gradient-to-br from-blue-500 via-purple-600 to-blue-500 text-white text-xl font-bold flex items-center justify-center">
+                      <IOSMemojiSVG className="w-20 h-20" />
                     </AvatarFallback>
                   </Avatar>
                   
