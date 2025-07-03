@@ -764,9 +764,9 @@ export default function OfflinePayments() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 via-black to-gray-900/50" />
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-600/10 rounded-full blur-xl animate-float" />
         <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-purple-500/15 to-pink-600/15 rounded-full blur-lg animate-float-delay" />
@@ -774,17 +774,20 @@ export default function OfflinePayments() {
         <div className="absolute bottom-20 right-10 w-28 h-28 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-xl animate-float-slow" />
       </div>
 
-      {/* Header */}
-      <div className="relative z-10 px-4 pt-6">
-        <div className="flex items-center justify-between p-3 backdrop-blur-2xl bg-white/8 rounded-2xl border border-white/15 shadow-xl">
-          <Link href="/">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 to-purple-500/15 rounded-full blur-md" />
-              <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <ArrowLeft className="h-5 w-5 text-white" />
-              </Button>
-            </div>
-          </Link>
+      {/* Main Content */}
+      <div className="relative z-10 pb-20 min-h-screen">
+        
+        {/* Header */}
+        <div className="px-4 pt-6 pb-4">
+          <div className="flex items-center justify-between p-4 backdrop-blur-2xl bg-white/8 rounded-2xl border border-white/15 shadow-xl">
+            <Link href="/">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 to-purple-500/15 rounded-full blur-md" />
+                <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                  <ArrowLeft className="h-5 w-5 text-white" />
+                </Button>
+              </div>
+            </Link>
           
           <div className="text-center">
             <h1 className="text-xl font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
@@ -832,9 +835,8 @@ export default function OfflinePayments() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Bluetooth Status Card */}
+        
+        {/* Bluetooth Status Card */}
       <div className="px-4 mb-6 relative z-10">
         <div className="mt-4 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-blue-500/15 rounded-2xl blur-lg" />
@@ -2005,6 +2007,9 @@ export default function OfflinePayments() {
       {/* Bottom Navigation */}
       <div className="relative z-10">
         <BottomNavigation activeTab="offline" />
+      </div>
+      
+      </div>
       </div>
     </div>
   );
