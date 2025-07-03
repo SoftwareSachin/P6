@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowLeft, Search, Phone, Mail, Plus } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Search, Phone, Mail, Plus, Check, X, Star, Clock, Shield, Zap, AlertCircle, Users, Hash } from "lucide-react";
 import { Link } from "wouter";
-import { ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayPhoneSVG, ApplePaySecuritySVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
+import { ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayPhoneSVG, ApplePaySecuritySVG, ApplePayBiometricSVG, ApplePayWalletSVG } from "@/components/ApplePaySVGs";
 import { PremiumFavoritesSVG, PremiumStarSVG } from "@/components/PremiumSVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
@@ -26,6 +27,16 @@ export default function SendMoney() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [newContactName, setNewContactName] = useState("");
   const [newContactUpi, setNewContactUpi] = useState("");
+  
+  // Ultra-Premium Smart Search States
+  const [searchType, setSearchType] = useState<'name' | 'phone' | 'upi' | 'mixed'>('name');
+  const [upiValidation, setUpiValidation] = useState<{ isValid: boolean; provider: string; type: string } | null>(null);
+  const [isValidating, setIsValidating] = useState(false);
+  const [searchSuggestions, setSearchSuggestions] = useState<any[]>([]);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [showSmartSuggestions, setShowSmartSuggestions] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const debounceTimer = useRef<NodeJS.Timeout>();
 
   const allContacts = [
     {
@@ -148,39 +159,169 @@ export default function SendMoney() {
 
   const quickAmounts = [100, 500, 1000, 2000];
 
-  // Search functionality with UPI ID detection
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
+  // Ultra-Premium UPI Provider Database with SVG Icons
+  const upiProviders: Record<string, { name: string; color: string; iconComponent: any }> = {
+    'paytm': { name: 'Paytm', color: '#00BAF2', iconComponent: ApplePayWalletSVG },
+    'gpay': { name: 'Google Pay', color: '#4285F4', iconComponent: ApplePayContactlessSVG },
+    'phonepe': { name: 'PhonePe', color: '#5F259F', iconComponent: ApplePayPhoneSVG },
+    'ybl': { name: 'Yes Bank', color: '#1C4B9C', iconComponent: Shield },
+    'okaxis': { name: 'Axis Bank', color: '#A41E36', iconComponent: ApplePaySecuritySVG },
+    'icici': { name: 'ICICI Bank', color: '#F37B21', iconComponent: ApplePayBiometricSVG },
+    'hdfc': { name: 'HDFC Bank', color: '#004C8F', iconComponent: Shield },
+    'sbi': { name: 'SBI', color: '#22409A', iconComponent: Star },
+    'kotak': { name: 'Kotak Mahindra', color: '#ED1C24', iconComponent: Zap },
+    'upi': { name: 'BHIM UPI', color: '#FF6600', iconComponent: Mail }
+  };
+
+  // Ultra-Premium UPI Validation Function
+  const validateUpiId = useCallback((upiId: string) => {
+    const upiPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$/;
+    const parts = upiId.split('@');
     
-    // Check if it's a UPI ID format (contains @ symbol)
-    if (query.includes('@')) {
-      setIsUpiSearch(true);
-      // Search for UPI ID in all contacts
-      const upiResults = allContacts.filter(contact => 
-        contact.upiId.toLowerCase().includes(query.toLowerCase())
-      );
-      setSearchResults(upiResults);
-    } else {
-      setIsUpiSearch(false);
-      // Regular name/phone search
-      if (query.length > 0) {
-        const results = allContacts.filter(contact => 
-          contact.name.toLowerCase().includes(query.toLowerCase()) ||
-          contact.phone.includes(query) ||
+    if (!upiPattern.test(upiId) || parts.length !== 2) {
+      return { isValid: false, provider: '', type: 'invalid' };
+    }
+
+    const [handle, domain] = parts;
+    const provider = Object.keys(upiProviders).find(key => domain.includes(key)) || 'unknown';
+    
+    return {
+      isValid: handle.length >= 3 && handle.length <= 50,
+      provider: provider !== 'unknown' ? provider : domain,
+      type: provider !== 'unknown' ? 'recognized' : 'custom'
+    };
+  }, []);
+
+  // Smart Search Type Detection
+  const detectSearchType = useCallback((query: string) => {
+    if (query.includes('@')) return 'upi';
+    if (/^\+?[1-9]\d{1,14}$/.test(query.replace(/\s/g, ''))) return 'phone';
+    if (/^[a-zA-Z\s]+$/.test(query)) return 'name';
+    return 'mixed';
+  }, []);
+
+  // Debounced Search with Ultra-Premium Intelligence
+  const handleSmartSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+    setShowSmartSuggestions(query.length > 0);
+    
+    // Clear previous debounce
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      const searchType = detectSearchType(query);
+      setSearchType(searchType);
+
+      if (query.length === 0) {
+        setSearchResults([]);
+        setUpiValidation(null);
+        setIsValidating(false);
+        setSearchSuggestions([]);
+        return;
+      }
+
+      // UPI ID Validation
+      if (searchType === 'upi') {
+        setIsValidating(true);
+        const validation = validateUpiId(query);
+        setUpiValidation(validation);
+        setIsUpiSearch(true);
+        
+        // Simulate server validation delay
+        setTimeout(() => {
+          setIsValidating(false);
+        }, 800);
+
+        // Search in contacts by UPI ID
+        const upiResults = allContacts.filter(contact => 
           contact.upiId.toLowerCase().includes(query.toLowerCase())
         );
-        setSearchResults(results);
+        setSearchResults(upiResults);
+        
+        // Generate smart suggestions for partial UPI IDs
+        if (query.length >= 3 && !query.includes('@')) {
+          const suggestions = Object.keys(upiProviders).map(provider => ({
+            type: 'upi-suggestion',
+            text: `${query}@${provider}`,
+            provider: upiProviders[provider].name,
+            color: upiProviders[provider].color,
+            iconComponent: upiProviders[provider].iconComponent
+          }));
+          setSearchSuggestions(suggestions.slice(0, 3));
+        }
       } else {
-        setSearchResults([]);
+        setIsUpiSearch(false);
+        setUpiValidation(null);
+        setIsValidating(false);
+        
+        // Advanced contact search with fuzzy matching
+        const results = allContacts.filter(contact => {
+          const nameMatch = contact.name.toLowerCase().includes(query.toLowerCase());
+          const phoneMatch = contact.phone.replace(/\D/g, '').includes(query.replace(/\D/g, ''));
+          const upiMatch = contact.upiId.toLowerCase().includes(query.toLowerCase());
+          
+          return nameMatch || phoneMatch || upiMatch;
+        });
+        
+        // Sort by relevance (favorites first, then by name)
+        results.sort((a, b) => {
+          if (a.favorite && !b.favorite) return -1;
+          if (!a.favorite && b.favorite) return 1;
+          return a.name.localeCompare(b.name);
+        });
+        
+        setSearchResults(results);
+        
+        // Generate smart suggestions based on search type
+        const suggestions = [];
+        if (searchType === 'phone' && query.length >= 4) {
+          suggestions.push({
+            type: 'phone-suggestion',
+            text: `Send to +91 ${query}`,
+            action: 'phone'
+          });
+        }
+        if (searchType === 'name' && query.length >= 2) {
+          suggestions.push({
+            type: 'name-suggestion',
+            text: `Search "${query}" in all contacts`,
+            action: 'global-search'
+          });
+        }
+        setSearchSuggestions(suggestions);
       }
+    }, 300);
+  }, [detectSearchType, validateUpiId]);
+
+  // Add to recent searches
+  const addToRecentSearches = useCallback((query: string) => {
+    if (query.length >= 3) {
+      setRecentSearches(prev => {
+        const updated = [query, ...prev.filter(item => item !== query)].slice(0, 5);
+        return updated;
+      });
     }
-  };
+  }, []);
 
   const filteredContacts = searchQuery.length > 0 ? searchResults : recentContacts;
 
   const handleContactSelect = (contact: any) => {
+    addToRecentSearches(searchQuery);
     setSelectedContact(contact);
     setStep('amount');
+  };
+
+  // Handle suggestion selection
+  const handleSuggestionSelect = (suggestion: any) => {
+    if (suggestion.type === 'upi-suggestion') {
+      setSearchQuery(suggestion.text);
+      handleSmartSearch(suggestion.text);
+    } else if (suggestion.action === 'phone') {
+      setShowPhoneInput(true);
+      setPhoneNumber(suggestion.text.replace(/\D/g, ''));
+    }
   };
 
   const handleAmountSubmit = () => {
@@ -280,34 +421,162 @@ export default function SendMoney() {
       {/* Contacts Selection Step */}
       {step === 'contacts' && (
         <div className="px-6 py-4">
-          {/* Search Bar */}
+          {/* Ultra-Premium Smart Search Bar */}
           <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              type="text"
-              placeholder="Search contacts or enter UPI ID"
-              value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="pl-12 h-14 rounded-2xl bg-white/10 border-white/20 text-white placeholder-gray-400 text-lg focus:bg-white/20 focus:border-blue-400 transition-all duration-300"
-            />
-            
-            {/* Search Suggestions - Apple Style */}
-            {searchQuery.length > 0 && isUpiSearch && (
-              <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden">
-                <div className="p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <Mail className="w-4 h-4 text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-white text-sm font-medium">UPI ID Search</p>
-                      <p className="text-gray-400 text-xs">Enter complete UPI ID (e.g., name@bank)</p>
+            {/* Search Input with Dynamic Visual Feedback */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-lg animate-pulse opacity-50" />
+              <div className="relative">
+                {/* Search Icon with Type Indicator */}
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
+                  {searchType === 'upi' && <Mail className="w-5 h-5 text-blue-400" />}
+                  {searchType === 'phone' && <Phone className="w-5 h-5 text-green-400" />}
+                  {searchType === 'name' && <Users className="w-5 h-5 text-purple-400" />}
+                  {searchType === 'mixed' && <Search className="w-5 h-5 text-gray-400" />}
+                  
+                  {/* Validation Status Indicator */}
+                  {isValidating && (
+                    <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                  )}
+                  {upiValidation?.isValid && (
+                    <Check className="w-4 h-4 text-green-400" />
+                  )}
+                  {upiValidation && !upiValidation.isValid && (
+                    <X className="w-4 h-4 text-red-400" />
+                  )}
+                </div>
+
+                <Input
+                  type="text"
+                  placeholder="Search contacts, phone, or UPI ID"
+                  value={searchQuery}
+                  onChange={(e) => handleSmartSearch(e.target.value)}
+                  ref={searchInputRef}
+                  className={`pl-16 pr-4 h-16 rounded-2xl backdrop-blur-xl text-white placeholder-gray-400 text-lg font-medium transition-all duration-500 ${
+                    searchType === 'upi' ? 'bg-blue-500/15 border-2 border-blue-500/30 focus:border-blue-400' :
+                    searchType === 'phone' ? 'bg-green-500/15 border-2 border-green-500/30 focus:border-green-400' :
+                    searchType === 'name' ? 'bg-purple-500/15 border-2 border-purple-500/30 focus:border-purple-400' :
+                    'bg-white/10 border-2 border-white/20 focus:border-white/40'
+                  }`}
+                />
+              </div>
+            </div>
+
+            {/* Ultra-Premium Smart Suggestions Panel */}
+            {showSmartSuggestions && (
+              <div className="absolute top-full left-0 right-0 z-50 mt-3">
+                <div className="bg-black/95 backdrop-blur-2xl border border-white/15 rounded-3xl shadow-2xl overflow-hidden">
+                  {/* Search Type Header */}
+                  <div className="p-6 border-b border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                          searchType === 'upi' ? 'bg-blue-500/20 border border-blue-500/30' :
+                          searchType === 'phone' ? 'bg-green-500/20 border border-green-500/30' :
+                          searchType === 'name' ? 'bg-purple-500/20 border border-purple-500/30' :
+                          'bg-gray-500/20 border border-gray-500/30'
+                        }`}>
+                          {searchType === 'upi' && <Mail className="w-5 h-5 text-blue-400" />}
+                          {searchType === 'phone' && <Phone className="w-5 h-5 text-green-400" />}
+                          {searchType === 'name' && <Users className="w-5 h-5 text-purple-400" />}
+                          {searchType === 'mixed' && <Hash className="w-5 h-5 text-gray-400" />}
+                        </div>
+                        <div>
+                          <h3 className="text-white font-semibold text-sm">
+                            {searchType === 'upi' && 'UPI ID Search'}
+                            {searchType === 'phone' && 'Phone Number Search'}
+                            {searchType === 'name' && 'Contact Search'}
+                            {searchType === 'mixed' && 'Smart Search'}
+                          </h3>
+                          <p className="text-gray-400 text-xs">
+                            {searchType === 'upi' && 'Enter complete UPI ID (e.g., name@bank)'}
+                            {searchType === 'phone' && 'Enter mobile number to send money'}
+                            {searchType === 'name' && 'Search by contact name'}
+                            {searchType === 'mixed' && 'Multiple search formats detected'}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* UPI Validation Status */}
+                      {upiValidation && (
+                        <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          upiValidation.isValid ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                          'bg-red-500/20 text-red-400 border border-red-500/30'
+                        }`}>
+                          {upiValidation.isValid ? 'Valid UPI' : 'Invalid Format'}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  {searchQuery.includes('@') && !searchResults.length && (
-                    <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3">
-                      <p className="text-orange-400 text-sm">No matching UPI ID found</p>
-                      <p className="text-gray-400 text-xs">Check spelling or try a different UPI ID</p>
+
+                  {/* Smart Suggestions */}
+                  {searchSuggestions.length > 0 && (
+                    <div className="p-4">
+                      <h4 className="text-white/60 text-xs font-medium uppercase tracking-wide mb-3">Smart Suggestions</h4>
+                      <div className="space-y-2">
+                        {searchSuggestions.map((suggestion, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleSuggestionSelect(suggestion)}
+                            className="w-full p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 text-left group"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <div 
+                                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                                style={{ backgroundColor: `${suggestion.color}20`, border: `1px solid ${suggestion.color}40` }}
+                              >
+                                <Mail className="w-4 h-4" style={{ color: suggestion.color }} />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-white font-medium text-sm group-hover:text-blue-200 transition-colors">
+                                  {suggestion.text}
+                                </p>
+                                {suggestion.provider && (
+                                  <p className="text-gray-400 text-xs">{suggestion.provider}</p>
+                                )}
+                              </div>
+                              <Zap className="w-4 h-4 text-gray-400 group-hover:text-blue-400 transition-colors" />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* UPI Provider Recognition */}
+                  {searchType === 'upi' && upiValidation?.provider && upiProviders[upiValidation.provider] && (
+                    <div className="p-4 border-t border-white/10">
+                      <div className="flex items-center space-x-3 p-3 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+                        <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                          <Shield className="w-5 h-5 text-blue-400" />
+                        </div>
+                        <div>
+                          <p className="text-white font-medium text-sm">
+                            {upiProviders[upiValidation.provider].name} Detected
+                          </p>
+                          <p className="text-blue-300 text-xs">Verified payment provider</p>
+                        </div>
+                        <Shield className="w-5 h-5 text-green-400 ml-auto" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Recent Searches */}
+                  {recentSearches.length > 0 && searchQuery.length === 0 && (
+                    <div className="p-4 border-t border-white/10">
+                      <h4 className="text-white/60 text-xs font-medium uppercase tracking-wide mb-3">Recent Searches</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {recentSearches.slice(0, 3).map((search, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleSmartSearch(search)}
+                            className="px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/80 text-xs transition-all duration-300"
+                          >
+                            <Clock className="w-3 h-3 inline mr-1" />
+                            {search}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
