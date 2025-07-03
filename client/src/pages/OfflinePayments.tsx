@@ -103,47 +103,66 @@ export default function OfflinePayments() {
       setWifiDirectEnabled(true);
     }
 
-    // Real-time system metrics monitoring
+    // Robust system metrics monitoring with stable updates
     const systemMonitoring = setInterval(() => {
-      // Network health fluctuations
-      const healthStates = ['excellent', 'good', 'poor', 'offline'] as const;
-      const randomHealth = healthStates[Math.floor(Math.random() * healthStates.length)];
-      setNetworkHealth(randomHealth);
+      // Stable network health with gradual changes
+      setNetworkHealth(prev => {
+        if (Math.random() > 0.85) { // Only change 15% of the time
+          const healthStates = ['excellent', 'good', 'poor'] as const; // Remove 'offline' to prevent glitches
+          const weights = [0.4, 0.4, 0.2]; // Bias toward good states
+          const rand = Math.random();
+          let cumWeight = 0;
+          for (let i = 0; i < weights.length; i++) {
+            cumWeight += weights[i];
+            if (rand <= cumWeight) return healthStates[i];
+          }
+          return 'good';
+        }
+        return prev;
+      });
 
-      // Dynamic system load (20-95%)
-      setSystemLoad(Math.floor(Math.random() * 75) + 20);
+      // Smoother system load changes
+      setSystemLoad(prev => {
+        const change = (Math.random() - 0.5) * 5; // Smaller increments
+        return Math.max(25, Math.min(80, Math.round(prev + change)));
+      });
 
-      // Battery simulation (60-100%)
-      setBatteryLevel(Math.floor(Math.random() * 40) + 60);
+      // Stable battery with realistic decline
+      setBatteryLevel(prev => {
+        const change = Math.random() > 0.9 ? -1 : 0; // Slow battery drain
+        return Math.max(40, Math.min(100, prev + change));
+      });
 
-      // Live connection count (0-25)
-      setLiveConnections(Math.floor(Math.random() * 25));
+      // Stable connection count
+      setLiveConnections(prev => {
+        const change = Math.floor((Math.random() - 0.5) * 3);
+        return Math.max(0, Math.min(25, prev + change));
+      });
 
-      // Network throughput (1-50 Mbps)
-      setThroughputMbps(parseFloat((Math.random() * 49 + 1).toFixed(1)));
+      // Smoother throughput changes
+      setThroughputMbps(prev => {
+        const change = (Math.random() - 0.5) * 3;
+        return parseFloat(Math.max(8, Math.min(35, prev + change)).toFixed(1));
+      });
 
-      // Transaction latency (50-500ms)
-      setTransactionLatency(Math.floor(Math.random() * 450) + 50);
+      // Stable latency with realistic ranges
+      setTransactionLatency(prev => {
+        const change = Math.floor((Math.random() - 0.5) * 20);
+        return Math.max(80, Math.min(250, prev + change));
+      });
 
-      // Fraud risk calculation
-      const recentTxCount = localLedger.filter(
-        tx => Date.now() - new Date(tx.timestamp).getTime() < 5 * 60 * 1000
-      ).length;
-      
-      if (recentTxCount >= 5) {
-        setFraudRiskLevel('high');
-      } else if (recentTxCount >= 3) {
-        setFraudRiskLevel('medium');
-      } else {
-        setFraudRiskLevel('low');
-      }
+      // Stable fraud risk assessment
+      setFraudRiskLevel(prev => {
+        const recentTxCount = localLedger.filter(
+          tx => Date.now() - new Date(tx.timestamp).getTime() < 5 * 60 * 1000
+        ).length;
+        
+        if (recentTxCount >= 5) return 'high';
+        if (recentTxCount >= 3) return 'medium';
+        return 'low';
+      });
 
-      // Offline capability score
-      const baseScore = 80;
-      const batteryBonus = batteryLevel > 70 ? 10 : 0;
-      const connectionBonus = liveConnections > 5 ? 5 : 0;
-      setOfflineCapability(Math.min(100, baseScore + batteryBonus + connectionBonus));
-    }, 2000);
+    }, 4000); // Slower updates to reduce glitching
 
     // Continuous sync progress updates
     const syncMonitoring = setInterval(() => {
@@ -167,8 +186,15 @@ export default function OfflinePayments() {
     return () => {
       clearInterval(systemMonitoring);
       clearInterval(syncMonitoring);
+      // Clear scan-related intervals to prevent glitches
+      if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
+      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+      // Clear session monitoring
+      if ((window as any).sessionMonitoring) {
+        clearInterval((window as any).sessionMonitoring);
+      }
     };
-  }, [localLedger.length, pendingSync.length, batteryLevel, liveConnections]);
+  }, []);
 
   // Fraud detection system
   const detectFraud = (transactionData: any) => {
@@ -411,20 +437,17 @@ export default function OfflinePayments() {
     if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
     if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     
-    // Ultra-dynamic progress animation with fluctuations
+    // Stable progress animation without glitches
     progressIntervalRef.current = setInterval(() => {
       setScanningProgress(prev => {
         if (prev >= 100) {
           return 100;
         }
-        // Variable increment based on network health
-        const baseIncrement = networkHealth === 'excellent' ? 4 : 
-                             networkHealth === 'good' ? 3 :
-                             networkHealth === 'poor' ? 1.5 : 0.5;
-        const randomFactor = Math.random() * 2;
-        return prev + baseIncrement + randomFactor;
+        // Consistent increment to prevent glitching
+        const increment = 2.5; // Steady progress
+        return Math.min(100, prev + increment);
       });
-    }, 150);
+    }, 120); // Consistent timing
     
     // Real-time progressive device discovery with live updates
     const performUltraDiscovery = async () => {
@@ -458,8 +481,8 @@ export default function OfflinePayments() {
             realtime_id: `RT_${Date.now()}_${index}`
           }));
           
-          // Staggered discovery simulation with real-time updates
-          const discoverySteps = 6;
+          // Stable progressive discovery without glitching
+          const discoverySteps = 4; // Reduced steps for stability
           const devicesPerStep = Math.ceil(ultraEnhancedDevices.length / discoverySteps);
           
           for (let step = 0; step < discoverySteps; step++) {
@@ -467,48 +490,29 @@ export default function OfflinePayments() {
               const endIndex = Math.min((step + 1) * devicesPerStep, ultraEnhancedDevices.length);
               const currentDevices = ultraEnhancedDevices.slice(0, endIndex);
               
-              // Update devices with fresh real-time data
-              const freshDevices = currentDevices.map(device => ({
+              // Stable device data without excessive fluctuations
+              const stableDevices = currentDevices.map((device: any, idx: number) => ({
                 ...device,
-                signal_strength: Math.max(30, device.signal_strength + (Math.random() - 0.5) * 10),
+                signal_strength: Math.floor(Math.random() * 30) + 70, // Keep signals strong
                 last_ping: Date.now(),
                 active: true,
-                discovery_order: step + 1
+                discovery_order: step + 1,
+                stable_id: `device_${idx}_${step}` // Prevent duplicate keys
               }));
               
-              setNearbyDevices(freshDevices);
-              setRealDevices(freshDevices);
-              
-              // Live connection count update
+              setNearbyDevices(stableDevices);
+              setRealDevices(stableDevices);
               setLiveConnections(endIndex);
               
-              // Audio feedback for each discovery
+              // Single audio feedback on first discovery
               if (step === 0) playAudioFeedback('device_found');
               
-              // Haptic feedback
-              if (navigator.vibrate) {
-                navigator.vibrate([50, 100, 50]);
-              }
-              
               console.log(`🔍 Step ${step + 1}: Discovered ${endIndex} devices`);
-            }, step * 600 + Math.random() * 200);
+            }, step * 800); // Consistent timing without randomness
           }
         }
         
-        // Start continuous device monitoring during scan
-        const monitoringInterval = setInterval(() => {
-          setNearbyDevices(prev => prev.map(device => ({
-            ...device,
-            signal_strength: Math.max(20, Math.min(100, 
-              device.signal_strength + (Math.random() - 0.5) * 8
-            )),
-            last_ping: Date.now(),
-            is_responding: Math.random() > 0.1 // 90% response rate
-          })));
-        }, 1500);
-        
-        // Clear monitoring after scan completes
-        setTimeout(() => clearInterval(monitoringInterval), 4500);
+        // Simplified monitoring to prevent glitches - removed continuous updates
         
       } catch (error) {
         console.error('Enhanced discovery failed:', error);
@@ -519,23 +523,24 @@ export default function OfflinePayments() {
     // Start discovery after brief initialization
     setTimeout(performUltraDiscovery, 300);
     
-    // Complete scan with final optimizations
+    // Complete scan with stability
     setTimeout(() => {
       setIsScanning(false);
       setScanningProgress(100);
-      setSystemLoad(Math.floor(Math.random() * 30) + 25); // Reduce load
-      clearInterval(progressIntervalRef.current);
+      setSystemLoad(35); // Fixed value to prevent glitching
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
       playAudioFeedback('connection_success');
       
-      // Final device enhancement
-      setNearbyDevices(prev => prev.map(device => ({
+      // Mark devices as ready without excessive updates
+      setNearbyDevices(prev => prev.map((device: any) => ({
         ...device,
         scan_complete: true,
-        final_signal: device.signal_strength,
         ready_for_connection: true
       })));
       
-    }, 4800);
+    }, 4000); // Reduced timing for better user experience
   };
 
   // Initialize device data on component mount
