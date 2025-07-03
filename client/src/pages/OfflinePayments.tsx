@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Wifi, WifiOff, Bluetooth, Users, MapPin, Signal, Smartphone, Monitor, Zap, Shield, CheckCircle, Clock, Loader2, Waves, Radio, Eye, EyeOff, RefreshCw, Battery, Star, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, Wifi, WifiOff, Bluetooth, Users, MapPin, Signal, Smartphone, Monitor, Zap, Shield, CheckCircle, Clock, Loader2, Waves, Radio, Eye, EyeOff, RefreshCw, Battery, Star, Volume2, VolumeX, User, CreditCard, Lock, MessageSquare } from "lucide-react";
 import { Link } from "wouter";
 import { ApplePayContactlessSVG, ApplePayNFCSVG, ApplePaySecuritySVG, ApplePayPhoneSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
 import { BluetoothDiscoverySVG, DeviceConnectionSVG, PaymentFlowSVG, SecureConnectionSVG, PaymentSuccessSVG, NFCTapSVG } from "@/components/PremiumOfflinePaymentSVGs";
@@ -31,62 +31,15 @@ export default function OfflinePayments() {
   const scanIntervalRef = useRef<NodeJS.Timeout>();
   const progressIntervalRef = useRef<NodeJS.Timeout>();
 
-  const mockNearbyDevices = [
-    {
-      id: 1,
-      name: "Rohit's iPhone 15 Pro",
-      type: "iOS",
-      model: "iPhone 15 Pro",
-      distance: "2.1m",
-      signal: 88,
-      lastSeen: "Just now",
-      verified: true,
-      upiId: "rohit@paytm",
-      battery: 78,
-      encryption: "AES-256",
-      paymentReady: true,
-      trustLevel: "high",
-      transactionHistory: 45,
-      deviceColor: "#1D4ED8",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=rohit"
-    },
-    {
-      id: 2,
-      name: "Priya's Galaxy S24",
-      type: "Android",
-      model: "Samsung Galaxy S24",
-      distance: "4.8m",
-      signal: 74,
-      lastSeen: "25s ago",
-      verified: true,
-      upiId: "priya@gpay",
-      battery: 92,
-      encryption: "AES-256",
-      paymentReady: true,
-      trustLevel: "high",
-      transactionHistory: 23,
-      deviceColor: "#10B981",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=priya"
-    },
-    {
-      id: 3,
-      name: "CaféBeans Terminal",
-      type: "POS",
-      model: "Square Terminal",
-      distance: "0.8m",
-      signal: 95,
-      lastSeen: "Just now",
-      verified: true,
-      upiId: "cafebeans@merchant",
-      battery: 100,
-      encryption: "AES-256",
-      paymentReady: true,
-      trustLevel: "verified",
-      transactionHistory: 1247,
-      deviceColor: "#F59E0B",
-      avatar: "https://api.dicebear.com/7.x/shapes/svg?seed=merchant"
-    }
-  ];
+  // Real-time device data from API
+  const [realDevices, setRealDevices] = useState<any[]>([]);
+  const [selectedDeviceDetails, setSelectedDeviceDetails] = useState<any>(null);
+  const [selectedDeviceBanks, setSelectedDeviceBanks] = useState<any[]>([]);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [otpExpiry, setOtpExpiry] = useState<Date | null>(null);
+  const [currentOtpId, setCurrentOtpId] = useState<string>("");
+  const [sessionId, setSessionId] = useState<string>("");
 
   const handleBluetoothToggle = () => {
     if (isBluetoothEnabled) {
@@ -99,6 +52,40 @@ export default function OfflinePayments() {
     } else {
       setIsBluetoothEnabled(true);
       startBluetoothScan();
+    }
+  };
+
+  // Fetch real-time device data from API
+  const fetchOfflineDevices = async () => {
+    try {
+      const response = await fetch('/api/offline/devices?limit=20');
+      if (response.ok) {
+        const devices = await response.json();
+        setRealDevices(devices);
+        console.log('📱 Fetched', devices.length, 'offline devices');
+      }
+    } catch (error) {
+      console.error('Error fetching devices:', error);
+    }
+  };
+
+  // Fetch device details and bank accounts
+  const fetchDeviceDetails = async (deviceId: string) => {
+    try {
+      const [deviceResponse, banksResponse] = await Promise.all([
+        fetch(`/api/offline/devices/${deviceId}`),
+        fetch(`/api/offline/devices/${deviceId}/banks`)
+      ]);
+      
+      if (deviceResponse.ok && banksResponse.ok) {
+        const device = await deviceResponse.json();
+        const banks = await banksResponse.json();
+        setSelectedDeviceDetails(device);
+        setSelectedDeviceBanks(banks);
+        console.log('🏦 Loaded', banks.length, 'bank accounts for', device.name);
+      }
+    } catch (error) {
+      console.error('Error fetching device details:', error);
     }
   };
 
@@ -123,21 +110,31 @@ export default function OfflinePayments() {
       });
     }, 80);
     
-    // Device discovery simulation
-    const discoveryTimeline = [
-      { delay: 800, devices: [mockNearbyDevices[2]] },
-      { delay: 1600, devices: [mockNearbyDevices[2], mockNearbyDevices[0]] },
-      { delay: 2400, devices: [mockNearbyDevices[2], mockNearbyDevices[0], mockNearbyDevices[1]] },
-    ];
-    
-    discoveryTimeline.forEach(({ delay, devices }) => {
-      setTimeout(() => {
-        setNearbyDevices([...devices]);
-        if (navigator.vibrate) {
-          navigator.vibrate(50);
+    // Progressive device discovery with real-time data
+    const simulateDiscovery = async () => {
+      await fetchOfflineDevices();
+      
+      // Access the updated realDevices state after fetch
+      const fetchResponse = await fetch('/api/offline/devices?limit=20');
+      if (fetchResponse.ok) {
+        const devices = await fetchResponse.json();
+        
+        if (devices.length > 0) {
+          const discoverySteps = Math.min(4, devices.length);
+          for (let i = 0; i < discoverySteps; i++) {
+            setTimeout(() => {
+              const devicesSlice = devices.slice(0, i + Math.ceil(devices.length / discoverySteps));
+              setNearbyDevices(devicesSlice);
+              if (navigator.vibrate) {
+                navigator.vibrate(50);
+              }
+            }, (i + 1) * 800);
+          }
         }
-      }, delay);
-    });
+      }
+    };
+    
+    setTimeout(simulateDiscovery, 500);
     
     setTimeout(() => {
       setIsScanning(false);
@@ -146,16 +143,105 @@ export default function OfflinePayments() {
     }, 4500);
   };
 
+  // Initialize device data on component mount
+  useEffect(() => {
+    fetchOfflineDevices();
+  }, []);
+
+  // Send OTP for device connection
+  const sendOTP = async (targetDevice: any) => {
+    try {
+      const response = await fetch('/api/offline/otp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromDeviceId: 'OPPB-MOBILE-USER',
+          toDeviceId: targetDevice.device_id || targetDevice.deviceId,
+          purpose: 'device_connection',
+          metadata: { deviceName: targetDevice.name, amount: "0" }
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        setCurrentOtpId(result.otpId);
+        setOtpExpiry(new Date(result.expiresAt));
+        setOtpSent(true);
+        console.log('🔐 OTP sent for connection:', result.message);
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+    }
+  };
+
+  // Verify OTP and establish secure connection
+  const verifyOTP = async () => {
+    try {
+      const response = await fetch('/api/offline/otp/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromDeviceId: 'OPPB-MOBILE-USER',
+          toDeviceId: selectedDevice.device_id || selectedDevice.deviceId,
+          otpCode: otpCode
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.verified) {
+          // Create payment session
+          await createPaymentSession();
+          setOtpSent(false);
+          setOtpCode("");
+          setPaymentStage("payment");
+          console.log('✅ OTP verified, proceeding to payment');
+        }
+      } else {
+        console.log('❌ OTP verification failed');
+        setOtpCode("");
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+    }
+  };
+
+  // Create secure payment session
+  const createPaymentSession = async () => {
+    try {
+      const response = await fetch('/api/offline/session/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromDeviceId: 'OPPB-MOBILE-USER',
+          toDeviceId: selectedDevice.device_id || selectedDevice.deviceId,
+          connectionType: 'bluetooth'
+        })
+      });
+      
+      if (response.ok) {
+        const session = await response.json();
+        setSessionId(session.sessionId);
+        console.log('🔗 Secure payment session created:', session.sessionId);
+      }
+    } catch (error) {
+      console.error('Error creating payment session:', error);
+    }
+  };
+
   const connectToDevice = async (device: any) => {
     setSelectedDevice(device);
     setConnectionStatus('connecting');
+    
+    // Fetch comprehensive device details and bank accounts
+    await fetchDeviceDetails(device.device_id || device.deviceId);
     
     setTimeout(() => {
       setConnectionStatus('connected');
       setPaymentStage('connect');
       
       setDeviceHistory(prev => {
-        const updated = [device, ...prev.filter(d => d.id !== device.id)];
+        const updated = [device, ...prev.filter(d => (d.device_id || d.deviceId) !== (device.device_id || device.deviceId))];
         return updated.slice(0, 5);
       });
     }, 2000);
@@ -486,112 +572,286 @@ export default function OfflinePayments() {
                           onClick={() => handleDeviceSelect(device)}
                         >
                           <CardContent className="p-5">
-                            <div className="flex items-center justify-between">
+                            {/* Main Device Header */}
+                            <div className="flex items-center justify-between mb-4">
                               {/* Device Info */}
                               <div className="flex items-center space-x-4 flex-1">
-                                {/* Device Avatar */}
+                                {/* Enhanced Device Avatar with Real Profile Image */}
                                 <div className="relative">
                                   <div 
                                     className="absolute inset-0 rounded-xl blur-md opacity-50"
-                                    style={{ backgroundColor: device.deviceColor }}
+                                    style={{ backgroundColor: device.device_color || device.deviceColor || '#3B82F6' }}
                                   />
-                                  <div 
-                                    className="relative w-14 h-14 rounded-xl flex items-center justify-center border backdrop-blur-xl"
+                                  <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 backdrop-blur-xl"
                                     style={{ 
-                                      backgroundColor: `${device.deviceColor}15`,
-                                      borderColor: `${device.deviceColor}30`
+                                      borderColor: `${device.device_color || device.deviceColor || '#3B82F6'}40`
                                     }}
                                   >
-                                    <DeviceIcon 
-                                      className="w-7 h-7"
-                                      style={{ color: device.deviceColor }}
-                                    />
+                                    {device.profile_image && (
+                                      <img 
+                                        src={device.profile_image} 
+                                        alt={device.name}
+                                        className="w-full h-full object-cover"
+                                      />
+                                    )}
+                                    {!device.profile_image && (
+                                      <div 
+                                        className="w-full h-full flex items-center justify-center"
+                                        style={{ backgroundColor: `${device.device_color || device.deviceColor || '#3B82F6'}15` }}
+                                      >
+                                        <DeviceIcon 
+                                          className="w-8 h-8"
+                                          style={{ color: device.device_color || device.deviceColor || '#3B82F6' }}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                                 
-                                {/* Device Details */}
+                                {/* Enhanced Device Details */}
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center space-x-2 mb-1">
-                                    <h4 className="text-white font-semibold text-sm truncate">
+                                    <h4 className="text-white font-bold text-base truncate">
                                       {device.name}
                                     </h4>
-                                    {device.verified && (
-                                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                    {(device.is_verified || device.verified) && (
+                                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
                                     )}
                                   </div>
                                   
-                                  <div className="flex items-center space-x-3 text-xs">
-                                    <span className="text-white/60 font-medium">{device.model}</span>
-                                    <span className="text-white/60">•</span>
-                                    <span className="text-white/60 font-medium">{device.distance}</span>
-                                  </div>
-                                  
-                                  <div className="flex items-center space-x-2 mt-2">
-                                    <Badge 
-                                      variant="secondary" 
-                                      className="text-xs px-2 py-0.5 rounded-md"
-                                      style={{ 
-                                        backgroundColor: `${trustColor}15`,
-                                        color: trustColor,
-                                        borderColor: `${trustColor}30`
-                                      }}
-                                    >
-                                      {device.trustLevel}
-                                    </Badge>
+                                  <div className="space-y-1">
+                                    <div className="flex items-center space-x-3 text-xs">
+                                      <span className="text-white/70 font-medium">{device.model}</span>
+                                      <span className="text-white/40">•</span>
+                                      <span className="text-white/70 font-medium">{device.distance || `${(Math.random() * 10).toFixed(1)}m`}</span>
+                                      <span className="text-white/40">•</span>
+                                      <span className="text-green-400 font-medium">
+                                        {device.transaction_count || device.transactionHistory || 0} transactions
+                                      </span>
+                                    </div>
+                                    
+                                    <div className="flex items-center space-x-2">
+                                      <Badge 
+                                        variant="secondary" 
+                                        className="text-xs px-2 py-0.5 rounded-md font-semibold"
+                                        style={{ 
+                                          backgroundColor: `${trustColor}20`,
+                                          color: trustColor,
+                                          borderColor: `${trustColor}40`
+                                        }}
+                                      >
+                                        {device.trust_level || device.trustLevel}
+                                      </Badge>
+                                      
+                                      {device.rating && (
+                                        <div className="flex items-center space-x-1">
+                                          <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                                          <span className="text-xs text-yellow-400 font-semibold">
+                                            {device.rating} ({device.review_count})
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    {/* Owner Information */}
+                                    {device.owner_name && (
+                                      <div className="flex items-center space-x-2 text-xs">
+                                        <User className="w-3 h-3 text-blue-400" />
+                                        <span className="text-blue-400 font-medium">{device.owner_name}</span>
+                                        {device.owner_phone && (
+                                          <>
+                                            <span className="text-white/40">•</span>
+                                            <span className="text-white/60">{device.owner_phone}</span>
+                                          </>
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </div>
                               
-                              {/* Signal Strength and Actions */}
-                              <div className="flex flex-col items-end space-y-3">
+                              {/* Enhanced Signal and Battery */}
+                              <div className="flex flex-col items-end space-y-2">
                                 {/* Signal Indicator */}
                                 <div className="flex items-center space-x-2">
                                   <div className="flex items-center space-x-1">
                                     {[...Array(4)].map((_, i) => (
                                       <div
                                         key={i}
-                                        className={`w-1 rounded-full transition-all duration-300 ${
-                                          i < Math.floor(device.signal / 25) 
+                                        className={`w-1.5 rounded-full transition-all duration-300 ${
+                                          i < Math.floor((device.signal_strength || device.signal || 75) / 25) 
                                             ? 'bg-current opacity-100' 
                                             : 'bg-white/20 opacity-50'
                                         }`}
                                         style={{ 
-                                          height: `${(i + 1) * 3}px`,
+                                          height: `${(i + 1) * 4}px`,
                                           color: signalColor
                                         }}
                                       />
                                     ))}
                                   </div>
                                   <span 
-                                    className="text-xs font-semibold"
+                                    className="text-xs font-bold"
                                     style={{ color: signalColor }}
                                   >
-                                    {device.signal}%
+                                    {device.signal_strength || device.signal || 75}%
+                                  </span>
+                                </div>
+
+                                {/* Battery Level */}
+                                {device.battery_level && (
+                                  <div className="flex items-center space-x-1">
+                                    <Battery className="w-3 h-3 text-green-400" />
+                                    <span className="text-xs text-green-400 font-semibold">
+                                      {device.battery_level}%
+                                    </span>
+                                  </div>
+                                )}
+
+                                {/* Last Seen */}
+                                <div className="text-xs text-white/50 text-right">
+                                  {device.last_seen ? new Date(device.last_seen).toLocaleTimeString() : 'Just now'}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Bank Account Summary */}
+                            {selectedDeviceBanks.length > 0 && selectedDevice?.device_id === device.device_id && (
+                              <div className="border-t border-white/10 pt-4 mt-4">
+                                <div className="flex items-center space-x-2 mb-3">
+                                  <CreditCard className="w-4 h-4 text-green-400" />
+                                  <span className="text-sm font-semibold text-green-400">
+                                    {selectedDeviceBanks.length} Bank Account{selectedDeviceBanks.length > 1 ? 's' : ''} Connected
                                   </span>
                                 </div>
                                 
-                                {/* Connect Button */}
-                                <div className="relative">
-                                  <div 
-                                    className="absolute inset-0 rounded-xl blur-md opacity-60"
-                                    style={{ backgroundColor: device.deviceColor }}
-                                  />
+                                <div className="grid grid-cols-1 gap-2">
+                                  {selectedDeviceBanks.slice(0, 2).map((bank, i) => (
+                                    <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/10">
+                                      <div className="flex items-center space-x-2">
+                                        <div className="w-6 h-6 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                                          <span className="text-xs font-bold text-white">
+                                            {bank.bank_name?.charAt(0) || 'B'}
+                                          </span>
+                                        </div>
+                                        <div>
+                                          <div className="text-xs font-semibold text-white">{bank.bank_name}</div>
+                                          <div className="text-xs text-white/60">****{bank.account_number?.slice(-4)}</div>
+                                        </div>
+                                        {bank.is_primary && (
+                                          <Badge variant="secondary" className="text-xs px-1 py-0 bg-green-500/20 text-green-400 border-green-500/30">
+                                            Primary
+                                          </Badge>
+                                        )}
+                                      </div>
+                                      <div className="text-right">
+                                        <div className="text-xs font-bold text-green-400">
+                                          ₹{parseFloat(bank.balance).toLocaleString()}
+                                        </div>
+                                        <div className="text-xs text-white/50">
+                                          Limit: ₹{parseFloat(bank.daily_limit).toLocaleString()}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                  
+                                  {selectedDeviceBanks.length > 2 && (
+                                    <div className="text-center text-xs text-white/60 py-1">
+                                      +{selectedDeviceBanks.length - 2} more accounts
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* OTP Verification Section */}
+                            {otpSent && selectedDevice?.device_id === device.device_id && (
+                              <div className="border-t border-white/10 pt-4 mt-4">
+                                <div className="space-y-3">
+                                  <div className="flex items-center space-x-2 mb-2">
+                                    <Shield className="w-4 h-4 text-blue-400" />
+                                    <span className="text-sm font-semibold text-blue-400">OTP Verification Required</span>
+                                  </div>
+                                  
+                                  <div className="text-xs text-white/70 mb-3">
+                                    Enter the 6-digit verification code sent to {device.owner_name}'s device for secure connection
+                                  </div>
+                                  
+                                  <div className="flex space-x-2">
+                                    <input
+                                      type="text"
+                                      value={otpCode}
+                                      onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                      placeholder="Enter 6-digit OTP"
+                                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                                      maxLength={6}
+                                    />
+                                    <Button
+                                      onClick={verifyOTP}
+                                      disabled={otpCode.length !== 6}
+                                      className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                      Verify
+                                    </Button>
+                                  </div>
+                                  
+                                  {otpExpiry && (
+                                    <div className="text-xs text-white/50 text-center">
+                                      OTP expires at {otpExpiry.toLocaleTimeString()}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Enhanced Connect Section */}
+                            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+                              <div className="flex items-center space-x-3">
+                                <div className="flex items-center space-x-2">
+                                  <Bluetooth className="w-4 h-4 text-blue-400" />
+                                  <span className="text-xs text-blue-400 font-medium">
+                                    {device.bluetooth_version || 'BT 5.0'}
+                                  </span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <Lock className="w-4 h-4 text-green-400" />
+                                  <span className="text-xs text-green-400 font-medium">
+                                    {device.encryption || 'AES-256'}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex space-x-2">
+                                {!otpSent && (
                                   <Button
-                                    size="sm"
-                                    className="relative h-8 px-4 rounded-xl text-xs font-semibold backdrop-blur-xl border transition-all duration-300 hover:scale-105"
-                                    style={{
-                                      backgroundColor: `${device.deviceColor}20`,
-                                      borderColor: `${device.deviceColor}40`,
-                                      color: device.deviceColor
-                                    }}
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleDeviceSelect(device);
+                                      sendOTP(device);
                                     }}
+                                    size="sm"
+                                    className="h-9 px-4 rounded-xl text-xs font-semibold bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border border-blue-500/40 hover:border-blue-500/60 transition-all duration-300"
                                   >
-                                    Connect
+                                    <MessageSquare className="w-3 h-3 mr-1" />
+                                    Send OTP
                                   </Button>
-                                </div>
+                                )}
+                                
+                                <Button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeviceSelect(device);
+                                  }}
+                                  size="sm"
+                                  className="h-9 px-4 rounded-xl text-xs font-semibold backdrop-blur-xl border transition-all duration-300 hover:scale-105"
+                                  style={{
+                                    backgroundColor: `${device.device_color || device.deviceColor || '#3B82F6'}20`,
+                                    borderColor: `${device.device_color || device.deviceColor || '#3B82F6'}40`,
+                                    color: device.device_color || device.deviceColor || '#3B82F6'
+                                  }}
+                                >
+                                  <Zap className="w-3 h-3 mr-1" />
+                                  Connect
+                                </Button>
                               </div>
                             </div>
                           </CardContent>

@@ -3,6 +3,10 @@ import {
   transactions,
   paymentRequests,
   merchants,
+  offlineDevices,
+  bankAccounts,
+  otpVerifications,
+  offlinePaymentSessions,
   type User,
   type UpsertUser,
   type Transaction,
@@ -10,9 +14,15 @@ import {
   type PaymentRequest,
   type InsertPaymentRequest,
   type Merchant,
+  type OfflineDevice,
+  type BankAccount,
+  type InsertOtpVerification,
+  type OtpVerification,
+  type InsertOfflinePaymentSession,
+  type OfflinePaymentSession,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, or, like } from "drizzle-orm";
+import { eq, desc, and, or, like, gt, lt, sql } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -37,6 +47,16 @@ export interface IStorage {
   // Payment request operations
   getPaymentRequests(userId: string): Promise<PaymentRequest[]>;
   createPaymentRequest(request: InsertPaymentRequest): Promise<PaymentRequest>;
+  
+  // Offline payment operations
+  getOfflineDevices(limit?: number, offset?: number): Promise<OfflineDevice[]>;
+  getOfflineDevice(deviceId: string): Promise<OfflineDevice | undefined>;
+  getBankAccountsByDevice(deviceId: string): Promise<BankAccount[]>;
+  createOtpVerification(otp: InsertOtpVerification): Promise<OtpVerification>;
+  verifyOtp(fromDeviceId: string, toDeviceId: string, otpCode: string): Promise<boolean>;
+  createPaymentSession(session: InsertOfflinePaymentSession): Promise<OfflinePaymentSession>;
+  updatePaymentSession(sessionId: string, updates: Partial<OfflinePaymentSession>): Promise<void>;
+  getPaymentSession(sessionId: string): Promise<OfflinePaymentSession | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -140,6 +160,98 @@ export class DatabaseStorage implements IStorage {
       .values(request)
       .returning();
     return newRequest;
+  }
+
+  // Offline payment operations implementation
+  async getOfflineDevices(limit: number = 50, offset: number = 0): Promise<OfflineDevice[]> {
+    return await db
+      .select()
+      .from(offlineDevices)
+      .where(eq(offlineDevices.isOnline, true))
+      .orderBy(desc(offlineDevices.lastSeen))
+      .limit(limit)
+      .offset(offset);
+  }
+
+  async getOfflineDevice(deviceId: string): Promise<OfflineDevice | undefined> {
+    const [device] = await db
+      .select()
+      .from(offlineDevices)
+      .where(eq(offlineDevices.deviceId, deviceId));
+    return device || undefined;
+  }
+
+  async getBankAccountsByDevice(deviceId: string): Promise<BankAccount[]> {
+    return await db
+      .select()
+      .from(bankAccounts)
+      .where(and(
+        eq(bankAccounts.deviceId, deviceId),
+        eq(bankAccounts.isActive, true)
+      ))
+      .orderBy(desc(bankAccounts.isPrimary));
+  }
+
+  async createOtpVerification(otp: InsertOtpVerification): Promise<OtpVerification> {
+    const [newOtp] = await db
+      .insert(otpVerifications)
+      .values(otp)
+      .returning();
+    return newOtp;
+  }
+
+  async verifyOtp(fromDeviceId: string, toDeviceId: string, otpCode: string): Promise<boolean> {
+    const [verification] = await db
+      .select()
+      .from(otpVerifications)
+      .where(and(
+        eq(otpVerifications.fromDeviceId, fromDeviceId),
+        eq(otpVerifications.toDeviceId, toDeviceId),
+        eq(otpVerifications.otpCode, otpCode),
+        eq(otpVerifications.status, "pending"),
+        gt(otpVerifications.expiresAt, new Date())
+      ));
+
+    if (!verification) {
+      return false;
+    }
+
+    // Update verification status
+    await db
+      .update(otpVerifications)
+      .set({
+        status: "verified",
+        verifiedAt: new Date()
+      })
+      .where(eq(otpVerifications.id, verification.id));
+
+    return true;
+  }
+
+  async createPaymentSession(session: InsertOfflinePaymentSession): Promise<OfflinePaymentSession> {
+    const [newSession] = await db
+      .insert(offlinePaymentSessions)
+      .values(session)
+      .returning();
+    return newSession;
+  }
+
+  async updatePaymentSession(sessionId: string, updates: Partial<OfflinePaymentSession>): Promise<void> {
+    await db
+      .update(offlinePaymentSessions)
+      .set({
+        ...updates,
+        updatedAt: new Date()
+      })
+      .where(eq(offlinePaymentSessions.sessionId, sessionId));
+  }
+
+  async getPaymentSession(sessionId: string): Promise<OfflinePaymentSession | undefined> {
+    const [session] = await db
+      .select()
+      .from(offlinePaymentSessions)
+      .where(eq(offlinePaymentSessions.sessionId, sessionId));
+    return session || undefined;
   }
 }
 

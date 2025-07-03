@@ -301,6 +301,174 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Offline payment API routes
+  app.get('/api/offline/devices', async (req: any, res) => {
+    try {
+      const { limit = 50, offset = 0 } = req.query;
+      const devices = await storage.getOfflineDevices(parseInt(limit), parseInt(offset));
+      res.json(devices);
+    } catch (error) {
+      console.error("Error fetching offline devices:", error);
+      res.status(500).json({ message: "Failed to fetch offline devices" });
+    }
+  });
+
+  app.get('/api/offline/devices/:deviceId', async (req: any, res) => {
+    try {
+      const { deviceId } = req.params;
+      const device = await storage.getOfflineDevice(deviceId);
+      
+      if (!device) {
+        return res.status(404).json({ message: "Device not found" });
+      }
+      
+      res.json(device);
+    } catch (error) {
+      console.error("Error fetching device:", error);
+      res.status(500).json({ message: "Failed to fetch device" });
+    }
+  });
+
+  app.get('/api/offline/devices/:deviceId/banks', async (req: any, res) => {
+    try {
+      const { deviceId } = req.params;
+      const bankAccounts = await storage.getBankAccountsByDevice(deviceId);
+      res.json(bankAccounts);
+    } catch (error) {
+      console.error("Error fetching bank accounts:", error);
+      res.status(500).json({ message: "Failed to fetch bank accounts" });
+    }
+  });
+
+  app.post('/api/offline/otp/send', async (req: any, res) => {
+    try {
+      const { fromDeviceId, toDeviceId, purpose, metadata } = req.body;
+      
+      if (!fromDeviceId || !toDeviceId || !purpose) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Generate 6-digit OTP
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Set expiration time (5 minutes)
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+      
+      const otpData = {
+        fromDeviceId,
+        toDeviceId,
+        otpCode,
+        purpose,
+        expiresAt,
+        metadata: metadata ? JSON.stringify(metadata) : null
+      };
+
+      const otp = await storage.createOtpVerification(otpData);
+      
+      // In a real app, send SMS/notification here
+      console.log(`OTP ${otpCode} sent from ${fromDeviceId} to ${toDeviceId} for ${purpose}`);
+      
+      res.json({
+        success: true,
+        otpId: otp.id,
+        expiresAt: otp.expiresAt,
+        message: `OTP sent successfully for ${purpose}`
+      });
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      res.status(500).json({ message: "Failed to send OTP" });
+    }
+  });
+
+  app.post('/api/offline/otp/verify', async (req: any, res) => {
+    try {
+      const { fromDeviceId, toDeviceId, otpCode } = req.body;
+      
+      if (!fromDeviceId || !toDeviceId || !otpCode) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const isValid = await storage.verifyOtp(fromDeviceId, toDeviceId, otpCode);
+      
+      if (isValid) {
+        res.json({
+          success: true,
+          verified: true,
+          message: "OTP verified successfully"
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          verified: false,
+          message: "Invalid or expired OTP"
+        });
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      res.status(500).json({ message: "Failed to verify OTP" });
+    }
+  });
+
+  app.post('/api/offline/session/create', async (req: any, res) => {
+    try {
+      const { fromDeviceId, toDeviceId, connectionType = "bluetooth" } = req.body;
+      
+      if (!fromDeviceId || !toDeviceId) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const sessionId = `SES${Date.now()}${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+      
+      const sessionData = {
+        sessionId,
+        fromDeviceId,
+        toDeviceId,
+        connectionType,
+        status: "initiated" as const,
+        encryptionKey: Math.random().toString(36).substring(2, 15),
+        connectionStrength: Math.floor(Math.random() * 40) + 60, // 60-100%
+        metadata: JSON.stringify({ createdBy: "api" })
+      };
+
+      const session = await storage.createPaymentSession(sessionData);
+      res.json(session);
+    } catch (error) {
+      console.error("Error creating payment session:", error);
+      res.status(500).json({ message: "Failed to create payment session" });
+    }
+  });
+
+  app.patch('/api/offline/session/:sessionId', async (req: any, res) => {
+    try {
+      const { sessionId } = req.params;
+      const updates = req.body;
+      
+      await storage.updatePaymentSession(sessionId, updates);
+      const session = await storage.getPaymentSession(sessionId);
+      
+      res.json(session);
+    } catch (error) {
+      console.error("Error updating payment session:", error);
+      res.status(500).json({ message: "Failed to update payment session" });
+    }
+  });
+
+  app.get('/api/offline/session/:sessionId', async (req: any, res) => {
+    try {
+      const { sessionId } = req.params;
+      const session = await storage.getPaymentSession(sessionId);
+      
+      if (!session) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+      
+      res.json(session);
+    } catch (error) {
+      console.error("Error fetching payment session:", error);
+      res.status(500).json({ message: "Failed to fetch payment session" });
+    }
+  });
+
   // PWA-specific routes
   app.get('/manifest.json', (req, res) => {
     res.setHeader('Content-Type', 'application/manifest+json');
