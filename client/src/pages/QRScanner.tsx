@@ -3,22 +3,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Camera, Image, Flashlight, QrCode, MapPin, Star, Shield, Smartphone, Store, Lock } from "lucide-react";
-import { COLORS } from "@/lib/constants";
-import { Link } from "wouter";
+import { ArrowLeft, Camera, Image, Flashlight, QrCode, MapPin, Star, Shield, Smartphone, Store, Lock, Loader2, CheckCircle, Zap, Wifi } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import { ApplePayQRCodeSVG, ApplePayNFCSVG, ApplePayContactlessSVG, ApplePaySecuritySVG, ApplePayMerchantSVG, ApplePayLocationSVG } from "@/components/ApplePaySVGs";
+import { BluetoothDiscoverySVG, SecureConnectionSVG, PaymentSuccessSVG } from "@/components/PremiumOfflinePaymentSVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
-import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
-import paymentSuccessGif from "@assets/fetchpik.com-iconscout-ko4OKHjzX0_1751390540547.gif";
+import { PinEntry } from "@/components/PinEntry";
+import { PaymentSuccess } from "@/components/PaymentSuccess";
 
 export default function QRScanner() {
-  const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'processing' | 'payment'>('scanning');
+  const [, setLocation] = useLocation();
+  const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'merchant' | 'amount' | 'pin' | 'processing' | 'success' | 'offline'>('scanning');
   const [flashEnabled, setFlashEnabled] = useState(false);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
   const [cameraPermission, setCameraPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
+  const [showPinEntry, setShowPinEntry] = useState(false);
+  const [transactionId, setTransactionId] = useState("");
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [scanProgress, setScanProgress] = useState(0);
 
   // Mock merchant data as detected from QR scan
   const detectedMerchant = {
@@ -55,13 +60,36 @@ export default function QRScanner() {
     requestCameraPermission();
   }, []);
 
-  // QR scanning simulation - any QR will redirect to Ramesh's store
+  // Monitor online status
+  useEffect(() => {
+    const handleOnlineStatusChange = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener('online', handleOnlineStatusChange);
+    window.addEventListener('offline', handleOnlineStatusChange);
+
+    return () => {
+      window.removeEventListener('online', handleOnlineStatusChange);
+      window.removeEventListener('offline', handleOnlineStatusChange);
+    };
+  }, []);
+
+  // QR scanning simulation with progress tracking
   useEffect(() => {
     if (scanningStage === 'scanning' && cameraPermission === 'granted') {
-      const timer = setTimeout(() => {
-        setScanningStage('detected');
-      }, 3000);
-      return () => clearTimeout(timer);
+      const progressInterval = setInterval(() => {
+        setScanProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(progressInterval);
+            setScanningStage('detected');
+            return 100;
+          }
+          return prev + 3;
+        });
+      }, 50);
+
+      return () => clearInterval(progressInterval);
     }
   }, [scanningStage, cameraPermission]);
 
@@ -72,16 +100,37 @@ export default function QRScanner() {
 
   const handleFlashToggle = () => {
     setFlashEnabled(!flashEnabled);
-    // Visual feedback for flash toggle - actual flash control would require native mobile app
     console.log(`Flashlight ${!flashEnabled ? 'enabled' : 'disabled'}`);
   };
 
-  const handlePayment = () => {
+  const handleMerchantConfirm = () => {
+    setScanningStage('amount');
+  };
+
+  const handlePaymentInitiate = () => {
+    if (!isOnline) {
+      setScanningStage('offline');
+      return;
+    }
+    
+    if (amount && parseFloat(amount) > 0) {
+      setShowPinEntry(true);
+      setScanningStage('pin');
+    }
+  };
+
+  const handlePinComplete = (pin: string) => {
+    setShowPinEntry(false);
     setScanningStage('processing');
-    // Show processing animation for 3 seconds
+    setTransactionId(`QR${Date.now()}`);
+    
     setTimeout(() => {
-      setScanningStage('payment');
+      setScanningStage('success');
     }, 3000);
+  };
+
+  const handleOfflinePayment = () => {
+    setLocation('/offline-payments');
   };
 
   // Camera Permission Screen
@@ -281,9 +330,9 @@ export default function QRScanner() {
           {/* Action Buttons */}
           <div className="space-y-4 pb-24">
             <SwipeToSend
-              onComplete={handlePayment}
+              onComplete={handlePaymentInitiate}
               text={`Swipe to Pay ₹${amount || "0"}`}
-              variant="success"
+              variant="primary"
               size="large"
               disabled={!amount || parseFloat(amount) <= 0}
             />

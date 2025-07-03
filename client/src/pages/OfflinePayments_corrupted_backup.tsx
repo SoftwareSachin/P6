@@ -85,54 +85,87 @@ export default function OfflinePayments() {
       transactionHistory: 1247,
       deviceColor: "#F59E0B",
       avatar: "https://api.dicebear.com/7.x/shapes/svg?seed=merchant"
+    },
+    {
+      id: 4,
+      name: "Amit's OnePlus 12",
+      type: "Android",
+      model: "OnePlus 12",
+      distance: "7.2m",
+      signal: 65,
+      lastSeen: "1m ago",
+      verified: true,
+      upiId: "amit@phonepe",
+      battery: 45,
+      encryption: "AES-256",
+      paymentReady: true,
+      trustLevel: "medium",
+      transactionHistory: 12,
+      deviceColor: "#8B5CF6",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=amit"
+    },
+    {
+      id: 5,
+      name: "Metro Station Kiosk",
+      type: "POS",
+      model: "Payment Terminal",
+      distance: "12.5m",
+      signal: 42,
+      lastSeen: "3m ago",
+      verified: true,
+      upiId: "metro@transport",
+      battery: 100,
+      encryption: "AES-256",
+      paymentReady: true,
+      trustLevel: "verified",
+      transactionHistory: 8945,
+      deviceColor: "#EF4444",
+      avatar: "https://api.dicebear.com/7.x/shapes/svg?seed=metro"
     }
   ];
 
+  // Ultra-Premium Bluetooth Scanning Functions
   const handleBluetoothToggle = () => {
-    if (isBluetoothEnabled) {
-      setIsBluetoothEnabled(false);
-      setIsScanning(false);
-      setNearbyDevices([]);
-      setScanningProgress(0);
-      if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
-      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-    } else {
-      setIsBluetoothEnabled(true);
+    setIsBluetoothEnabled(!isBluetoothEnabled);
+    if (!isBluetoothEnabled) {
       startBluetoothScan();
+    } else {
+      setNearbyDevices([]);
+      setIsScanning(false);
+      setScanningProgress(0);
     }
   };
 
   const startBluetoothScan = () => {
-    if (!isBluetoothEnabled) return;
-    
     setIsScanning(true);
     setNearbyDevices([]);
     setScanningProgress(0);
+    setConnectionStatus('idle');
     
-    // Clear any existing intervals
-    if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
-    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-    
-    // Progress animation
+    // Ultra-premium progressive scanning with realistic timing
     progressIntervalRef.current = setInterval(() => {
       setScanningProgress(prev => {
         if (prev >= 100) {
+          clearInterval(progressIntervalRef.current);
           return 100;
         }
         return prev + 2;
       });
     }, 80);
     
-    // Device discovery simulation
+    // Sophisticated device discovery simulation
     const discoveryTimeline = [
-      { delay: 800, devices: [mockNearbyDevices[2]] },
-      { delay: 1600, devices: [mockNearbyDevices[2], mockNearbyDevices[0]] },
-      { delay: 2400, devices: [mockNearbyDevices[2], mockNearbyDevices[0], mockNearbyDevices[1]] },
+      { delay: 800, devices: [mockNearbyDevices[2]] }, // Nearest POS terminal first
+      { delay: 1600, devices: [mockNearbyDevices[2], mockNearbyDevices[0]] }, // High-signal iPhone
+      { delay: 2400, devices: [mockNearbyDevices[2], mockNearbyDevices[0], mockNearbyDevices[1]] }, // Android device
+      { delay: 3200, devices: [mockNearbyDevices[2], mockNearbyDevices[0], mockNearbyDevices[1], mockNearbyDevices[3]] }, // OnePlus
+      { delay: 4000, devices: mockNearbyDevices }, // All devices including distant ones
     ];
     
     discoveryTimeline.forEach(({ delay, devices }) => {
       setTimeout(() => {
         setNearbyDevices([...devices]);
+        // Add subtle vibration simulation
         if (navigator.vibrate) {
           navigator.vibrate(50);
         }
@@ -150,19 +183,27 @@ export default function OfflinePayments() {
     setSelectedDevice(device);
     setConnectionStatus('connecting');
     
+    // Simulate premium connection process
     setTimeout(() => {
       setConnectionStatus('connected');
       setPaymentStage('connect');
       
+      // Add to device history
       setDeviceHistory(prev => {
         const updated = [device, ...prev.filter(d => d.id !== device.id)];
-        return updated.slice(0, 5);
+        return updated.slice(0, 5); // Keep only last 5 connections
       });
     }, 2000);
   };
 
   const handleDeviceSelect = (device: any) => {
     connectToDevice(device);
+  };
+
+  const handlePaymentComplete = () => {
+    setTimeout(() => {
+      setPaymentStage('success');
+    }, 3000);
   };
 
   const toggleAdvancedMode = () => {
@@ -172,6 +213,7 @@ export default function OfflinePayments() {
   const setScanRangeHandler = (range: 'near' | 'medium' | 'far') => {
     setScanRange(range);
     if (isScanning) {
+      // Restart scan with new range
       startBluetoothScan();
     }
   };
@@ -186,10 +228,10 @@ export default function OfflinePayments() {
   };
 
   const getSignalColor = (signal: number) => {
-    if (signal >= 80) return '#10B981';
-    if (signal >= 60) return '#F59E0B';
-    if (signal >= 40) return '#EF4444';
-    return '#6B7280';
+    if (signal >= 80) return '#10B981'; // Green
+    if (signal >= 60) return '#F59E0B'; // Yellow
+    if (signal >= 40) return '#EF4444'; // Red
+    return '#6B7280'; // Gray
   };
 
   const getTrustLevelColor = (level: string) => {
@@ -221,17 +263,35 @@ export default function OfflinePayments() {
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements - Matching Dashboard */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Primary gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 via-black to-gray-900/50" />
+        
+        {/* Floating geometric shapes */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-600/10 rounded-full blur-xl animate-float" />
         <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-purple-500/15 to-pink-600/15 rounded-full blur-lg animate-float-delay" />
         <div className="absolute bottom-40 left-20 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-cyan-500/10 rounded-full blur-lg animate-pulse" />
         <div className="absolute bottom-20 right-10 w-28 h-28 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-xl animate-float-slow" />
+        
+        {/* Grid overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div 
+            className="w-full h-full" 
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '50px 50px'
+            }}
+          />
+        </div>
       </div>
 
-      {/* Header */}
+      {/* Ultra-Premium Apple Pay Style Header */}
       <div className="relative z-10 px-4 pt-6">
+        {/* Header with glass morphism */}
         <div className="flex items-center justify-between p-3 backdrop-blur-2xl bg-white/8 rounded-2xl border border-white/15 shadow-xl">
           <Link href="/">
             <div className="relative">
@@ -258,9 +318,10 @@ export default function OfflinePayments() {
         </div>
       </div>
 
-      {/* Bluetooth Status Card */}
+      {/* Ultra-Premium Connection Status Card */}
       <div className="px-4 mb-6 relative z-10">
         <div className="mt-4 relative">
+          {/* Card glow effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-blue-500/15 rounded-2xl blur-lg" />
           
           <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
@@ -268,6 +329,7 @@ export default function OfflinePayments() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-4">
                   <div className="relative">
+                    {/* Icon glow effect */}
                     <div className={`absolute inset-0 rounded-full blur-lg ${
                       isBluetoothEnabled 
                         ? 'bg-gradient-to-r from-blue-500/30 to-purple-500/30' 
@@ -345,18 +407,33 @@ export default function OfflinePayments() {
         </div>
       </div>
 
-      {/* Discovery Stage */}
+      {/* Ultra-Premium Device Discovery Stage */}
       {paymentStage === 'discovery' && (
         <div className="px-4 relative z-10">
-          {/* Scanning Status */}
+          {/* Ultra-Premium Scanning Status */}
           {isBluetoothEnabled && (
             <div className="mb-6 relative">
+              {/* Card glow effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-lg" />
               
               <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
                 <CardContent className="p-8 text-center">
                   <div className="relative mb-6">
-                    <BluetoothDiscoverySVG className="w-24 h-24 mx-auto" animated={isScanning} />
+                    {/* Central scanning icon with advanced effects */}
+                    <div className="relative w-24 h-24 mx-auto">
+                      <div className={`absolute inset-0 rounded-full ${
+                        isScanning 
+                          ? 'bg-gradient-to-br from-blue-500/30 via-purple-500/30 to-blue-500/30 animate-pulse' 
+                          : 'bg-gradient-to-br from-blue-500/20 to-purple-500/20'
+                      } blur-lg`} />
+                      <div className={`relative w-full h-full rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-500/30 flex items-center justify-center ${
+                        isScanning ? 'animate-pulse shadow-2xl shadow-blue-500/25' : ''
+                      }`}>
+                        <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-xl flex items-center justify-center">
+                          <Users className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   
                   <h3 className="text-xl font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent mb-3">
@@ -378,7 +455,7 @@ export default function OfflinePayments() {
             </div>
           )}
 
-          {/* Scan Controls */}
+          {/* Ultra-Premium Advanced Controls */}
           {isBluetoothEnabled && (
             <div className="mb-6 relative">
               <div className="absolute inset-0 bg-gradient-to-r from-gray-500/5 via-blue-500/5 to-gray-500/5 rounded-2xl blur-lg" />
@@ -450,7 +527,7 @@ export default function OfflinePayments() {
             </div>
           )}
 
-          {/* Nearby Devices List */}
+          {/* Ultra-Premium Nearby Devices List */}
           {filteredDevices.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -458,9 +535,25 @@ export default function OfflinePayments() {
                   <Users className="w-5 h-5 mr-2 text-blue-300" />
                   Nearby Devices ({filteredDevices.length})
                 </h3>
+                
+                {/* Device Count and Status */}
+                <div className="flex items-center space-x-2">
+                  {isScanning && (
+                    <div className="flex items-center space-x-1">
+                      <Loader2 className="w-4 h-4 text-blue-300 animate-spin" />
+                      <span className="text-xs text-blue-300 font-medium">Scanning...</span>
+                    </div>
+                  )}
+                  <Badge 
+                    variant="secondary" 
+                    className="bg-blue-500/20 text-blue-300 border border-blue-500/30 hover:bg-blue-500/25 transition-all duration-300"
+                  >
+                    {scanRange} range
+                  </Badge>
+                </div>
               </div>
               
-              {/* Device Cards */}
+              {/* Ultra-Premium Device Cards */}
               <div className="space-y-3">
                 {filteredDevices.map((device, index) => {
                   const DeviceIcon = getDeviceIcon(device.type);
@@ -469,6 +562,7 @@ export default function OfflinePayments() {
                   
                   return (
                     <div key={device.id} className="relative group">
+                      {/* Card entrance animation */}
                       <div 
                         className="relative"
                         style={{ 
@@ -524,6 +618,15 @@ export default function OfflinePayments() {
                                     <span className="text-white/60 font-medium">{device.model}</span>
                                     <span className="text-white/60">•</span>
                                     <span className="text-white/60 font-medium">{device.distance}</span>
+                                    {device.battery && (
+                                      <>
+                                        <span className="text-white/60">•</span>
+                                        <div className="flex items-center space-x-1">
+                                          <Battery className="w-3 h-3 text-white/60" />
+                                          <span className="text-white/60 font-medium">{device.battery}%</span>
+                                        </div>
+                                      </>
+                                    )}
                                   </div>
                                   
                                   <div className="flex items-center space-x-2 mt-2">
@@ -538,6 +641,8 @@ export default function OfflinePayments() {
                                     >
                                       {device.trustLevel}
                                     </Badge>
+                                    <span className="text-white/40 text-xs">•</span>
+                                    <span className="text-white/60 text-xs font-medium">{device.transactionHistory} payments</span>
                                   </div>
                                 </div>
                               </div>
@@ -594,6 +699,33 @@ export default function OfflinePayments() {
                                 </div>
                               </div>
                             </div>
+                            
+                            {/* Advanced Device Information */}
+                            {isAdvancedMode && (
+                              <div className="mt-4 pt-4 border-t border-white/10">
+                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                  <div className="space-y-1">
+                                    <p className="text-white/60 font-medium">UPI ID</p>
+                                    <p className="text-white/80 font-mono">{device.upiId}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <p className="text-white/60 font-medium">Encryption</p>
+                                    <p className="text-green-300 font-mono">{device.encryption}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <p className="text-white/60 font-medium">Last Seen</p>
+                                    <p className="text-white/80">{device.lastSeen}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <p className="text-white/60 font-medium">Status</p>
+                                    <div className="flex items-center space-x-1">
+                                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                                      <span className="text-green-300 font-medium">Ready</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </CardContent>
                         </Card>
                       </div>
@@ -629,7 +761,7 @@ export default function OfflinePayments() {
         </div>
       )}
 
-      {/* Connection Stage */}
+      {/* Ultra-Premium Connection Stage */}
       {paymentStage === 'connect' && selectedDevice && (
         <div className="px-4 relative z-10">
           <div className="space-y-6">
@@ -649,91 +781,105 @@ export default function OfflinePayments() {
                   </div>
                   
                   <h3 className="text-xl font-bold text-white bg-gradient-to-r from-white via-green-100 to-white bg-clip-text text-transparent mb-3">
-                    Connected
+                    {connectionStatus === 'connecting' ? 'Connecting...' : 'Connected'}
                   </h3>
                   <p className="text-white/60 text-sm font-medium mb-2">
-                    Securely connected to {selectedDevice.name}
+                    {connectionStatus === 'connecting' 
+                      ? `Establishing secure connection with ${selectedDevice.name}` 
+                      : `Securely connected to ${selectedDevice.name}`
+                    }
                   </p>
                   <p className="text-green-300 text-xs font-semibold">
                     End-to-end encrypted • {selectedDevice.encryption}
                   </p>
+                  
+                  {connectionStatus === 'connecting' && (
+                    <div className="flex justify-center space-x-3 mt-6">
+                      <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-green-500 rounded-full animate-bounce shadow-lg shadow-green-500/50" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-bounce shadow-lg shadow-blue-500/50" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-green-500 rounded-full animate-bounce shadow-lg shadow-green-500/50" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
 
-            {/* Payment Amount Input */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-lg" />
-              
-              <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
-                <CardContent className="p-6">
-                  <h4 className="text-lg font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent mb-6">
-                    Enter Payment Amount
-                  </h4>
-                  
-                  {/* Amount Input */}
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-blue-500/10 rounded-xl blur-md" />
-                      <div className="relative flex items-center">
-                        <span className="text-2xl font-bold text-white/80 mr-2">₹</span>
+            {/* Payment Amount Input - Only show when connected */}
+            {connectionStatus === 'connected' && (
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-lg" />
+                
+                <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
+                  <CardContent className="p-6">
+                    <h4 className="text-lg font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent mb-6">
+                      Enter Payment Amount
+                    </h4>
+                    
+                    {/* Amount Input */}
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-blue-500/10 rounded-xl blur-md" />
+                        <div className="relative flex items-center">
+                          <span className="text-2xl font-bold text-white/80 mr-2">₹</span>
+                          <Input
+                            type="number"
+                            placeholder="0.00"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className="flex-1 text-2xl font-bold bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 backdrop-blur-xl focus:bg-white/15 focus:border-blue-500/40 transition-all duration-300"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Quick Amount Buttons */}
+                      <div className="grid grid-cols-4 gap-2">
+                        {[100, 500, 1000, 2000].map((quickAmount) => (
+                          <Button
+                            key={quickAmount}
+                            variant="ghost"
+                            onClick={() => setAmount(quickAmount.toString())}
+                            className="h-10 rounded-xl bg-white/10 border border-white/15 text-white/80 hover:bg-white/15 hover:border-white/25 transition-all duration-300 font-semibold"
+                          >
+                            ₹{quickAmount}
+                          </Button>
+                        ))}
+                      </div>
+                      
+                      {/* Payment Note */}
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-purple-500/5 rounded-xl blur-md" />
                         <Input
-                          type="number"
-                          placeholder="0.00"
-                          value={amount}
-                          onChange={(e) => setAmount(e.target.value)}
-                          className="flex-1 text-2xl font-bold bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 backdrop-blur-xl focus:bg-white/15 focus:border-blue-500/40 transition-all duration-300"
+                          placeholder="Add a note (optional)"
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                          className="relative bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 backdrop-blur-xl focus:bg-white/15 focus:border-purple-500/40 transition-all duration-300"
                         />
                       </div>
                     </div>
                     
-                    {/* Quick Amount Buttons */}
-                    <div className="grid grid-cols-4 gap-2">
-                      {[100, 500, 1000, 2000].map((quickAmount) => (
-                        <Button
-                          key={quickAmount}
-                          variant="ghost"
-                          onClick={() => setAmount(quickAmount.toString())}
-                          className="h-10 rounded-xl bg-white/10 border border-white/15 text-white/80 hover:bg-white/15 hover:border-white/25 transition-all duration-300 font-semibold"
-                        >
-                          ₹{quickAmount}
-                        </Button>
-                      ))}
-                    </div>
-                    
-                    {/* Payment Note */}
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-purple-500/5 rounded-xl blur-md" />
-                      <Input
-                        placeholder="Add a note (optional)"
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        className="relative bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 backdrop-blur-xl focus:bg-white/15 focus:border-purple-500/40 transition-all duration-300"
-                      />
-                    </div>
-                  </div>
-                  
-                  {/* Send Payment Button */}
-                  <div className="mt-8">
-                    <SwipeToSend
-                      onComplete={() => {
-                        if (amount && parseFloat(amount) > 0) {
-                          setPaymentStage('pin');
-                          setShowPinEntry(true);
+                    {/* Send Payment Button */}
+                    <div className="mt-8">
+                      <SwipeToSend
+                        onComplete={() => {
+                          if (amount && parseFloat(amount) > 0) {
+                            setPaymentStage('pin');
+                            setShowPinEntry(true);
+                          }
+                        }}
+                        disabled={!amount || parseFloat(amount) <= 0}
+                        className="w-full"
+                        variant="primary"
+                      >
+                        {!amount || parseFloat(amount) <= 0 
+                          ? 'Enter amount to continue' 
+                          : `Swipe to send ₹${amount}`
                         }
-                      }}
-                      disabled={!amount || parseFloat(amount) <= 0}
-                      variant="primary"
-                      text={!amount || parseFloat(amount) <= 0 
-                        ? 'Enter amount to continue' 
-                        : `Swipe to send ₹${amount}`
-                      }
-                      className="w-full"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                      </SwipeToSend>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -744,7 +890,9 @@ export default function OfflinePayments() {
           onComplete={(pin) => {
             setShowPinEntry(false);
             setPaymentStage('processing');
+            // Generate transaction ID
             setTransactionId(`TXN${Date.now()}`);
+            // Simulate processing delay
             setTimeout(() => {
               setPaymentStage('success');
             }, 3000);
@@ -819,6 +967,188 @@ export default function OfflinePayments() {
       <div className="relative z-10">
         <BottomNavigation activeTab="offline" />
       </div>
+    </div>
+  );
+} 
+                                      style={{ color: device.deviceColor }}
+                                    />
+                                  </div>
+                                  
+                                  {/* Connection status indicator */}
+                                  {connectionStatus === 'connecting' && selectedDevice?.id === device.id && (
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full border-2 border-white/20 flex items-center justify-center">
+                                      <Loader2 className="w-3 h-3 text-white animate-spin" />
+                                    </div>
+                                  )}
+                                  
+                                  {connectionStatus === 'connected' && selectedDevice?.id === device.id && (
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white/20 flex items-center justify-center">
+                                      <CheckCircle className="w-3 h-3 text-white" />
+                                    </div>
+                                  )}
+                                </div>
+                                
+                                {/* Device Details */}
+                                <div className="flex-1">
+                                  <div className="flex items-center space-x-2 mb-1">
+                                    <h4 className="text-white font-semibold text-sm">{device.name}</h4>
+                                    {device.verified && (
+                                      <Shield className="w-4 h-4 text-green-400" />
+                                    )}
+                                    {device.trustLevel === 'verified' && (
+                                      <Star className="w-3 h-3 text-yellow-400" />
+                                    )}
+                                  </div>
+                                  
+                                  <div className="flex items-center space-x-3 text-xs">
+                                    <span className="text-white/60 font-medium">{device.model}</span>
+                                    <span className="text-white/40">•</span>
+                                    <span className="text-white/60">{device.distance}</span>
+                                    <span className="text-white/40">•</span>
+                                    <span className="text-white/60">{device.lastSeen}</span>
+                                  </div>
+                                  
+                                  {/* UPI ID */}
+                                  {isAdvancedMode && (
+                                    <div className="mt-2">
+                                      <span className="text-xs text-blue-300 font-medium bg-blue-500/10 px-2 py-1 rounded-lg border border-blue-500/20">
+                                        {device.upiId}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              {/* Device Status Indicators */}
+                              <div className="flex flex-col items-end space-y-2">
+                                {/* Signal Strength */}
+                                <div className="flex items-center space-x-1">
+                                  <Signal 
+                                    className="w-4 h-4" 
+                                    style={{ color: signalColor }}
+                                  />
+                                  <span 
+                                    className="text-xs font-semibold"
+                                    style={{ color: signalColor }}
+                                  >
+                                    {device.signal}%
+                                  </span>
+                                </div>
+                                
+                                {/* Battery Level (for mobile devices) */}
+                                {device.type !== 'POS' && (
+                                  <div className="flex items-center space-x-1">
+                                    <Battery className="w-4 h-4 text-white/60" />
+                                    <span className="text-xs text-white/60 font-medium">
+                                      {device.battery}%
+                                    </span>
+                                  </div>
+                                )}
+                                
+                                {/* Trust Level */}
+                                <div className="flex items-center space-x-1">
+                                  <div 
+                                    className="w-2 h-2 rounded-full"
+                                    style={{ backgroundColor: trustColor }}
+                                  />
+                                  <span 
+                                    className="text-xs font-medium capitalize"
+                                    style={{ color: trustColor }}
+                                  >
+                                    {device.trustLevel}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* Advanced Device Info */}
+                            {isAdvancedMode && (
+                              <div className="mt-4 pt-4 border-t border-white/10">
+                                <div className="grid grid-cols-2 gap-4 text-xs">
+                                  <div>
+                                    <span className="text-white/40 font-medium">Encryption</span>
+                                    <p className="text-green-300 font-semibold">{device.encryption}</p>
+                                  </div>
+                                  <div>
+                                    <span className="text-white/40 font-medium">Transactions</span>
+                                    <p className="text-blue-300 font-semibold">{device.transactionHistory}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Payment Ready Indicator */}
+                            {device.paymentReady && (
+                              <div className="mt-3 flex items-center justify-center">
+                                <div className="flex items-center space-x-2 px-3 py-1 bg-green-500/15 border border-green-500/25 rounded-full">
+                                  <Zap className="w-3 h-3 text-green-400" />
+                                  <span className="text-xs text-green-300 font-medium">Payment Ready</span>
+                                </div>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* No Bluetooth Enabled Message */}
+          {!isBluetoothEnabled && (
+            <div className="text-center py-16">
+              <div className="relative w-20 h-20 mx-auto mb-4">
+                <div className="absolute inset-0 bg-gray-500/20 rounded-full blur-md" />
+                <div className="relative w-full h-full rounded-full bg-gray-700/30 border border-gray-600/30 flex items-center justify-center">
+                  <Bluetooth className="w-10 h-10 text-gray-400" />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-white/80 mb-2">Bluetooth Required</h3>
+              <p className="text-white/60 text-sm">Enable Bluetooth to discover nearby payment devices</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Payment Success Stage */}
+      {paymentStage === 'success' && (
+        <div className="px-4 py-8 text-center relative z-10">
+          <div className="relative mb-8">
+            {/* Success animation */}
+            <div className="relative w-32 h-32 mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-full blur-xl animate-pulse" />
+              <div className="relative w-full h-full rounded-full bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-xl border border-green-500/30 flex items-center justify-center shadow-2xl shadow-green-500/25">
+                <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-xl flex items-center justify-center">
+                  <div className="w-12 h-12 text-green-300">✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h2 className="text-2xl font-bold text-white bg-gradient-to-r from-white via-green-100 to-white bg-clip-text text-transparent mb-4">
+            Payment Successful!
+          </h2>
+          <p className="text-white/60 text-sm mb-8">
+            Offline payment completed successfully
+          </p>
+          
+          <div className="space-y-4">
+            <SwipeToSend
+              onComplete={() => {
+                setPaymentStage('discovery');
+                setSelectedDevice(null);
+              }}
+              text="Swipe for Another Payment"
+              variant="glass"
+              size="medium"
+            />
+          </div>
+        </div>
+      )}
+
+      <BottomNavigation activeTab="offline" />
     </div>
   );
 }
