@@ -267,17 +267,15 @@ export default function OfflinePayments() {
         
         {/* Grid overlay */}
         <div className="absolute inset-0 opacity-5">
-          <div 
-            className="w-full h-full" 
-            style={{
-              backgroundImage: `
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-              `,
-              backgroundSize: '50px 50px'
-            }}
-          />
+          <div className="h-full w-full" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }} />
         </div>
+        
+        {/* Subtle light rays */}
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
+        <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-purple-500/20 to-transparent" />
       </div>
 
       {/* Ultra-Premium Apple Pay Style Header */}
@@ -350,37 +348,36 @@ export default function OfflinePayments() {
                   }`} />
                   <Button
                     onClick={handleBluetoothToggle}
-                    className={`relative h-12 px-6 rounded-xl font-semibold backdrop-blur-xl border transition-all duration-300 hover:scale-105 ${
+                    className={`relative h-12 px-6 rounded-xl backdrop-blur-xl border transition-all duration-300 hover:scale-105 ${
                       isBluetoothEnabled 
                         ? 'bg-red-500/15 border-red-500/30 text-red-300 hover:bg-red-500/20' 
                         : 'bg-blue-500/15 border-blue-500/30 text-blue-300 hover:bg-blue-500/20'
                     }`}
                   >
-                    {isBluetoothEnabled ? 'Disconnect' : 'Enable Bluetooth'}
+                    {isBluetoothEnabled ? 'Disable' : 'Enable'}
                   </Button>
                 </div>
               </div>
-              
-              {/* Connection Status Indicators */}
+            
               {isBluetoothEnabled && (
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/10">
                   <div className="text-center">
                     <div className="relative">
                       <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-md" />
                       <div className="relative w-10 h-10 mx-auto mb-3 rounded-full bg-blue-500/15 backdrop-blur-xl border border-blue-500/25 flex items-center justify-center">
-                        <Signal className="w-5 h-5 text-blue-300" />
+                        <ApplePaySecuritySVG className="w-5 h-5 text-blue-300" />
                       </div>
                     </div>
-                    <p className="text-xs text-white/60 font-medium">Strong Signal</p>
+                    <p className="text-xs text-white/60 font-medium">Encrypted</p>
                   </div>
                   <div className="text-center">
                     <div className="relative">
                       <div className="absolute inset-0 bg-green-500/20 rounded-full blur-md" />
                       <div className="relative w-10 h-10 mx-auto mb-3 rounded-full bg-green-500/15 backdrop-blur-xl border border-green-500/25 flex items-center justify-center">
-                        <ApplePaySecuritySVG className="w-5 h-5 text-green-300" />
+                        <Signal className="w-5 h-5 text-green-300" />
                       </div>
                     </div>
-                    <p className="text-xs text-white/60 font-medium">Secure Connection</p>
+                    <p className="text-xs text-white/60 font-medium">Strong Signal</p>
                   </div>
                   <div className="text-center">
                     <div className="relative">
