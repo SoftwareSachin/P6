@@ -469,6 +469,127 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Enhanced offline payment routes for new features
+  app.post('/api/offline/sms/send', async (req: any, res) => {
+    try {
+      const { recipient, message, transactionId } = req.body;
+      
+      if (!recipient || !message || !transactionId) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // In a real implementation, integrate with SMS API like Twilio
+      console.log(`SMS Fallback: Sending to ${recipient}: ${message}`);
+      
+      res.json({
+        success: true,
+        messageId: `SMS_${Date.now()}`,
+        message: "SMS sent successfully via fallback"
+      });
+    } catch (error) {
+      console.error("Error sending SMS:", error);
+      res.status(500).json({ message: "Failed to send SMS" });
+    }
+  });
+
+  app.post('/api/offline/sync/transaction', async (req: any, res) => {
+    try {
+      const transactionData = req.body;
+      
+      if (!transactionData.id || !transactionData.amount || !transactionData.signature) {
+        return res.status(400).json({ message: "Invalid transaction data" });
+      }
+
+      // Verify cryptographic signature (simplified verification)
+      if (!transactionData.signature.startsWith('SIG_')) {
+        return res.status(400).json({ message: "Invalid transaction signature" });
+      }
+
+      // Store the synchronized transaction
+      const syncedTransaction = {
+        userId: mockUser.id,
+        merchantName: transactionData.recipient || "Offline Payment",
+        amount: transactionData.amount.toString(),
+        type: 'debit' as const,
+        category: 'offline_payment' as const,
+        status: 'completed' as const,
+        note: `Synced from local ledger - ID: ${transactionData.id}`,
+        transactionId: transactionData.id,
+        isOffline: true,
+      };
+
+      const transaction = await storage.createTransaction(syncedTransaction);
+      
+      res.json({
+        success: true,
+        transaction,
+        message: "Transaction synchronized successfully"
+      });
+    } catch (error) {
+      console.error("Error syncing transaction:", error);
+      res.status(500).json({ message: "Failed to sync transaction" });
+    }
+  });
+
+  app.get('/api/offline/mesh/discover', async (req: any, res) => {
+    try {
+      // Simulate mesh network discovery
+      const meshNodes = [
+        {
+          id: 'MESH_HUB_001',
+          name: 'OPPB Payment Hub',
+          type: 'hub',
+          distance: '3m',
+          signal_strength: 95,
+          capabilities: ['relay', 'payment_processing', 'sync'],
+          connected_devices: 12
+        },
+        {
+          id: 'MESH_RELAY_001',
+          name: 'Local Relay Node',
+          type: 'relay',
+          distance: '5m',
+          signal_strength: 88,
+          capabilities: ['relay', 'message_forwarding'],
+          connected_devices: 8
+        },
+        {
+          id: 'MESH_STORE_001',
+          name: 'Merchant Terminal',
+          type: 'merchant',
+          distance: '2m',
+          signal_strength: 92,
+          capabilities: ['payment_acceptance', 'receipt_generation'],
+          connected_devices: 3
+        }
+      ];
+
+      res.json(meshNodes);
+    } catch (error) {
+      console.error("Error discovering mesh network:", error);
+      res.status(500).json({ message: "Failed to discover mesh network" });
+    }
+  });
+
+  app.post('/api/offline/fraud/report', async (req: any, res) => {
+    try {
+      const { deviceId, suspiciousActivity, transactionIds } = req.body;
+      
+      // Log fraud detection for review
+      console.log(`Fraud Alert: Device ${deviceId} reported ${suspiciousActivity}`);
+      console.log(`Related transactions: ${transactionIds?.join(', ')}`);
+      
+      res.json({
+        success: true,
+        alertId: `FRAUD_${Date.now()}`,
+        message: "Fraud alert reported and will be reviewed"
+      });
+    } catch (error) {
+      console.error("Error reporting fraud:", error);
+      res.status(500).json({ message: "Failed to report fraud" });
+    }
+  });
+
   // PWA-specific routes
   app.get('/manifest.json', (req, res) => {
     res.setHeader('Content-Type', 'application/manifest+json');

@@ -1,0 +1,31 @@
+Offline‑First Transactions
+OPPB lets users authorize and record payments entirely on their devices, even when UPI or internet connectivity is unavailable. As soon as a payer and payee confirm an amount—using a simple “Send” or “Receive” prompt—the app generates an on‑screen digital receipt and logs the transaction to a local, encrypted ledger. This ensures no transaction stalls mid‑payment, and customers and merchants gain instant confirmation.
+
+Hybrid Connectivity (Mesh + SMS Fallback)
+When smartphones can’t reach the internet, OPPB’s mesh‑networking mode kicks in: devices automatically form a peer‑to‑peer web over Wi‑Fi Direct or Bluetooth, allowing rapid, secure data exchange across a marketplace or shop floor. In regions with patchy or no data service, the platform seamlessly switches to SMS fallback—sending only essential details (amount, payer/payee IDs, OTP) as compact text messages over the cellular network. Together, these two modes guarantee near‑universal payment reach.
+
+Decentralized Ledger with Cryptographic Integrity
+Each participating device keeps its own append‑only record of completed transactions. Every entry is signed by both parties using cryptographic keys, creating an immutable “receipt” that cannot be altered without detection. This decentralized approach means even if one device is lost or data is delayed, other nodes still hold a verifiable copy of the transaction history. Upon re‑connection, all signed entries are reconciled with bank servers, preserving over 85 % transaction integrity before central settlement.
+
+Secure Dual‑Factor Authentication & Fraud Alerts
+To prevent misuse during offline operations, OPPB requires a second layer of verification—either an SMS‑delivered OTP or, where hardware permits, a fingerprint scan. Meanwhile, lightweight on‑device analytics watch for unusual behavior (e.g., multiple high‑value transfers in quick succession) and flag such payments for bank review once the deferred sync runs. This ensures that security remains robust even without real‑time oversight.
+
+Inclusive, Icon‑Driven Multilingual UX
+Recognizing diverse literacy levels across India, OPPB’s interface relies on large, clearly labeled icons for core actions (“Send,” “Receive,” “Sync”) and minimal text. Built‑in audio prompts in regional languages walk users through each step, ensuring that farmers in remote villages and urban shopkeepers alike can complete digital transactions without confusion. This inclusive design drives high adoption and reduces training needs on the ground.
+
+
+
+
+
+
+
+
+
+Ask ChatGPT
+
+
+
+
+Reason
+
+
