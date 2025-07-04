@@ -81,10 +81,14 @@ export default function SendMoney() {
 
     // Handle transit bookings
     if (booking === 'transit') {
+      console.log('🎯 Transit booking detected in URL');
       const pendingBooking = localStorage.getItem('pendingBooking');
+      console.log('📦 Pending booking from localStorage:', pendingBooking);
+      
       if (pendingBooking) {
         try {
           const bookingInfo = JSON.parse(pendingBooking);
+          console.log('✅ Parsed booking info:', bookingInfo);
           
           // Create a merchant contact for the transit service
           const transitMerchant = {
@@ -107,12 +111,15 @@ export default function SendMoney() {
           setNote(bookingInfo.note);
           
           console.log('🚌 Pre-filled transit booking:', bookingInfo.description);
+          console.log('🏁 Set contact and moved to amount step');
           
           // Clean up localStorage
           localStorage.removeItem('pendingBooking');
         } catch (error) {
-          console.error('Error parsing booking information:', error);
+          console.error('❌ Error parsing booking information:', error);
         }
+      } else {
+        console.log('⚠️ No pending booking found in localStorage');
       }
     }
   }, [location]);

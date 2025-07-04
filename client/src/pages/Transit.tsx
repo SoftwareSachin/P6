@@ -132,6 +132,8 @@ export default function Transit() {
   };
 
   const handleBookNow = (route: TransitRoute) => {
+    console.log('🚌 Book Now button clicked for route:', route);
+    
     // Store booking information in localStorage for transfer to SendMoney page
     const bookingInfo = {
       type: 'transit_booking',
@@ -144,7 +146,8 @@ export default function Transit() {
     };
     
     localStorage.setItem('pendingBooking', JSON.stringify(bookingInfo));
-    console.log(`📋 Booking ${route.routeName} for ₹${route.fare}`);
+    console.log(`📋 Booking stored:`, bookingInfo);
+    console.log(`🔄 Navigating to send money page...`);
     
     // Navigate to send money page
     setLocation('/send-money?booking=transit');
