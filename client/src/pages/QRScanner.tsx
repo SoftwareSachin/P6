@@ -353,6 +353,33 @@ export default function QRScanner() {
         </div>
       )}
 
+      {/* PIN Entry Stage */}
+      {scanningStage === 'pin' && (
+        <div className="flex-1 px-6 py-8">
+          <Card className="apple-pay-card mb-6 border-0">
+            <CardContent className="p-6">
+              <div className="text-center space-y-6">
+                <div className="w-16 h-16 mx-auto apple-pay-gradient rounded-full flex items-center justify-center mb-4">
+                  <Lock className="w-8 h-8 text-white" />
+                </div>
+                
+                <h2 className="text-2xl font-bold text-white">Enter PIN</h2>
+                <p className="text-gray-400">Please enter your 4-digit PIN to complete the payment</p>
+                
+                <div className="space-y-4">
+                  <p className="text-xl text-white">₹{amount} to {detectedMerchant.name}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <PinEntry 
+            onComplete={handlePinComplete}
+            onCancel={() => setScanningStage('amount')}
+          />
+        </div>
+      )}
+
       {/* Payment Processing Stage */}
       {scanningStage === 'processing' && (
         <div className="flex-1 flex flex-col items-center justify-center px-6">
