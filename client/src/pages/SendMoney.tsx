@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Search, Phone, Mail, Plus, Check, X, Star, Clock, Shield, Zap, AlertCircle, Users, Hash } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayPhoneSVG, ApplePaySecuritySVG, ApplePayBiometricSVG, ApplePayWalletSVG } from "@/components/ApplePaySVGs";
 import { PremiumFavoritesSVG, PremiumStarSVG } from "@/components/PremiumSVGs";
 import { BottomNavigation } from "@/components/BottomNavigation";
@@ -14,6 +14,7 @@ import authGif from "@assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif
 import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
 
 export default function SendMoney() {
+  const [location] = useLocation();
   const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'processing' | 'success'>('contacts');
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [amount, setAmount] = useState("");
@@ -37,6 +38,41 @@ export default function SendMoney() {
   const [showSmartSuggestions, setShowSmartSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceTimer = useRef<NodeJS.Timeout>();
+
+  // Handle URL parameters from offline payments
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const deviceId = urlParams.get('deviceId');
+    const deviceName = urlParams.get('deviceName');
+    const ownerName = urlParams.get('ownerName');
+    const ownerPhone = urlParams.get('ownerPhone');
+
+    if (deviceId && deviceName && ownerName && ownerPhone) {
+      // Create a contact from the device information
+      const deviceContact = {
+        id: 'offline-device-' + deviceId,
+        name: ownerName,
+        phone: ownerPhone,
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${ownerName}`,
+        upiId: `${ownerName.toLowerCase().replace(/\s+/g, '')}@upi`,
+        favorite: false,
+        lastTransaction: 'New contact',
+        verified: true,
+        deviceInfo: {
+          deviceId,
+          deviceName,
+          isOfflineDevice: true
+        }
+      };
+
+      // Auto-select this contact and move to amount step
+      setSelectedContact(deviceContact);
+      setStep('amount');
+      setNote(`Payment via ${deviceName}`);
+      
+      console.log('📱 Pre-filled contact from offline device:', ownerName);
+    }
+  }, [location]);
 
   const allContacts = [
     {

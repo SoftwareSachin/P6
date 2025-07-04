@@ -131,7 +131,7 @@ export default function OfflinePayments() {
 
   const handleSendPayment = () => {
     // Navigate to send money page with device details pre-filled
-    setLocation(`/send?deviceId=${selectedDevice.deviceId}&deviceName=${encodeURIComponent(selectedDevice.name)}&ownerName=${encodeURIComponent(selectedDevice.ownerName)}&ownerPhone=${selectedDevice.ownerPhone}`);
+    setLocation(`/send-money?deviceId=${selectedDevice.deviceId}&deviceName=${encodeURIComponent(selectedDevice.name)}&ownerName=${encodeURIComponent(selectedDevice.ownerName)}&ownerPhone=${selectedDevice.ownerPhone}`);
   };
 
   const formatOTPInput = (value: string) => {
@@ -644,7 +644,10 @@ export default function OfflinePayments() {
                 <div className="space-y-4">
                   {otpVerified && (
                     <Button
-                      onClick={handleSendPayment}
+                      onClick={() => {
+                        console.log('🚀 Navigating to send money with device details:', selectedDevice.ownerName);
+                        handleSendPayment();
+                      }}
                       className="w-full h-16 bg-gradient-to-r from-green-500 via-emerald-500 to-green-500 hover:from-green-600 hover:via-emerald-600 hover:to-green-600 text-white font-bold text-lg rounded-2xl border-0 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300"
                     >
                       <Send className="w-6 h-6 mr-3" />
