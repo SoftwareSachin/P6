@@ -12,6 +12,7 @@ import { BottomNavigation } from "@/components/BottomNavigation";
 import { SwipeToSend } from "@/components/SwipeToSend";
 import authGif from "@assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif";
 import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
+import paymentSuccessGif from "@assets/fetchpik.com-iconscout-60g2uAl8pR_1751646875317.gif";
 
 export default function SendMoney() {
   const [location, setLocation] = useLocation();
@@ -1289,10 +1290,13 @@ export default function SendMoney() {
         <div className="flex-1 flex flex-col items-center justify-center px-6">
           <div className="text-center space-y-6">
             {/* Success Animation */}
-            <div className="w-32 h-32 mx-auto mb-8 rounded-full apple-pay-gradient flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center">
-                <ApplePaySendMoneySVG className="w-12 h-12 text-white animate-pulse" />
-              </div>
+            <div className="w-48 h-48 mx-auto mb-8 flex items-center justify-center">
+              <img 
+                src={paymentSuccessGif} 
+                alt="Payment Success"
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
             </div>
             
             <h2 className="text-3xl font-bold text-white drop-shadow-lg">Money Sent!</h2>
