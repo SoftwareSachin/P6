@@ -113,6 +113,43 @@ export default function Transit() {
 
   const [, setLocation] = useLocation();
 
+  const handleTopUp = () => {
+    const selectedTransitPass = transitPasses[selectedPass];
+    if (selectedTransitPass) {
+      const topUpAmount = 100; // ₹100 top up
+      setTransitPasses(prev => prev.map(pass => 
+        pass.id === selectedTransitPass.id 
+          ? { ...pass, balance: pass.balance + topUpAmount, status: "active" as const }
+          : pass
+      ));
+      console.log(`Topped up ₹${topUpAmount} to ${selectedTransitPass.name}`);
+    }
+  };
+
+  const handlePlanRoute = () => {
+    console.log('Planning route with smart recommendations');
+    // In a real app, this would open route planning interface
+  };
+
+  const handleBookNow = (route: TransitRoute) => {
+    // Store booking information in localStorage for transfer to SendMoney page
+    const bookingInfo = {
+      type: 'transit_booking',
+      route: route,
+      merchantName: `${route.type === 'metro' ? 'Metro' : 'Bus'} Service`,
+      merchantId: `transit_${route.type}_${route.id}`,
+      description: `${route.routeName} - ${route.from} to ${route.to}`,
+      amount: route.fare.toString(),
+      note: `Transit booking for ${route.routeName} (${route.from} → ${route.to})`
+    };
+    
+    localStorage.setItem('pendingBooking', JSON.stringify(bookingInfo));
+    console.log(`📋 Booking ${route.routeName} for ₹${route.fare}`);
+    
+    // Navigate to send money page
+    setLocation('/send-money?booking=transit');
+  };
+
   const quickActions = [
     {
       id: 1,
@@ -151,24 +188,6 @@ export default function Transit() {
       animated: true
     }
   ];
-
-  const handleTopUp = () => {
-    const selectedTransitPass = transitPasses[selectedPass];
-    if (selectedTransitPass) {
-      const topUpAmount = 100; // ₹100 top up
-      setTransitPasses(prev => prev.map(pass => 
-        pass.id === selectedTransitPass.id 
-          ? { ...pass, balance: pass.balance + topUpAmount, status: "active" as const }
-          : pass
-      ));
-      console.log(`Topped up ₹${topUpAmount} to ${selectedTransitPass.name}`);
-    }
-  };
-
-  const handlePlanRoute = () => {
-    console.log('Planning route with smart recommendations');
-    // In a real app, this would open route planning interface
-  };
 
   const handleAddPass = async () => {
     setIsAddingPass(true);
@@ -674,6 +693,7 @@ export default function Transit() {
                         <div className="pt-2">
                           <Button
                             size="sm"
+                            onClick={() => handleBookNow(route)}
                             className="h-10 px-8 rounded-2xl font-bold transition-all duration-300 hover:scale-105 border-0 w-full"
                             style={{
                               background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',

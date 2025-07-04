@@ -43,14 +43,16 @@ export default function SendMoney() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceTimer = useRef<NodeJS.Timeout>();
 
-  // Handle URL parameters from offline payments
+  // Handle URL parameters from offline payments and transit bookings
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const deviceId = urlParams.get('deviceId');
     const deviceName = urlParams.get('deviceName');
     const ownerName = urlParams.get('ownerName');
     const ownerPhone = urlParams.get('ownerPhone');
+    const booking = urlParams.get('booking');
 
+    // Handle offline payments
     if (deviceId && deviceName && ownerName && ownerPhone) {
       // Create a contact from the device information
       const deviceContact = {
@@ -75,6 +77,43 @@ export default function SendMoney() {
       setNote(`Payment via ${deviceName}`);
       
       console.log('📱 Pre-filled contact from offline device:', ownerName);
+    }
+
+    // Handle transit bookings
+    if (booking === 'transit') {
+      const pendingBooking = localStorage.getItem('pendingBooking');
+      if (pendingBooking) {
+        try {
+          const bookingInfo = JSON.parse(pendingBooking);
+          
+          // Create a merchant contact for the transit service
+          const transitMerchant = {
+            id: bookingInfo.merchantId,
+            name: bookingInfo.merchantName,
+            phone: '+91 1800 TRANSIT',
+            avatar: `https://api.dicebear.com/7.x/shapes/svg?seed=${bookingInfo.merchantName}`,
+            upiId: `${bookingInfo.merchantId}@merchant`,
+            favorite: false,
+            lastTransaction: 'Transit booking',
+            verified: true,
+            isTransitMerchant: true,
+            bookingInfo: bookingInfo
+          };
+
+          // Auto-select this merchant and move to amount step
+          setSelectedContact(transitMerchant);
+          setStep('amount');
+          setAmount(bookingInfo.amount);
+          setNote(bookingInfo.note);
+          
+          console.log('🚌 Pre-filled transit booking:', bookingInfo.description);
+          
+          // Clean up localStorage
+          localStorage.removeItem('pendingBooking');
+        } catch (error) {
+          console.error('Error parsing booking information:', error);
+        }
+      }
     }
   }, [location]);
 
