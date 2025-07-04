@@ -331,10 +331,10 @@ export default function Transit() {
 
                   <CardContent className="p-8 h-60 relative overflow-hidden">
                     {/* Ultra-Premium Header */}
-                    <div className="flex justify-between items-start mb-8">
-                      <div className="flex items-center space-x-4">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center space-x-4 flex-1 min-w-0">
                         <div 
-                          className="w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-lg"
+                          className="w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-lg flex-shrink-0"
                           style={{
                             background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 100%)',
                             border: '1.5px solid rgba(255,255,255,0.4)',
@@ -343,9 +343,13 @@ export default function Transit() {
                         >
                           <pass.IconComponent className="w-10 h-10 text-white drop-shadow-lg" animated={isSelected} />
                         </div>
-                        <div>
-                          <p className="text-white font-black text-xl tracking-tight drop-shadow-lg">{pass.type}</p>
-                          <p className="text-white/90 text-sm font-semibold drop-shadow-sm">{pass.name}</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-black text-xl tracking-tight drop-shadow-lg truncate" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+                            {pass.type}
+                          </p>
+                          <p className="text-white/90 text-sm font-semibold drop-shadow-sm truncate">
+                            {pass.name}
+                          </p>
                         </div>
                       </div>
                       <Badge
@@ -369,18 +373,19 @@ export default function Transit() {
                     </div>
 
                     {/* Ultra-Premium Balance Display */}
-                    <div className="space-y-2 mb-6">
+                    <div className="space-y-3 mb-6">
                       <p className="text-white/80 text-xs font-semibold tracking-wide drop-shadow-sm uppercase">Current Balance</p>
                       <div className="relative">
                         <p 
-                          className="text-white text-3xl font-black tracking-tight drop-shadow-lg"
+                          className="text-white text-4xl font-black tracking-tight drop-shadow-lg"
                           style={{
                             textShadow: '0 3px 12px rgba(0,0,0,0.4), 0 0 24px rgba(255,255,255,0.15)',
                             fontFeatureSettings: '"tnum" 1',
                             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent'
+                            WebkitTextFillColor: 'transparent',
+                            fontFamily: 'SF Pro Display, system-ui'
                           }}
                         >
                           ₹{pass.balance.toFixed(2)}
@@ -389,6 +394,7 @@ export default function Transit() {
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-shimmer" />
                         )}
                       </div>
+                      <p className="text-white/70 text-xs font-medium drop-shadow-sm">Dec 31, 2025</p>
                     </div>
 
                     {/* Ultra-Premium Footer */}
@@ -397,11 +403,32 @@ export default function Transit() {
                         <p className="text-white/70 text-xs font-semibold tracking-wider uppercase drop-shadow-sm">Valid Until</p>
                         <p className="text-white text-sm font-bold drop-shadow-sm">{pass.validUntil}</p>
                       </div>
-                      {isSelected && (
+                      {isSelected ? (
                         <div className="flex items-center space-x-2">
                           <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse drop-shadow-lg" />
                           <span className="text-green-300 text-xs font-black drop-shadow-sm">SELECTED</span>
                         </div>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="h-8 px-4 rounded-xl font-bold text-xs border-0 transition-all duration-300 hover:scale-105"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%)',
+                            backdropFilter: 'blur(20px)',
+                            WebkitBackdropFilter: 'blur(20px)',
+                            border: '1px solid rgba(255,255,255,0.4)',
+                            boxShadow: `
+                              0 4px 12px rgba(0,0,0,0.2), 
+                              inset 0 1px 2px rgba(255,255,255,0.3), 
+                              inset 0 -1px 2px rgba(0,0,0,0.1)
+                            `,
+                            color: 'white',
+                            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                          }}
+                          onClick={() => setSelectedPass(pass.id)}
+                        >
+                          SELECT
+                        </Button>
                       )}
                     </div>
 
