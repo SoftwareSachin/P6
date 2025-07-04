@@ -274,11 +274,11 @@ export default function Merchants() {
                   </div>
 
                   {/* Merchant Info */}
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1 space-y-3">
                     <div className="flex items-start justify-between">
-                      <div className="space-y-2">
+                      <div className="space-y-1">
                         <h3 
-                          className="text-xl font-bold text-white leading-tight tracking-tight"
+                          className="text-lg font-bold text-white leading-tight tracking-tight"
                           style={{ 
                             fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
                             textShadow: '0 1px 2px rgba(0,0,0,0.3)'
@@ -286,34 +286,15 @@ export default function Merchants() {
                         >
                           {merchant.name}
                         </h3>
-                        <div className="flex items-center space-x-3">
-                          <p 
-                            className="text-sm font-medium text-gray-300"
-                            style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
-                          >
-                            {merchant.category}
-                          </p>
-                          <div className="flex items-center space-x-1">
-                            {merchant.isOpen ? (
-                              <OpenStatusSVG className="w-4 h-4" />
-                            ) : (
-                              <ClosedStatusSVG className="w-4 h-4" />
-                            )}
-                            <Badge
-                              className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                                merchant.isOpen 
-                                  ? 'bg-green-500/20 text-green-400 border border-green-400/30' 
-                                  : 'bg-red-500/20 text-red-400 border border-red-400/30'
-                              }`}
-                              style={{ fontFamily: 'SF Pro Text, system-ui' }}
-                            >
-                              {merchant.isOpen ? 'Open' : 'Closed'}
-                            </Badge>
-                          </div>
-                        </div>
+                        <p 
+                          className="text-sm font-medium text-gray-300"
+                          style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                        >
+                          {merchant.category}
+                        </p>
                       </div>
-                      <div className="text-right">
-                        <div className="flex items-center space-x-1 mb-1">
+                      <div className="text-right flex flex-col items-end space-y-1">
+                        <div className="flex items-center space-x-1">
                           <PremiumStarSVG className="h-4 w-4" filled={true} />
                           <span className="text-sm font-medium text-white" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
                             {merchant.rating}
@@ -325,20 +306,39 @@ export default function Merchants() {
                       </div>
                     </div>
 
-                    {/* Address & Time */}
-                    <div className="flex items-center space-x-4 text-sm text-gray-400">
+                    {/* Status and Address Row */}
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{merchant.address}</span>
+                        {merchant.isOpen ? (
+                          <OpenStatusSVG className="w-4 h-4" />
+                        ) : (
+                          <ClosedStatusSVG className="w-4 h-4" />
+                        )}
+                        <Badge
+                          className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                            merchant.isOpen 
+                              ? 'bg-green-500/20 text-green-400 border border-green-400/30' 
+                              : 'bg-red-500/20 text-red-400 border border-red-400/30'
+                          }`}
+                          style={{ fontFamily: 'SF Pro Text, system-ui' }}
+                        >
+                          {merchant.isOpen ? 'Open' : 'Closed'}
+                        </Badge>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <Clock className="h-4 w-4" />
+                      <div className="flex items-center space-x-1 text-xs text-gray-400">
+                        <Clock className="h-3 w-3" />
                         <span>{merchant.estimatedTime}</span>
                       </div>
                     </div>
 
+                    {/* Address */}
+                    <div className="flex items-center space-x-1 text-sm text-gray-400">
+                      <MapPin className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{merchant.address}</span>
+                    </div>
+
                     {/* Offers */}
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 flex-wrap">
                       {merchant.offers.map((offer, idx) => (
                         <Badge
                           key={idx}
