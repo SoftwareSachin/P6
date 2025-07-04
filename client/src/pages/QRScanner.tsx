@@ -12,6 +12,7 @@ import { SwipeToSend } from "@/components/SwipeToSend";
 import { PinEntry } from "@/components/PinEntry";
 import { PaymentSuccess } from "@/components/PaymentSuccess";
 
+
 export default function QRScanner() {
   const [, setLocation] = useLocation();
   const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'merchant' | 'amount' | 'pin' | 'processing' | 'success' | 'offline'>('scanning');
@@ -78,16 +79,18 @@ export default function QRScanner() {
   // QR scanning simulation with progress tracking
   useEffect(() => {
     if (scanningStage === 'scanning' && cameraPermission === 'granted') {
+      console.log('🔍 Starting QR scan simulation');
       const progressInterval = setInterval(() => {
         setScanProgress(prev => {
           if (prev >= 100) {
             clearInterval(progressInterval);
+            console.log('✅ QR code detected, moving to merchant stage');
             setScanningStage('detected');
             return 100;
           }
-          return prev + 3;
+          return prev + 2; // Slower progression for better UX
         });
-      }, 50);
+      }, 80);
 
       return () => clearInterval(progressInterval);
     }
@@ -234,9 +237,12 @@ export default function QRScanner() {
 
           {/* Quick access buttons */}
           <div className="grid grid-cols-2 gap-4 mt-12 w-full max-w-sm">
-            <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
-              <Image className="h-6 w-6" />
-              <span className="text-sm">From Gallery</span>
+            <Button 
+              onClick={() => setScanningStage('detected')}
+              className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2"
+            >
+              <QrCode className="h-6 w-6" />
+              <span className="text-sm">Skip to Demo</span>
             </Button>
             <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
               <ApplePayContactlessSVG className="h-6 w-6" />
@@ -351,14 +357,9 @@ export default function QRScanner() {
       {scanningStage === 'processing' && (
         <div className="flex-1 flex flex-col items-center justify-center px-6">
           <div className="text-center space-y-6">
-            {/* Processing Animation with Your GIF */}
+            {/* Processing Animation */}
             <div className="w-40 h-40 mx-auto mb-8 flex items-center justify-center">
-              <img 
-                src={paymentProcessingGif} 
-                alt="Processing Payment" 
-                className="w-full h-full object-contain"
-                loading="lazy"
-              />
+              <div className="w-20 h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
             
             <h2 className="text-3xl font-bold text-white">Processing Payment...</h2>
@@ -375,17 +376,12 @@ export default function QRScanner() {
       )}
 
       {/* Payment Success Stage */}
-      {scanningStage === 'payment' && (
+      {scanningStage === 'success' && (
         <div className="flex-1 flex flex-col items-center justify-center px-6">
           <div className="text-center space-y-6">
             {/* Success Animation */}
             <div className="w-40 h-40 mx-auto mb-8 flex items-center justify-center">
-              <img 
-                src={paymentSuccessGif} 
-                alt="Payment Success" 
-                className="w-full h-full object-contain"
-                loading="lazy"
-              />
+              <CheckCircle className="w-20 h-20 text-green-500 animate-pulse" />
             </div>
             
             <h2 className="text-3xl font-bold text-white">Payment Successful!</h2>
