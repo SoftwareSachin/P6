@@ -433,44 +433,95 @@ export default function Transit() {
           </div>
         </div>
 
-        {/* Quick Actions */}
+        {/* Ultra-Premium Quick Actions */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {quickActions.map((action) => (
-              <Card
-                key={action.id}
-                className="ultra-premium-card border-0 cursor-pointer transition-all duration-500 hover:scale-105"
-                style={{
-                  background: `
-                    linear-gradient(135deg, 
-                      rgba(255,255,255,0.15) 0%, 
-                      rgba(255,255,255,0.08) 50%, 
-                      rgba(255,255,255,0.05) 100%
-                    ),
-                    ${action.gradient}
-                  `,
-                  backdropFilter: 'blur(25px)',
-                  WebkitBackdropFilter: 'blur(25px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  boxShadow: '0 20px 40px -12px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.1)'
-                }}
-                onClick={action.action}
-              >
-                <CardContent className="p-6 h-[120px] flex flex-col justify-center">
-                  <div className="flex flex-col items-center text-center space-y-3">
-                    <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/30">
-                      <action.IconComponent className="w-8 h-8" animated={action.animated} />
+          <h2 className="text-xl font-bold text-white mb-6 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+            Quick Actions
+          </h2>
+          <div className="grid grid-cols-2 gap-5">
+            {quickActions.map((action, index) => (
+              <div key={action.id} className="relative group">
+                {/* Card glow effect */}
+                <div 
+                  className="absolute inset-0 rounded-3xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" 
+                  style={{
+                    background: action.gradient,
+                    filter: 'blur(20px)'
+                  }}
+                />
+                
+                <Card
+                  className="relative border-0 cursor-pointer transition-all duration-500 transform-gpu group-hover:scale-105 group-hover:-translate-y-1"
+                  style={{
+                    background: `
+                      linear-gradient(145deg, 
+                        rgba(255,255,255,0.25) 0%, 
+                        rgba(255,255,255,0.15) 25%, 
+                        rgba(255,255,255,0.08) 50%, 
+                        rgba(255,255,255,0.05) 75%, 
+                        rgba(0,0,0,0.05) 100%
+                      ),
+                      ${action.gradient}
+                    `,
+                    backdropFilter: 'blur(40px) saturate(1.8) contrast(1.2)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(1.8) contrast(1.2)',
+                    border: '1.5px solid rgba(255,255,255,0.25)',
+                    boxShadow: `
+                      0 25px 50px -15px rgba(0,0,0,0.6), 
+                      0 12px 25px -8px rgba(0,0,0,0.4),
+                      0 6px 12px -3px rgba(0,0,0,0.3),
+                      inset 0 2px 6px rgba(255,255,255,0.2), 
+                      inset 0 -2px 6px rgba(0,0,0,0.1),
+                      inset 0 0 40px rgba(255,255,255,0.05)
+                    `,
+                    borderRadius: '28px',
+                    fontFamily: 'SF Pro Display, system-ui'
+                  }}
+                  onClick={action.action}
+                >
+                  {/* Holographic shimmer effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent animate-shimmer opacity-0 group-hover:opacity-100 rounded-3xl" />
+                  
+                  {/* Floating background particles */}
+                  <div className="absolute top-2 right-2 w-6 h-6 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-sm opacity-50" />
+                  <div className="absolute bottom-3 left-3 w-4 h-4 bg-gradient-to-tr from-white/20 to-transparent rounded-full blur-sm opacity-40" />
+                  
+                  <CardContent className="p-6 h-[140px] flex flex-col justify-center relative z-10">
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      {/* Ultra-Premium Icon Container */}
+                      <div className="relative">
+                        <div className="absolute inset-0 rounded-3xl bg-white/30 blur-md" />
+                        <div 
+                          className="relative w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-lg border-2 border-white/40"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 100%)',
+                            boxShadow: `
+                              inset 0 3px 8px rgba(255,255,255,0.3), 
+                              inset 0 -3px 8px rgba(0,0,0,0.1),
+                              0 10px 25px rgba(0,0,0,0.3)
+                            `
+                          }}
+                        >
+                          <action.IconComponent 
+                            className="w-10 h-10 text-white drop-shadow-lg" 
+                            animated={action.animated} 
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced Typography */}
+                      <div className="space-y-1">
+                        <h3 className="text-white font-black text-base tracking-tight drop-shadow-lg">
+                          {action.title}
+                        </h3>
+                        <p className="text-white/90 text-sm font-semibold drop-shadow-sm">
+                          {action.subtitle}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-white font-bold text-sm" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
-                        {action.title}
-                      </h3>
-                      <p className="text-white/80 text-xs font-medium">{action.subtitle}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
@@ -547,14 +598,14 @@ export default function Transit() {
                       </div>
 
                       {/* Ultra-Premium Content */}
-                      <div className="flex-1 space-y-3">
+                      <div className="flex-1 space-y-3 min-w-0">
                         {/* Route Header */}
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-white font-black text-lg tracking-tight drop-shadow-lg">
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="text-white font-black text-lg tracking-tight drop-shadow-lg pr-3">
                             {route.routeName}
                           </h3>
                           <Badge
-                            className={`text-xs font-black px-3 py-1.5 rounded-full border-0 backdrop-blur-lg ${
+                            className={`text-xs font-black px-3 py-1.5 rounded-full border-0 backdrop-blur-lg flex-shrink-0 ${
                               route.status === 'on_time' ? 'text-green-100' :
                               route.status === 'delayed' ? 'text-yellow-100' :
                               'text-red-100'
@@ -575,40 +626,42 @@ export default function Transit() {
                         
                         {/* Route Details */}
                         <div className="flex items-center space-x-3 text-sm">
-                          <span className="text-white/90 font-semibold drop-shadow-sm">
+                          <span className="text-white/90 font-semibold drop-shadow-sm truncate">
                             {route.from} → {route.to}
                           </span>
-                          <div className="w-1 h-1 bg-white/50 rounded-full" />
+                          <div className="w-1 h-1 bg-white/50 rounded-full flex-shrink-0" />
                           <span className="text-white/80 font-medium">{route.duration}</span>
-                          <div className="w-1 h-1 bg-white/50 rounded-full" />
+                          <div className="w-1 h-1 bg-white/50 rounded-full flex-shrink-0" />
                           <span className="text-white/80 font-medium">₹{route.fare}</span>
                         </div>
                         
                         {/* Next Arrival */}
                         <div className="flex items-center space-x-2">
-                          <Clock className="w-4 h-4 text-white/70 drop-shadow-sm" />
+                          <Clock className="w-4 h-4 text-white/70 drop-shadow-sm flex-shrink-0" />
                           <span className="text-white/80 text-sm font-medium drop-shadow-sm">
                             Next in {route.nextArrival}
                           </span>
                         </div>
-                      </div>
 
-                      {/* Ultra-Premium Book Button */}
-                      <Button
-                        size="sm"
-                        className="h-12 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-105 border-0"
-                        style={{
-                          background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
-                          boxShadow: `
-                            0 8px 20px rgba(0,122,255,0.4), 
-                            inset 0 2px 4px rgba(255,255,255,0.2), 
-                            inset 0 -2px 4px rgba(0,0,0,0.1)
-                          `,
-                          textShadow: '0 1px 2px rgba(0,0,0,0.3)'
-                        }}
-                      >
-                        Book
-                      </Button>
+                        {/* Ultra-Premium Book Button - Now inside content area */}
+                        <div className="pt-2">
+                          <Button
+                            size="sm"
+                            className="h-10 px-8 rounded-2xl font-bold transition-all duration-300 hover:scale-105 border-0 w-full"
+                            style={{
+                              background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                              boxShadow: `
+                                0 8px 20px rgba(0,122,255,0.4), 
+                                inset 0 2px 4px rgba(255,255,255,0.2), 
+                                inset 0 -2px 4px rgba(0,0,0,0.1)
+                              `,
+                              textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                            }}
+                          >
+                            Book Now
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
