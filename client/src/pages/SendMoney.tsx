@@ -13,6 +13,7 @@ import { SwipeToSend } from "@/components/SwipeToSend";
 import authGif from "@assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif";
 import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
 import paymentSuccessGif from "@assets/fetchpik.com-iconscout-60g2uAl8pR_1751646875317.gif";
+import authenticateGif from "@assets/fetchpik.com-iconscout-LoqhfcaEjm_1751647096227.gif";
 
 export default function SendMoney() {
   const [location, setLocation] = useLocation();
@@ -1108,9 +1109,9 @@ export default function SendMoney() {
           {/* Biometric Authentication */}
           <Card className="apple-pay-card border-0 mb-6">
             <CardContent className="p-6 text-center">
-              <div className="w-20 h-12 mx-auto mb-4 flex items-center justify-center">
+              <div className="w-full h-20 mx-auto mb-4 flex items-center justify-center">
                 <img 
-                  src={authGif} 
+                  src={authenticateGif} 
                   alt="Authentication"
                   className="w-full h-full object-contain rounded-lg"
                 />
