@@ -182,7 +182,7 @@ export default function OfflinePayments() {
             
             <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="space-y-6">
                   <div className="flex items-center space-x-4">
                     <div className="relative">
                       <div className={`absolute inset-0 rounded-full blur-lg ${
@@ -198,7 +198,7 @@ export default function OfflinePayments() {
                         <Bluetooth className={`w-7 h-7 ${isBluetoothEnabled ? 'text-blue-300' : 'text-gray-400'}`} />
                       </div>
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-lg font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                         Bluetooth Status
                       </h3>
@@ -210,7 +210,7 @@ export default function OfflinePayments() {
                   
                   <Button
                     onClick={handleBluetoothToggle}
-                    className={`h-12 px-6 rounded-xl font-semibold backdrop-blur-xl border transition-all duration-300 hover:scale-105 ${
+                    className={`w-full h-12 px-6 rounded-xl font-semibold backdrop-blur-xl border transition-all duration-300 hover:scale-105 ${
                       isBluetoothEnabled 
                         ? 'bg-red-500/15 border-red-500/30 text-red-300 hover:bg-red-500/20' 
                         : 'bg-blue-500/15 border-blue-500/30 text-blue-300 hover:bg-blue-500/20'
