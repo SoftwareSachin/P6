@@ -789,12 +789,12 @@ export default function OfflinePayments() {
         </div>
         
         {/* Bluetooth Status Card */}
-      <div className="px-4 mb-6 relative z-10">
-        <div className="mt-4 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-blue-500/15 rounded-2xl blur-lg" />
-          
-          <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
-            <CardContent className="p-6">
+        <div className="px-4 mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-blue-500/15 rounded-2xl blur-lg" />
+            
+            <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
+              <CardContent className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-4">
                   <div className="relative">
@@ -870,24 +870,42 @@ export default function OfflinePayments() {
                   </div>
                 </div>
               )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
 
+        {/* Instructions when Bluetooth is disabled */}
+        {!isBluetoothEnabled && (
+          <div className="px-4">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-500/10 via-gray-400/10 to-gray-500/10 rounded-2xl blur-lg" />
+              
+              <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/10 rounded-2xl shadow-xl">
+                <CardContent className="p-6 text-center">
+                  <div className="relative w-16 h-16 mx-auto mb-4">
+                    <div className="absolute inset-0 bg-gray-500/20 rounded-full blur-md" />
+                    <div className="relative w-16 h-16 rounded-full bg-gray-500/15 backdrop-blur-xl border border-gray-500/25 flex items-center justify-center">
+                      <Bluetooth className="w-8 h-8 text-gray-400" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white/80 mb-2">
+                    Enable Bluetooth to Discover Devices
+                  </h3>
+                  <p className="text-white/60 text-sm">
+                    Turn on Bluetooth to start scanning for nearby payment devices
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
 
-
-
-
-      {/* Discovery Stage */}
-      {paymentStage === 'discovery' && (
-        <div className="px-4 relative z-10">
-
-
-
-
-          {/* Nearby Devices List */}
-          {filteredDevices.length > 0 && (
+        {/* Discovery Stage - Only show when Bluetooth is enabled */}
+        {paymentStage === 'discovery' && isBluetoothEnabled && (
+          <div className="px-4 space-y-6">
+            {/* Nearby Devices List */}
+            {filteredDevices.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent flex items-center">
