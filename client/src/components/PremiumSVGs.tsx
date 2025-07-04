@@ -291,16 +291,16 @@ export const PremiumPhoneSVG = ({ className = "w-6 h-6" }: { className?: string 
   />
 );
 
-export const PremiumDollarSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+export const PremiumRupeeSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="dollarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <linearGradient id="rupeeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#FBBF24" />
         <stop offset="100%" stopColor="#F59E0B" />
       </linearGradient>
     </defs>
-    <circle cx="12" cy="12" r="10" fill="url(#dollarGradient)" />
-    <path d="M12 6V18M15 9C15 7.5 13.5 6 12 6S9 7.5 9 9M9 15C9 16.5 10.5 18 12 18S15 16.5 15 15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="12" cy="12" r="10" fill="url(#rupeeGradient)" />
+    <path d="M8 8h6M8 10h4c1.1 0 2 .9 2 2s-.9 2-2 2h-2l4 4M8 6h8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
