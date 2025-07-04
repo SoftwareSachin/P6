@@ -275,68 +275,92 @@ export default function Transit() {
               return (
                 <Card
                   key={pass.id}
-                  className={`min-w-[340px] cursor-pointer transition-all duration-700 transform-gpu hover:cursor-pointer ${
+                  className={`min-w-[360px] cursor-pointer transition-all duration-700 transform-gpu hover:cursor-pointer ${
                     isSelected ? 'scale-110 z-30 rotate-1' : 'scale-95 opacity-75 hover:scale-100 hover:opacity-90'
                   }`}
                   onClick={() => setSelectedPass(index)}
                   style={{
                     background: `
                       linear-gradient(145deg, 
-                        rgba(255,255,255,0.35) 0%, 
-                        rgba(255,255,255,0.18) 20%, 
-                        rgba(255,255,255,0.12) 40%, 
-                        transparent 60%, 
-                        rgba(0,0,0,0.1) 80%, 
-                        rgba(0,0,0,0.2) 100%
+                        rgba(255,255,255,0.4) 0%, 
+                        rgba(255,255,255,0.25) 15%, 
+                        rgba(255,255,255,0.15) 30%, 
+                        rgba(255,255,255,0.08) 45%, 
+                        rgba(255,255,255,0.05) 60%, 
+                        rgba(0,0,0,0.08) 75%, 
+                        rgba(0,0,0,0.15) 90%, 
+                        rgba(0,0,0,0.25) 100%
                       ),
                       ${pass.color}
                     `,
-                    backdropFilter: 'blur(30px) saturate(1.8) contrast(1.2)',
-                    WebkitBackdropFilter: 'blur(30px) saturate(1.8) contrast(1.2)',
+                    backdropFilter: 'blur(40px) saturate(2.0) contrast(1.3) brightness(1.1)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(2.0) contrast(1.3) brightness(1.1)',
                     border: isSelected 
-                      ? '2px solid rgba(255,255,255,0.5)' 
-                      : '1px solid rgba(255,255,255,0.2)',
+                      ? '2px solid rgba(255,255,255,0.6)' 
+                      : '1px solid rgba(255,255,255,0.25)',
                     boxShadow: isSelected 
-                      ? '0 40px 80px -20px rgba(0,0,0,0.7), 0 0 80px rgba(0,122,255,0.5), inset 0 2px 8px rgba(255,255,255,0.3), inset 0 -2px 8px rgba(0,0,0,0.15)'
-                      : '0 25px 50px -15px rgba(0,0,0,0.5), 0 10px 20px -5px rgba(0,0,0,0.3), inset 0 1px 4px rgba(255,255,255,0.15)',
-                    borderRadius: '24px',
+                      ? `0 50px 100px -25px rgba(0,0,0,0.8), 
+                         0 25px 50px -10px rgba(0,0,0,0.6), 
+                         0 0 120px rgba(0,122,255,0.6), 
+                         inset 0 3px 12px rgba(255,255,255,0.4), 
+                         inset 0 -3px 12px rgba(0,0,0,0.2),
+                         inset 0 0 60px rgba(255,255,255,0.1)`
+                      : `0 30px 60px -20px rgba(0,0,0,0.6), 
+                         0 15px 30px -8px rgba(0,0,0,0.4), 
+                         0 8px 16px -4px rgba(0,0,0,0.3),
+                         inset 0 2px 8px rgba(255,255,255,0.2), 
+                         inset 0 -2px 8px rgba(0,0,0,0.1)`,
+                    borderRadius: '28px',
                     transformStyle: 'preserve-3d',
-                    perspective: '1000px',
-                    fontFamily: 'SF Pro Display, system-ui'
+                    perspective: '1200px',
+                    fontFamily: 'SF Pro Display, system-ui',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                 >
-                  <CardContent className="p-8 h-52 relative overflow-hidden">
+                  {/* Ultra-Premium Background Pattern */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-2xl" />
+                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/20 to-transparent rounded-full blur-xl" />
+                  </div>
+
+                  {/* Holographic Light Effect */}
+                  {isSelected && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+                  )}
+
+                  <CardContent className="p-8 h-60 relative overflow-hidden">
                     {/* Ultra-Premium Header */}
                     <div className="flex justify-between items-start mb-8">
                       <div className="flex items-center space-x-4">
                         <div 
-                          className="w-14 h-14 rounded-2xl flex items-center justify-center backdrop-blur-lg"
+                          className="w-16 h-16 rounded-3xl flex items-center justify-center backdrop-blur-lg"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 100%)',
-                            border: '1px solid rgba(255,255,255,0.3)',
-                            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.1)'
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 100%)',
+                            border: '1.5px solid rgba(255,255,255,0.4)',
+                            boxShadow: 'inset 0 3px 8px rgba(255,255,255,0.25), inset 0 -3px 8px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.2)'
                           }}
                         >
-                          <pass.IconComponent className="w-9 h-9 text-white" animated={isSelected} />
+                          <pass.IconComponent className="w-10 h-10 text-white drop-shadow-lg" animated={isSelected} />
                         </div>
                         <div>
-                          <p className="text-white font-bold text-xl tracking-tight">{pass.type}</p>
-                          <p className="text-white/80 text-sm font-medium">{pass.name}</p>
+                          <p className="text-white font-black text-xl tracking-tight drop-shadow-lg">{pass.type}</p>
+                          <p className="text-white/90 text-sm font-semibold drop-shadow-sm">{pass.name}</p>
                         </div>
                       </div>
                       <Badge
-                        className={`text-xs font-bold px-3 py-1.5 backdrop-blur-lg border-0 ${
-                          pass.status === 'active' ? 'bg-green-500/30 text-green-200' :
-                          pass.status === 'low_balance' ? 'bg-yellow-500/30 text-yellow-200' :
-                          'bg-red-500/30 text-red-200'
+                        className={`text-xs font-black px-4 py-2 backdrop-blur-lg border-0 rounded-full ${
+                          pass.status === 'active' ? 'bg-green-500/30 text-green-100' :
+                          pass.status === 'low_balance' ? 'bg-yellow-500/30 text-yellow-100' :
+                          'bg-red-500/30 text-red-100'
                         }`}
                         style={{
                           background: pass.status === 'active' 
-                            ? 'linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(34,197,94,0.2) 100%)'
+                            ? 'linear-gradient(135deg, rgba(34,197,94,0.5) 0%, rgba(34,197,94,0.25) 100%)'
                             : pass.status === 'low_balance'
-                            ? 'linear-gradient(135deg, rgba(234,179,8,0.4) 0%, rgba(234,179,8,0.2) 100%)'
-                            : 'linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(239,68,68,0.2) 100%)',
-                          boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                            ? 'linear-gradient(135deg, rgba(234,179,8,0.5) 0%, rgba(234,179,8,0.25) 100%)'
+                            : 'linear-gradient(135deg, rgba(239,68,68,0.5) 0%, rgba(239,68,68,0.25) 100%)',
+                          boxShadow: '0 6px 12px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.2)'
                         }}
                       >
                         {pass.status === 'active' ? 'ACTIVE' :
@@ -345,20 +369,24 @@ export default function Transit() {
                     </div>
 
                     {/* Ultra-Premium Balance Display */}
-                    <div className="space-y-3 mb-6">
-                      <p className="text-white/70 text-sm font-medium tracking-wide">Current Balance</p>
+                    <div className="space-y-4 mb-8">
+                      <p className="text-white/80 text-sm font-semibold tracking-wide drop-shadow-sm">Current Balance</p>
                       <div className="relative">
                         <p 
-                          className="text-white text-4xl font-black tracking-tight"
+                          className="text-white text-5xl font-black tracking-tight drop-shadow-lg"
                           style={{
-                            textShadow: '0 2px 8px rgba(0,0,0,0.3), 0 0 16px rgba(255,255,255,0.1)',
-                            fontFeatureSettings: '"tnum" 1'
+                            textShadow: '0 3px 12px rgba(0,0,0,0.4), 0 0 24px rgba(255,255,255,0.15)',
+                            fontFeatureSettings: '"tnum" 1',
+                            background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent'
                           }}
                         >
                           ₹{pass.balance.toFixed(2)}
                         </p>
                         {isSelected && (
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-shimmer" />
                         )}
                       </div>
                     </div>
@@ -366,15 +394,26 @@ export default function Transit() {
                     {/* Ultra-Premium Footer */}
                     <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                       <div>
-                        <p className="text-white/60 text-xs font-medium tracking-wider uppercase">Valid Until</p>
-                        <p className="text-white text-sm font-bold">{pass.validUntil}</p>
+                        <p className="text-white/70 text-xs font-semibold tracking-wider uppercase drop-shadow-sm">Valid Until</p>
+                        <p className="text-white text-sm font-bold drop-shadow-sm">{pass.validUntil}</p>
                       </div>
                       {isSelected && (
-                        <div className="flex items-center space-x-1">
-                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                          <span className="text-green-400 text-xs font-bold">SELECTED</span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse drop-shadow-lg" />
+                          <span className="text-green-300 text-xs font-black drop-shadow-sm">SELECTED</span>
                         </div>
                       )}
+                    </div>
+
+                    {/* Apple Pay-style Contactless Symbol */}
+                    <div className="absolute top-6 right-6 w-10 h-10 opacity-50">
+                      <svg viewBox="0 0 24 24" className="w-full h-full text-white">
+                        <path
+                          fill="currentColor"
+                          d="M6.5 8.5c0-3.3 2.7-6 6-6s6 2.7 6 6v1h1.5c.8 0 1.5.7 1.5 1.5v8c0 .8-.7 1.5-1.5 1.5h-15c-.8 0-1.5-.7-1.5-1.5v-8c0-.8.7-1.5 1.5-1.5H5v-1zm3 1h6v-1c0-1.7-1.3-3-3-3s-3 1.3-3 3v1z"
+                        />
+                        <circle cx="12" cy="15" r="2" fill="currentColor" opacity="0.6" />
+                      </svg>
                     </div>
 
                     {/* Ultra-Premium Card Shimmer Effect */}
