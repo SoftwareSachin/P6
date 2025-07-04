@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Bluetooth, Users, Signal, CheckCircle, Smartphone } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Bluetooth, Users, Signal, CheckCircle, Smartphone, X, CreditCard, Shield, Battery, Star, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { BottomNavigation } from "@/components/BottomNavigation";
 
@@ -11,6 +12,8 @@ export default function OfflinePayments() {
   const [nearbyDevices, setNearbyDevices] = useState<any[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<any[]>([]);
   const [paymentStage] = useState<'discovery'>('discovery');
+  const [selectedDevice, setSelectedDevice] = useState<any>(null);
+  const [showDeviceDetails, setShowDeviceDetails] = useState(false);
 
   const getDeviceIcon = (type: string) => {
     return Smartphone;
@@ -47,6 +50,8 @@ export default function OfflinePayments() {
 
   const handleDeviceSelect = (device: any) => {
     console.log('Selected device:', device.name);
+    setSelectedDevice(device);
+    setShowDeviceDetails(true);
   };
 
   return (
@@ -173,93 +178,166 @@ export default function OfflinePayments() {
                   </h3>
                 </div>
                 
-                {/* Device Cards - Clean Layout */}
-                <div className="space-y-4">
-                  {filteredDevices.map((device, index) => {
-                    const DeviceIcon = getDeviceIcon(device.type);
-                    
-                    return (
-                      <div key={device.id} className="relative group">
-                        <div 
-                          className="relative"
-                          style={{ 
-                            animation: `slideInUp 0.6s ease-out ${index * 0.1}s both` 
-                          }}
-                        >
-                          <Card 
-                            className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[1.01] hover:bg-white/12"
-                            onClick={() => handleDeviceSelect(device)}
-                          >
-                            <CardContent className="p-4">
-                              {/* Simple Device Row */}
-                              <div className="flex items-center justify-between">
-                                {/* Left: Device Info */}
-                                <div className="flex items-center space-x-3 flex-1">
-                                  {/* Device Avatar */}
-                                  <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-                                    {device.profile_image ? (
-                                      <img 
-                                        src={device.profile_image} 
-                                        alt={device.name}
-                                        className="w-full h-full object-cover"
-                                      />
-                                    ) : (
-                                      <DeviceIcon className="w-6 h-6 text-blue-300" />
-                                    )}
-                                  </div>
-                                  
-                                  {/* Device Details */}
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center space-x-2">
-                                      <h4 className="text-white font-semibold text-sm truncate">
-                                        {device.name}
-                                      </h4>
-                                      {(device.is_verified || device.verified) && (
-                                        <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                      )}
-                                    </div>
-                                    <p className="text-white/60 text-xs">
-                                      {device.model} • {device.distance || `${(Math.random() * 10).toFixed(1)}m`}
-                                    </p>
-                                  </div>
-                                </div>
-                                
-                                {/* Right: Status & Action */}
-                                <div className="flex items-center space-x-3">
-                                  {/* Signal Strength */}
-                                  <div className="flex items-center space-x-1">
-                                    <Signal className="w-4 h-4 text-green-400" />
-                                    <span className="text-green-400 text-xs font-medium">
-                                      {device.signal || 'Good'}
-                                    </span>
-                                  </div>
-                                  
-                                  {/* Connect Button */}
-                                  <Button
-                                    size="sm"
-                                    className="h-8 px-3 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 text-xs font-medium"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleDeviceSelect(device);
-                                    }}
-                                  >
-                                    Connect
-                                  </Button>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </div>
-                    );
-                  })}
+                {/* Device Cards - Minimal Layout */}
+                <div className="space-y-3">
+                  {filteredDevices.map((device, index) => (
+                    <div key={device.id} className="relative group">
+                      <Card 
+                        className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:bg-white/12"
+                        onClick={() => handleDeviceSelect(device)}
+                      >
+                        <CardContent className="p-3">
+                          <div className="flex items-center justify-between">
+                            {/* Device Name */}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-white font-medium text-sm truncate">
+                                {device.name}
+                              </h4>
+                              <p className="text-white/60 text-xs truncate">
+                                {device.model} • {device.distance || `${(Math.random() * 10).toFixed(1)}m`}
+                              </p>
+                            </div>
+                            
+                            {/* Connect Button */}
+                            <Button
+                              size="sm"
+                              className="h-8 px-4 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 text-xs font-medium ml-3"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeviceSelect(device);
+                              }}
+                            >
+                              Connect
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
           </div>
         )}
+
+        {/* Device Details Modal */}
+        {showDeviceDetails && selectedDevice && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end">
+            <div className="w-full bg-gray-900 rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-white">Device Details</h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowDeviceDetails(false)}
+                  className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20"
+                >
+                  <X className="h-5 w-5 text-white" />
+                </Button>
+              </div>
+
+              {/* Device Header */}
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="w-16 h-16 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                  {selectedDevice.profile_image ? (
+                    <img 
+                      src={selectedDevice.profile_image} 
+                      alt={selectedDevice.name}
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  ) : (
+                    <Smartphone className="w-8 h-8 text-blue-300" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <h3 className="text-lg font-bold text-white">{selectedDevice.name}</h3>
+                    {selectedDevice.is_verified && (
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                    )}
+                  </div>
+                  <p className="text-white/60 text-sm">{selectedDevice.model}</p>
+                </div>
+              </div>
+
+              {/* Device Info Grid */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-white/5 rounded-xl p-4">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Signal className="w-4 h-4 text-green-400" />
+                    <span className="text-white/80 text-sm">Signal</span>
+                  </div>
+                  <p className="text-white font-semibold">{selectedDevice.signal || 'Good'}</p>
+                </div>
+
+                <div className="bg-white/5 rounded-xl p-4">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <MapPin className="w-4 h-4 text-blue-400" />
+                    <span className="text-white/80 text-sm">Distance</span>
+                  </div>
+                  <p className="text-white font-semibold">{selectedDevice.distance || `${(Math.random() * 10).toFixed(1)}m`}</p>
+                </div>
+
+                {selectedDevice.battery_level && (
+                  <div className="bg-white/5 rounded-xl p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Battery className="w-4 h-4 text-green-400" />
+                      <span className="text-white/80 text-sm">Battery</span>
+                    </div>
+                    <p className="text-white font-semibold">{selectedDevice.battery_level}%</p>
+                  </div>
+                )}
+
+                {selectedDevice.rating && (
+                  <div className="bg-white/5 rounded-xl p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Star className="w-4 h-4 text-yellow-400" />
+                      <span className="text-white/80 text-sm">Rating</span>
+                    </div>
+                    <p className="text-white font-semibold">{selectedDevice.rating}/5</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Security & Trust */}
+              <div className="bg-white/5 rounded-xl p-4 mb-6">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Shield className="w-4 h-4 text-purple-400" />
+                  <span className="text-white font-medium">Security & Trust</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {selectedDevice.is_verified && (
+                    <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                      Verified Device
+                    </Badge>
+                  )}
+                  <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+                    Encrypted Connection
+                  </Badge>
+                  {selectedDevice.transaction_count > 0 && (
+                    <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30">
+                      {selectedDevice.transaction_count || 0} Transactions
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              {/* Connect Button */}
+              <Button
+                className="w-full h-12 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 font-semibold rounded-xl"
+                onClick={() => {
+                  setShowDeviceDetails(false);
+                  // Handle connection logic here
+                }}
+              >
+                Connect to {selectedDevice.name}
+              </Button>
+            </div>
+          </div>
+        )}
         
-        <BottomNavigation />
+        <BottomNavigation activeTab="offline" />
       </div>
     </div>
   );
