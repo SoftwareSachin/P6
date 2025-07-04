@@ -690,101 +690,242 @@ export default function OfflinePayments() {
                   </Card>
                 </div>
 
-                {/* OTP Verification Section */}
+                {/* Ultra-Premium Secure Verification Section */}
                 {!otpVerified && !showOTPVerification && (
-                  <div className="relative mb-6">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-cyan-500/15 to-blue-500/15 rounded-3xl blur-lg" />
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/12 via-cyan-400/8 to-blue-600/12 rounded-[28px] blur-2xl scale-105" />
                     
-                    <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/15 rounded-3xl">
-                      <CardContent className="p-6">
-                        <div className="flex items-center space-x-4 mb-4">
-                          <div className="p-3 bg-blue-500/20 rounded-2xl">
-                            <KeyRound className="w-6 h-6 text-blue-400" />
+                    <div className="relative backdrop-blur-3xl border border-white/20 rounded-[28px] overflow-hidden"
+                         style={{ 
+                           background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.04) 100%)',
+                           boxShadow: '0 8px 32px rgba(0,0,0,0.2), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.15)'
+                         }}>
+                      <div className="p-8">
+                        <div className="flex items-center space-x-5 mb-6">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/25 via-cyan-400/15 to-blue-600/25 rounded-[18px] blur-lg scale-110" />
+                            <div className="relative w-14 h-14 rounded-[18px] flex items-center justify-center"
+                                 style={{ 
+                                   background: 'linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(6,182,212,0.15) 100%)',
+                                   boxShadow: '0 8px 24px rgba(59,130,246,0.25), inset 0 1px 0 rgba(255,255,255,0.2)'
+                                 }}>
+                              <KeyRound className="w-7 h-7 text-blue-300" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
+                            </div>
                           </div>
                           <div>
-                            <h4 className="text-white font-bold text-lg">Secure Verification</h4>
-                            <p className="text-white/60 text-sm">Verify device before payment</p>
+                            <h4 className="text-white font-black text-xl mb-1" 
+                                style={{ 
+                                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                                  background: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 30%, #ffffff 70%, #f0f9ff 100%)',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  backgroundClip: 'text',
+                                  letterSpacing: '-0.01em'
+                                }}>
+                              Secure Verification
+                            </h4>
+                            <p className="text-white/70 text-sm font-medium" 
+                               style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              Enterprise-grade authentication required
+                            </p>
                           </div>
                         </div>
                         
-                        <Button
-                          onClick={handleInitiateOTP}
-                          className="w-full h-14 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold rounded-2xl border-0 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300"
-                        >
-                          <KeyRound className="w-5 h-5 mr-3" />
-                          Initiate OTP Verification
-                        </Button>
-                      </CardContent>
-                    </Card>
+                        <div className="relative group">
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-cyan-400/15 to-blue-500/20 rounded-[20px] blur-xl scale-105 group-hover:scale-110 transition-all duration-500" />
+                          <button
+                            onClick={handleInitiateOTP}
+                            className="relative w-full h-16 rounded-[20px] font-bold text-lg text-white border-0 overflow-hidden transition-all duration-500 transform hover:scale-[1.02] active:scale-[0.98] group"
+                            style={{
+                              background: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #0EA5E9 100%)',
+                              boxShadow: '0 12px 32px rgba(59,130,246,0.4), 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)',
+                              fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                              letterSpacing: '-0.01em'
+                            }}
+                          >
+                            {/* Shimmer Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                            
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            
+                            <div className="relative flex items-center justify-center">
+                              <div className="mr-4 p-2 bg-white/15 rounded-full group-hover:bg-white/25 transition-all duration-300">
+                                <KeyRound className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
+                              </div>
+                              <span className="group-hover:tracking-wide transition-all duration-300">
+                                Initiate Secure Authentication
+                              </span>
+                            </div>
+                            
+                            {/* Bottom Glow */}
+                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          </button>
+                        </div>
+                        
+                        {/* Security Features */}
+                        <div className="flex items-center justify-center space-x-6 mt-4 pt-4 border-t border-white/10">
+                          <div className="flex items-center space-x-2">
+                            <Shield className="w-4 h-4 text-blue-400" />
+                            <span className="text-white/60 text-xs font-medium" 
+                                  style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              256-bit Encryption
+                            </span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Lock className="w-4 h-4 text-blue-400" />
+                            <span className="text-white/60 text-xs font-medium" 
+                                  style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              Biometric Ready
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
-                {/* OTP Input Section */}
+                {/* Ultra-Premium OTP Input Section */}
                 {showOTPVerification && !otpVerified && (
-                  <div className="relative mb-6">
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500/15 via-yellow-500/15 to-orange-500/15 rounded-3xl blur-lg" />
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500/12 via-amber-400/8 to-orange-600/12 rounded-[28px] blur-2xl scale-105" />
                     
-                    <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/15 rounded-3xl">
-                      <CardContent className="p-6">
-                        <div className="flex items-center space-x-4 mb-6">
-                          <div className="p-3 bg-orange-500/20 rounded-2xl">
-                            <Lock className="w-6 h-6 text-orange-400" />
+                    <div className="relative backdrop-blur-3xl border border-white/20 rounded-[28px] overflow-hidden"
+                         style={{ 
+                           background: 'linear-gradient(135deg, rgba(249,115,22,0.08) 0%, rgba(245,158,11,0.04) 100%)',
+                           boxShadow: '0 8px 32px rgba(0,0,0,0.2), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.15)'
+                         }}>
+                      <div className="p-8">
+                        <div className="flex items-center space-x-5 mb-8">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/25 via-amber-400/15 to-orange-600/25 rounded-[18px] blur-lg scale-110" />
+                            <div className="relative w-14 h-14 rounded-[18px] flex items-center justify-center"
+                                 style={{ 
+                                   background: 'linear-gradient(135deg, rgba(249,115,22,0.2) 0%, rgba(245,158,11,0.15) 100%)',
+                                   boxShadow: '0 8px 24px rgba(249,115,22,0.25), inset 0 1px 0 rgba(255,255,255,0.2)'
+                                 }}>
+                              <Lock className="w-7 h-7 text-orange-300" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
+                            </div>
                           </div>
                           <div>
-                            <h4 className="text-white font-bold text-lg">Enter Verification Code</h4>
-                            <p className="text-white/60 text-sm">6-digit code sent to device</p>
+                            <h4 className="text-white font-black text-xl mb-1" 
+                                style={{ 
+                                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                                  background: 'linear-gradient(135deg, #ffffff 0%, #fed7aa 30%, #ffffff 70%, #fef3c7 100%)',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  backgroundClip: 'text',
+                                  letterSpacing: '-0.01em'
+                                }}>
+                              Enter Verification Code
+                            </h4>
+                            <p className="text-white/70 text-sm font-medium" 
+                               style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              6-digit secure code sent to device
+                            </p>
                           </div>
                         </div>
 
-                        <div className="space-y-4">
-                          <Input
-                            type="text"
-                            value={otpCode}
-                            onChange={(e) => setOtpCode(formatOTPInput(e.target.value))}
-                            placeholder="Enter 6-digit OTP"
-                            className="h-14 bg-white/10 border-white/20 rounded-2xl text-white text-center text-xl font-bold tracking-widest placeholder:text-white/40 focus:bg-white/15 focus:border-blue-500/50 transition-all duration-300"
-                            maxLength={6}
-                          />
+                        <div className="space-y-6">
+                          {/* Premium OTP Input */}
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-white/8 via-white/12 to-white/8 rounded-[20px] blur-md" />
+                            <input
+                              type="text"
+                              value={otpCode}
+                              onChange={(e) => setOtpCode(formatOTPInput(e.target.value))}
+                              placeholder="• • • • • •"
+                              maxLength={6}
+                              className="relative w-full h-16 rounded-[20px] border border-white/25 backdrop-blur-2xl text-center text-2xl font-black tracking-[0.5em] text-white placeholder:text-white/30 transition-all duration-300 focus:outline-none focus:border-orange-400/50 focus:ring-2 focus:ring-orange-400/20"
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%)',
+                                boxShadow: '0 8px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.15)',
+                                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                                caretColor: '#fb923c'
+                              }}
+                            />
+                          </div>
 
+                          {/* Timer and Resend */}
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <Clock className="w-4 h-4 text-white/60" />
-                              <span className="text-white/60 text-sm">
-                                {canResendOTP ? 'Code expired' : `Resend in ${otpTimer}s`}
+                            <div className="flex items-center space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center"
+                                   style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.2) 0%, rgba(245,158,11,0.15) 100%)' }}>
+                                <Clock className="w-3 h-3 text-orange-400" />
+                              </div>
+                              <span className="text-white/70 text-sm font-medium" 
+                                    style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                                {canResendOTP ? 'Code expired' : `Auto-resend in ${otpTimer}s`}
                               </span>
                             </div>
                             
                             {canResendOTP && (
-                              <Button
-                                variant="ghost"
+                              <button
                                 onClick={handleInitiateOTP}
-                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 font-medium"
+                                className="px-4 py-2 rounded-[12px] font-medium text-orange-400 hover:text-orange-300 transition-all duration-300 hover:bg-orange-500/10"
+                                style={{ 
+                                  fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                                  background: 'linear-gradient(135deg, rgba(249,115,22,0.08) 0%, rgba(245,158,11,0.04) 100%)'
+                                }}
                               >
                                 Resend Code
-                              </Button>
+                              </button>
                             )}
                           </div>
 
-                          <Button
-                            onClick={handleVerifyOTP}
-                            disabled={otpCode.length !== 6 || isVerifyingOTP}
-                            className="w-full h-14 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold rounded-2xl border-0 shadow-lg transform transition-all duration-300 disabled:transform-none"
-                          >
-                            {isVerifyingOTP ? (
-                              <>
-                                <Loader2 className="w-5 h-5 mr-3 animate-spin" />
-                                Verifying...
-                              </>
-                            ) : (
-                              <>
-                                <Check className="w-5 h-5 mr-3" />
-                                Verify Code
-                              </>
-                            )}
-                          </Button>
+                          {/* Premium Verify Button */}
+                          <div className="relative group">
+                            <div className={`absolute inset-0 rounded-[20px] blur-xl scale-105 transition-all duration-500 ${
+                              otpCode.length === 6 && !isVerifyingOTP
+                                ? 'bg-gradient-to-r from-orange-500/20 via-amber-400/15 to-orange-500/20 group-hover:scale-110' 
+                                : 'bg-gradient-to-r from-gray-500/10 via-gray-400/8 to-gray-500/10'
+                            }`} />
+                            <button
+                              onClick={handleVerifyOTP}
+                              disabled={otpCode.length !== 6 || isVerifyingOTP}
+                              className={`relative w-full h-16 rounded-[20px] font-bold text-lg text-white border-0 overflow-hidden transition-all duration-500 transform ${
+                                otpCode.length === 6 && !isVerifyingOTP
+                                  ? 'hover:scale-[1.02] active:scale-[0.98]'
+                                  : 'opacity-50 cursor-not-allowed'
+                              }`}
+                              style={{
+                                background: otpCode.length === 6 && !isVerifyingOTP
+                                  ? 'linear-gradient(135deg, #F97316 0%, #F59E0B 50%, #EAB308 100%)'
+                                  : 'linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #374151 100%)',
+                                boxShadow: otpCode.length === 6 && !isVerifyingOTP
+                                  ? '0 12px 32px rgba(249,115,22,0.4), 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)'
+                                  : '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+                                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                                letterSpacing: '-0.01em'
+                              }}
+                            >
+                              {/* Shimmer Effect */}
+                              {otpCode.length === 6 && !isVerifyingOTP && (
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                              )}
+                              
+                              <div className="relative flex items-center justify-center">
+                                {isVerifyingOTP ? (
+                                  <>
+                                    <div className="mr-3 p-1.5 bg-white/15 rounded-full">
+                                      <Loader2 className="w-5 h-5 animate-spin" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
+                                    </div>
+                                    <span>Authenticating...</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="mr-3 p-1.5 bg-white/15 rounded-full">
+                                      <Check className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
+                                    </div>
+                                    <span>Verify Authentication</span>
+                                  </>
+                                )}
+                              </div>
+                            </button>
+                          </div>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </div>
                 )}
 
