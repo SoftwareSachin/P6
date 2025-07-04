@@ -32,6 +32,7 @@ interface TransitRoute {
 }
 
 export default function Transit() {
+  const [location, setLocation] = useLocation();
   const [selectedPass, setSelectedPass] = useState(0);
   const [transitPasses, setTransitPasses] = useState<TransitPass[]>([]);
   const [recentRoutes, setRecentRoutes] = useState<TransitRoute[]>([]);
@@ -111,7 +112,7 @@ export default function Transit() {
     ]);
   }, []);
 
-  const [, setLocation] = useLocation();
+
 
   const handleTopUp = () => {
     const selectedTransitPass = transitPasses[selectedPass];
