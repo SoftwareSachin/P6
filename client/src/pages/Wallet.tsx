@@ -92,7 +92,7 @@ export default function Wallet() {
     },
     {
       id: 3,
-      title: "Apple Pay",
+      title: "OPPB Pay",
       subtitle: "Set up",
       icon: Smartphone,
       action: () => {},

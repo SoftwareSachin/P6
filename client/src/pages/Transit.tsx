@@ -123,13 +123,48 @@ export default function Transit() {
           ? { ...pass, balance: pass.balance + topUpAmount, status: "active" as const }
           : pass
       ));
-      console.log(`Topped up ₹${topUpAmount} to ${selectedTransitPass.name}`);
+      
+      // Show premium success feedback
+      const successMessage = `Successfully topped up ₹${topUpAmount} to ${selectedTransitPass.name}`;
+      console.log(successMessage);
+      
+      // Create premium alert with OPPB Pay branding
+      setTimeout(() => {
+        alert(`✓ OPPB Pay Top-up Successful\n\n${successMessage}\n\nNew Balance: ₹${(selectedTransitPass.balance + topUpAmount).toFixed(2)}`);
+      }, 100);
     }
   };
 
   const handlePlanRoute = () => {
-    console.log('Planning route with smart recommendations');
-    // In a real app, this would open route planning interface
+    console.log('🗺️ OPPB Pay Route Planning activated');
+    
+    // Premium route planning with smart recommendations
+    const routeOptions = [
+      {
+        route: "Rajiv Chowk → CP Metro",
+        duration: "12 mins",
+        cost: "₹8",
+        type: "Metro"
+      },
+      {
+        route: "Bus Route 615",
+        duration: "18 mins", 
+        cost: "₹5",
+        type: "Bus"
+      },
+      {
+        route: "Auto + Metro Combo",
+        duration: "15 mins",
+        cost: "₹25",
+        type: "Combo"
+      }
+    ];
+    
+    const routeText = routeOptions.map(option => 
+      `${option.route}\n${option.duration} • ${option.cost} • ${option.type}`
+    ).join('\n\n');
+    
+    alert(`🚀 OPPB Pay Smart Route Planner\n\nRecommended Routes:\n\n${routeText}\n\n✨ Tap any route to book instantly with OPPB Pay!`);
   };
 
   const handleBookNow = (route: TransitRoute) => {
@@ -155,13 +190,53 @@ export default function Transit() {
     setLocation('/send-money?booking=transit');
   };
 
+  const handleQRScan = () => {
+    console.log('📱 OPPB Pay QR Scanner activated');
+    
+    // Simulate QR scanning with premium feedback
+    setTimeout(() => {
+      const qrResults = [
+        { type: "Metro Entry", station: "Rajiv Chowk", cost: "₹8" },
+        { type: "Bus Stop", route: "615", cost: "₹5" },
+        { type: "Transit Pass", discount: "20% off" }
+      ];
+      
+      const randomResult = qrResults[Math.floor(Math.random() * qrResults.length)];
+      alert(`✓ OPPB Pay QR Scan Successful!\n\n${randomResult.type}\n${randomResult.station || randomResult.route}\n${randomResult.cost || randomResult.discount}\n\n🚀 Tap to complete payment with OPPB Pay`);
+    }, 1000);
+    
+    // Navigate to QR scanner
+    setLocation('/qr-scanner');
+  };
+
+  const handleHistory = () => {
+    console.log('📊 OPPB Pay Transit History');
+    
+    // Premium transit history with detailed analytics
+    const transitHistory = [
+      { date: "Today", trips: 3, cost: "₹21", savings: "₹4" },
+      { date: "Yesterday", trips: 2, cost: "₹16", savings: "₹2" },
+      { date: "This Week", trips: 12, cost: "₹96", savings: "₹18" },
+      { date: "This Month", trips: 48, cost: "₹384", savings: "₹72" }
+    ];
+    
+    const historyText = transitHistory.map(period => 
+      `${period.date}: ${period.trips} trips • ${period.cost} spent • ${period.savings} saved`
+    ).join('\n');
+    
+    alert(`📈 OPPB Pay Transit Analytics\n\n${historyText}\n\n✨ Smart routing saved you money!\n🎯 Average savings: 15% per trip`);
+    
+    // Navigate to detailed transactions
+    setLocation('/transactions');
+  };
+
   const quickActions = [
     {
       id: 1,
       title: "Scan QR",
       subtitle: "Quick Entry",
       IconComponent: QRScanIconSVG,
-      action: () => setLocation('/qr-scanner'),
+      action: () => handleQRScan(),
       gradient: "linear-gradient(135deg, #007AFF 0%, #5856D6 100%)",
       animated: true
     },
@@ -188,7 +263,7 @@ export default function Transit() {
       title: "History",
       subtitle: "Past Trips",
       IconComponent: HistoryIconSVG,
-      action: () => setLocation('/transactions'),
+      action: () => handleHistory(),
       gradient: "linear-gradient(135deg, #FF9F0A 0%, #FF6B35 100%)",
       animated: true
     }
@@ -238,7 +313,13 @@ export default function Transit() {
     setTransitPasses(prev => [...prev, randomPass]);
     setSelectedPass(transitPasses.length); // Select the new pass
     setIsAddingPass(false);
-    console.log(`Added new pass: ${randomPass.name}`);
+    
+    // Premium success feedback with OPPB Pay branding
+    console.log(`✓ OPPB Pay - Successfully added: ${randomPass.type} - ${randomPass.name}`);
+    
+    setTimeout(() => {
+      alert(`🎉 OPPB Pay Pass Added!\n\n${randomPass.type}\n${randomPass.name}\n\nBalance: ₹${randomPass.balance.toFixed(2)}\nValid Until: ${randomPass.validUntil}\n\n✨ Enjoy seamless transit payments!`);
+    }, 500);
   };
 
   return (
