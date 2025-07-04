@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,9 @@ interface TransactionDetailsProps {
 }
 
 export function TransactionDetails({ transaction, onClose }: TransactionDetailsProps) {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'success': return 'bg-green-500';
@@ -37,6 +40,108 @@ export function TransactionDetails({ transaction, onClose }: TransactionDetailsP
       case 'failed': return 'bg-red-500';
       default: return 'bg-gray-500';
     }
+  };
+
+  const generateReceiptData = () => {
+    const transactionId = `TXN${transaction.id}${Date.now()}`;
+    const upiRef = `${transaction.id}${Date.now()}`;
+    const currentDate = new Date().toLocaleString();
+    
+    return {
+      transactionId,
+      upiRef,
+      merchant: transaction.merchant,
+      amount: Math.abs(transaction.amount),
+      status: transaction.status,
+      category: transaction.category,
+      location: transaction.location,
+      time: transaction.time,
+      date: currentDate,
+      type: transaction.amount > 0 ? 'Credit' : 'Debit'
+    };
+  };
+
+  const downloadReceipt = async () => {
+    setIsDownloading(true);
+    try {
+      const receipt = generateReceiptData();
+      const receiptText = `
+OPPB Payment Receipt
+==================
+
+Transaction ID: ${receipt.transactionId}
+UPI Reference: ${receipt.upiRef}
+Date: ${receipt.date}
+
+Merchant: ${receipt.merchant}
+Category: ${receipt.category}
+Location: ${receipt.location}
+Type: ${receipt.type}
+Amount: ₹${receipt.amount.toLocaleString()}
+Status: ${receipt.status.toUpperCase()}
+
+Thank you for using OPPB!
+Generated on: ${new Date().toLocaleString()}
+      `;
+
+      const blob = new Blob([receiptText], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `OPPB_Receipt_${receipt.transactionId}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      // Show success feedback
+      setTimeout(() => setIsDownloading(false), 1000);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Download failed. Please try again.');
+      setIsDownloading(false);
+    }
+  };
+
+  const shareReceipt = async () => {
+    setIsSharing(true);
+    try {
+      const receipt = generateReceiptData();
+      const shareText = `OPPB Payment Receipt\n\nMerchant: ${receipt.merchant}\nAmount: ₹${receipt.amount.toLocaleString()}\nStatus: ${receipt.status.toUpperCase()}\nTransaction ID: ${receipt.transactionId}\nDate: ${receipt.date}\n\nPowered by OPPB - Ultra-Premium Digital Wallet`;
+      
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'OPPB Payment Receipt',
+            text: shareText,
+            url: window.location.href
+          });
+          setIsSharing(false);
+        } catch (error) {
+          console.log('Error sharing:', error);
+          // Fallback to clipboard
+          fallbackShare(shareText);
+        }
+      } else {
+        // Fallback to clipboard
+        fallbackShare(shareText);
+      }
+    } catch (error) {
+      console.error('Share failed:', error);
+      alert('Share failed. Please try again.');
+      setIsSharing(false);
+    }
+  };
+
+  const fallbackShare = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Receipt copied to clipboard!');
+      setIsSharing(false);
+    }).catch(() => {
+      // Last resort - show text in a prompt
+      prompt('Copy this receipt text:', text);
+      setIsSharing(false);
+    });
   };
 
   const getStatusIcon = (status: string) => {
@@ -180,18 +285,30 @@ export function TransactionDetails({ transaction, onClose }: TransactionDetailsP
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="flex-1 bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30"
+                    onClick={downloadReceipt}
+                    disabled={isDownloading}
+                    className="flex-1 bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 disabled:opacity-50"
                   >
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
+                    {isDownloading ? (
+                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <Download className="h-4 w-4 mr-2" />
+                    )}
+                    {isDownloading ? 'Downloading...' : 'Download'}
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="flex-1 bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30"
+                    onClick={shareReceipt}
+                    disabled={isSharing}
+                    className="flex-1 bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 disabled:opacity-50"
                   >
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
+                    {isSharing ? (
+                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <Share2 className="h-4 w-4 mr-2" />
+                    )}
+                    {isSharing ? 'Sharing...' : 'Share'}
                   </Button>
                 </div>
               </div>
