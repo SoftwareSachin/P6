@@ -199,7 +199,16 @@ export const ApplePayMobileSVG = ({ className = "w-6 h-6" }: { className?: strin
 
 export const ApplePayMoneySVG = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+    <defs>
+      <linearGradient id="rupeeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#10B981" />
+        <stop offset="100%" stopColor="#059669" />
+      </linearGradient>
+    </defs>
+    {/* Modern Rupee Symbol */}
+    <path d="M6 4h10v2H6V4zm0 4h8c2.2 0 4 1.8 4 4s-1.8 4-4 4h-3l4.5 4.5-1.4 1.4L8 16v-2h6c1.1 0 2-.9 2-2s-.9-2-2-2H6V8z" fill="url(#rupeeGradient)"/>
+    {/* Additional styling for premium look */}
+    <path d="M6 4h10v2H6V4zm0 4h8c2.2 0 4 1.8 4 4s-1.8 4-4 4h-3l4.5 4.5-1.4 1.4L8 16v-2h6c1.1 0 2-.9 2-2s-.9-2-2-2H6V8z" fill="rgba(255,255,255,0.1)"/>
   </svg>
 );
 
