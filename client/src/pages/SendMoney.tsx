@@ -15,7 +15,7 @@ import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751
 
 export default function SendMoney() {
   const [location, setLocation] = useLocation();
-  const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'processing' | 'success'>('contacts');
+  const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'pin' | 'processing' | 'success'>('contacts');
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -28,6 +28,8 @@ export default function SendMoney() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [newContactName, setNewContactName] = useState("");
   const [newContactUpi, setNewContactUpi] = useState("");
+  const [pin, setPin] = useState("");
+  const [pinAttempts, setPinAttempts] = useState(0);
   
   // Ultra-Premium Smart Search States
   const [searchType, setSearchType] = useState<'name' | 'phone' | 'upi' | 'mixed'>('name');
@@ -367,7 +369,36 @@ export default function SendMoney() {
   };
 
   const handlePayment = () => {
-    setStep('processing');
+    setStep('pin');
+  };
+
+  const handlePinInput = (digit: string) => {
+    if (pin.length < 4) {
+      setPin(prev => prev + digit);
+    }
+  };
+
+  const handlePinDelete = () => {
+    setPin(prev => prev.slice(0, -1));
+  };
+
+  const handlePinSubmit = () => {
+    if (pin.length === 4) {
+      // Simulate PIN verification
+      if (pin === "1234") {
+        console.log('PIN verified, proceeding to processing');
+        setStep('processing');
+        setPin("");
+      } else {
+        setPinAttempts(prev => prev + 1);
+        setPin("");
+        if (pinAttempts >= 2) {
+          // Too many attempts, go back to confirm
+          setStep('confirm');
+          setPinAttempts(0);
+        }
+      }
+    }
   };
 
   // Processing stage delay - 3 seconds before showing success
@@ -379,6 +410,16 @@ export default function SendMoney() {
       return () => clearTimeout(timer);
     }
   }, [step]);
+
+  // Auto-submit PIN when 4 digits are entered
+  useEffect(() => {
+    if (pin.length === 4 && step === 'pin') {
+      const timer = setTimeout(() => {
+        handlePinSubmit();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [pin, step]);
 
   // Handler functions for quick actions
   const handlePhoneAction = () => {
@@ -446,6 +487,8 @@ export default function SendMoney() {
             {step === 'contacts' && 'Choose a contact'}
             {step === 'amount' && 'Enter amount'}
             {step === 'confirm' && 'Confirm payment'}
+            {step === 'pin' && 'Enter PIN'}
+            {step === 'processing' && 'Processing...'}
             {step === 'success' && 'Payment sent'}
           </p>
         </div>
@@ -1090,6 +1133,87 @@ export default function SendMoney() {
               variant="glass"
               size="medium"
             />
+          </div>
+        </div>
+      )}
+
+      {/* PIN Entry Step */}
+      {step === 'pin' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="text-center space-y-6 w-full max-w-sm mx-auto">
+            {/* PIN Entry Header */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">Enter PIN</h2>
+              <p className="text-gray-400 text-lg">Enter your 4-digit PIN to authorize payment</p>
+              <p className="text-blue-400 text-xl font-semibold mt-2">₹{amount} to {selectedContact?.name}</p>
+              {pinAttempts > 0 && (
+                <p className="text-red-400 text-sm mt-2">
+                  Wrong PIN. {3 - pinAttempts} attempts remaining
+                </p>
+              )}
+            </div>
+            
+            {/* PIN Display */}
+            <div className="flex justify-center space-x-4 mb-8">
+              {[0, 1, 2, 3].map((index) => (
+                <div
+                  key={index}
+                  className={`w-16 h-16 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                    index < pin.length 
+                      ? 'border-green-400 bg-green-400/20' 
+                      : 'border-gray-600 bg-gray-800/50'
+                  }`}
+                >
+                  {index < pin.length && (
+                    <div className="w-3 h-3 rounded-full bg-white animate-pulse"></div>
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            {/* Number Pad */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                <button
+                  key={num}
+                  className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-2xl font-bold hover:bg-white/20 active:scale-95 transition-all duration-200"
+                  onClick={() => handlePinInput(num.toString())}
+                >
+                  {num}
+                </button>
+              ))}
+              <div></div>
+              <button
+                className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-2xl font-bold hover:bg-white/20 active:scale-95 transition-all duration-200"
+                onClick={() => handlePinInput('0')}
+              >
+                0
+              </button>
+              <button
+                className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-lg font-bold hover:bg-white/20 active:scale-95 transition-all duration-200"
+                onClick={handlePinDelete}
+              >
+                ⌫
+              </button>
+            </div>
+            
+            {/* PIN Entry Actions */}
+            <div className="space-y-4">
+              <SwipeToSend
+                onComplete={handlePinSubmit}
+                text="Swipe to Confirm PIN"
+                variant="success"
+                size="large"
+                disabled={pin.length !== 4}
+              />
+              
+              <SwipeToSend
+                onComplete={() => setStep('confirm')}
+                text="Swipe to Go Back"
+                variant="glass"
+                size="medium"
+              />
+            </div>
           </div>
         </div>
       )}
