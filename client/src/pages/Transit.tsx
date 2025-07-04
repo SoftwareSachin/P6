@@ -133,6 +133,7 @@ export default function Transit() {
 
   const handleBookNow = (route: TransitRoute) => {
     console.log('🚌 Book Now button clicked for route:', route);
+    alert(`Book Now clicked for ${route.routeName}! Check console for details.`);
     
     // Store booking information in localStorage for transfer to SendMoney page
     const bookingInfo = {
