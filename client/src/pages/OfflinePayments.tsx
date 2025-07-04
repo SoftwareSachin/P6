@@ -305,180 +305,349 @@ export default function OfflinePayments() {
           </div>
         )}
 
-        {/* Ultra-Premium Device Details Modal */}
+        {/* Ultra-Premium Apple Pay Device Details Modal */}
         {showDeviceDetails && selectedDevice && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-2xl z-50 flex items-end">
-            {/* Floating Background Elements */}
+          <div className="fixed inset-0 bg-black/90 backdrop-blur-3xl z-50 flex items-end">
+            {/* Premium Ambient Background */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-full blur-2xl animate-pulse" />
-              <div className="absolute bottom-32 right-10 w-28 h-28 bg-gradient-to-br from-purple-500/15 to-pink-600/15 rounded-full blur-xl animate-float" />
+              <div className="absolute top-16 left-8 w-40 h-40 bg-gradient-to-br from-blue-500/15 via-cyan-400/10 to-blue-600/15 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute top-32 right-12 w-32 h-32 bg-gradient-to-br from-purple-500/12 via-pink-400/8 to-purple-600/12 rounded-full blur-2xl animate-float" />
+              <div className="absolute bottom-40 left-16 w-24 h-24 bg-gradient-to-br from-emerald-500/10 via-green-400/8 to-emerald-600/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }} />
+              <div className="absolute bottom-20 right-8 w-36 h-36 bg-gradient-to-br from-indigo-500/12 via-blue-400/8 to-indigo-600/12 rounded-full blur-2xl animate-float-slow" />
             </div>
 
-            <div className="relative w-full bg-gradient-to-b from-gray-900/95 via-gray-800/98 to-gray-900/95 backdrop-blur-3xl rounded-t-3xl border-t border-white/10 shadow-2xl max-h-[85vh] overflow-y-auto">
-              {/* Premium Modal Header */}
-              <div className="sticky top-0 bg-gradient-to-b from-gray-900/98 to-transparent backdrop-blur-xl z-10 px-6 pt-6 pb-4">
+            {/* Ultra-Premium Glass Container */}
+            <div className="relative w-full bg-gradient-to-b from-gray-900/98 via-gray-800/99 to-black/98 backdrop-blur-3xl rounded-t-[32px] border-t-2 border-white/15 shadow-[0_-8px_32px_rgba(0,0,0,0.3),0_-1px_1px_rgba(255,255,255,0.1)] max-h-[88vh] overflow-y-auto"
+                 style={{ 
+                   background: 'linear-gradient(to bottom, rgba(17,24,39,0.98), rgba(31,41,55,0.99), rgba(0,0,0,0.98))',
+                   backdropFilter: 'blur(40px) saturate(180%)',
+                   WebkitBackdropFilter: 'blur(40px) saturate(180%)'
+                 }}>
+              {/* Ultra-Premium Apple Pay Modal Header */}
+              <div className="sticky top-0 z-20 px-6 pt-8 pb-6"
+                   style={{ 
+                     background: 'linear-gradient(to bottom, rgba(17,24,39,0.98) 0%, rgba(17,24,39,0.95) 70%, transparent 100%)',
+                     backdropFilter: 'blur(24px) saturate(200%)',
+                     WebkitBackdropFilter: 'blur(24px) saturate(200%)'
+                   }}>
+                
+                {/* Header Control Bar */}
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-10 h-1.5 bg-white/25 rounded-full" />
+                </div>
+
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-white mb-1 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                    <h2 className="text-2xl font-black text-white mb-1" 
+                        style={{ 
+                          fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                          background: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 50%, #ffffff 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                          textShadow: '0 0 20px rgba(255,255,255,0.1)',
+                          letterSpacing: '-0.025em'
+                        }}>
                       Device Details
                     </h2>
-                    <p className="text-white/60 text-sm font-medium">Premium secure connection</p>
+                    <p className="text-white/70 text-sm font-medium" 
+                       style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                      Enterprise Security • Premium Connection
+                    </p>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setShowDeviceDetails(false)}
-                    className="h-12 w-12 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-xl transition-all duration-300 hover:scale-105"
-                  >
-                    <X className="h-6 w-6 text-white" />
-                  </Button>
+                  
+                  {/* Premium Close Button */}
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-white/5 rounded-2xl blur-sm" />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setShowDeviceDetails(false)}
+                      className="relative h-12 w-12 rounded-2xl border border-white/20 backdrop-blur-2xl transition-all duration-300 hover:scale-105 hover:border-white/30"
+                      style={{ 
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%)',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.2)'
+                      }}
+                    >
+                      <X className="h-5 w-5 text-white/90" style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.2))' }} />
+                    </Button>
+                  </div>
                 </div>
               </div>
 
               <div className="px-6 pb-8">
-                {/* Premium Device Header */}
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-3xl blur-lg" />
+                {/* Ultra-Premium Apple Pay Device Header */}
+                <div className="relative mb-10">
+                  {/* Ambient Glow */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/8 via-cyan-400/6 to-blue-500/8 rounded-[28px] blur-2xl scale-105" />
                   
-                  <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/15 rounded-3xl overflow-hidden">
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-5">
+                  <div className="relative backdrop-blur-3xl border border-white/20 rounded-[28px] overflow-hidden"
+                       style={{ 
+                         background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+                         boxShadow: '0 8px 32px rgba(0,0,0,0.2), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.15)'
+                       }}>
+                    <div className="p-8">
+                      <div className="flex items-center space-x-6">
+                        {/* Premium Avatar */}
                         <div className="relative">
-                          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-600/30 rounded-2xl blur-md" />
-                          <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 border border-white/20 flex items-center justify-center backdrop-blur-xl overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/25 via-cyan-400/15 to-blue-600/25 rounded-[20px] blur-lg scale-110" />
+                          <div className="relative w-24 h-24 rounded-[20px] border-2 border-white/25 flex items-center justify-center backdrop-blur-2xl overflow-hidden"
+                               style={{ 
+                                 background: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(147,51,234,0.15) 100%)',
+                                 boxShadow: '0 8px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
+                               }}>
                             {selectedDevice.profileImage ? (
                               <img 
                                 src={selectedDevice.profileImage} 
                                 alt={selectedDevice.name}
-                                className="w-full h-full object-cover rounded-2xl"
+                                className="w-full h-full object-cover rounded-[18px]"
+                                style={{ filter: 'saturate(110%) contrast(105%)' }}
                               />
                             ) : (
-                              <Smartphone className="w-10 h-10 text-blue-300" />
+                              <Smartphone className="w-12 h-12 text-blue-300/90" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
                             )}
                           </div>
                         </div>
                         
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            <h3 className="text-xl font-bold text-white bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-                              {selectedDevice.name}
-                            </h3>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1 min-w-0 pr-3">
+                              <h3 className="text-xl font-black text-white truncate" 
+                                  style={{ 
+                                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 30%, #ffffff 70%, #f0f9ff 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    letterSpacing: '-0.01em',
+                                    textShadow: '0 0 20px rgba(255,255,255,0.1)'
+                                  }}>
+                                {selectedDevice.name}
+                              </h3>
+                            </div>
                             {selectedDevice.isVerified && (
-                              <div className="relative">
-                                <div className="absolute inset-0 bg-green-500/30 rounded-full blur-sm" />
-                                <CheckCircle className="relative w-6 h-6 text-green-400" />
+                              <div className="relative flex-shrink-0">
+                                <div className="absolute inset-0 bg-green-400/30 rounded-full blur-md scale-125" />
+                                <div className="relative w-6 h-6 bg-green-400/20 border border-green-400/40 rounded-full flex items-center justify-center backdrop-blur-xl">
+                                  <CheckCircle className="w-3.5 h-3.5 text-green-400" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
+                                </div>
                               </div>
                             )}
                           </div>
-                          <p className="text-white/70 text-sm font-medium mb-1">{selectedDevice.model}</p>
-                          <div className="flex items-center space-x-2">
-                            <div className="flex items-center space-x-1">
-                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                              <span className="text-green-400 text-xs font-medium">Online</span>
+                          
+                          <p className="text-white/75 text-sm font-medium mb-3 truncate" 
+                             style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            {selectedDevice.model}
+                          </p>
+                          
+                          <div className="flex flex-wrap items-center gap-2">
+                            <div className="flex items-center space-x-1.5 px-2.5 py-1 bg-green-500/15 border border-green-500/25 rounded-full backdrop-blur-xl">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" 
+                                   style={{ boxShadow: '0 0 6px rgba(34,197,94,0.6)' }} />
+                              <span className="text-green-400 text-xs font-medium" 
+                                    style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                                Online
+                              </span>
                             </div>
-                            <span className="text-white/40">•</span>
-                            <span className="text-white/60 text-xs">{selectedDevice.distance}m away</span>
+                            
+                            <div className="flex items-center space-x-1.5 px-2.5 py-1 bg-blue-500/15 border border-blue-500/25 rounded-full backdrop-blur-xl">
+                              <MapPin className="w-3 h-3 text-blue-400" />
+                              <span className="text-blue-400 text-xs font-medium" 
+                                    style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                                {selectedDevice.distance}m
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Premium Info Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-8">
+                {/* Ultra-Premium Apple Pay Info Grid */}
+                <div className="grid grid-cols-2 gap-5 mb-10">
+                  {/* Signal Strength Card */}
                   <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-2xl blur-md group-hover:blur-lg transition-all duration-300" />
-                    <Card className="relative backdrop-blur-xl bg-white/8 border border-white/15 rounded-2xl hover:bg-white/12 transition-all duration-300">
-                      <CardContent className="p-5">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <div className="p-2 bg-green-500/20 rounded-xl">
-                            <Signal className="w-5 h-5 text-green-400" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/12 via-emerald-400/8 to-green-600/12 rounded-[20px] blur-xl scale-105 group-hover:scale-110 transition-all duration-500" />
+                    <div className="relative backdrop-blur-3xl border border-white/20 rounded-[20px] group-hover:border-white/25 transition-all duration-300"
+                         style={{ 
+                           background: 'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(16,185,129,0.04) 100%)',
+                           boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)'
+                         }}>
+                      <div className="p-6">
+                        <div className="flex items-center space-x-4 mb-4">
+                          <div className="w-10 h-10 rounded-[14px] flex items-center justify-center"
+                               style={{ 
+                                 background: 'linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(16,185,129,0.15) 100%)',
+                                 boxShadow: '0 4px 12px rgba(34,197,94,0.2), inset 0 1px 0 rgba(255,255,255,0.2)'
+                               }}>
+                            <Signal className="w-5 h-5 text-green-400" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
                           </div>
-                          <span className="text-white/80 text-sm font-medium">Signal Strength</span>
+                          <span className="text-white/85 text-sm font-medium" 
+                                style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            Signal
+                          </span>
                         </div>
-                        <p className="text-white font-bold text-lg">{selectedDevice.signalStrength}%</p>
-                        <div className="flex space-x-1 mt-2">
+                        <p className="text-white font-bold text-xl mb-3" 
+                           style={{ 
+                             fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                             letterSpacing: '-0.01em'
+                           }}>
+                          {selectedDevice.signalStrength}%
+                        </p>
+                        <div className="flex space-x-1.5">
                           {[...Array(5)].map((_, i) => (
                             <div 
                               key={i}
-                              className={`h-1.5 rounded-full flex-1 ${
+                              className={`h-2 rounded-full flex-1 transition-all duration-300 ${
                                 i < Math.floor(selectedDevice.signalStrength / 20) 
                                   ? 'bg-green-400' 
-                                  : 'bg-white/20'
+                                  : 'bg-white/15'
                               }`} 
+                              style={{ 
+                                boxShadow: i < Math.floor(selectedDevice.signalStrength / 20) 
+                                  ? '0 0 8px rgba(34,197,94,0.4)' 
+                                  : 'none'
+                              }}
                             />
                           ))}
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </div>
 
+                  {/* Distance Card */}
                   <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-2xl blur-md group-hover:blur-lg transition-all duration-300" />
-                    <Card className="relative backdrop-blur-xl bg-white/8 border border-white/15 rounded-2xl hover:bg-white/12 transition-all duration-300">
-                      <CardContent className="p-5">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <div className="p-2 bg-blue-500/20 rounded-xl">
-                            <MapPin className="w-5 h-5 text-blue-400" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/12 via-cyan-400/8 to-blue-600/12 rounded-[20px] blur-xl scale-105 group-hover:scale-110 transition-all duration-500" />
+                    <div className="relative backdrop-blur-3xl border border-white/20 rounded-[20px] group-hover:border-white/25 transition-all duration-300"
+                         style={{ 
+                           background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.04) 100%)',
+                           boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)'
+                         }}>
+                      <div className="p-6">
+                        <div className="flex items-center space-x-4 mb-4">
+                          <div className="w-10 h-10 rounded-[14px] flex items-center justify-center"
+                               style={{ 
+                                 background: 'linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(6,182,212,0.15) 100%)',
+                                 boxShadow: '0 4px 12px rgba(59,130,246,0.2), inset 0 1px 0 rgba(255,255,255,0.2)'
+                               }}>
+                            <MapPin className="w-5 h-5 text-blue-400" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
                           </div>
-                          <span className="text-white/80 text-sm font-medium">Distance</span>
+                          <span className="text-white/85 text-sm font-medium" 
+                                style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            Distance
+                          </span>
                         </div>
-                        <p className="text-white font-bold text-lg">{selectedDevice.distance}m</p>
-                        <p className="text-blue-400 text-xs font-medium mt-1">Ultra close range</p>
-                      </CardContent>
-                    </Card>
+                        <p className="text-white font-bold text-xl mb-2" 
+                           style={{ 
+                             fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                             letterSpacing: '-0.01em'
+                           }}>
+                          {selectedDevice.distance}m
+                        </p>
+                        <div className="px-3 py-1 bg-blue-500/15 border border-blue-500/25 rounded-full">
+                          <p className="text-blue-400 text-xs font-medium" 
+                             style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            Ultra Close Range
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
+                  {/* Battery Card */}
                   {selectedDevice.batteryLevel && (
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-orange-600/20 rounded-2xl blur-md group-hover:blur-lg transition-all duration-300" />
-                      <Card className="relative backdrop-blur-xl bg-white/8 border border-white/15 rounded-2xl hover:bg-white/12 transition-all duration-300">
-                        <CardContent className="p-5">
-                          <div className="flex items-center space-x-3 mb-3">
-                            <div className="p-2 bg-green-500/20 rounded-xl">
-                              <Battery className="w-5 h-5 text-green-400" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-green-500/12 via-emerald-400/8 to-green-600/12 rounded-[20px] blur-xl scale-105 group-hover:scale-110 transition-all duration-500" />
+                      <div className="relative backdrop-blur-3xl border border-white/20 rounded-[20px] group-hover:border-white/25 transition-all duration-300"
+                           style={{ 
+                             background: 'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(16,185,129,0.04) 100%)',
+                             boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)'
+                           }}>
+                        <div className="p-6">
+                          <div className="flex items-center space-x-4 mb-4">
+                            <div className="w-10 h-10 rounded-[14px] flex items-center justify-center"
+                                 style={{ 
+                                   background: 'linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(16,185,129,0.15) 100%)',
+                                   boxShadow: '0 4px 12px rgba(34,197,94,0.2), inset 0 1px 0 rgba(255,255,255,0.2)'
+                                 }}>
+                              <Battery className="w-5 h-5 text-green-400" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
                             </div>
-                            <span className="text-white/80 text-sm font-medium">Battery</span>
+                            <span className="text-white/85 text-sm font-medium" 
+                                  style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              Battery
+                            </span>
                           </div>
-                          <p className="text-white font-bold text-lg">{selectedDevice.batteryLevel}%</p>
-                          <div className="w-full bg-white/20 rounded-full h-1.5 mt-2">
+                          <p className="text-white font-bold text-xl mb-3" 
+                             style={{ 
+                               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                               letterSpacing: '-0.01em'
+                             }}>
+                            {selectedDevice.batteryLevel}%
+                          </p>
+                          <div className="w-full bg-white/15 rounded-full h-2 overflow-hidden">
                             <div 
-                              className="bg-green-400 h-1.5 rounded-full transition-all duration-500"
-                              style={{ width: `${selectedDevice.batteryLevel}%` }}
+                              className="bg-green-400 h-2 rounded-full transition-all duration-700 ease-out"
+                              style={{ 
+                                width: `${selectedDevice.batteryLevel}%`,
+                                boxShadow: '0 0 8px rgba(34,197,94,0.5)'
+                              }}
                             />
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     </div>
                   )}
 
+                  {/* Trust Rating Card */}
                   {selectedDevice.rating && (
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-amber-600/20 rounded-2xl blur-md group-hover:blur-lg transition-all duration-300" />
-                      <Card className="relative backdrop-blur-xl bg-white/8 border border-white/15 rounded-2xl hover:bg-white/12 transition-all duration-300">
-                        <CardContent className="p-5">
-                          <div className="flex items-center space-x-3 mb-3">
-                            <div className="p-2 bg-yellow-500/20 rounded-xl">
-                              <Star className="w-5 h-5 text-yellow-400" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/12 via-amber-400/8 to-yellow-600/12 rounded-[20px] blur-xl scale-105 group-hover:scale-110 transition-all duration-500" />
+                      <div className="relative backdrop-blur-3xl border border-white/20 rounded-[20px] group-hover:border-white/25 transition-all duration-300"
+                           style={{ 
+                             background: 'linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.04) 100%)',
+                             boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)'
+                           }}>
+                        <div className="p-6">
+                          <div className="flex items-center space-x-4 mb-4">
+                            <div className="w-10 h-10 rounded-[14px] flex items-center justify-center"
+                                 style={{ 
+                                   background: 'linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(217,119,6,0.15) 100%)',
+                                   boxShadow: '0 4px 12px rgba(245,158,11,0.2), inset 0 1px 0 rgba(255,255,255,0.2)'
+                                 }}>
+                              <Star className="w-5 h-5 text-yellow-400" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
                             </div>
-                            <span className="text-white/80 text-sm font-medium">Trust Rating</span>
+                            <span className="text-white/85 text-sm font-medium" 
+                                  style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              Trust
+                            </span>
                           </div>
-                          <p className="text-white font-bold text-lg">{selectedDevice.rating}/5.0</p>
-                          <div className="flex space-x-1 mt-2">
+                          <p className="text-white font-bold text-xl mb-3" 
+                             style={{ 
+                               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                               letterSpacing: '-0.01em'
+                             }}>
+                            {selectedDevice.rating}/5.0
+                          </p>
+                          <div className="flex space-x-1">
                             {[...Array(5)].map((_, i) => (
                               <Star 
                                 key={i}
-                                className={`w-3 h-3 ${
+                                className={`w-4 h-4 transition-all duration-300 ${
                                   i < Math.floor(selectedDevice.rating) 
                                     ? 'text-yellow-400 fill-current' 
-                                    : 'text-white/30'
+                                    : 'text-white/25'
                                 }`} 
+                                style={{ 
+                                  filter: i < Math.floor(selectedDevice.rating) 
+                                    ? 'drop-shadow(0 0 4px rgba(245,158,11,0.4))' 
+                                    : 'none'
+                                }}
                               />
                             ))}
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -640,28 +809,50 @@ export default function OfflinePayments() {
                   </div>
                 )}
 
-                {/* Premium Action Buttons */}
-                <div className="space-y-4">
+                {/* Ultra-Premium Apple Pay Action Buttons */}
+                <div className="space-y-5">
                   {otpVerified && (
-                    <Button
-                      onClick={() => {
-                        console.log('🚀 Navigating to send money with device details:', selectedDevice.ownerName);
-                        handleSendPayment();
-                      }}
-                      className="w-full h-16 bg-gradient-to-r from-green-500 via-emerald-500 to-green-500 hover:from-green-600 hover:via-emerald-600 hover:to-green-600 text-white font-bold text-lg rounded-2xl border-0 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300"
-                    >
-                      <Send className="w-6 h-6 mr-3" />
-                      Send Payment to {selectedDevice.ownerName}
-                    </Button>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-400/15 to-green-500/20 rounded-[20px] blur-xl scale-105" />
+                      <button
+                        onClick={() => {
+                          console.log('🚀 Navigating to send money with device details:', selectedDevice.ownerName);
+                          handleSendPayment();
+                        }}
+                        className="relative w-full h-16 rounded-[20px] font-bold text-lg text-white border-0 overflow-hidden transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+                        style={{
+                          background: 'linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%)',
+                          boxShadow: '0 12px 32px rgba(16,185,129,0.4), 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)',
+                          fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                          letterSpacing: '-0.01em'
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative flex items-center justify-center">
+                          <Send className="w-6 h-6 mr-3" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
+                          Send Payment to {selectedDevice.ownerName}
+                        </div>
+                      </button>
+                    </div>
                   )}
 
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowDeviceDetails(false)}
-                    className="w-full h-14 bg-white/5 hover:bg-white/10 border-white/20 hover:border-white/30 text-white font-semibold rounded-2xl backdrop-blur-xl transition-all duration-300"
-                  >
-                    Close Details
-                  </Button>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/8 to-white/5 rounded-[18px] blur-md" />
+                    <button
+                      onClick={() => setShowDeviceDetails(false)}
+                      className="relative w-full h-14 rounded-[18px] font-semibold text-white border border-white/25 backdrop-blur-2xl transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] hover:border-white/35"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%)',
+                        boxShadow: '0 8px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.15)',
+                        fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-[18px]" />
+                      <span className="relative" style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))' }}>
+                        Close Details
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
