@@ -157,8 +157,8 @@ Generated on: ${new Date().toLocaleString()}
 
   return (
     <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl animate-in fade-in-0 duration-300">
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-gradient-to-br from-gray-900/98 via-gray-800/95 to-black/98 backdrop-blur-3xl border border-white/10 rounded-3xl shadow-2xl animate-in slide-in-from-bottom-8 duration-500">
+      <div className="absolute inset-0 flex items-center justify-center p-4 pb-24">
+        <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-br from-gray-900/98 via-gray-800/95 to-black/98 backdrop-blur-3xl border border-white/10 rounded-3xl shadow-2xl animate-in slide-in-from-bottom-8 duration-500">
           
           {/* Premium Header */}
           <div className="relative p-6 pb-4">
@@ -216,7 +216,7 @@ Generated on: ${new Date().toLocaleString()}
           </div>
 
           {/* Transaction Details */}
-          <div className="px-6 pb-6 space-y-4">
+          <div className="px-6 pb-24 space-y-4">
             {/* Location & Date */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10">
