@@ -960,77 +960,7 @@ export default function OfflinePayments() {
             </div>
           )}
 
-          {/* Scan Controls */}
-          {isBluetoothEnabled && (
-            <div className="mb-6 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-500/5 via-blue-500/5 to-gray-500/5 rounded-2xl blur-lg" />
-              
-              <Card className="relative backdrop-blur-2xl bg-white/5 border border-white/10 rounded-2xl shadow-xl overflow-hidden">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-sm font-semibold text-white/80">Scan Controls</h4>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={toggleAdvancedMode}
-                      className="text-white/60 hover:text-white/80 hover:bg-white/10 rounded-xl"
-                    >
-                      {isAdvancedMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </Button>
-                  </div>
-                  
-                  {/* Scan Range Selector */}
-                  <div className="flex space-x-2 mb-4">
-                    {['near', 'medium', 'far'].map((range) => (
-                      <Button
-                        key={range}
-                        variant={scanRange === range ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => setScanRangeHandler(range as any)}
-                        className={`flex-1 rounded-xl text-xs font-medium transition-all duration-300 ${
-                          scanRange === range
-                            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30 hover:bg-blue-500/25'
-                            : 'text-white/60 hover:text-white/80 hover:bg-white/10'
-                        }`}
-                      >
-                        <MapPin className="w-3 h-3 mr-1" />
-                        {range === 'near' ? '0-3m' : range === 'medium' ? '3-10m' : '10m+'}
-                      </Button>
-                    ))}
-                  </div>
-                  
-                  {/* Scanning Progress */}
-                  {isScanning && (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-white/60 font-medium">Scanning progress</span>
-                        <span className="text-blue-300 font-semibold">{Math.round(scanningProgress)}%</span>
-                      </div>
-                      <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                        <div 
-                          className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 rounded-full transition-all duration-300 shadow-lg shadow-blue-500/30"
-                          style={{ width: `${scanningProgress}%` }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Manual Refresh */}
-                  {!isScanning && (
-                    <Button
-                      onClick={startBluetoothScan}
-                      variant="ghost"
-                      size="sm"
-                      className="w-full rounded-xl text-white/60 hover:text-white/80 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300"
-                    >
-                      <RefreshCw className="w-4 h-4 mr-2" />
-                      Refresh Scan
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          )}
+
 
           {/* Nearby Devices List */}
           {filteredDevices.length > 0 && (
