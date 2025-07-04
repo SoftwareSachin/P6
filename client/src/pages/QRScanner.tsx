@@ -237,12 +237,9 @@ export default function QRScanner() {
 
           {/* Quick access buttons */}
           <div className="grid grid-cols-2 gap-4 mt-12 w-full max-w-sm">
-            <Button 
-              onClick={() => setScanningStage('detected')}
-              className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2"
-            >
-              <QrCode className="h-6 w-6" />
-              <span className="text-sm">Skip to Demo</span>
+            <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
+              <Image className="h-6 w-6" />
+              <span className="text-sm">From Gallery</span>
             </Button>
             <Button className="apple-pay-glass h-16 rounded-2xl flex flex-col items-center justify-center space-y-2">
               <ApplePayContactlessSVG className="h-6 w-6" />
