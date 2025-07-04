@@ -16,12 +16,15 @@ import { OPPBLogoSVG } from "@/components/PremiumSVGs";
 import { IOSMemojiSVG } from "@/components/iOSMemojiSVG";
 import { UltraPremiumChipSVG } from "@/components/UltraPremiumChipSVG";
 import { PremiumProfileIconSVG, PremiumCardsIconSVG, PremiumSecurityIconSVG, PremiumRewardsIconSVG, PremiumHelpIconSVG, PremiumLogoutIconSVG, PremiumSettingsIconSVG } from "@/components/PremiumMenuIcons";
+import { TransactionDetails } from "@/components/TransactionDetails";
 
 export default function ApplePayDashboard() {
   const [showBalance, setShowBalance] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const [selectedCard, setSelectedCard] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false);
   const { user, isAuthenticated: authStatus, error: authError } = useAuth();
   const { createError, getUserFriendlyMessage } = useErrorHandler();
 
@@ -113,6 +116,16 @@ export default function ApplePayDashboard() {
     if (hour < 12) return "Good morning";
     if (hour < 17) return "Good afternoon";
     return "Good evening";
+  };
+
+  const handleTransactionClick = (transaction: any) => {
+    setSelectedTransaction(transaction);
+    setShowTransactionDetails(true);
+  };
+
+  const handleCloseTransactionDetails = () => {
+    setShowTransactionDetails(false);
+    setSelectedTransaction(null);
   };
 
   // Premium Payment Cards - Apple Pay Style with Enhanced Bank Selection
@@ -554,6 +567,7 @@ export default function ApplePayDashboard() {
               <div 
                 key={transaction.id} 
                 className="p-4 rounded-2xl dark-mode-card hover:apple-pay-card transition-all duration-300 cursor-pointer group transaction-success"
+                onClick={() => handleTransactionClick(transaction)}
               >
                 <div className="flex items-center space-x-4">
                   <div className="relative">
@@ -705,6 +719,14 @@ export default function ApplePayDashboard() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Transaction Details Modal */}
+      {showTransactionDetails && selectedTransaction && (
+        <TransactionDetails 
+          transaction={selectedTransaction} 
+          onClose={handleCloseTransactionDetails} 
+        />
       )}
 
       <BottomNavigation activeTab="home" />
