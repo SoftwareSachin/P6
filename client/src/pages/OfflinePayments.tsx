@@ -690,98 +690,23 @@ export default function OfflinePayments() {
                   </Card>
                 </div>
 
-                {/* Ultra-Premium Secure Verification Section */}
+                {/* Simple Apple Pay Verification Button */}
                 {!otpVerified && !showOTPVerification && (
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/12 via-cyan-400/8 to-blue-600/12 rounded-[28px] blur-2xl scale-105" />
-                    
-                    <div className="relative backdrop-blur-3xl border border-white/20 rounded-[28px] overflow-hidden"
-                         style={{ 
-                           background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.04) 100%)',
-                           boxShadow: '0 8px 32px rgba(0,0,0,0.2), 0 1px 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.15)'
-                         }}>
-                      <div className="p-8">
-                        <div className="flex items-center space-x-5 mb-6">
-                          <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/25 via-cyan-400/15 to-blue-600/25 rounded-[18px] blur-lg scale-110" />
-                            <div className="relative w-14 h-14 rounded-[18px] flex items-center justify-center"
-                                 style={{ 
-                                   background: 'linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(6,182,212,0.15) 100%)',
-                                   boxShadow: '0 8px 24px rgba(59,130,246,0.25), inset 0 1px 0 rgba(255,255,255,0.2)'
-                                 }}>
-                              <KeyRound className="w-7 h-7 text-blue-300" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="text-white font-black text-xl mb-1" 
-                                style={{ 
-                                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                                  background: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 30%, #ffffff 70%, #f0f9ff 100%)',
-                                  WebkitBackgroundClip: 'text',
-                                  WebkitTextFillColor: 'transparent',
-                                  backgroundClip: 'text',
-                                  letterSpacing: '-0.01em'
-                                }}>
-                              Secure Verification
-                            </h4>
-                            <p className="text-white/70 text-sm font-medium" 
-                               style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                              Enterprise-grade authentication required
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <div className="relative group">
-                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-cyan-400/15 to-blue-500/20 rounded-[20px] blur-xl scale-105 group-hover:scale-110 transition-all duration-500" />
-                          <button
-                            onClick={handleInitiateOTP}
-                            className="relative w-full h-16 rounded-[20px] font-bold text-lg text-white border-0 overflow-hidden transition-all duration-500 transform hover:scale-[1.02] active:scale-[0.98] group"
-                            style={{
-                              background: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #0EA5E9 100%)',
-                              boxShadow: '0 12px 32px rgba(59,130,246,0.4), 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)',
-                              fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                              letterSpacing: '-0.01em'
-                            }}
-                          >
-                            {/* Shimmer Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                            
-                            {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            
-                            <div className="relative flex items-center justify-center">
-                              <div className="mr-4 p-2 bg-white/15 rounded-full group-hover:bg-white/25 transition-all duration-300">
-                                <KeyRound className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
-                              </div>
-                              <span className="group-hover:tracking-wide transition-all duration-300">
-                                Initiate Secure Authentication
-                              </span>
-                            </div>
-                            
-                            {/* Bottom Glow */}
-                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          </button>
-                        </div>
-                        
-                        {/* Security Features */}
-                        <div className="flex items-center justify-center space-x-6 mt-4 pt-4 border-t border-white/10">
-                          <div className="flex items-center space-x-2">
-                            <Shield className="w-4 h-4 text-blue-400" />
-                            <span className="text-white/60 text-xs font-medium" 
-                                  style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                              256-bit Encryption
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Lock className="w-4 h-4 text-blue-400" />
-                            <span className="text-white/60 text-xs font-medium" 
-                                  style={{ fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                              Biometric Ready
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="relative mb-6">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-cyan-400/10 to-blue-600/15 rounded-[20px] blur-xl scale-105" />
+                    <button
+                      onClick={handleInitiateOTP}
+                      className="relative w-full h-16 rounded-[20px] font-semibold text-lg text-white border-0 overflow-hidden transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        background: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #0EA5E9 100%)',
+                        boxShadow: '0 8px 24px rgba(59,130,246,0.3), 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2)',
+                        fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                        letterSpacing: '-0.01em'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                      <span className="relative">Send OTP</span>
+                    </button>
                   </div>
                 )}
 
