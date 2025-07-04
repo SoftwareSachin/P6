@@ -369,17 +369,17 @@ export default function Transit() {
                     </div>
 
                     {/* Ultra-Premium Balance Display */}
-                    <div className="space-y-4 mb-8">
-                      <p className="text-white/80 text-sm font-semibold tracking-wide drop-shadow-sm">Current Balance</p>
+                    <div className="space-y-2 mb-6">
+                      <p className="text-white/80 text-xs font-semibold tracking-wide drop-shadow-sm uppercase">Current Balance</p>
                       <div className="relative">
                         <p 
-                          className="text-white text-5xl font-black tracking-tight drop-shadow-lg"
+                          className="text-white text-3xl font-black tracking-tight drop-shadow-lg"
                           style={{
                             textShadow: '0 3px 12px rgba(0,0,0,0.4), 0 0 24px rgba(255,255,255,0.15)',
                             fontFeatureSettings: '"tnum" 1',
                             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
                             backgroundClip: 'text',
-                            WebkitBackgroundClip: 'text',
+                            WebkitBackdropClip: 'text',
                             WebkitTextFillColor: 'transparent'
                           }}
                         >
