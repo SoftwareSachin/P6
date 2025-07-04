@@ -379,7 +379,7 @@ export default function Transit() {
                             fontFeatureSettings: '"tnum" 1',
                             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
                             backgroundClip: 'text',
-                            WebkitBackdropClip: 'text',
+                            WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent'
                           }}
                         >
@@ -475,77 +475,144 @@ export default function Transit() {
           </div>
         </div>
 
-        {/* Recent Routes */}
+        {/* Ultra-Premium Recent Routes */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Recent Routes</h2>
-          <div className="space-y-3">
-            {recentRoutes.map((route) => (
-              <Card
-                key={route.id}
-                className="border-0 cursor-pointer hover:scale-[1.02] transition-all duration-300"
-                style={{
-                  background: `
-                    linear-gradient(135deg, 
-                      rgba(255,255,255,0.10) 0%, 
-                      rgba(255,255,255,0.05) 100%
-                    )
-                  `,
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center backdrop-blur-sm border ${
-                      route.type === 'metro' 
-                        ? 'bg-blue-500/20 border-blue-400/30' 
-                        : 'bg-green-500/20 border-green-400/30'
-                    }`}>
-                      {route.type === 'metro' ? 
-                        <MetroIconSVG className="w-8 h-8" animated={true} /> :
-                        <BusIconSVG className="w-8 h-8" animated={true} />
-                      }
-                    </div>
-
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <h3 className="text-white font-semibold">{route.routeName}</h3>
-                        <Badge
-                          className={`text-xs ${
-                            route.status === 'on_time' ? 'bg-green-500/20 text-green-400' :
-                            route.status === 'delayed' ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-red-500/20 text-red-400'
+          <h2 className="text-xl font-bold text-white mb-6 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent" style={{ fontFamily: 'SF Pro Display, system-ui' }}>
+            Recent Routes
+          </h2>
+          <div className="space-y-4">
+            {recentRoutes.map((route, index) => (
+              <div key={route.id} className="relative group">
+                {/* Card glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-3xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <Card
+                  className="relative border-0 cursor-pointer transition-all duration-500 transform-gpu group-hover:scale-[1.02] group-hover:rotate-0.5"
+                  style={{
+                    background: `
+                      linear-gradient(145deg, 
+                        rgba(255,255,255,0.15) 0%, 
+                        rgba(255,255,255,0.08) 30%, 
+                        rgba(255,255,255,0.05) 60%, 
+                        rgba(0,0,0,0.05) 100%
+                      )
+                    `,
+                    backdropFilter: 'blur(30px) saturate(1.8) contrast(1.2)',
+                    WebkitBackdropFilter: 'blur(30px) saturate(1.8) contrast(1.2)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    boxShadow: `
+                      0 20px 40px -15px rgba(0,0,0,0.6), 
+                      0 8px 16px -6px rgba(0,0,0,0.4),
+                      inset 0 2px 4px rgba(255,255,255,0.15), 
+                      inset 0 -2px 4px rgba(0,0,0,0.1)
+                    `,
+                    borderRadius: '24px',
+                    fontFamily: 'SF Pro Display, system-ui'
+                  }}
+                >
+                  {/* Holographic shimmer effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer opacity-0 group-hover:opacity-100" />
+                  
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-5">
+                      {/* Ultra-Premium Icon Container */}
+                      <div className="relative">
+                        <div className={`absolute inset-0 rounded-2xl blur-md ${
+                          route.type === 'metro' 
+                            ? 'bg-gradient-to-br from-blue-500/40 to-purple-500/40' 
+                            : 'bg-gradient-to-br from-green-500/40 to-emerald-500/40'
+                        }`} />
+                        <div 
+                          className={`relative w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-lg border-2 ${
+                            route.type === 'metro' 
+                              ? 'border-blue-400/40' 
+                              : 'border-green-400/40'
                           }`}
+                          style={{
+                            background: route.type === 'metro' 
+                              ? 'linear-gradient(135deg, rgba(59,130,246,0.3) 0%, rgba(147,51,234,0.3) 100%)'
+                              : 'linear-gradient(135deg, rgba(34,197,94,0.3) 0%, rgba(16,185,129,0.3) 100%)',
+                            boxShadow: `
+                              inset 0 2px 8px rgba(255,255,255,0.2), 
+                              inset 0 -2px 8px rgba(0,0,0,0.1),
+                              0 8px 20px rgba(0,0,0,0.3)
+                            `
+                          }}
                         >
-                          {route.status === 'on_time' ? 'On Time' :
-                           route.status === 'delayed' ? 'Delayed' : 'Cancelled'}
-                        </Badge>
+                          {route.type === 'metro' ? 
+                            <MetroIconSVG className="w-10 h-10 text-white drop-shadow-lg" animated={true} /> :
+                            <BusIconSVG className="w-10 h-10 text-white drop-shadow-lg" animated={true} />
+                          }
+                        </div>
                       </div>
-                      
-                      <div className="flex items-center space-x-4 text-sm text-gray-400">
-                        <span>{route.from} → {route.to}</span>
-                        <span>•</span>
-                        <span>{route.duration}</span>
-                        <span>•</span>
-                        <span>₹{route.fare}</span>
-                      </div>
-                      
-                      <div className="flex items-center space-x-2 mt-2">
-                        <Clock className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm text-gray-400">Next in {route.nextArrival}</span>
-                      </div>
-                    </div>
 
-                    <Button
-                      size="sm"
-                      className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
-                    >
-                      Book
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                      {/* Ultra-Premium Content */}
+                      <div className="flex-1 space-y-3">
+                        {/* Route Header */}
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-white font-black text-lg tracking-tight drop-shadow-lg">
+                            {route.routeName}
+                          </h3>
+                          <Badge
+                            className={`text-xs font-black px-3 py-1.5 rounded-full border-0 backdrop-blur-lg ${
+                              route.status === 'on_time' ? 'text-green-100' :
+                              route.status === 'delayed' ? 'text-yellow-100' :
+                              'text-red-100'
+                            }`}
+                            style={{
+                              background: route.status === 'on_time' 
+                                ? 'linear-gradient(135deg, rgba(34,197,94,0.5) 0%, rgba(34,197,94,0.25) 100%)'
+                                : route.status === 'delayed'
+                                ? 'linear-gradient(135deg, rgba(234,179,8,0.5) 0%, rgba(234,179,8,0.25) 100%)'
+                                : 'linear-gradient(135deg, rgba(239,68,68,0.5) 0%, rgba(239,68,68,0.25) 100%)',
+                              boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.2)'
+                            }}
+                          >
+                            {route.status === 'on_time' ? 'ON TIME' :
+                             route.status === 'delayed' ? 'DELAYED' : 'CANCELLED'}
+                          </Badge>
+                        </div>
+                        
+                        {/* Route Details */}
+                        <div className="flex items-center space-x-3 text-sm">
+                          <span className="text-white/90 font-semibold drop-shadow-sm">
+                            {route.from} → {route.to}
+                          </span>
+                          <div className="w-1 h-1 bg-white/50 rounded-full" />
+                          <span className="text-white/80 font-medium">{route.duration}</span>
+                          <div className="w-1 h-1 bg-white/50 rounded-full" />
+                          <span className="text-white/80 font-medium">₹{route.fare}</span>
+                        </div>
+                        
+                        {/* Next Arrival */}
+                        <div className="flex items-center space-x-2">
+                          <Clock className="w-4 h-4 text-white/70 drop-shadow-sm" />
+                          <span className="text-white/80 text-sm font-medium drop-shadow-sm">
+                            Next in {route.nextArrival}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Ultra-Premium Book Button */}
+                      <Button
+                        size="sm"
+                        className="h-12 px-6 rounded-2xl font-bold transition-all duration-300 hover:scale-105 border-0"
+                        style={{
+                          background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                          boxShadow: `
+                            0 8px 20px rgba(0,122,255,0.4), 
+                            inset 0 2px 4px rgba(255,255,255,0.2), 
+                            inset 0 -2px 4px rgba(0,0,0,0.1)
+                          `,
+                          textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                        }}
+                      >
+                        Book
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
