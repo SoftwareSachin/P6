@@ -25,7 +25,7 @@ export default function OfflinePayments() {
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
-  const [soundEnabled, setSoundEnabled] = useState(true);
+
   const [showPinEntry, setShowPinEntry] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   const scanIntervalRef = useRef<NodeJS.Timeout>();
@@ -36,11 +36,8 @@ export default function OfflinePayments() {
   const [localLedger, setLocalLedger] = useState<any[]>([]);
   const [pendingSync, setPendingSync] = useState<any[]>([]);
   const [fraudAlert, setFraudAlert] = useState<string | null>(null);
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [meshNetworkDevices, setMeshNetworkDevices] = useState<any[]>([]);
-  const [smsCapable, setSmsCapable] = useState(false);
-  const [wifiDirectEnabled, setWifiDirectEnabled] = useState(false);
+
+
   const [cryptoKeys, setCryptoKeys] = useState<{ public: string; private: string } | null>(null);
   const [transactionHistory, setTransactionHistory] = useState<any[]>([]);
   
@@ -94,14 +91,6 @@ export default function OfflinePayments() {
 
   // Real-time system monitoring and updates
   useEffect(() => {
-    // Check device capabilities
-    if ('sms' in navigator || 'messaging' in navigator) {
-      setSmsCapable(true);
-    }
-    
-    if ('wifi' in navigator || 'bluetooth' in navigator) {
-      setWifiDirectEnabled(true);
-    }
 
     // Robust system metrics monitoring with stable updates
     const systemMonitoring = setInterval(() => {
@@ -281,8 +270,7 @@ export default function OfflinePayments() {
     setPendingSync(updatedPending);
     localStorage.setItem('oppb_pending_sync', JSON.stringify(updatedPending));
 
-    // Audio and haptic feedback
-    playAudioFeedback('payment_success');
+    // Haptic feedback
     if (navigator.vibrate) {
       navigator.vibrate([100, 50, 100, 50, 100]);
     }
@@ -318,29 +306,11 @@ export default function OfflinePayments() {
     }
   };
 
-  // Audio feedback for actions
-  const playAudioFeedback = (action: string) => {
-    if (!audioEnabled) return;
 
-    const audioMessages: Record<string, string> = {
-      'scan_start': `Scanning for nearby devices in ${currentLanguage === 'hi' ? 'हिंदी' : 'English'}`,
-      'device_found': `Device found`,
-      'connection_success': `Connected successfully`,
-      'payment_success': `Payment completed`,
-      'error': `Error occurred`
-    };
-
-    if ('speechSynthesis' in window) {
-      const message = audioMessages[action as keyof typeof audioMessages] || action;
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-US';
-      speechSynthesis.speak(utterance);
-    }
-  };
 
   // SMS fallback for transactions
   const sendSMSFallback = async (transactionData: any) => {
-    if (!smsCapable) return false;
+    return false;
 
     try {
       const smsData = {
@@ -362,19 +332,7 @@ export default function OfflinePayments() {
     }
   };
 
-  // Mesh networking capabilities
-  const discoverMeshNetwork = () => {
-    if (!wifiDirectEnabled) return;
 
-    // Simulate mesh network discovery
-    const meshDevices = [
-      { id: 'MESH_001', name: 'OPPB Relay Node 1', type: 'relay', distance: '2m' },
-      { id: 'MESH_002', name: 'OPPB Relay Node 2', type: 'relay', distance: '5m' },
-      { id: 'MESH_003', name: 'Local Payment Hub', type: 'hub', distance: '3m' }
-    ];
-
-    setMeshNetworkDevices(meshDevices);
-  };
 
   const handleBluetoothToggle = () => {
     if (isBluetoothEnabled) {
@@ -431,7 +389,7 @@ export default function OfflinePayments() {
     setIsScanning(true);
     setNearbyDevices([]);
     setScanningProgress(0);
-    playAudioFeedback('scan_start');
+
     
     // Clear any existing intervals
     if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
@@ -504,8 +462,7 @@ export default function OfflinePayments() {
               setRealDevices(stableDevices);
               setLiveConnections(endIndex);
               
-              // Single audio feedback on first discovery
-              if (step === 0) playAudioFeedback('device_found');
+
               
               console.log(`🔍 Step ${step + 1}: Discovered ${endIndex} devices`);
             }, step * 800); // Consistent timing without randomness
@@ -516,7 +473,7 @@ export default function OfflinePayments() {
         
       } catch (error) {
         console.error('Enhanced discovery failed:', error);
-        playAudioFeedback('error');
+
       }
     };
     
@@ -531,7 +488,6 @@ export default function OfflinePayments() {
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
       }
-      playAudioFeedback('connection_success');
       
       // Mark devices as ready without excessive updates
       setNearbyDevices(prev => prev.map((device: any) => ({
@@ -633,7 +589,6 @@ export default function OfflinePayments() {
   const connectToDevice = async (device: any) => {
     setSelectedDevice(device);
     setConnectionStatus('connecting');
-    playAudioFeedback('connection_success');
     
     // Real-time connection simulation with progressive updates
     const connectionSteps = [
@@ -694,9 +649,6 @@ export default function OfflinePayments() {
       // Store monitoring interval reference
       (window as any).sessionMonitoring = sessionMonitoring;
 
-      // Audio confirmation
-      playAudioFeedback('connection_success');
-      
       // Haptic feedback
       if (navigator.vibrate) {
         navigator.vibrate([200, 100, 200]);
@@ -930,35 +882,7 @@ export default function OfflinePayments() {
       {/* Discovery Stage */}
       {paymentStage === 'discovery' && (
         <div className="px-4 relative z-10">
-          {/* Scanning Status */}
-          {isBluetoothEnabled && (
-            <div className="mb-6 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-lg" />
-              
-              <Card className="relative backdrop-blur-2xl bg-white/8 border border-white/15 rounded-2xl shadow-xl overflow-hidden">
-                <CardContent className="p-8 text-center">
-                  <div className="relative mb-6">
-                    <BluetoothDiscoverySVG className="w-24 h-24 mx-auto" animated={isScanning} />
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-white bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent mb-3">
-                    {isScanning ? 'Scanning for Devices...' : 'Ready to Scan'}
-                  </h3>
-                  <p className="text-white/60 text-sm font-medium mb-6">
-                    {isScanning ? 'Looking for nearby payment-enabled devices' : 'Enable Bluetooth to find nearby devices'}
-                  </p>
-                  
-                  {isScanning && (
-                    <div className="flex justify-center space-x-3">
-                      <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-bounce shadow-lg shadow-blue-500/50" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-bounce shadow-lg shadow-purple-500/50" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-bounce shadow-lg shadow-blue-500/50" style={{ animationDelay: '300ms' }}></div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          )}
+
 
 
 
