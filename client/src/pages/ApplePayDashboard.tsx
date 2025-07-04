@@ -293,9 +293,9 @@ export default function ApplePayDashboard() {
               
               {/* Enhanced online indicator */}
               <div className="absolute -bottom-1 -right-1">
-                <div className="absolute inset-0 bg-green-400 rounded-full animate-ping scale-150" />
+                <div className="absolute inset-0 bg-green-400 rounded-full scale-150" />
                 <div className="relative w-7 h-7 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-3 border-black shadow-lg flex items-center justify-center">
-                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  <div className="w-2 h-2 bg-white rounded-full" />
                 </div>
               </div>
             </div>
