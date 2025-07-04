@@ -46,8 +46,8 @@ export const ApplePayQuickActions = () => {
       subtitle: "Cards & Passes",
       icon: ApplePayWalletSVG,
       href: "/wallet",
-      gradient: "linear-gradient(135deg, #BF5AF2 0%, #AF52DE 100%)",
-      glowColor: "rgba(191, 90, 242, 0.3)",
+      gradient: "linear-gradient(135deg, #BF5AF2 0%, #AF52DE 50%, #8E44AD 80%, #7D3C98 100%)",
+      glowColor: "rgba(191, 90, 242, 0.4)",
       description: "Manage payment methods"
     },
     {
@@ -83,7 +83,17 @@ export const ApplePayQuickActions = () => {
           <Card
             className="group relative overflow-hidden border-0 cursor-pointer ultra-premium-card"
             style={{
-              background: `
+              background: action.id === 4 ? `
+                linear-gradient(135deg, 
+                  rgba(255,255,255,0.25) 0%, 
+                  rgba(255,255,255,0.12) 25%, 
+                  rgba(255,255,255,0.08) 50%, 
+                  rgba(0,0,0,0.05) 75%, 
+                  rgba(0,0,0,0.15) 100%
+                ),
+                ${action.gradient},
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 70%)
+              ` : `
                 linear-gradient(135deg, 
                   rgba(255,255,255,0.15) 0%, 
                   rgba(255,255,255,0.05) 25%, 
@@ -93,18 +103,25 @@ export const ApplePayQuickActions = () => {
                 ),
                 ${action.gradient}
               `,
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              boxShadow: `
+              backdropFilter: action.id === 4 ? 'blur(30px) saturate(1.8)' : 'blur(20px)',
+              WebkitBackdropFilter: action.id === 4 ? 'blur(30px) saturate(1.8)' : 'blur(20px)',
+              border: action.id === 4 ? '1.5px solid rgba(255,255,255,0.35)' : '1px solid rgba(255,255,255,0.2)',
+              boxShadow: action.id === 4 ? `
+                0 16px 48px rgba(191, 90, 242, 0.25),
+                0 8px 24px rgba(175, 82, 222, 0.15),
+                0 4px 16px rgba(0,0,0,0.12),
+                inset 0 2px 4px rgba(255,255,255,0.25),
+                inset 0 -2px 4px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(191, 90, 242, 0.1)
+              ` : `
                 0 8px 32px rgba(0,0,0,0.12),
                 0 4px 16px rgba(0,0,0,0.08),
                 inset 0 1px 0 rgba(255,255,255,0.2),
                 inset 0 -1px 0 rgba(0,0,0,0.1)
               `,
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
               transform: 'translateZ(0) scale(1)',
-              willChange: 'transform, box-shadow'
+              willChange: 'transform, box-shadow, filter'
             }}
           >
             <CardContent className="p-5 relative z-10 h-[120px] flex flex-col justify-center">
@@ -113,42 +130,58 @@ export const ApplePayQuickActions = () => {
                 <div 
                   className="w-14 h-14 rounded-2xl flex items-center justify-center icon-container group-hover:scale-110 transition-all duration-300"
                   style={{
-                    background: `
+                    background: action.id === 4 ? `
+                      linear-gradient(135deg, 
+                        rgba(255,255,255,0.35) 0%, 
+                        rgba(255,255,255,0.25) 30%, 
+                        rgba(255,255,255,0.15) 70%, 
+                        rgba(255,255,255,0.1) 100%
+                      ),
+                      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.4) 0%, transparent 60%)
+                    ` : `
                       linear-gradient(135deg, 
                         rgba(255,255,255,0.25) 0%, 
                         rgba(255,255,255,0.15) 50%, 
                         rgba(255,255,255,0.1) 100%
                       )
                     `,
-                    backdropFilter: 'blur(15px)',
-                    WebkitBackdropFilter: 'blur(15px)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    boxShadow: `
+                    backdropFilter: action.id === 4 ? 'blur(20px) saturate(1.5)' : 'blur(15px)',
+                    WebkitBackdropFilter: action.id === 4 ? 'blur(20px) saturate(1.5)' : 'blur(15px)',
+                    border: action.id === 4 ? '1.5px solid rgba(255,255,255,0.4)' : '1px solid rgba(255,255,255,0.3)',
+                    boxShadow: action.id === 4 ? `
+                      0 8px 24px rgba(191, 90, 242, 0.2),
+                      0 4px 16px rgba(0,0,0,0.15),
+                      inset 0 2px 4px rgba(255,255,255,0.5),
+                      inset 0 -2px 4px rgba(0,0,0,0.15),
+                      0 0 20px rgba(191, 90, 242, 0.1)
+                    ` : `
                       0 4px 16px rgba(0,0,0,0.15),
                       inset 0 1px 0 rgba(255,255,255,0.4),
                       inset 0 -1px 0 rgba(0,0,0,0.1)
                     `
                   }}
                 >
-                  <action.icon className="w-7 h-7 text-white drop-shadow-lg" />
+                  <action.icon className={action.id === 4 ? "w-8 h-8 text-white drop-shadow-xl" : "w-7 h-7 text-white drop-shadow-lg"} />
                 </div>
                 
                 {/* Premium Text with SF Pro Typography */}
                 <div className="space-y-0.5">
                   <h3 
-                    className="text-white font-semibold text-base leading-tight"
+                    className={action.id === 4 ? "text-white font-bold text-base leading-tight tracking-tight" : "text-white font-semibold text-base leading-tight"}
                     style={{ 
                       fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15)'
+                      textShadow: action.id === 4 ? '0 2px 4px rgba(0,0,0,0.4), 0 4px 8px rgba(191,90,242,0.2)' : '0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15)',
+                      letterSpacing: action.id === 4 ? '-0.02em' : 'normal'
                     }}
                   >
                     {action.title}
                   </h3>
                   <p 
-                    className="text-white/75 text-sm font-medium leading-tight"
+                    className={action.id === 4 ? "text-white/85 text-sm font-semibold leading-tight" : "text-white/75 text-sm font-medium leading-tight"}
                     style={{ 
                       fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.2)'
+                      textShadow: action.id === 4 ? '0 1px 3px rgba(0,0,0,0.3), 0 2px 6px rgba(191,90,242,0.15)' : '0 1px 2px rgba(0,0,0,0.2)',
+                      letterSpacing: action.id === 4 ? '-0.01em' : 'normal'
                     }}
                   >
                     {action.subtitle}
