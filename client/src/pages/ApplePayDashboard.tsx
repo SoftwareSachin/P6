@@ -315,7 +315,7 @@ export default function ApplePayDashboard() {
           <div className="flex items-center space-x-4">
             {/* Security/Notifications Button */}
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full blur-lg animate-pulse" />
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full blur-lg" />
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -326,7 +326,6 @@ export default function ApplePayDashboard() {
                   
                   {/* Ultra-premium notification badge */}
                   <div className="absolute -top-3 -right-3">
-                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping scale-125" />
                     <div className="relative w-7 h-7 bg-gradient-to-br from-red-500 to-red-600 rounded-full border-2 border-white/20 shadow-2xl flex items-center justify-center backdrop-blur-sm">
                       <span className="text-xs font-bold text-white">2</span>
                     </div>
