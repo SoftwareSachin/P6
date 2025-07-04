@@ -14,7 +14,7 @@ import authGif from "@assets/fetchpik.com-iconscout-QcuPAs3flx_1751393184609.gif
 import paymentProcessingGif from "@assets/fetchpik.com-iconscout-oyH8Q3sTzp_1751390333986.gif";
 
 export default function SendMoney() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [step, setStep] = useState<'contacts' | 'amount' | 'confirm' | 'processing' | 'success'>('contacts');
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [amount, setAmount] = useState("");
@@ -1154,7 +1154,10 @@ export default function SendMoney() {
 
             <div className="space-y-4 mt-8 pb-24">
               <SwipeToSend
-                onComplete={() => window.location.href = '/'}
+                onComplete={() => {
+                  console.log('💰 Payment completed, navigating to dashboard');
+                  setLocation('/dashboard');
+                }}
                 text="Swipe to Complete"
                 variant="success"
                 size="large"

@@ -421,6 +421,7 @@ Changelog:
   * All elements properly spaced with no visual collisions or clashing
   * Premium typography, glass morphism cards, and sophisticated hover effects throughout
   * Complete user flow: Device Discovery → OTP Verification → Secure Payment Transfer
+  * Fixed payment completion navigation to properly route to dashboard instead of welcome screen
 ```
 
 ## User Preferences
