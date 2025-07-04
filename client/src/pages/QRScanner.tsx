@@ -25,6 +25,8 @@ export default function QRScanner() {
   const [transactionId, setTransactionId] = useState("");
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [scanProgress, setScanProgress] = useState(0);
+  const [pin, setPin] = useState("");
+  const [pinAttempts, setPinAttempts] = useState(0);
 
   // Mock merchant data as detected from QR scan
   const detectedMerchant = {
@@ -118,6 +120,48 @@ export default function QRScanner() {
     
     if (amount && parseFloat(amount) > 0) {
       setScanningStage('confirm');
+    }
+  };
+
+  const handlePinInput = (digit: string) => {
+    if (pin.length < 4) {
+      const newPin = pin + digit;
+      setPin(newPin);
+      
+      // Auto-submit when PIN is complete
+      if (newPin.length === 4) {
+        setTimeout(() => {
+          handlePinSubmit(newPin);
+        }, 500);
+      }
+    }
+  };
+
+  const handlePinBackspace = () => {
+    setPin(prev => prev.slice(0, -1));
+  };
+
+  const handlePinSubmit = (submittedPin = pin) => {
+    // Mock PIN validation - in production, this would be validated securely
+    if (submittedPin === "1234") {
+      setScanningStage('processing');
+      setTransactionId(`QR${Date.now()}`);
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        setScanningStage('success');
+      }, 2000);
+    } else {
+      // Handle wrong PIN
+      setPinAttempts(prev => prev + 1);
+      setPin("");
+      
+      if (pinAttempts >= 2) {
+        // After 3 failed attempts, go back to scanning
+        setScanningStage('scanning');
+        setPinAttempts(0);
+        setPin("");
+      }
     }
   };
 
@@ -404,30 +448,106 @@ export default function QRScanner() {
         </div>
       )}
 
-      {/* PIN Entry Stage */}
+      {/* PIN Entry Stage - Matches Send Money Page */}
       {scanningStage === 'pin' && (
-        <div className="flex-1 px-6 py-8">
-          <Card className="apple-pay-card mb-6 border-0">
-            <CardContent className="p-6">
-              <div className="text-center space-y-6">
-                <div className="w-16 h-16 mx-auto apple-pay-gradient rounded-full flex items-center justify-center mb-4">
-                  <Lock className="w-8 h-8 text-white" />
-                </div>
-                
-                <h2 className="text-2xl font-bold text-white">Enter PIN</h2>
-                <p className="text-gray-400">Please enter your 4-digit PIN to complete the payment</p>
-                
-                <div className="space-y-4">
-                  <p className="text-xl text-white">₹{amount} to {detectedMerchant.name}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="min-h-screen bg-black relative overflow-hidden">
+          {/* Ultra-Premium Ambient Background */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900/30 via-black to-blue-900/20" />
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-500/5 to-purple-600/5 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-green-500/5 to-cyan-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-purple-500/3 to-pink-500/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          </div>
 
-          <PinEntry 
-            onComplete={handlePinComplete}
-            onCancel={() => setScanningStage('amount')}
-          />
+          {/* Main Content Container */}
+          <div className="relative z-10 flex flex-col min-h-screen">
+            {/* Content Area */}
+            <div className="flex-1 flex flex-col justify-center px-6 py-8">
+              <div className="text-center space-y-8 w-full max-w-sm mx-auto">
+                {/* Ultra-Premium Header */}
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <h1 className="text-4xl font-bold text-white tracking-tight" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}>
+                      Enter PIN
+                    </h1>
+                    <p className="text-gray-400 text-lg font-medium leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif' }}>
+                      Enter your 4-digit PIN to authorize payment
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-2xl backdrop-blur-xl shadow-2xl">
+                    <p className="text-xl font-semibold" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}>
+                      ₹{amount} to {detectedMerchant.name}
+                    </p>
+                  </div>
+                </div>
+
+                {/* PIN Input Display */}
+                <div className="space-y-8">
+                  <div className="flex justify-center space-x-4">
+                    {[0, 1, 2, 3].map((index) => (
+                      <div
+                        key={index}
+                        className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
+                          index < pin.length
+                            ? 'bg-blue-500 border-blue-500 shadow-lg shadow-blue-500/50'
+                            : 'bg-transparent border-gray-600'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  
+                  {pinAttempts > 0 && (
+                    <div className="text-red-400 text-sm font-medium">
+                      {pinAttempts === 1 ? 'Incorrect PIN. Try again.' : `Incorrect PIN. ${3 - pinAttempts} attempts left.`}
+                    </div>
+                  )}
+                </div>
+
+                {/* Number Pad */}
+                <div className="space-y-4">
+                  <div className="grid grid-cols-3 gap-4">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                      <button
+                        key={num}
+                        onClick={() => handlePinInput(num.toString())}
+                        className="w-20 h-20 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-white text-2xl font-semibold backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4">
+                    <div></div>
+                    <button
+                      onClick={() => handlePinInput('0')}
+                      className="w-20 h-20 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-white text-2xl font-semibold backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                      style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}
+                    >
+                      0
+                    </button>
+                    <button
+                      onClick={handlePinBackspace}
+                      className="w-20 h-20 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-white text-2xl font-semibold backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95 flex items-center justify-center"
+                    >
+                      ⌫
+                    </button>
+                  </div>
+                </div>
+
+                {/* Cancel Button */}
+                <button
+                  onClick={() => setScanningStage('confirm')}
+                  className="text-blue-400 text-lg font-medium hover:text-blue-300 transition-colors duration-200"
+                  style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
