@@ -59,44 +59,43 @@ export const ApplePayQRCodeSVG = ({ className = "w-6 h-6" }: { className?: strin
   </svg>
 );
 
-export const ApplePayPhoneSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <img 
-    src="/src/assets/phone-animated.gif" 
-    alt="Phone"
-    className={className}
-    style={{ objectFit: 'contain' }}
-  />
-);
-
 export const ApplePayWalletSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5zM3 10h18M7 15h.01M17 9h-3"/>
-  </svg>
-);
-
-export const ApplePayLocationSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-  </svg>
-);
-
-export const ApplePayTimeSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="12" cy="12" r="10"/>
-    <polyline points="12,6 12,12 16,14"/>
-  </svg>
-);
-
-export const ApplePaySuccessSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
 export const ApplePaySendMoneySVG = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <line x1="7" y1="17" x2="17" y2="7"/>
-    <polyline points="7,7 17,7 17,17"/>
+    <path d="M12 1v22m5-18h-5a4 4 0 100 8h0a4 4 0 010 8h-5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const ApplePayPhoneSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <line x1="12" y1="18" x2="12" y2="18" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const ApplePayLocationSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="12" cy="10" r="3" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const ApplePayTimeSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/>
+    <polyline points="12,6 12,12 16,14" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const ApplePaySuccessSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" strokeLinecap="round" strokeLinejoin="round"/>
+    <polyline points="22,4 12,14.01 9,11.01" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -122,5 +121,110 @@ export const ApplePayCardStackSVG = ({ className = "w-6 h-6" }: { className?: st
 export const ApplePayBiometricSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M9.3 10.775c0 .86-.71 1.57-1.57 1.57s-1.57-.71-1.57-1.57.71-1.57 1.57-1.57 1.57.7 1.57 1.57zM12 17.5c-1.09 0-2.07-.46-2.75-1.17-.68-.71-1.08-1.67-1.12-2.68h1.5c.04.64.25 1.24.63 1.72.37.48.88.77 1.44.77.56 0 1.07-.29 1.44-.77.38-.48.59-1.08.63-1.72h1.5c-.04 1.01-.44 1.97-1.12 2.68-.68.71-1.66 1.17-2.75 1.17zm5.27-6.725c0 .86-.71 1.57-1.57 1.57s-1.57-.71-1.57-1.57.71-1.57 1.57-1.57 1.57.7 1.57 1.57zM12 4C7.58 4 4 7.58 4 12s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z"/>
+  </svg>
+);
+
+// Ultra-Premium OPPB Logo
+export const OPPBPremiumLogoSVG = ({ className = "w-11 h-11", animated = false }: { className?: string, animated?: boolean }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none">
+    <defs>
+      <radialGradient id="primaryGradient" cx="0.3" cy="0.3" r="0.8">
+        <stop offset="0%" stopColor="#ffffff" stopOpacity="1"/>
+        <stop offset="15%" stopColor="#8b5cf6" stopOpacity="0.9"/>
+        <stop offset="35%" stopColor="#3b82f6" stopOpacity="0.85"/>
+        <stop offset="55%" stopColor="#06b6d4" stopOpacity="0.8"/>
+        <stop offset="75%" stopColor="#8b5cf6" stopOpacity="0.75"/>
+        <stop offset="90%" stopColor="#1e40af" stopOpacity="0.7"/>
+        <stop offset="100%" stopColor="#0f172a" stopOpacity="0.6"/>
+      </radialGradient>
+
+      <filter id="premiumEffects" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" result="blur"/>
+        <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#8b5cf6" floodOpacity="0.3"/>
+        <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="#ffffff" floodOpacity="0.4"/>
+        <feDropShadow dx="0" dy="-1" stdDeviation="2" floodColor="#3b82f6" floodOpacity="0.2"/>
+        <feColorMatrix values="1.2 0 0 0 0  0 1.1 0 0 0  0 0 1.3 0 0  0 0 0 1 0"/>
+      </filter>
+    </defs>
+
+    {/* Main Diamond Structure */}
+    <g filter="url(#premiumEffects)" className={animated ? "animate-spin" : ""} style={{ transformOrigin: "50px 50px", animationDuration: "20s" }}>
+      <path d="M50 10 L30 30 L50 50 L70 30 Z" fill="url(#primaryGradient)" stroke="#ffffff" strokeWidth="0.5" opacity="0.9"/>
+      <path d="M50 50 L30 70 L50 90 L70 70 Z" fill="url(#primaryGradient)" stroke="#ffffff" strokeWidth="0.5" opacity="0.85"/>
+      <path d="M30 30 L10 50 L30 70 L50 50 Z" fill="url(#primaryGradient)" stroke="#ffffff" strokeWidth="0.5" opacity="0.8"/>
+      <path d="M70 30 L50 50 L70 70 L90 50 Z" fill="url(#primaryGradient)" stroke="#ffffff" strokeWidth="0.5" opacity="0.8"/>
+    </g>
+
+    {/* Orbital Rings */}
+    <g className={animated ? "animate-spin" : ""} style={{ transformOrigin: "50px 50px", animationDuration: "15s", animationDirection: "reverse" }}>
+      <circle cx="50" cy="50" r="35" fill="none" stroke="url(#primaryGradient)" strokeWidth="1" opacity="0.6"/>
+      <circle cx="50" cy="50" r="25" fill="none" stroke="url(#primaryGradient)" strokeWidth="0.8" opacity="0.5"/>
+    </g>
+
+    {/* Central Core */}
+    <circle cx="50" cy="50" r="8" fill="#ffffff" opacity="0.9" filter="url(#premiumEffects)"/>
+    <circle cx="50" cy="50" r="5" fill="url(#primaryGradient)" opacity="1"/>
+    <circle cx="50" cy="50" r="2" fill="#ffffff" opacity="1"/>
+
+    {/* Corner Accents */}
+    <circle cx="15" cy="15" r="2" fill="#8b5cf6" opacity="0.6"/>
+    <circle cx="85" cy="15" r="2" fill="#3b82f6" opacity="0.6"/>
+    <circle cx="15" cy="85" r="2" fill="#06b6d4" opacity="0.6"/>
+    <circle cx="85" cy="85" r="2" fill="#8b5cf6" opacity="0.6"/>
+  </svg>
+);
+
+export const FaceIDIconSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="faceIdGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{ stopColor: '#3B82F6', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#1E40AF', stopOpacity: 1 }} />
+      </linearGradient>
+    </defs>
+    <rect x="4" y="4" width="16" height="16" rx="4" fill="url(#faceIdGradient)" />
+    <circle cx="9" cy="10" r="1.5" fill="white" />
+    <circle cx="15" cy="10" r="1.5" fill="white" />
+    <path d="M8 14c1 1.5 3 1.5 4 0s3 1.5 4 0" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+export const ShieldSecuritySVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{ stopColor: '#10B981', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#047857', stopOpacity: 1 }} />
+      </linearGradient>
+    </defs>
+    <path d="M12 2l8 3v6c0 6-8 10-8 10S4 17 4 11V5l8-3z" fill="url(#shieldGradient)" />
+    <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const CheckmarkSuccessSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="successGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{ stopColor: '#10B981', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#047857', stopOpacity: 1 }} />
+      </linearGradient>
+    </defs>
+    <circle cx="12" cy="12" r="10" fill="url(#successGradient)" />
+    <path d="M8 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const PrivacyLockSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="lockGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{ stopColor: '#3B82F6', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#1E40AF', stopOpacity: 1 }} />
+      </linearGradient>
+    </defs>
+    <rect x="5" y="11" width="14" height="10" rx="2" fill="url(#lockGradient)" />
+    <path d="M12 3C10.5 3 9 4.5 9 6v5h6V6c0-1.5-1.5-3-3-3z" stroke="currentColor" strokeWidth="2" fill="none" />
+    <circle cx="12" cy="16" r="1" fill="white" />
   </svg>
 );
