@@ -15,7 +15,7 @@ import { PaymentSuccess } from "@/components/PaymentSuccess";
 
 export default function QRScanner() {
   const [, setLocation] = useLocation();
-  const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'merchant' | 'amount' | 'pin' | 'processing' | 'success' | 'offline'>('scanning');
+  const [scanningStage, setScanningStage] = useState<'scanning' | 'detected' | 'merchant' | 'amount' | 'confirm' | 'pin' | 'processing' | 'success' | 'offline'>('scanning');
   const [flashEnabled, setFlashEnabled] = useState(false);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -117,8 +117,7 @@ export default function QRScanner() {
     }
     
     if (amount && parseFloat(amount) > 0) {
-      setShowPinEntry(true);
-      setScanningStage('pin');
+      setScanningStage('confirm');
     }
   };
 
@@ -343,6 +342,61 @@ export default function QRScanner() {
             <SwipeToSend
               onComplete={() => setScanningStage('scanning')}
               text="Swipe to Scan Again"
+              variant="glass"
+              size="medium"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Confirm Payment Stage */}
+      {scanningStage === 'confirm' && (
+        <div className="px-6 py-4">
+          {/* Payment Summary */}
+          <Card className="apple-pay-card border-0 mb-6">
+            <CardContent className="p-6">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-white mb-2">Confirm Payment</h3>
+                <div className="text-4xl font-bold text-blue-400 mb-2">₹{amount}</div>
+                <p className="text-gray-400">to {detectedMerchant.name}</p>
+              </div>
+
+              {/* Payment Details */}
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between items-center py-3 border-b border-gray-700">
+                  <span className="text-gray-400">Merchant</span>
+                  <span className="text-white font-medium">{detectedMerchant.name}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-700">
+                  <span className="text-gray-400">UPI ID</span>
+                  <span className="text-white font-medium">{detectedMerchant.upiId}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-700">
+                  <span className="text-gray-400">Amount</span>
+                  <span className="text-white font-bold text-xl">₹{amount}</span>
+                </div>
+                {note && (
+                  <div className="flex justify-between items-center py-3 border-b border-gray-700">
+                    <span className="text-gray-400">Note</span>
+                    <span className="text-white font-medium">{note}</span>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="space-y-4 pb-24">
+            <SwipeToSend
+              onComplete={() => setScanningStage('pin')}
+              text="Swipe to Pay"
+              variant="primary"
+              size="large"
+            />
+            
+            <SwipeToSend
+              onComplete={() => setScanningStage('amount')}
+              text="Swipe to Go Back"
               variant="glass"
               size="medium"
             />
