@@ -9,7 +9,7 @@ import { BottomNavigation } from "@/components/BottomNavigation";
 import { COLORS } from "@/lib/constants";
 import { Link } from "wouter";
 import { TransactionDetails } from "@/components/TransactionDetails";
-import { ApplePayMerchantSVG, ApplePaySendMoneySVG, ApplePayWalletSVG, ApplePayPhoneSVG } from "@/components/ApplePaySVGs";
+import { ApplePayMerchantSVG, ApplePaySendMoneySVG, ApplePayWalletSVG, ApplePayPhoneSVG, ApplePayTelecomSVG, ApplePayEntertainmentSVG, ApplePayPersonSVG, ApplePayShoppingSVG, ApplePayBankSVG } from "@/components/ApplePaySVGs";
 
 export default function TransactionHistory() {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
@@ -30,6 +30,17 @@ export default function TransactionHistory() {
   const handleCloseTransactionDetails = () => {
     setShowTransactionDetails(false);
     setSelectedTransaction(null);
+  };
+
+  const getTransactionIcon = (icon: any) => {
+    if (typeof icon === 'string') {
+      // If it's a string (emoji), render it as text
+      return <span className="text-2xl">{icon}</span>;
+    } else {
+      // If it's a React component, render it
+      const IconComponent = icon;
+      return <IconComponent className="h-7 w-7 text-white/80" />;
+    }
   };
 
   // Ultra-premium transaction data with high-end Apple Pay SVG icons
@@ -93,7 +104,7 @@ export default function TransactionHistory() {
     {
       id: 5,
       merchant: "Airtel Recharge",
-      icon: "📞",
+      icon: ApplePayTelecomSVG,
       amount: -199,
       status: "completed",
       time: "Oct 26, 10:15 AM",
@@ -105,7 +116,7 @@ export default function TransactionHistory() {
     {
       id: 6,
       merchant: "Netflix",
-      icon: "🎬",
+      icon: ApplePayEntertainmentSVG,
       amount: -699,
       status: "completed",
       time: "Oct 25, 3:45 PM",
@@ -117,7 +128,7 @@ export default function TransactionHistory() {
     {
       id: 7,
       merchant: "Priya Sharma",
-      icon: "👤",
+      icon: ApplePayPersonSVG,
       amount: 1000,
       status: "completed",
       time: "Oct 24, 12:30 PM",
@@ -129,7 +140,7 @@ export default function TransactionHistory() {
     {
       id: 8,
       merchant: "Amazon Pay",
-      icon: "🛍️",
+      icon: ApplePayShoppingSVG,
       amount: -1599,
       status: "completed",
       time: "Oct 23, 9:20 AM",
@@ -313,7 +324,7 @@ export default function TransactionHistory() {
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-lg" />
                     <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-white/20 via-white/25 to-white/20 backdrop-blur-xl border border-white/20 shadow-lg flex items-center justify-center">
-                      <transaction.icon className="h-7 w-7 text-white/80" />
+                      {getTransactionIcon(transaction.icon)}
                     </div>
                   </div>
                   

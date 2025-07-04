@@ -99,6 +99,157 @@ export const ApplePaySuccessSVG = ({ className = "w-6 h-6" }: { className?: stri
   </svg>
 );
 
+// Premium Transaction Icons
+export const ApplePayEntertainmentSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-2z"/>
+    <circle cx="12" cy="12" r="2" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="6" cy="12" r="1.5" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="18" cy="12" r="1.5" fill="rgba(255,255,255,0.2)"/>
+  </svg>
+);
+
+export const ApplePayPersonSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    <circle cx="12" cy="8" r="1.5" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+);
+
+export const ApplePayShoppingSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2h5v2h-2v13c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6H2V4h5zM9 2v2h6V2H9zm9 4H6v13h12V6z"/>
+    <rect x="8" y="8" width="2" height="6" rx="1" fill="rgba(255,255,255,0.3)"/>
+    <rect x="14" y="8" width="2" height="6" rx="1" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+);
+
+export const ApplePayTelecomSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+    <circle cx="16" cy="8" r="2" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="12" cy="4" r="1" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="20" cy="4" r="1" fill="rgba(255,255,255,0.2)"/>
+  </svg>
+);
+
+export const ApplePayBankSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2L2 7v3h20V7l-10-5zM4 12v4h2v-4H4zm4 0v4h2v-4H8zm4 0v4h2v-4h-2zm4 0v4h2v-4h-2zm4 0v4h2v-4h-2zM2 18h20v2H2v-2z"/>
+    <rect x="11" y="3" width="2" height="1" rx="0.5" fill="rgba(255,255,255,0.4)"/>
+  </svg>
+);
+
+// Premium Bank Type Icons
+export const ApplePayDigitalBankSVG = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 1L21.5 6.5v11L12 23l-9.5-5.5v-11L12 1zm0 2.18L4.5 7.5v9l7.5 4.32 7.5-4.32v-9L12 3.18z"/>
+    <path d="M12 6l5 3v6l-5 3-5-3V9l5-3z" fill="rgba(59, 130, 246, 0.6)"/>
+    <circle cx="12" cy="12" r="1.5" fill="white"/>
+  </svg>
+);
+
+export const ApplePayPrivateBankSVG = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    <path d="M12 6l2 4 4 .5-3 3 .75 4.5L12 16l-3.75 2-L9 14l-3-3 4-.5 2-4z" fill="rgba(147, 51, 234, 0.6)"/>
+  </svg>
+);
+
+export const ApplePayGovtBankSVG = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2L2 7v3h20V7l-10-5zM4 12v4h2v-4H4zm4 0v4h2v-4H8zm4 0v4h2v-4h-2zm4 0v4h2v-4h-2zm4 0v4h2v-4h-2zM2 18h20v2H2v-2z"/>
+    <rect x="10" y="3" width="4" height="2" rx="1" fill="rgba(34, 197, 94, 0.6)"/>
+    <rect x="11" y="4" width="2" height="1" fill="white"/>
+  </svg>
+);
+
+// Premium Quick Action Icons
+export const ApplePayStoreSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.36 9l.6 3H5.04l.6-3h12.72M20 4H4v2h16V4zm-2 4H6l-.6 3H4l1.38-6.9C5.54 9.46 6.22 9 7 9h10c.78 0 1.46.46 1.62 1.1L20 17h-1.4L18 14H6v5h12v-5z"/>
+    <circle cx="9" cy="20" r="1"/>
+    <circle cx="15" cy="20" r="1"/>
+    <rect x="7" y="11" width="10" height="1" rx="0.5" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+);
+
+export const ApplePayElectricitySVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 21h-1l1-7H7l4.5-11h1L11 10h4l-4 11z"/>
+    <path d="M11 21h-1l1-7H7l4.5-11h1L11 10h4l-4 11z" fill="rgba(255, 193, 7, 0.3)"/>
+  </svg>
+);
+
+export const ApplePayCoffeeSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.5 3H6c-1.1 0-2 .9-2 2v5.71c0 3.83 2.95 7.18 6.78 7.29 3.96.12 7.22-3.06 7.22-7v-1h.5c1.38 0 2.5-1.12 2.5-2.5S19.88 5 18.5 5H18V3z"/>
+    <path d="M7 8c0-.55.45-1 1-1s1 .45 1 1-.45 1-1 1-1-.45-1-1zm2 3c0-.55.45-1 1-1s1 .45 1 1-.45 1-1 1-1-.45-1-1z" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+);
+
+export const ApplePayMobileSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H7V5h10v14z"/>
+    <circle cx="12" cy="19" r="1"/>
+    <rect x="8" y="6" width="8" height="1" rx="0.5" fill="rgba(255,255,255,0.3)"/>
+    <rect x="8" y="8" width="6" height="1" rx="0.5" fill="rgba(255,255,255,0.2)"/>
+  </svg>
+);
+
+export const ApplePayMoneySVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+  </svg>
+);
+
+export const ApplePayBillsSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h10c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+    <rect x="8" y="10" width="8" height="1" rx="0.5" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+);
+
+export const ApplePayRequestSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+  </svg>
+);
+
+export const ApplePayUPISVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <circle cx="12" cy="8" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+);
+
+export const ApplePayCardsSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V8h16v10z"/>
+    <path d="M2 6h20v4H2z"/>
+    <rect x="4" y="12" width="4" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="18" cy="13" r="1.5" fill="rgba(255,255,255,0.4)"/>
+  </svg>
+);
+
+export const ApplePayReportsSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    <rect x="7" y="10" width="2" height="7" fill="rgba(59, 130, 246, 0.6)"/>
+    <rect x="11" y="7" width="2" height="10" fill="rgba(16, 185, 129, 0.6)"/>
+    <rect x="15" y="13" width="2" height="4" fill="rgba(245, 158, 11, 0.6)"/>
+  </svg>
+);
+
+export const ApplePayOfflineSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7L12 21l11.64-14zM3.53 10.95l8.47 10.16 8.47-10.16c-.47-.8-3.51-3.48-8.47-3.48s-8 2.68-8.47 3.48z"/>
+    <circle cx="12" cy="12" r="3" fill="rgba(255, 159, 10, 0.6)"/>
+    <circle cx="12" cy="12" r="1.5" fill="white"/>
+  </svg>
+);
+
 export const ApplePayContactlessSVG = ({ className = "w-6 h-6", animated = false }: { className?: string, animated?: boolean }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <g className={animated ? "animate-bounce" : ""}>

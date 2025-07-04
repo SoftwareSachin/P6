@@ -10,7 +10,7 @@ import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { ErrorHandler, ErrorCode, useErrorHandler } from "@/lib/errorHandler";
 import { LoadingWithError, InlineError } from "@/components/ErrorBoundary";
-import { ApplePayFaceIDSVG, ApplePayCreditCardSVG, ApplePayNFCSVG, ApplePayTapSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayQRCodeSVG, ApplePayPhoneSVG, ApplePayWalletSVG, ApplePayLocationSVG, ApplePayTimeSVG, ApplePaySuccessSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayCardStackSVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
+import { ApplePayFaceIDSVG, ApplePayCreditCardSVG, ApplePayNFCSVG, ApplePayTapSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayQRCodeSVG, ApplePayPhoneSVG, ApplePayWalletSVG, ApplePayLocationSVG, ApplePayTimeSVG, ApplePaySuccessSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayCardStackSVG, ApplePayBiometricSVG, ApplePayDigitalBankSVG, ApplePayPrivateBankSVG, ApplePayGovtBankSVG } from "@/components/ApplePaySVGs";
 import { ApplePayQuickActions, ApplePayCardCarousel, ApplePayTransactionRow } from "@/components/ApplePayInterface";
 import { OPPBLogoSVG } from "@/components/PremiumSVGs";
 import { IOSMemojiSVG } from "@/components/iOSMemojiSVG";
@@ -27,6 +27,17 @@ export default function ApplePayDashboard() {
   const [showTransactionDetails, setShowTransactionDetails] = useState(false);
   const { user, isAuthenticated: authStatus, error: authError } = useAuth();
   const { createError, getUserFriendlyMessage } = useErrorHandler();
+
+  const getTransactionIcon = (icon: any) => {
+    if (typeof icon === 'string') {
+      // If it's a string (emoji), render it as text
+      return <span className="text-2xl">{icon}</span>;
+    } else {
+      // If it's a React component, render it
+      const IconComponent = icon;
+      return <IconComponent className="h-6 w-6 text-gray-300" />;
+    }
+  };
 
   // Get user balance with comprehensive error handling
   const { 
@@ -435,12 +446,26 @@ export default function ApplePayDashboard() {
                           chipColor={card.chipColor}
                           animated={true}
                         />
-                        <div className={`px-2 py-1 rounded-full text-xs font-medium text-white/80 ${
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium text-white/80 flex items-center space-x-1 ${
                           card.bankType === 'digital' ? 'bg-blue-500/30' :
                           card.bankType === 'private' ? 'bg-purple-500/30' : 'bg-green-500/30'
                         }`}>
-                          {card.bankType === 'digital' ? '⚡ Digital' : 
-                           card.bankType === 'private' ? '🏢 Private' : '🏛️ Govt'}
+                          {card.bankType === 'digital' ? (
+                            <>
+                              <ApplePayDigitalBankSVG className="w-3 h-3" />
+                              <span>Digital</span>
+                            </>
+                          ) : card.bankType === 'private' ? (
+                            <>
+                              <ApplePayPrivateBankSVG className="w-3 h-3" />
+                              <span>Private</span>
+                            </>
+                          ) : (
+                            <>
+                              <ApplePayGovtBankSVG className="w-3 h-3" />
+                              <span>Govt</span>
+                            </>
+                          )}
                         </div>
                       </div>
                       <p className="text-white/90 text-sm font-semibold tracking-wide">{card.type}</p>
@@ -562,7 +587,6 @@ export default function ApplePayDashboard() {
         
         <div className="space-y-3">
           {recentTransactions.map((transaction, index) => {
-            const IconComponent = transaction.icon;
             return (
               <div 
                 key={transaction.id} 
@@ -572,7 +596,7 @@ export default function ApplePayDashboard() {
                 <div className="flex items-center space-x-4">
                   <div className="relative">
                     <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center shadow-lg">
-                      <IconComponent className="h-6 w-6 text-gray-300" />
+                      {getTransactionIcon(transaction.icon)}
                     </div>
                     <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-black ${
                       transaction.status === 'success' ? 'bg-green-500' : 
