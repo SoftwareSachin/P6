@@ -1155,10 +1155,17 @@ export default function SendMoney() {
             <div className="space-y-4 mt-8 pb-24">
               <SwipeToSend
                 onComplete={() => {
-                  console.log('💰 Payment completed, navigating to dashboard');
-                  setLocation('/dashboard');
+                  console.log('💰 Payment confirmed, navigating to PIN entry');
+                  // Store payment details in localStorage for PIN entry page
+                  localStorage.setItem('pendingPayment', JSON.stringify({
+                    amount,
+                    recipient: selectedContact?.name || 'Unknown',
+                    contact: selectedContact,
+                    note
+                  }));
+                  setLocation('/pin-entry');
                 }}
-                text="Swipe to Complete"
+                text={`Swipe to Pay ₹${amount}`}
                 variant="success"
                 size="large"
               />

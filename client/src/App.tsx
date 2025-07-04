@@ -18,6 +18,7 @@ import OfflinePayments from "@/pages/OfflinePayments";
 import PaymentScreen from "@/pages/PaymentScreen";
 import TransactionHistory from "@/pages/TransactionHistory";
 import Profile from "@/pages/Profile";
+import PinEntry from "@/pages/PinEntry";
 import Settings from "@/pages/Settings";
 import Merchants from "@/pages/Merchants";
 import Transit from "@/pages/Transit";
@@ -102,6 +103,7 @@ function Router() {
         <Route path="/send-money" component={SendMoney} />
         <Route path="/offline-payments" component={OfflinePayments} />
         <Route path="/payment" component={PaymentScreen} />
+        <Route path="/pin-entry" component={PinEntry} />
         <Route path="/transaction-history" component={TransactionHistory} />
         <Route path="/profile" component={Profile} />
         <Route path="/settings" component={Settings} />
