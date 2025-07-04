@@ -1139,66 +1139,105 @@ export default function SendMoney() {
 
       {/* PIN Entry Step */}
       {step === 'pin' && (
-        <div className="flex-1 flex flex-col items-center justify-center px-6">
-          <div className="text-center space-y-6 w-full max-w-sm mx-auto">
-            {/* PIN Entry Header */}
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-white mb-2">Enter PIN</h2>
-              <p className="text-gray-400 text-lg">Enter your 4-digit PIN to authorize payment</p>
-              <p className="text-blue-400 text-xl font-semibold mt-2">₹{amount} to {selectedContact?.name}</p>
-              {pinAttempts > 0 && (
-                <p className="text-red-400 text-sm mt-2">
-                  Wrong PIN. {3 - pinAttempts} attempts remaining
-                </p>
-              )}
-            </div>
-            
-            {/* PIN Display */}
-            <div className="flex justify-center space-x-4 mb-8">
-              {[0, 1, 2, 3].map((index) => (
-                <div
-                  key={index}
-                  className={`w-16 h-16 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                    index < pin.length 
-                      ? 'border-green-400 bg-green-400/20' 
-                      : 'border-gray-600 bg-gray-800/50'
-                  }`}
-                >
-                  {index < pin.length && (
-                    <div className="w-3 h-3 rounded-full bg-white animate-pulse"></div>
+        <div className="min-h-screen bg-black relative overflow-hidden">
+          {/* Ultra-Premium Ambient Background */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900/30 via-black to-blue-900/20" />
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-500/5 to-purple-600/5 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-green-500/5 to-cyan-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-purple-500/3 to-pink-500/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          </div>
+
+          {/* Main Content Container */}
+          <div className="relative z-10 flex flex-col min-h-screen">
+            {/* Content Area */}
+            <div className="flex-1 flex flex-col justify-center px-6 py-8">
+              <div className="text-center space-y-8 w-full max-w-sm mx-auto">
+                {/* Ultra-Premium Header */}
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <h1 className="text-4xl font-bold text-white tracking-tight" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}>
+                      Enter PIN
+                    </h1>
+                    <p className="text-gray-400 text-lg font-medium leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif' }}>
+                      Enter your 4-digit PIN to authorize payment
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-2xl backdrop-blur-xl shadow-2xl">
+                    <p className="text-xl font-semibold" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}>
+                      ₹{amount} to {selectedContact?.name}
+                    </p>
+                  </div>
+                  
+                  {pinAttempts > 0 && (
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-2 rounded-xl backdrop-blur-xl">
+                      <p className="text-sm font-medium">
+                        Wrong PIN. {3 - pinAttempts} attempts remaining
+                      </p>
+                    </div>
                   )}
                 </div>
-              ))}
+                
+                {/* Ultra-Premium PIN Display */}
+                <div className="flex justify-center space-x-5">
+                  {[0, 1, 2, 3].map((index) => (
+                    <div
+                      key={index}
+                      className={`relative w-16 h-16 rounded-2xl border-2 flex items-center justify-center transition-all duration-500 transform ${
+                        index < pin.length 
+                          ? 'border-green-400/60 bg-gradient-to-br from-green-500/20 to-green-600/20 scale-110 shadow-lg shadow-green-500/20' 
+                          : 'border-gray-600/40 bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-xl'
+                      }`}
+                    >
+                      {index < pin.length && (
+                        <div className="w-4 h-4 rounded-full bg-gradient-to-br from-white to-green-100 animate-pulse shadow-lg"></div>
+                      )}
+                      <div className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
+                        index < pin.length 
+                          ? 'bg-gradient-to-br from-green-400/10 to-transparent animate-pulse' 
+                          : ''
+                      }`} />
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Ultra-Premium Number Pad */}
+                <div className="grid grid-cols-3 gap-4">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                    <button
+                      key={num}
+                      className="group relative w-20 h-20 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 text-white text-2xl font-bold hover:from-white/20 hover:to-white/10 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-white/5"
+                      onClick={() => handlePinInput(num.toString())}
+                      style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}
+                    >
+                      <span className="relative z-10">{num}</span>
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </button>
+                  ))}
+                  <div></div>
+                  <button
+                    className="group relative w-20 h-20 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 text-white text-2xl font-bold hover:from-white/20 hover:to-white/10 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-white/5"
+                    onClick={() => handlePinInput('0')}
+                    style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}
+                  >
+                    <span className="relative z-10">0</span>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </button>
+                  <button
+                    className="group relative w-20 h-20 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 text-white text-lg font-bold hover:from-white/20 hover:to-white/10 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-white/5"
+                    onClick={handlePinDelete}
+                    style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}
+                  >
+                    <span className="relative z-10">⌫</span>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </button>
+                </div>
+              </div>
             </div>
             
-            {/* Number Pad */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                <button
-                  key={num}
-                  className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-2xl font-bold hover:bg-white/20 active:scale-95 transition-all duration-200"
-                  onClick={() => handlePinInput(num.toString())}
-                >
-                  {num}
-                </button>
-              ))}
-              <div></div>
-              <button
-                className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-2xl font-bold hover:bg-white/20 active:scale-95 transition-all duration-200"
-                onClick={() => handlePinInput('0')}
-              >
-                0
-              </button>
-              <button
-                className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-lg font-bold hover:bg-white/20 active:scale-95 transition-all duration-200"
-                onClick={handlePinDelete}
-              >
-                ⌫
-              </button>
-            </div>
-            
-            {/* PIN Entry Actions */}
-            <div className="space-y-4">
+            {/* Bottom Action Area */}
+            <div className="px-6 pb-28 space-y-3">
               <SwipeToSend
                 onComplete={handlePinSubmit}
                 text="Swipe to Confirm PIN"
