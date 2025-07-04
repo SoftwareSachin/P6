@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,65 +8,87 @@ import { ArrowLeft, Search, Filter, Download, ArrowUpRight, ArrowDownLeft, Clock
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { COLORS } from "@/lib/constants";
 import { Link } from "wouter";
+import { TransactionDetails } from "@/components/TransactionDetails";
+import { ApplePayMerchantSVG, ApplePaySendMoneySVG, ApplePayWalletSVG, ApplePayPhoneSVG } from "@/components/ApplePaySVGs";
 
 export default function TransactionHistory() {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false);
 
   // Get transactions from API
   const { data: transactions = [] } = useQuery({
     queryKey: ['/api/transactions']
   }) as { data: any[] };
 
-  // Mock comprehensive transaction data as specified
+  const handleTransactionClick = (transaction: any) => {
+    setSelectedTransaction(transaction);
+    setShowTransactionDetails(true);
+  };
+
+  const handleCloseTransactionDetails = () => {
+    setShowTransactionDetails(false);
+    setSelectedTransaction(null);
+  };
+
+  // Enhanced mock transaction data matching dashboard
   const mockTransactions = [
     {
       id: 1,
       merchant: "Zomato",
       icon: "🛒",
       amount: -285,
-      status: "completed",
+      status: "success",
       time: "Today, 2:30 PM",
       type: "debit",
-      category: "food",
+      category: "Food & Dining",
+      location: "Connaught Place, Delhi",
       upiRef: "424242424242",
-      description: "Food order"
+      description: "Food order",
+      receiptAvailable: true
     },
     {
       id: 2,
       merchant: "Rohit Kumar",
       icon: "👤",
       amount: 500,
-      status: "completed",
+      status: "success",
       time: "Yesterday, 6:15 PM",
       type: "credit",
-      category: "transfer",
+      category: "Transfer",
+      location: "UPI Transfer",
       upiRef: "424242424243",
-      description: "Money received"
+      description: "Money received",
+      receiptAvailable: false
     },
     {
       id: 3,
-      merchant: "Electricity",
+      merchant: "BSES Delhi",
       icon: "⚡",
       amount: -1200,
       status: "pending",
       time: "Oct 28, 11:30 AM",
       type: "debit",
-      category: "bills",
+      category: "Utilities",
+      location: "Online Payment",
       upiRef: "424242424244",
-      description: "Electricity bill"
+      description: "Electricity bill",
+      receiptAvailable: true
     },
     {
       id: 4,
-      merchant: "Rahul Singh",
+      merchant: "Airtel Prepaid",
       icon: "📱",
-      amount: -50,
-      status: "offline",
-      time: "Oct 27, 4:20 PM",
+      amount: -199,
+      status: "success",
+      time: "Oct 27, 3:45 PM",
       type: "debit",
-      category: "offline_payment",
+      category: "Telecom",
+      location: "Mobile Recharge",
       upiRef: "424242424245",
-      description: "Offline payment"
+      description: "Mobile recharge",
+      receiptAvailable: true
     },
     {
       id: 5,
@@ -244,7 +266,10 @@ export default function TransactionHistory() {
           <CardContent className="p-0">
             {filteredTransactions.map((transaction, index) => (
               <div key={transaction.id}>
-                <div className="flex items-center space-x-4 p-4 hover:bg-gray-50 transition-colors">
+                <div 
+                  className="flex items-center space-x-4 p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                  onClick={() => handleTransactionClick(transaction)}
+                >
                   {/* Transaction Icon */}
                   <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                     <span className="text-lg">{transaction.icon}</span>
@@ -321,6 +346,14 @@ export default function TransactionHistory() {
           </div>
         )}
       </div>
+
+      {/* Transaction Details Modal */}
+      {showTransactionDetails && selectedTransaction && (
+        <TransactionDetails 
+          transaction={selectedTransaction} 
+          onClose={handleCloseTransactionDetails} 
+        />
+      )}
 
       <BottomNavigation activeTab="reports" />
     </div>

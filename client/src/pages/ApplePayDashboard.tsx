@@ -552,7 +552,7 @@ export default function ApplePayDashboard() {
       <div className="px-6 mb-20">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-white">Recent Activity</h2>
-          <Link href="/transactions">
+          <Link href="/transaction-history">
             <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300 transition-colors">
               View All
               <ArrowRight className="h-4 w-4 ml-1" />

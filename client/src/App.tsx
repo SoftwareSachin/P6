@@ -105,6 +105,7 @@ function Router() {
         <Route path="/payment" component={PaymentScreen} />
         <Route path="/pin-entry" component={PinEntry} />
         <Route path="/transaction-history" component={TransactionHistory} />
+        <Route path="/transactions" component={TransactionHistory} />
         <Route path="/profile" component={Profile} />
         <Route path="/settings" component={Settings} />
         <Route path="/merchants" component={Merchants} />
