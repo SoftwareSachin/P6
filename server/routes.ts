@@ -734,7 +734,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { limit = 50, offset = 0 } = req.query;
       const tokens = await storage.getRWATokens(Number(limit), Number(offset));
-      res.json(tokens);
+      
+      // Enrich tokens with asset data and market data
+      const enrichedTokens = await Promise.all(tokens.map(async (token: any) => {
+        const marketData = await storage.getRWAMarketData(token.id);
+        const asset = token.assetId ? await storage.getRWAssets("dev-user-123").then(assets => 
+          assets.find(a => a.id === token.assetId)
+        ) : null;
+        
+        return {
+          ...token,
+          assetType: asset?.assetType || 'unknown',
+          assetName: asset?.name || token.tokenName,
+          expectedYield: token.yieldRate || '0',
+          marketData: marketData || {
+            price: token.pricePerToken,
+            volume24h: '0',
+            priceChange24h: '0',
+            marketCap: '0',
+            liquidity: '0'
+          }
+        };
+      }));
+      
+      res.json(enrichedTokens);
     } catch (error) {
       console.error("Error fetching RWA tokens:", error);
       res.status(500).json({ message: "Failed to fetch RWA tokens" });
@@ -764,7 +787,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = mockUser.id;
       const investments = await storage.getRWAInvestments(userId);
-      res.json(investments);
+      
+      // Enrich investments with token information
+      const enrichedInvestments = await Promise.all(investments.map(async (investment: any) => {
+        const token = await storage.getRWAToken(investment.tokenId);
+        const marketData = await storage.getRWAMarketData(investment.tokenId);
+        
+        return {
+          ...investment,
+          tokenName: token?.tokenName || 'Unknown Token',
+          tokenSymbol: token?.tokenSymbol || 'UNK',
+          currentPrice: marketData?.price || token?.pricePerToken || '0',
+          priceChange24h: marketData?.priceChange24h || '0'
+        };
+      }));
+      
+      res.json(enrichedInvestments);
     } catch (error) {
       console.error("Error fetching RWA investments:", error);
       res.status(500).json({ message: "Failed to fetch RWA investments" });
@@ -875,6 +913,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching RWA transactions:", error);
       res.status(500).json({ message: "Failed to fetch RWA transactions" });
+    }
+  });
+
+  // RWA Portfolio Analytics
+  app.get('/api/rwa/portfolio/summary', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const investments = await storage.getRWAInvestments(userId);
+      
+      const totalInvested = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.totalInvested || 0), 0);
+      const totalValue = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.currentValue || 0), 0);
+      const totalYield = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.yieldEarned || 0), 0);
+      const roi = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
+      
+      res.json({
+        totalInvested,
+        totalValue,
+        totalYield,
+        roi,
+        activeInvestments: investments.length,
+        performance: roi >= 0 ? 'outperforming' : 'underperforming'
+      });
+    } catch (error) {
+      console.error("Error fetching portfolio summary:", error);
+      res.status(500).json({ message: "Failed to fetch portfolio summary" });
+    }
+  });
+
+  // RWA Market Analytics
+  app.get('/api/rwa/market/overview', async (req: any, res) => {
+    try {
+      const tokens = await storage.getRWATokens(50, 0);
+      const marketDataList = await Promise.all(
+        tokens.map(async (token: any) => await storage.getRWAMarketData(token.id))
+      );
+      
+      const totalMarketCap = marketDataList.reduce((sum: number, data: any) => 
+        sum + parseFloat(data?.marketCap || 0), 0);
+      const total24hVolume = marketDataList.reduce((sum: number, data: any) => 
+        sum + parseFloat(data?.volume24h || 0), 0);
+      const avgYield = tokens.reduce((sum: number, token: any) => 
+        sum + parseFloat(token.yieldRate || 0), 0) / tokens.length;
+      
+      res.json({
+        totalMarketCap,
+        volume24h: total24hVolume,
+        avgYield,
+        activeTokens: tokens.length,
+        trendingUp: Math.random() > 0.5, // Simulate market trend
+        changePercent: (Math.random() - 0.5) * 20 // Simulate change
+      });
+    } catch (error) {
+      console.error("Error fetching market overview:", error);
+      res.status(500).json({ message: "Failed to fetch market overview" });
     }
   });
 

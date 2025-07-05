@@ -230,31 +230,38 @@ export default function RWA() {
   const [marketTrend, setMarketTrend] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [marketData, setMarketData] = useState({
-    totalMarketCap: 24200000000,
-    volume24h: 1800000000,
-    avgYield: 8.5,
-    activeTokens: 156,
-    trendingUp: true,
-    changePercent: 12.5
+  // Fetch real market data
+  const { data: marketData, isLoading: marketDataLoading } = useQuery({
+    queryKey: ['/api/rwa/market/overview'],
+    refetchInterval: 5000 // Refresh every 5 seconds for real-time feel
+  });
+
+  // Fetch portfolio summary
+  const { data: portfolioData, isLoading: portfolioLoading } = useQuery({
+    queryKey: ['/api/rwa/portfolio/summary'],
+    enabled: activeTab === 'portfolio',
+    refetchInterval: 10000
   });
 
   // Fetch RWA tokens for marketplace
   const { data: tokens = [], isLoading: tokensLoading } = useQuery({
     queryKey: ['/api/rwa/tokens'],
-    enabled: activeTab === 'marketplace'
+    enabled: activeTab === 'marketplace',
+    refetchInterval: 30000
   });
 
   // Fetch user's investments for portfolio
   const { data: investments = [], isLoading: investmentsLoading } = useQuery({
     queryKey: ['/api/rwa/investments'],
-    enabled: activeTab === 'portfolio'
+    enabled: activeTab === 'portfolio',
+    refetchInterval: 15000
   });
 
   // Fetch user's assets
   const { data: assets = [], isLoading: assetsLoading } = useQuery({
     queryKey: ['/api/rwa/assets'],
-    enabled: activeTab === 'assets'
+    enabled: activeTab === 'assets',
+    refetchInterval: 30000
   });
 
   const handleTokenInvest = (tokenId: number) => {
@@ -265,21 +272,13 @@ export default function RWA() {
     setLocation(`/rwa/token/${tokenId}`);
   };
 
-  // Real-time market simulation with enhanced effects
+  // Real-time market simulation
   useEffect(() => {
     const interval = setInterval(() => {
       setMarketTrend(prev => {
         const change = (Math.random() - 0.5) * 2;
         return Math.max(-15, Math.min(15, prev + change));
       });
-      
-      setMarketData(prev => ({
-        ...prev,
-        totalMarketCap: prev.totalMarketCap + (Math.random() - 0.5) * 100000000,
-        volume24h: prev.volume24h + (Math.random() - 0.5) * 50000000,
-        avgYield: Math.max(0, prev.avgYield + (Math.random() - 0.5) * 0.5),
-        changePercent: prev.changePercent + (Math.random() - 0.5) * 2
-      }));
     }, 4000);
 
     return () => clearInterval(interval);
@@ -300,7 +299,7 @@ export default function RWA() {
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <div className={`w-3 h-3 rounded-full ${marketData.trendingUp ? 'bg-green-400' : 'bg-red-400'} animate-pulse shadow-lg`} />
+                <div className={`w-3 h-3 rounded-full ${(marketData as any)?.trendingUp ? 'bg-green-400' : 'bg-red-400'} animate-pulse shadow-lg`} />
                 <span className="text-xs text-slate-300 font-medium">Live Market</span>
               </div>
               <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30 px-3 py-1">
@@ -320,11 +319,13 @@ export default function RWA() {
                 </div>
               </div>
               <p className="text-xl font-bold text-white mb-1">
-                ₹{(marketData.totalMarketCap / 1000000000).toFixed(1)}B
+                ₹{(marketData as any)?.totalMarketCap ? ((marketData as any).totalMarketCap / 1000000).toFixed(1) : '0'}M
               </p>
               <div className="flex items-center space-x-1">
                 <ArrowUpRight className="w-3 h-3 text-green-400" />
-                <span className="text-green-400 text-xs font-medium">+{marketData.changePercent.toFixed(1)}%</span>
+                <span className="text-green-400 text-xs font-medium">
+                  +{(marketData as any)?.changePercent ? Math.abs((marketData as any).changePercent).toFixed(1) : '0'}%
+                </span>
               </div>
             </div>
 
@@ -336,7 +337,7 @@ export default function RWA() {
                 </div>
               </div>
               <p className="text-xl font-bold text-white mb-1">
-                ₹{(marketData.volume24h / 1000000000).toFixed(1)}B
+                ₹{(marketData as any)?.volume24h ? ((marketData as any).volume24h / 1000000).toFixed(1) : '0'}M
               </p>
               <div className="flex items-center space-x-1">
                 <Activity className="w-3 h-3 text-blue-400" />
@@ -351,7 +352,9 @@ export default function RWA() {
                   <p className="text-slate-300 text-sm font-medium">Avg Yield</p>
                 </div>
               </div>
-              <p className="text-xl font-bold text-white mb-1">{marketData.avgYield.toFixed(1)}%</p>
+              <p className="text-xl font-bold text-white mb-1">
+                {(marketData as any)?.avgYield ? (marketData as any).avgYield.toFixed(1) : '0'}%
+              </p>
               <div className="flex items-center space-x-1">
                 <Star className="w-3 h-3 text-purple-400" />
                 <span className="text-purple-400 text-xs font-medium">Premium</span>
@@ -365,7 +368,9 @@ export default function RWA() {
                   <p className="text-slate-300 text-sm font-medium">Assets</p>
                 </div>
               </div>
-              <p className="text-xl font-bold text-white mb-1">{marketData.activeTokens}</p>
+              <p className="text-xl font-bold text-white mb-1">
+                {(marketData as any)?.activeTokens || '0'}
+              </p>
               <div className="flex items-center space-x-1">
                 <CheckCircle className="w-3 h-3 text-orange-400" />
                 <span className="text-orange-400 text-xs font-medium">Verified</span>
