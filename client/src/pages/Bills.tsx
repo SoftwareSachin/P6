@@ -169,33 +169,7 @@ export default function Bills() {
     status: "pending"
   };
 
-  // Bill Payment Mutation
-  const billPaymentMutation = useMutation({
-    mutationFn: async (paymentData: any) => {
-      const response = await fetch('/api/bills/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(paymentData),
-      });
-      if (!response.ok) throw new Error('Payment failed');
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Bill Payment Successful!",
-        description: "Your bill has been paid successfully.",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/user/balance'] });
-      setLocation('/dashboard');
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Payment Failed",
-        description: error.message || "Please try again later.",
-        variant: "destructive",
-      });
-    },
-  });
+
 
   const handleCategorySelect = (category: any) => {
     setSelectedCategory(category.id);
@@ -493,17 +467,10 @@ export default function Bills() {
 
               <Button
                 onClick={handlePayment}
-                disabled={!amount || billPaymentMutation.isPending}
+                disabled={!amount}
                 className="w-full h-14 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold text-lg"
               >
-                {billPaymentMutation.isPending ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Processing...
-                  </div>
-                ) : (
-                  `Pay ₹${amount || 0}`
-                )}
+                Pay ₹{amount || 0}
               </Button>
             </CardContent>
           </Card>
