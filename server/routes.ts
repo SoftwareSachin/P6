@@ -970,6 +970,304 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // STOCK TRADING API ROUTES
+
+  // Market data routes
+  app.get('/api/trading/market/indices', async (req: any, res) => {
+    try {
+      const indices = await storage.getMarketIndices();
+      res.json(indices);
+    } catch (error) {
+      console.error("Error fetching market indices:", error);
+      res.status(500).json({ message: "Failed to fetch market indices" });
+    }
+  });
+
+  app.get('/api/trading/stocks', async (req: any, res) => {
+    try {
+      const { limit = 50, offset = 0, search } = req.query;
+      let stocks;
+      
+      if (search) {
+        stocks = await storage.searchStocks(search as string, parseInt(limit as string));
+      } else {
+        stocks = await storage.getStocks(parseInt(limit as string), parseInt(offset as string));
+      }
+      
+      res.json(stocks);
+    } catch (error) {
+      console.error("Error fetching stocks:", error);
+      res.status(500).json({ message: "Failed to fetch stocks" });
+    }
+  });
+
+  app.get('/api/trading/stocks/:stockId', async (req: any, res) => {
+    try {
+      const { stockId } = req.params;
+      const stock = await storage.getStock(parseInt(stockId));
+      
+      if (!stock) {
+        return res.status(404).json({ message: "Stock not found" });
+      }
+      
+      res.json(stock);
+    } catch (error) {
+      console.error("Error fetching stock:", error);
+      res.status(500).json({ message: "Failed to fetch stock" });
+    }
+  });
+
+  app.get('/api/trading/stocks/:stockId/price', async (req: any, res) => {
+    try {
+      const { stockId } = req.params;
+      const price = await storage.getStockPrice(parseInt(stockId));
+      
+      if (!price) {
+        return res.status(404).json({ message: "Stock price not found" });
+      }
+      
+      res.json(price);
+    } catch (error) {
+      console.error("Error fetching stock price:", error);
+      res.status(500).json({ message: "Failed to fetch stock price" });
+    }
+  });
+
+  app.get('/api/trading/stocks/:stockId/prices', async (req: any, res) => {
+    try {
+      const { stockId } = req.params;
+      const { limit = 100 } = req.query;
+      const prices = await storage.getStockPrices(parseInt(stockId), parseInt(limit as string));
+      
+      res.json(prices);
+    } catch (error) {
+      console.error("Error fetching stock prices:", error);
+      res.status(500).json({ message: "Failed to fetch stock prices" });
+    }
+  });
+
+  // Portfolio routes
+  app.get('/api/trading/portfolios', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const portfolios = await storage.getPortfolios(userId);
+      res.json(portfolios);
+    } catch (error) {
+      console.error("Error fetching portfolios:", error);
+      res.status(500).json({ message: "Failed to fetch portfolios" });
+    }
+  });
+
+  app.post('/api/trading/portfolios', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const portfolioData = { ...req.body, userId };
+      const portfolio = await storage.createPortfolio(portfolioData);
+      res.status(201).json(portfolio);
+    } catch (error) {
+      console.error("Error creating portfolio:", error);
+      res.status(500).json({ message: "Failed to create portfolio" });
+    }
+  });
+
+  app.get('/api/trading/portfolios/:portfolioId/holdings', async (req: any, res) => {
+    try {
+      const { portfolioId } = req.params;
+      const holdings = await storage.getHoldings(parseInt(portfolioId));
+      res.json(holdings);
+    } catch (error) {
+      console.error("Error fetching holdings:", error);
+      res.status(500).json({ message: "Failed to fetch holdings" });
+    }
+  });
+
+  // Order routes
+  app.get('/api/trading/orders', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const { limit = 50, offset = 0 } = req.query;
+      const orders = await storage.getOrders(userId, parseInt(limit as string), parseInt(offset as string));
+      res.json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Failed to fetch orders" });
+    }
+  });
+
+  app.post('/api/trading/orders', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const orderData = { ...req.body, userId };
+      
+      // Calculate total amount based on order type and quantity
+      const price = parseFloat(orderData.price || '0');
+      const quantity = parseFloat(orderData.quantity || '0');
+      const totalAmount = price * quantity;
+      
+      orderData.totalAmount = totalAmount.toString();
+      
+      const order = await storage.createOrder(orderData);
+      res.status(201).json(order);
+    } catch (error) {
+      console.error("Error creating order:", error);
+      res.status(500).json({ message: "Failed to create order" });
+    }
+  });
+
+  app.patch('/api/trading/orders/:orderId', async (req: any, res) => {
+    try {
+      const { orderId } = req.params;
+      const updates = req.body;
+      
+      await storage.updateOrder(orderId, updates);
+      const order = await storage.getOrder(orderId);
+      
+      res.json(order);
+    } catch (error) {
+      console.error("Error updating order:", error);
+      res.status(500).json({ message: "Failed to update order" });
+    }
+  });
+
+  app.delete('/api/trading/orders/:orderId', async (req: any, res) => {
+    try {
+      const { orderId } = req.params;
+      await storage.cancelOrder(orderId);
+      res.json({ message: "Order cancelled successfully" });
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      res.status(500).json({ message: "Failed to cancel order" });
+    }
+  });
+
+  // Watchlist routes
+  app.get('/api/trading/watchlists', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const watchlists = await storage.getWatchlists(userId);
+      res.json(watchlists);
+    } catch (error) {
+      console.error("Error fetching watchlists:", error);
+      res.status(500).json({ message: "Failed to fetch watchlists" });
+    }
+  });
+
+  app.post('/api/trading/watchlists', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const watchlistData = { ...req.body, userId };
+      const watchlist = await storage.createWatchlist(watchlistData);
+      res.status(201).json(watchlist);
+    } catch (error) {
+      console.error("Error creating watchlist:", error);
+      res.status(500).json({ message: "Failed to create watchlist" });
+    }
+  });
+
+  app.get('/api/trading/watchlists/:watchlistId/items', async (req: any, res) => {
+    try {
+      const { watchlistId } = req.params;
+      const items = await storage.getWatchlistItems(parseInt(watchlistId));
+      res.json(items);
+    } catch (error) {
+      console.error("Error fetching watchlist items:", error);
+      res.status(500).json({ message: "Failed to fetch watchlist items" });
+    }
+  });
+
+  app.post('/api/trading/watchlists/:watchlistId/items', async (req: any, res) => {
+    try {
+      const { watchlistId } = req.params;
+      const itemData = { ...req.body, watchlistId: parseInt(watchlistId) };
+      const item = await storage.addToWatchlist(itemData);
+      res.status(201).json(item);
+    } catch (error) {
+      console.error("Error adding to watchlist:", error);
+      res.status(500).json({ message: "Failed to add to watchlist" });
+    }
+  });
+
+  app.delete('/api/trading/watchlists/:watchlistId/items/:stockId', async (req: any, res) => {
+    try {
+      const { watchlistId, stockId } = req.params;
+      await storage.removeFromWatchlist(parseInt(watchlistId), parseInt(stockId));
+      res.json({ message: "Item removed from watchlist successfully" });
+    } catch (error) {
+      console.error("Error removing from watchlist:", error);
+      res.status(500).json({ message: "Failed to remove from watchlist" });
+    }
+  });
+
+  // Trading account routes
+  app.get('/api/trading/accounts', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const accounts = await storage.getTradingAccounts(userId);
+      res.json(accounts);
+    } catch (error) {
+      console.error("Error fetching trading accounts:", error);
+      res.status(500).json({ message: "Failed to fetch trading accounts" });
+    }
+  });
+
+  app.post('/api/trading/accounts', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const accountData = { ...req.body, userId };
+      const account = await storage.createTradingAccount(accountData);
+      res.status(201).json(account);
+    } catch (error) {
+      console.error("Error creating trading account:", error);
+      res.status(500).json({ message: "Failed to create trading account" });
+    }
+  });
+
+  // Mutual fund routes
+  app.get('/api/trading/mutual-funds', async (req: any, res) => {
+    try {
+      const { limit = 50, offset = 0, search } = req.query;
+      let funds;
+      
+      if (search) {
+        funds = await storage.searchMutualFunds(search as string, parseInt(limit as string));
+      } else {
+        funds = await storage.getMutualFunds(parseInt(limit as string), parseInt(offset as string));
+      }
+      
+      res.json(funds);
+    } catch (error) {
+      console.error("Error fetching mutual funds:", error);
+      res.status(500).json({ message: "Failed to fetch mutual funds" });
+    }
+  });
+
+  app.get('/api/trading/mutual-funds/:fundId', async (req: any, res) => {
+    try {
+      const { fundId } = req.params;
+      const fund = await storage.getMutualFund(parseInt(fundId));
+      
+      if (!fund) {
+        return res.status(404).json({ message: "Mutual fund not found" });
+      }
+      
+      res.json(fund);
+    } catch (error) {
+      console.error("Error fetching mutual fund:", error);
+      res.status(500).json({ message: "Failed to fetch mutual fund" });
+    }
+  });
+
+  app.get('/api/trading/portfolios/:portfolioId/mf-holdings', async (req: any, res) => {
+    try {
+      const { portfolioId } = req.params;
+      const holdings = await storage.getMfHoldings(parseInt(portfolioId));
+      res.json(holdings);
+    } catch (error) {
+      console.error("Error fetching MF holdings:", error);
+      res.status(500).json({ message: "Failed to fetch MF holdings" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

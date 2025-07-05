@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { merchants } from "@shared/schema";
+import { seedTradingData } from "./seedTradingData";
 
 async function seedDatabase() {
   try {
@@ -31,6 +32,9 @@ async function seedDatabase() {
         supportsOffline: true,
       },
     ]).onConflictDoNothing();
+    
+    // Seed trading data
+    await seedTradingData();
     
     console.log("Database seeded successfully!");
   } catch (error) {

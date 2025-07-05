@@ -37,6 +37,42 @@ const ApplePayRWASVG = ({ className = "w-6 h-6" }: { className?: string }) => (
   </svg>
 );
 
+// Premium Trading/Stocks SVG
+const ApplePayTradingSVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="tradingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#00C851" />
+        <stop offset="50%" stopColor="#007E33" />
+        <stop offset="100%" stopColor="#004D20" />
+      </linearGradient>
+      <filter id="tradingGlow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <rect x="2" y="8" width="20" height="12" rx="3" fill="url(#tradingGradient)" filter="url(#tradingGlow)" opacity="0.9"/>
+    <rect x="4" y="10" width="16" height="8" rx="2" fill="rgba(255,255,255,0.15)"/>
+    
+    {/* Chart lines */}
+    <path d="M6 16 L8 14 L10 15 L12 12 L14 13 L16 10 L18 11" stroke="#FFFFFF" strokeWidth="1.5" fill="none" opacity="0.9"/>
+    <circle cx="6" cy="16" r="1" fill="#FFFFFF"/>
+    <circle cx="8" cy="14" r="1" fill="#FFFFFF"/>
+    <circle cx="10" cy="15" r="1" fill="#FFFFFF"/>
+    <circle cx="12" cy="12" r="1" fill="#FFFFFF"/>
+    <circle cx="14" cy="13" r="1" fill="#FFFFFF"/>
+    <circle cx="16" cy="10" r="1" fill="#FFFFFF"/>
+    <circle cx="18" cy="11" r="1" fill="#FFFFFF"/>
+    
+    {/* Arrow indicator */}
+    <polygon points="19,4 21,6 19,8" fill="#00C851" opacity="0.8"/>
+    <rect x="17" y="5" width="2" height="2" fill="#00C851" opacity="0.6"/>
+  </svg>
+);
+
 // Apple Pay Style Quick Actions Grid
 export const ApplePayQuickActions = () => {
   const quickActions = [
@@ -112,6 +148,16 @@ export const ApplePayQuickActions = () => {
     },
     {
       id: 8,
+      title: "Stock Trading",
+      subtitle: "Buy & Sell Stocks",
+      icon: ApplePayTradingSVG,
+      href: "/trading",
+      gradient: "linear-gradient(135deg, #00C851 0%, #007E33 50%, #004D20 100%)",
+      glowColor: "rgba(0, 200, 81, 0.4)",
+      description: "Trade stocks and investments"
+    },
+    {
+      id: 9,
       title: "RWA Tokens",
       subtitle: "Asset Investment",
       icon: ApplePayRWASVG,
