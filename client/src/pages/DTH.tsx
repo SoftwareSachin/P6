@@ -1,9 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Tv, Signal, AlertCircle, Check, Star, Clock, Zap } from "lucide-react";
+import { ArrowLeft, Tv, Signal, AlertCircle, Check, Star, Clock, Zap, Shield, Smartphone, CreditCard, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -11,83 +11,150 @@ import { useToast } from "@/hooks/use-toast";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { ApplePayContactlessSVG, ApplePaySecuritySVG, ApplePaySuccessSVG } from "@/components/ApplePaySVGs";
 
-// DTH Provider SVG Components
-const TataSkyDTHSVG = ({ className = "w-12 h-12" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+// Ultra-Premium DTH Provider SVG Components with Apple Pay Aesthetics
+const UltraPremiumTataSkyDTHSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="tataSkyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#0066CC" />
-        <stop offset="50%" stopColor="#0052A3" />
+      <linearGradient id="ultraTataSkyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#007AFF" />
+        <stop offset="30%" stopColor="#0066CC" />
+        <stop offset="70%" stopColor="#0052A3" />
         <stop offset="100%" stopColor="#003D7A" />
       </linearGradient>
+      <filter id="tataSkyGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <linearGradient id="tataSkyShine" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+      </linearGradient>
     </defs>
-    <rect width="64" height="64" rx="16" fill="url(#tataSkyGradient)" />
-    <circle cx="32" cy="20" r="6" fill="white" opacity="0.9" />
-    <path d="M20 32 Q32 22 44 32 Q32 42 20 32" fill="white" opacity="0.8" />
-    <text x="32" y="52" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">TATA</text>
+    <rect width="80" height="80" rx="20" fill="url(#ultraTataSkyGradient)" filter="url(#tataSkyGlow)" />
+    <rect width="80" height="80" rx="20" fill="url(#tataSkyShine)" opacity="0.6" />
+    <circle cx="40" cy="28" r="8" fill="white" opacity="0.95" />
+    <path d="M24 42 Q40 28 56 42 Q40 56 24 42" fill="white" opacity="0.9" />
+    <rect x="36" y="56" width="8" height="3" rx="1.5" fill="white" opacity="0.8" />
+    <text x="40" y="72" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" opacity="0.9">TATA SKY</text>
   </svg>
 );
 
-const AirtelDTHSVG = ({ className = "w-12 h-12" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+const UltraPremiumAirtelDTHSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="airtelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#ED1C24" />
-        <stop offset="50%" stopColor="#C41E3A" />
+      <linearGradient id="ultraAirtelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FF3B30" />
+        <stop offset="30%" stopColor="#ED1C24" />
+        <stop offset="70%" stopColor="#C41E3A" />
         <stop offset="100%" stopColor="#8B0000" />
       </linearGradient>
+      <filter id="airtelGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <linearGradient id="airtelShine" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+      </linearGradient>
     </defs>
-    <rect width="64" height="64" rx="16" fill="url(#airtelGradient)" />
-    <circle cx="32" cy="24" r="8" fill="white" opacity="0.9" />
-    <path d="M16 38 Q32 28 48 38 Q32 48 16 38" fill="white" opacity="0.8" />
-    <text x="32" y="56" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold">AIRTEL</text>
+    <rect width="80" height="80" rx="20" fill="url(#ultraAirtelGradient)" filter="url(#airtelGlow)" />
+    <rect width="80" height="80" rx="20" fill="url(#airtelShine)" opacity="0.6" />
+    <circle cx="40" cy="30" r="10" fill="white" opacity="0.95" />
+    <path d="M20 46 Q40 32 60 46 Q40 60 20 46" fill="white" opacity="0.9" />
+    <rect x="36" y="58" width="8" height="3" rx="1.5" fill="white" opacity="0.8" />
+    <text x="40" y="72" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" opacity="0.9">AIRTEL</text>
   </svg>
 );
 
-const DishTVSVG = ({ className = "w-12 h-12" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+const UltraPremiumDishTVSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="dishGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FF6B00" />
-        <stop offset="50%" stopColor="#E55B00" />
+      <linearGradient id="ultraDishGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FF9F0A" />
+        <stop offset="30%" stopColor="#FF6B00" />
+        <stop offset="70%" stopColor="#E55B00" />
         <stop offset="100%" stopColor="#CC4A00" />
       </linearGradient>
-    </defs>
-    <rect width="64" height="64" rx="16" fill="url(#dishGradient)" />
-    <ellipse cx="32" cy="28" rx="14" ry="8" fill="white" opacity="0.9" />
-    <rect x="28" y="36" width="8" height="12" fill="white" opacity="0.8" />
-    <text x="32" y="56" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold">DISH</text>
-  </svg>
-);
-
-const VideoconDTHSVG = ({ className = "w-12 h-12" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="videoconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#4B0082" />
-        <stop offset="50%" stopColor="#6A0DAD" />
-        <stop offset="100%" stopColor="#8A2BE2" />
+      <filter id="dishGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <linearGradient id="dishShine" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
       </linearGradient>
     </defs>
-    <rect width="64" height="64" rx="16" fill="url(#videoconGradient)" />
-    <path d="M20 20 L44 20 L44 35 L32 44 L20 35 Z" fill="white" opacity="0.9" />
-    <text x="32" y="56" textAnchor="middle" fill="white" fontSize="6" fontWeight="bold">VIDEOCON</text>
+    <rect width="80" height="80" rx="20" fill="url(#ultraDishGradient)" filter="url(#dishGlow)" />
+    <rect width="80" height="80" rx="20" fill="url(#dishShine)" opacity="0.6" />
+    <ellipse cx="40" cy="32" rx="16" ry="10" fill="white" opacity="0.95" />
+    <rect x="36" y="42" width="8" height="16" rx="2" fill="white" opacity="0.9" />
+    <text x="40" y="72" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" opacity="0.9">DISH TV</text>
   </svg>
 );
 
-const SunDirectSVG = ({ className = "w-12 h-12" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+const UltraPremiumVideoconDTHSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="sunDirectGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFD700" />
-        <stop offset="50%" stopColor="#FFA500" />
+      <linearGradient id="ultraVideoconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#AF52DE" />
+        <stop offset="30%" stopColor="#8A2BE2" />
+        <stop offset="70%" stopColor="#6A0DAD" />
+        <stop offset="100%" stopColor="#4B0082" />
+      </linearGradient>
+      <filter id="videoconGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <linearGradient id="videoconShine" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+      </linearGradient>
+    </defs>
+    <rect width="80" height="80" rx="20" fill="url(#ultraVideoconGradient)" filter="url(#videoconGlow)" />
+    <rect width="80" height="80" rx="20" fill="url(#videoconShine)" opacity="0.6" />
+    <path d="M24 26 L56 26 L56 44 L40 54 L24 44 Z" fill="white" opacity="0.95" />
+    <text x="40" y="70" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" opacity="0.9">VIDEOCON</text>
+  </svg>
+);
+
+const UltraPremiumSunDirectSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ultraSunDirectGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFD60A" />
+        <stop offset="30%" stopColor="#FFD700" />
+        <stop offset="70%" stopColor="#FFA500" />
         <stop offset="100%" stopColor="#FF8C00" />
       </linearGradient>
+      <filter id="sunDirectGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <linearGradient id="sunDirectShine" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+      </linearGradient>
     </defs>
-    <rect width="64" height="64" rx="16" fill="url(#sunDirectGradient)" />
-    <circle cx="32" cy="28" r="10" fill="white" opacity="0.9" />
-    <path d="M22 28 L42 28 M32 18 L32 38 M25.5 21.5 L38.5 34.5 M38.5 21.5 L25.5 34.5" stroke="url(#sunDirectGradient)" strokeWidth="2" />
-    <text x="32" y="54" textAnchor="middle" fill="white" fontSize="6" fontWeight="bold">SUN DIRECT</text>
+    <rect width="80" height="80" rx="20" fill="url(#ultraSunDirectGradient)" filter="url(#sunDirectGlow)" />
+    <rect width="80" height="80" rx="20" fill="url(#sunDirectShine)" opacity="0.6" />
+    <circle cx="40" cy="32" r="12" fill="white" opacity="0.95" />
+    <path d="M28 32 L52 32 M40 20 L40 44 M31.5 24.5 L48.5 39.5 M48.5 24.5 L31.5 39.5" stroke="url(#ultraSunDirectGradient)" strokeWidth="3" opacity="0.7" />
+    <text x="40" y="68" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" opacity="0.9">SUN DIRECT</text>
   </svg>
 );
 
@@ -98,118 +165,158 @@ export default function DTH() {
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [showPlans, setShowPlans] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [animationStep, setAnimationStep] = useState(0);
   const { toast } = useToast();
 
-  // DTH Providers
+  // Ultra-Premium DTH Providers with Apple Pay Aesthetics
   const dthProviders = [
     {
       id: "tatasky",
       name: "Tata Sky",
-      icon: TataSkyDTHSVG,
-      color: "#0066CC",
-      gradient: "linear-gradient(135deg, #0066CC 0%, #003D7A 100%)",
-      popularPlans: [299, 419, 599, 799]
+      icon: UltraPremiumTataSkyDTHSVG,
+      color: "#007AFF",
+      gradient: "linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #003D7A 100%)",
+      glowColor: "rgba(0, 122, 255, 0.6)",
+      popularPlans: [299, 419, 599, 799],
+      description: "Premium HD entertainment with advanced features"
     },
     {
       id: "airtel",
       name: "Airtel Digital TV",
-      icon: AirtelDTHSVG,
-      color: "#ED1C24",
-      gradient: "linear-gradient(135deg, #ED1C24 0%, #8B0000 100%)",
-      popularPlans: [329, 449, 649, 849]
+      icon: UltraPremiumAirtelDTHSVG,
+      color: "#FF3B30",
+      gradient: "linear-gradient(135deg, #FF3B30 0%, #FF2D92 50%, #8B0000 100%)",
+      glowColor: "rgba(255, 59, 48, 0.6)",
+      popularPlans: [329, 449, 649, 849],
+      description: "Next-gen digital television experience"
     },
     {
       id: "dish",
       name: "Dish TV",
-      icon: DishTVSVG,
-      color: "#FF6B00",
-      gradient: "linear-gradient(135deg, #FF6B00 0%, #CC4A00 100%)",
-      popularPlans: [199, 349, 549, 749]
+      icon: UltraPremiumDishTVSVG,
+      color: "#FF9F0A",
+      gradient: "linear-gradient(135deg, #FF9F0A 0%, #FF6B35 50%, #CC4A00 100%)",
+      glowColor: "rgba(255, 159, 10, 0.6)",
+      popularPlans: [199, 349, 549, 749],
+      description: "India's leading direct-to-home service"
     },
     {
       id: "videocon",
       name: "Videocon d2h",
-      icon: VideoconDTHSVG,
-      color: "#6A0DAD",
-      gradient: "linear-gradient(135deg, #6A0DAD 0%, #4B0082 100%)",
-      popularPlans: [269, 389, 589, 789]
+      icon: UltraPremiumVideoconDTHSVG,
+      color: "#AF52DE",
+      gradient: "linear-gradient(135deg, #AF52DE 0%, #BF5AF2 50%, #4B0082 100%)",
+      glowColor: "rgba(175, 82, 222, 0.6)",
+      popularPlans: [269, 389, 589, 789],
+      description: "Revolutionary DTH with smart features"
     },
     {
       id: "sundirect",
       name: "Sun Direct",
-      icon: SunDirectSVG,
-      color: "#FFD700",
-      gradient: "linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)",
-      popularPlans: [239, 359, 519, 719]
+      icon: UltraPremiumSunDirectSVG,
+      color: "#FFD60A",
+      gradient: "linear-gradient(135deg, #FFD60A 0%, #FF9F0A 50%, #FF8C00 100%)",
+      glowColor: "rgba(255, 214, 10, 0.6)",
+      popularPlans: [239, 359, 519, 719],
+      description: "South India's premier DTH service"
     }
   ];
 
-  // Sample DTH Plans
+  // Ultra-Premium DTH Plans with Enhanced Features
   const dthPlans = [
     {
       id: 1,
-      name: "HD Super Pack",
-      price: 599,
+      name: "Ultra HD Premium",
+      price: 699,
+      originalPrice: 799,
       duration: "30 days",
-      channels: "280+ Channels",
-      description: "Premium HD channels with sports and movies",
+      channels: "320+ HD Channels",
+      description: "Premium 4K channels with Dolby Atmos audio",
       popular: true,
-      savings: "Save ₹100"
+      savings: "Save ₹100",
+      features: ["4K Ultra HD", "Dolby Audio", "Sports Pack", "Movie Pack"],
+      category: "premium"
     },
     {
       id: 2,
-      name: "Family Entertainment",
-      price: 419,
-      duration: "30 days",
-      channels: "200+ Channels",
-      description: "Best family entertainment package",
-      popular: false,
-      savings: ""
+      name: "HD Super Pack",
+      price: 599,
+      originalPrice: 699,
+      duration: "30 days", 
+      channels: "280+ HD Channels",
+      description: "Complete entertainment with HD channels",
+      popular: true,
+      savings: "Save ₹100",
+      features: ["Full HD", "Sports Channels", "Movie Channels", "Kids Pack"],
+      category: "popular"
     },
     {
       id: 3,
-      name: "Sports Combo",
-      price: 799,
+      name: "Family Entertainment",
+      price: 419,
+      originalPrice: 419,
       duration: "30 days",
-      channels: "320+ Channels",
-      description: "All sports channels included",
+      channels: "200+ Channels",
+      description: "Perfect family entertainment package",
       popular: false,
-      savings: "Save ₹150"
+      savings: "",
+      features: ["Family Channels", "News Pack", "Music Channels", "Regional"],
+      category: "family"
     },
     {
       id: 4,
-      name: "Basic Pack",
-      price: 299,
+      name: "Sports Champion",
+      price: 899,
+      originalPrice: 999,
       duration: "30 days",
-      channels: "150+ Channels",
-      description: "Essential channels for daily viewing",
+      channels: "350+ Channels",
+      description: "Ultimate sports experience with all leagues",
       popular: false,
-      savings: ""
+      savings: "Save ₹100",
+      features: ["All Sports", "Live Matches", "Highlights", "Analysis"],
+      category: "sports"
     }
   ];
 
-  // DTH Recharge Mutation
+  // Enhanced DTH Recharge Mutation with Apple Pay Effects
   const rechargeMutation = useMutation({
     mutationFn: async (rechargeData: any) => {
+      setIsProcessing(true);
+      setAnimationStep(1);
+      
+      // Simulate processing steps with animations
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setAnimationStep(2);
+      
       const response = await fetch('/api/dth/recharge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(rechargeData),
       });
+      
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setAnimationStep(3);
+      
       if (!response.ok) throw new Error('Recharge failed');
       return response.json();
     },
     onSuccess: () => {
-      toast({
-        title: "DTH Recharge Successful!",
-        description: "Your DTH has been recharged successfully.",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/user/balance'] });
-      setLocation('/dashboard');
+      setAnimationStep(4);
+      setTimeout(() => {
+        toast({
+          title: "✨ DTH Recharge Successful!",
+          description: "Your DTH has been recharged successfully with premium features.",
+        });
+        queryClient.invalidateQueries({ queryKey: ['/api/user/balance'] });
+        setLocation('/dashboard');
+      }, 1500);
     },
     onError: (error: any) => {
+      setIsProcessing(false);
+      setAnimationStep(0);
       toast({
-        title: "Recharge Failed",
+        title: "⚠️ Recharge Failed",
         description: error.message || "Please try again later.",
         variant: "destructive",
       });
@@ -219,13 +326,15 @@ export default function DTH() {
   const handleProviderSelect = (provider: any) => {
     setSelectedProvider(provider.id);
     setShowPlans(false);
+    setSelectedPlan(null);
+    setAmount("");
   };
 
   const handleGetPlans = () => {
     if (!subscriberNumber || subscriberNumber.length < 10) {
       toast({
-        title: "Invalid Number",
-        description: "Please enter a valid subscriber number.",
+        title: "Invalid Subscriber Number",
+        description: "Please enter a valid 10+ digit subscriber number.",
         variant: "destructive",
       });
       return;
@@ -242,7 +351,7 @@ export default function DTH() {
     if (!selectedProvider || !subscriberNumber || !amount) {
       toast({
         title: "Missing Information",
-        description: "Please fill all required fields.",
+        description: "Please complete all required fields to proceed.",
         variant: "destructive",
       });
       return;
@@ -259,69 +368,200 @@ export default function DTH() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <div className="flex items-center justify-between p-6 bg-gradient-to-r from-black via-gray-900 to-black">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-white hover:bg-white/10"
-          onClick={() => setLocation('/dashboard')}
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </Button>
-        
-        <div className="text-center">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-            DTH Recharge
-          </h1>
-          <p className="text-sm text-gray-400">Instant DTH top-up</p>
-        </div>
-
-        <div className="w-10" />
+    <div 
+      className="min-h-screen text-white relative overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(175, 82, 222, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 159, 10, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
+        `
+      }}
+    >
+      {/* Floating Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/10 rounded-full blur-xl animate-pulse" />
+        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/10 rounded-full blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-40 left-20 w-28 h-28 bg-orange-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className="p-6 space-y-6">
-        {/* DTH Providers */}
-        <Card className="apple-pay-card border-0">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-              <Tv className="h-5 w-5 mr-2" />
-              Select DTH Provider
-            </h3>
+      {/* Ultra-Premium Header */}
+      <div className="relative z-10">
+        <div 
+          className="flex items-center justify-between p-6"
+          style={{
+            background: `
+              linear-gradient(135deg, 
+                rgba(255,255,255,0.15) 0%, 
+                rgba(255,255,255,0.05) 50%, 
+                rgba(0,0,0,0.1) 100%
+              )
+            `,
+            backdropFilter: 'blur(20px)',
+            borderBottom: '1px solid rgba(255,255,255,0.1)'
+          }}
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/10 transition-all duration-300 hover:scale-110 apple-pay-button"
+            onClick={() => setLocation('/dashboard')}
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.3)'
+            }}
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
+          
+          <div className="text-center">
+            <h1 
+              className="text-2xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent"
+              style={{ 
+                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                textShadow: '0 2px 10px rgba(255,255,255,0.1)'
+              }}
+            >
+              DTH Recharge
+            </h1>
+            <p className="text-sm text-gray-300 mt-1">Premium instant recharge experience</p>
+          </div>
+
+          <div className="w-10 flex justify-center">
+            <Sparkles className="h-6 w-6 text-yellow-400 animate-pulse" />
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-8 relative z-10">
+        {/* Ultra-Premium DTH Providers Selection */}
+        <Card 
+          className="border-0 overflow-hidden"
+          style={{
+            background: `
+              linear-gradient(135deg, 
+                rgba(255,255,255,0.15) 0%, 
+                rgba(255,255,255,0.05) 100%
+              )
+            `,
+            backdropFilter: 'blur(30px)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            boxShadow: `
+              0 20px 40px rgba(0,0,0,0.3),
+              0 8px 16px rgba(0,0,0,0.2),
+              inset 0 1px 0 rgba(255,255,255,0.2)
+            `
+          }}
+        >
+          <CardContent className="p-8">
+            <div className="flex items-center justify-center mb-6">
+              <div 
+                className="flex items-center gap-3 px-6 py-3 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0,122,255,0.2) 0%, rgba(175,82,222,0.2) 100%)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.2)'
+                }}
+              >
+                <Tv className="h-6 w-6 text-blue-400" />
+                <h3 
+                  className="text-xl font-semibold text-white"
+                  style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                >
+                  Choose Your DTH Provider
+                </h3>
+              </div>
+            </div>
             
-            <div className="grid grid-cols-2 gap-4">
-              {dthProviders.map((provider) => (
+            <div className="grid grid-cols-1 gap-6">
+              {dthProviders.map((provider, index) => (
                 <div
                   key={provider.id}
                   onClick={() => handleProviderSelect(provider)}
-                  className={`relative group cursor-pointer transition-all duration-300 ${
-                    selectedProvider === provider.id ? 'scale-105' : ''
-                  }`}
+                  className="relative group cursor-pointer transition-all duration-500 hover:scale-105 active:scale-95"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
+                  {/* Provider Glow Effect */}
                   <div 
-                    className={`absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 ${
-                      selectedProvider === provider.id ? 'opacity-60' : ''
+                    className={`absolute inset-0 rounded-3xl blur-xl opacity-0 group-hover:opacity-60 transition-all duration-500 ${
+                      selectedProvider === provider.id ? 'opacity-80' : ''
                     }`}
-                    style={{ background: provider.gradient }}
+                    style={{ background: provider.glowColor }}
                   />
                   
                   <Card
-                    className={`relative border-0 overflow-hidden transition-all duration-300 ${
-                      selectedProvider === provider.id ? 'ring-2 ring-white/20' : ''
+                    className={`relative border-0 overflow-hidden transition-all duration-500 apple-pay-button ${
+                      selectedProvider === provider.id ? 'ring-2 ring-white/30 scale-105' : ''
                     }`}
                     style={{
-                      background: `linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)), ${provider.gradient}`,
-                      backdropFilter: 'blur(20px)'
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(255,255,255,0.2) 0%, 
+                          rgba(255,255,255,0.1) 50%,
+                          rgba(255,255,255,0.05) 100%
+                        ),
+                        ${provider.gradient}
+                      `,
+                      backdropFilter: 'blur(20px)',
+                      border: `1px solid ${selectedProvider === provider.id ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)'}`,
+                      boxShadow: `
+                        0 12px 24px rgba(0,0,0,0.3),
+                        0 8px 16px ${provider.glowColor},
+                        inset 0 1px 0 rgba(255,255,255,0.3)
+                      `
                     }}
                   >
-                    <CardContent className="p-4 text-center">
-                      <provider.icon className="mx-auto mb-3" />
-                      <h4 className="font-semibold text-white text-sm">{provider.name}</h4>
-                      {selectedProvider === provider.id && (
-                        <Check className="h-4 w-4 text-white mx-auto mt-2" />
-                      )}
+                    <CardContent className="p-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="relative">
+                          <provider.icon className="transition-transform duration-300 group-hover:scale-110" />
+                          {selectedProvider === provider.id && (
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                              <Check className="h-4 w-4 text-white" />
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="flex-1">
+                          <h4 
+                            className="text-xl font-bold text-white mb-1"
+                            style={{ 
+                              fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                              textShadow: '0 1px 3px rgba(0,0,0,0.4)'
+                            }}
+                          >
+                            {provider.name}
+                          </h4>
+                          <p className="text-white/80 text-sm mb-2">{provider.description}</p>
+                          <div className="flex items-center gap-2 text-xs text-white/70">
+                            <Shield className="h-3 w-3" />
+                            <span>Secure & Instant</span>
+                            <div className="w-1 h-1 bg-white/50 rounded-full" />
+                            <Zap className="h-3 w-3" />
+                            <span>24/7 Service</span>
+                          </div>
+                        </div>
+
+                        <div className="text-right">
+                          <Badge 
+                            className="bg-white/20 text-white text-xs font-medium px-3 py-1"
+                            style={{ backdropFilter: 'blur(10px)' }}
+                          >
+                            Premium
+                          </Badge>
+                        </div>
+                      </div>
                     </CardContent>
+                    
+                    {/* Hover Shimmer Effect */}
+                    <div 
+                      className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl"
+                      style={{
+                        background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%)'
+                      }}
+                    />
                   </Card>
                 </div>
               ))}
@@ -329,93 +569,231 @@ export default function DTH() {
           </CardContent>
         </Card>
 
-        {/* Subscriber Number Input */}
+        {/* Ultra-Premium Subscriber Number Input */}
         {selectedProvider && (
-          <Card className="apple-pay-card border-0">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                <Signal className="h-5 w-5 mr-2" />
-                Subscriber Number
-              </h3>
+          <Card 
+            className="border-0 overflow-hidden"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255,255,255,0.15) 0%, 
+                  rgba(255,255,255,0.05) 100%
+                )
+              `,
+              backdropFilter: 'blur(30px)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              boxShadow: `
+                0 20px 40px rgba(0,0,0,0.3),
+                0 8px 16px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.2)
+              `
+            }}
+          >
+            <CardContent className="p-8">
+              <div className="flex items-center justify-center mb-6">
+                <div 
+                  className="flex items-center gap-3 px-6 py-3 rounded-2xl"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(0,122,255,0.2) 0%, rgba(175,82,222,0.2) 100%)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)'
+                  }}
+                >
+                  <Smartphone className="h-6 w-6 text-blue-400" />
+                  <h3 
+                    className="text-xl font-semibold text-white"
+                    style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                  >
+                    Subscriber Details
+                  </h3>
+                </div>
+              </div>
               
-              <Input
-                type="text"
-                placeholder="Enter subscriber number"
-                value={subscriberNumber}
-                onChange={(e) => setSubscriberNumber(e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-14 text-lg rounded-xl"
-              />
-              
-              <Button
-                onClick={handleGetPlans}
-                className="w-full mt-4 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
-                disabled={!subscriberNumber || subscriberNumber.length < 10}
-              >
-                Get Plans
-              </Button>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-white/80 text-sm font-medium mb-3">Subscriber Number</label>
+                  <Input
+                    type="text"
+                    placeholder="Enter your subscriber number"
+                    value={subscriberNumber}
+                    onChange={(e) => setSubscriberNumber(e.target.value)}
+                    className="h-16 text-lg rounded-2xl transition-all duration-300 focus:scale-105"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      color: 'white',
+                      fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                    }}
+                  />
+                </div>
+                
+                <Button
+                  onClick={handleGetPlans}
+                  disabled={!subscriberNumber || subscriberNumber.length < 10}
+                  className="w-full h-16 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 active:scale-95 apple-pay-button"
+                  style={{
+                    background: subscriberNumber && subscriberNumber.length >= 10 
+                      ? 'linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #AF52DE 100%)'
+                      : 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    boxShadow: subscriberNumber && subscriberNumber.length >= 10 
+                      ? '0 8px 24px rgba(0,122,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2)'
+                      : '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                  }}
+                >
+                  <Signal className="h-6 w-6 mr-3" />
+                  Get Available Plans
+                </Button>
+              </div>
             </CardContent>
           </Card>
         )}
 
-        {/* DTH Plans */}
+        {/* Ultra-Premium DTH Plans */}
         {showPlans && (
-          <Card className="apple-pay-card border-0">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                <Star className="h-5 w-5 mr-2" />
-                Available Plans
-              </h3>
+          <Card 
+            className="border-0 overflow-hidden"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255,255,255,0.15) 0%, 
+                  rgba(255,255,255,0.05) 100%
+                )
+              `,
+              backdropFilter: 'blur(30px)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              boxShadow: `
+                0 20px 40px rgba(0,0,0,0.3),
+                0 8px 16px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.2)
+              `
+            }}
+          >
+            <CardContent className="p-8">
+              <div className="flex items-center justify-center mb-6">
+                <div 
+                  className="flex items-center gap-3 px-6 py-3 rounded-2xl"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(0,122,255,0.2) 0%, rgba(175,82,222,0.2) 100%)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)'
+                  }}
+                >
+                  <Star className="h-6 w-6 text-yellow-400" />
+                  <h3 
+                    className="text-xl font-semibold text-white"
+                    style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                  >
+                    Premium Plans Available
+                  </h3>
+                </div>
+              </div>
               
-              <div className="space-y-3">
-                {dthPlans.map((plan) => (
+              <div className="space-y-4">
+                {dthPlans.map((plan, index) => (
                   <div
                     key={plan.id}
                     onClick={() => handlePlanSelect(plan)}
-                    className={`relative group cursor-pointer transition-all duration-300 ${
-                      selectedPlan?.id === plan.id ? 'scale-105' : ''
-                    }`}
+                    className="relative group cursor-pointer transition-all duration-500 hover:scale-105 active:scale-95"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <Card
-                      className={`border-0 transition-all duration-300 ${
-                        selectedPlan?.id === plan.id ? 'ring-2 ring-blue-400' : ''
+                      className={`border-0 transition-all duration-500 apple-pay-button ${
+                        selectedPlan?.id === plan.id ? 'ring-2 ring-blue-400/50 scale-105' : ''
                       }`}
                       style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
-                        backdropFilter: 'blur(20px)'
+                        background: `
+                          linear-gradient(135deg, 
+                            rgba(255,255,255,0.15) 0%, 
+                            rgba(255,255,255,0.05) 100%
+                          )
+                        `,
+                        backdropFilter: 'blur(20px)',
+                        border: `1px solid ${selectedPlan?.id === plan.id ? 'rgba(0,122,255,0.4)' : 'rgba(255,255,255,0.2)'}`,
+                        boxShadow: `
+                          0 12px 24px rgba(0,0,0,0.3),
+                          0 4px 8px rgba(0,0,0,0.2),
+                          inset 0 1px 0 rgba(255,255,255,0.2)
+                        `
                       }}
                     >
-                      <CardContent className="p-4">
+                      <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-semibold text-white">{plan.name}</h4>
+                            <div className="flex items-center gap-3 mb-2">
+                              <h4 
+                                className="text-lg font-bold text-white"
+                                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                              >
+                                {plan.name}
+                              </h4>
                               {plan.popular && (
-                                <Badge className="bg-green-500 text-white text-xs">Popular</Badge>
+                                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1">
+                                  <Star className="h-3 w-3 mr-1" />
+                                  POPULAR
+                                </Badge>
                               )}
                               {plan.savings && (
-                                <Badge className="bg-orange-500 text-white text-xs">{plan.savings}</Badge>
+                                <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-2 py-1">
+                                  {plan.savings}
+                                </Badge>
                               )}
                             </div>
-                            <p className="text-gray-400 text-sm">{plan.description}</p>
-                            <div className="flex items-center gap-4 mt-2 text-xs text-gray-300">
-                              <span className="flex items-center gap-1">
-                                <Tv className="h-3 w-3" />
-                                {plan.channels}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
-                                {plan.duration}
-                              </span>
+                            
+                            <p className="text-white/80 text-sm mb-3">{plan.description}</p>
+                            
+                            <div className="grid grid-cols-2 gap-4 text-xs text-white/70">
+                              <div className="flex items-center gap-2">
+                                <Tv className="h-4 w-4" />
+                                <span>{plan.channels}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                <span>{plan.duration}</span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              {plan.features.map((feature, idx) => (
+                                <Badge 
+                                  key={idx}
+                                  className="text-xs bg-white/10 text-white/80 border border-white/20"
+                                  style={{ backdropFilter: 'blur(10px)' }}
+                                >
+                                  {feature}
+                                </Badge>
+                              ))}
                             </div>
                           </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-white">₹{plan.price}</div>
+                          
+                          <div className="text-right ml-6">
+                            <div className="text-3xl font-bold text-white mb-1">
+                              ₹{plan.price}
+                            </div>
+                            {plan.originalPrice > plan.price && (
+                              <div className="text-sm text-white/50 line-through">
+                                ₹{plan.originalPrice}
+                              </div>
+                            )}
                             {selectedPlan?.id === plan.id && (
-                              <Check className="h-5 w-5 text-green-400 mx-auto mt-1" />
+                              <div className="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full mt-2">
+                                <Check className="h-5 w-5 text-white" />
+                              </div>
                             )}
                           </div>
                         </div>
                       </CardContent>
+                      
+                      {/* Plan Hover Effect */}
+                      <div 
+                        className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl"
+                        style={{
+                          background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)'
+                        }}
+                      />
                     </Card>
                   </div>
                 ))}
@@ -424,60 +802,82 @@ export default function DTH() {
           </Card>
         )}
 
-        {/* Custom Amount */}
-        {selectedProvider && subscriberNumber && (
-          <Card className="apple-pay-card border-0">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                <Zap className="h-5 w-5 mr-2" />
-                Recharge Amount
-              </h3>
-              
-              <Input
-                type="number"
-                placeholder="Enter amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-14 text-lg rounded-xl mb-4"
-              />
-
-              {/* Quick Amounts */}
-              <div className="grid grid-cols-4 gap-3 mb-6">
-                {selectedProvider && dthProviders.find(p => p.id === selectedProvider)?.popularPlans.map((quickAmount) => (
-                  <Button
-                    key={quickAmount}
-                    onClick={() => setAmount(quickAmount.toString())}
-                    className={`h-12 rounded-xl ${
-                      amount === quickAmount.toString() 
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
-                        : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
-                    }`}
-                  >
-                    ₹{quickAmount}
-                  </Button>
-                ))}
-              </div>
-
-              <Button
-                onClick={handleRecharge}
-                disabled={!amount || rechargeMutation.isPending}
-                className="w-full h-14 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold text-lg"
-              >
-                {rechargeMutation.isPending ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Processing...
+        {/* Ultra-Premium Recharge Button */}
+        {selectedPlan && (
+          <div className="space-y-6">
+            {/* Amount Summary */}
+            <Card 
+              className="border-0 overflow-hidden"
+              style={{
+                background: `
+                  linear-gradient(135deg, 
+                    rgba(0,122,255,0.2) 0%, 
+                    rgba(175,82,222,0.2) 100%
+                  )
+                `,
+                backdropFilter: 'blur(30px)',
+                border: '1px solid rgba(255,255,255,0.3)',
+                boxShadow: `
+                  0 20px 40px rgba(0,122,255,0.2),
+                  0 8px 16px rgba(0,0,0,0.2),
+                  inset 0 1px 0 rgba(255,255,255,0.3)
+                `
+              }}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white/80 text-sm">Recharge Amount</p>
+                    <p className="text-3xl font-bold text-white">₹{amount}</p>
                   </div>
-                ) : (
-                  `Recharge ₹${amount || 0}`
-                )}
-              </Button>
-            </CardContent>
-          </Card>
+                  <div className="text-right">
+                    <p className="text-white/80 text-sm">Plan</p>
+                    <p className="text-lg font-semibold text-white">{selectedPlan.name}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Ultra-Premium Recharge Button */}
+            <Button
+              onClick={handleRecharge}
+              disabled={isProcessing}
+              className="w-full h-20 rounded-3xl text-xl font-bold transition-all duration-500 hover:scale-105 active:scale-95 apple-pay-button"
+              style={{
+                background: isProcessing 
+                  ? 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)'
+                  : 'linear-gradient(135deg, #007AFF 0%, #5856D6 30%, #AF52DE 70%, #FF2D92 100%)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.3)',
+                boxShadow: isProcessing 
+                  ? '0 8px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)'
+                  : '0 16px 48px rgba(0,122,255,0.5), 0 8px 24px rgba(175,82,222,0.3), inset 0 1px 0 rgba(255,255,255,0.3)',
+                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+              }}
+            >
+              {isProcessing ? (
+                <div className="flex items-center gap-4">
+                  <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>
+                    {animationStep === 1 && "Connecting to Provider..."}
+                    {animationStep === 2 && "Processing Payment..."}
+                    {animationStep === 3 && "Confirming Recharge..."}
+                    {animationStep === 4 && "Recharge Successful!"}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <CreditCard className="h-8 w-8" />
+                  <span>Recharge Now - ₹{amount}</span>
+                  <Zap className="h-8 w-8" />
+                </div>
+              )}
+            </Button>
+          </div>
         )}
       </div>
 
-      <BottomNavigation activeTab="dashboard" />
+      <BottomNavigation activeTab="home" />
     </div>
   );
 }
