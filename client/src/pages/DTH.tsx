@@ -372,18 +372,19 @@ export default function DTH() {
       className="min-h-screen text-white relative overflow-hidden"
       style={{
         background: `
-          radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(175, 82, 222, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(255, 159, 10, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
+          radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.08) 0%, transparent 60%),
+          radial-gradient(circle at 80% 80%, rgba(175, 82, 222, 0.08) 0%, transparent 60%),
+          radial-gradient(circle at 40% 60%, rgba(255, 159, 10, 0.05) 0%, transparent 60%),
+          linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #111111 70%, #000000 100%)
         `
       }}
     >
-      {/* Floating Background Elements */}
+      {/* Enhanced Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/10 rounded-full blur-xl animate-pulse" />
-        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/10 rounded-full blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-40 left-20 w-28 h-28 bg-orange-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-20 left-10 w-40 h-40 bg-blue-500/5 rounded-full blur-2xl animate-pulse" />
+        <div className="absolute top-60 right-16 w-32 h-32 bg-purple-500/5 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute bottom-32 left-16 w-36 h-36 bg-orange-500/4 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/2 right-8 w-24 h-24 bg-green-500/4 rounded-full blur-lg animate-pulse" style={{ animationDelay: '4.5s' }} />
       </div>
 
       {/* Ultra-Premium Header */}
@@ -393,13 +394,14 @@ export default function DTH() {
           style={{
             background: `
               linear-gradient(135deg, 
-                rgba(255,255,255,0.15) 0%, 
-                rgba(255,255,255,0.05) 50%, 
-                rgba(0,0,0,0.1) 100%
+                rgba(255,255,255,0.08) 0%, 
+                rgba(255,255,255,0.03) 50%, 
+                rgba(0,0,0,0.2) 100%
               )
             `,
-            backdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(255,255,255,0.1)'
+            backdropFilter: 'blur(30px)',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
           }}
         >
           <Button
@@ -435,23 +437,29 @@ export default function DTH() {
         </div>
       </div>
 
-      <div className="p-6 space-y-8 relative z-10">
+      <div className="px-4 py-8 space-y-10 relative z-10 max-w-lg mx-auto">
         {/* Ultra-Premium DTH Providers Selection */}
         <Card 
           className="border-0 overflow-hidden"
           style={{
             background: `
               linear-gradient(135deg, 
-                rgba(255,255,255,0.15) 0%, 
-                rgba(255,255,255,0.05) 100%
+                rgba(255,255,255,0.12) 0%, 
+                rgba(255,255,255,0.08) 50%,
+                rgba(255,255,255,0.04) 100%
+              ),
+              linear-gradient(135deg, 
+                rgba(0,0,0,0.4) 0%, 
+                rgba(0,0,0,0.6) 100%
               )
             `,
-            backdropFilter: 'blur(30px)',
-            border: '1px solid rgba(255,255,255,0.2)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid rgba(255,255,255,0.15)',
             boxShadow: `
-              0 20px 40px rgba(0,0,0,0.3),
-              0 8px 16px rgba(0,0,0,0.2),
-              inset 0 1px 0 rgba(255,255,255,0.2)
+              0 24px 48px rgba(0,0,0,0.5),
+              0 12px 24px rgba(0,0,0,0.3),
+              inset 0 1px 0 rgba(255,255,255,0.15),
+              inset 0 -1px 0 rgba(0,0,0,0.3)
             `
           }}
         >
@@ -493,23 +501,28 @@ export default function DTH() {
                   
                   <Card
                     className={`relative border-0 overflow-hidden transition-all duration-500 apple-pay-button ${
-                      selectedProvider === provider.id ? 'ring-2 ring-white/30 scale-105' : ''
+                      selectedProvider === provider.id ? 'ring-2 ring-white/40 scale-105' : ''
                     }`}
                     style={{
                       background: `
                         linear-gradient(135deg, 
-                          rgba(255,255,255,0.2) 0%, 
-                          rgba(255,255,255,0.1) 50%,
-                          rgba(255,255,255,0.05) 100%
+                          rgba(255,255,255,0.15) 0%, 
+                          rgba(255,255,255,0.08) 50%,
+                          rgba(255,255,255,0.03) 100%
+                        ),
+                        linear-gradient(135deg, 
+                          rgba(0,0,0,0.3) 0%, 
+                          rgba(0,0,0,0.5) 100%
                         ),
                         ${provider.gradient}
                       `,
-                      backdropFilter: 'blur(20px)',
-                      border: `1px solid ${selectedProvider === provider.id ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)'}`,
+                      backdropFilter: 'blur(30px)',
+                      border: `1px solid ${selectedProvider === provider.id ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.15)'}`,
                       boxShadow: `
-                        0 12px 24px rgba(0,0,0,0.3),
+                        0 16px 32px rgba(0,0,0,0.4),
                         0 8px 16px ${provider.glowColor},
-                        inset 0 1px 0 rgba(255,255,255,0.3)
+                        inset 0 1px 0 rgba(255,255,255,0.2),
+                        inset 0 -1px 0 rgba(0,0,0,0.3)
                       `
                     }}
                   >
@@ -526,21 +539,33 @@ export default function DTH() {
                         
                         <div className="flex-1">
                           <h4 
-                            className="text-xl font-bold text-white mb-1"
+                            className="text-xl font-bold text-white mb-2"
                             style={{ 
                               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                              textShadow: '0 1px 3px rgba(0,0,0,0.4)'
+                              textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 3px rgba(0,0,0,0.6)'
                             }}
                           >
                             {provider.name}
                           </h4>
-                          <p className="text-white/80 text-sm mb-2">{provider.description}</p>
-                          <div className="flex items-center gap-2 text-xs text-white/70">
-                            <Shield className="h-3 w-3" />
-                            <span>Secure & Instant</span>
-                            <div className="w-1 h-1 bg-white/50 rounded-full" />
-                            <Zap className="h-3 w-3" />
-                            <span>24/7 Service</span>
+                          <p 
+                            className="text-white/90 text-sm mb-3 leading-relaxed"
+                            style={{ 
+                              textShadow: '0 1px 3px rgba(0,0,0,0.6)',
+                              fontWeight: '500'
+                            }}
+                          >
+                            {provider.description}
+                          </p>
+                          <div className="flex items-center gap-3 text-xs text-white/80 font-medium">
+                            <div className="flex items-center gap-1">
+                              <Shield className="h-4 w-4" />
+                              <span style={{ textShadow: '0 1px 2px rgba(0,0,0,0.6)' }}>Secure & Instant</span>
+                            </div>
+                            <div className="w-1 h-1 bg-white/60 rounded-full" />
+                            <div className="flex items-center gap-1">
+                              <Zap className="h-4 w-4" />
+                              <span style={{ textShadow: '0 1px 2px rgba(0,0,0,0.6)' }}>24/7 Service</span>
+                            </div>
                           </div>
                         </div>
 
@@ -576,16 +601,22 @@ export default function DTH() {
             style={{
               background: `
                 linear-gradient(135deg, 
-                  rgba(255,255,255,0.15) 0%, 
-                  rgba(255,255,255,0.05) 100%
+                  rgba(255,255,255,0.12) 0%, 
+                  rgba(255,255,255,0.08) 50%,
+                  rgba(255,255,255,0.04) 100%
+                ),
+                linear-gradient(135deg, 
+                  rgba(0,0,0,0.4) 0%, 
+                  rgba(0,0,0,0.6) 100%
                 )
               `,
-              backdropFilter: 'blur(30px)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(40px)',
+              border: '1px solid rgba(255,255,255,0.15)',
               boxShadow: `
-                0 20px 40px rgba(0,0,0,0.3),
-                0 8px 16px rgba(0,0,0,0.2),
-                inset 0 1px 0 rgba(255,255,255,0.2)
+                0 24px 48px rgba(0,0,0,0.5),
+                0 12px 24px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.15),
+                inset 0 -1px 0 rgba(0,0,0,0.3)
               `
             }}
           >
@@ -609,21 +640,45 @@ export default function DTH() {
                 </div>
               </div>
               
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-3">Subscriber Number</label>
+                  <label 
+                    className="block text-white text-base font-semibold mb-4"
+                    style={{ 
+                      textShadow: '0 1px 3px rgba(0,0,0,0.6)',
+                      fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                    }}
+                  >
+                    Subscriber Number
+                  </label>
                   <Input
                     type="text"
                     placeholder="Enter your subscriber number"
                     value={subscriberNumber}
                     onChange={(e) => setSubscriberNumber(e.target.value)}
-                    className="h-16 text-lg rounded-2xl transition-all duration-300 focus:scale-105"
+                    className="h-16 text-lg rounded-2xl transition-all duration-300 focus:scale-105 font-medium"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255,255,255,0.3)',
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(255,255,255,0.1) 0%, 
+                          rgba(255,255,255,0.05) 100%
+                        ),
+                        linear-gradient(135deg, 
+                          rgba(0,0,0,0.3) 0%, 
+                          rgba(0,0,0,0.5) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255,255,255,0.2)',
                       color: 'white',
-                      fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                      fontSize: '16px',
+                      fontFamily: 'SF Pro Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.6)',
+                      boxShadow: `
+                        0 8px 16px rgba(0,0,0,0.3),
+                        inset 0 1px 0 rgba(255,255,255,0.1),
+                        inset 0 -1px 0 rgba(0,0,0,0.2)
+                      `
                     }}
                   />
                 </div>
@@ -659,16 +714,22 @@ export default function DTH() {
             style={{
               background: `
                 linear-gradient(135deg, 
-                  rgba(255,255,255,0.15) 0%, 
-                  rgba(255,255,255,0.05) 100%
+                  rgba(255,255,255,0.12) 0%, 
+                  rgba(255,255,255,0.08) 50%,
+                  rgba(255,255,255,0.04) 100%
+                ),
+                linear-gradient(135deg, 
+                  rgba(0,0,0,0.4) 0%, 
+                  rgba(0,0,0,0.6) 100%
                 )
               `,
-              backdropFilter: 'blur(30px)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(40px)',
+              border: '1px solid rgba(255,255,255,0.15)',
               boxShadow: `
-                0 20px 40px rgba(0,0,0,0.3),
-                0 8px 16px rgba(0,0,0,0.2),
-                inset 0 1px 0 rgba(255,255,255,0.2)
+                0 24px 48px rgba(0,0,0,0.5),
+                0 12px 24px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.15),
+                inset 0 -1px 0 rgba(0,0,0,0.3)
               `
             }}
           >
