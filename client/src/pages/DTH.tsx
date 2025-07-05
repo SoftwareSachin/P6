@@ -325,7 +325,7 @@ export default function DTH() {
     }));
     
     // Redirect to send money page
-    setLocation('/send');
+    setLocation('/send-money');
   };
 
   return (
