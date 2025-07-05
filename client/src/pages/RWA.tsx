@@ -789,28 +789,41 @@ export default function RWA() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
-      <div className="max-w-sm mx-auto bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-3xl min-h-screen">
-        {/* Header */}
-        <div className="px-6 pt-12 pb-6">
-          <div className="flex items-center justify-between mb-2">
+    <div className="min-h-screen bg-gradient-to-br from-[#2A2D47] via-[#1E1F2E] to-[#0F0F23]">
+      <div className="max-w-sm mx-auto min-h-screen">
+        {/* Ultra-Premium Header */}
+        <div className="px-4 pt-14 pb-6">
+          <div className="flex items-center justify-between mb-4">
             <button
               onClick={() => setLocation('/dashboard')}
-              className="w-8 h-8 bg-gray-700/80 rounded-full flex items-center justify-center"
+              className="w-10 h-10 bg-[#2D3748]/80 rounded-xl flex items-center justify-center backdrop-blur-sm"
             >
-              <ArrowLeft className="w-4 h-4 text-white" />
+              <ArrowLeft className="w-5 h-5 text-white" />
             </button>
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-white">Real World Assets</h1>
-              <p className="text-white/60 text-sm">Premium tokenized investment platform</p>
+              <h1 className="text-xl font-bold text-white">Real World</h1>
+              <h1 className="text-xl font-bold text-white -mt-1">Assets</h1>
+              <p className="text-white/50 text-xs mt-1">Premium tokenized</p>
+              <p className="text-white/50 text-xs -mt-1">investment platform</p>
             </div>
             <div className="flex items-center space-x-2">
-              <button className="w-8 h-8 bg-gray-700/80 rounded-full flex items-center justify-center">
-                <Search className="w-4 h-4 text-white" />
+              <button className="w-10 h-10 bg-[#2D3748]/80 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <Search className="w-5 h-5 text-white" />
               </button>
-              <button className="w-8 h-8 bg-gray-700/80 rounded-full flex items-center justify-center">
-                <Filter className="w-4 h-4 text-white" />
+              <button className="w-10 h-10 bg-[#2D3748]/80 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <Filter className="w-5 h-5 text-white" />
               </button>
+            </div>
+          </div>
+          
+          {/* Live Status Bar */}
+          <div className="flex items-center justify-center space-x-4 mb-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-white/70 text-xs font-medium">Live</span>
+            </div>
+            <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 px-3 py-1 rounded-full border border-purple-500/30">
+              <span className="text-purple-300 text-xs font-semibold">Premium</span>
             </div>
           </div>
         </div>
