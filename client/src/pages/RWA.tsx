@@ -419,9 +419,9 @@ export default function RWA() {
   // Ultra-Premium Tab Navigation
   const TabNavigation = () => (
     <div className="mb-8">
-      <div className="flex items-center justify-center px-4">
-        <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-2 border border-slate-600/30 w-full max-w-md">
-          <div className="grid grid-cols-4 gap-1">
+      <div className="flex items-center justify-center px-6">
+        <div className="bg-black/60 backdrop-blur-2xl rounded-3xl p-1.5 border border-white/10 shadow-2xl">
+          <div className="flex space-x-1">
             {([
               { id: 'marketplace', label: 'Market', icon: ShoppingCart },
               { id: 'portfolio', label: 'Portfolio', icon: Briefcase },
@@ -431,14 +431,17 @@ export default function RWA() {
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
-                className={`flex flex-col items-center justify-center px-3 py-3 rounded-xl text-xs font-medium transition-all duration-300 ${
+                className={`relative flex flex-col items-center justify-center px-4 py-4 rounded-2xl text-xs font-medium transition-all duration-500 min-w-[70px] ${
                   activeTab === id
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                    ? 'bg-gradient-to-b from-white to-gray-100 text-black shadow-xl transform scale-105'
+                    : 'text-white/70 hover:text-white hover:bg-white/5 hover:backdrop-blur-sm'
                 }`}
               >
-                <Icon className="w-4 h-4 mb-1" />
-                <span>{label}</span>
+                <Icon className={`w-5 h-5 mb-1.5 ${activeTab === id ? 'text-black' : 'text-white/70'}`} />
+                <span className={`font-semibold ${activeTab === id ? 'text-black' : 'text-white/70'}`}>{label}</span>
+                {activeTab === id && (
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+                )}
               </button>
             ))}
           </div>
@@ -447,87 +450,135 @@ export default function RWA() {
     </div>
   );
 
-  // Premium Portfolio Summary
+  // Ultra-Premium Portfolio Summary
   const PortfolioSummary = () => {
-    const totalInvested = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.totalInvested || 0), 0);
-    const totalValue = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.currentValue || 0), 0);
-    const totalYield = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.yieldEarned || 0), 0);
+    const investmentArray = Array.isArray(investments) ? investments : [];
+    const totalInvested = investmentArray.reduce((sum: number, inv: any) => sum + parseFloat(inv.totalInvested || 0), 0);
+    const totalValue = investmentArray.reduce((sum: number, inv: any) => sum + parseFloat(inv.currentValue || 0), 0);
+    const totalYield = investmentArray.reduce((sum: number, inv: any) => sum + parseFloat(inv.yieldEarned || 0), 0);
     const roi = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
 
     return (
-      <Card className="bg-gradient-to-br from-purple-900/40 via-pink-900/30 to-purple-900/40 border-purple-500/30 backdrop-blur-xl shadow-2xl mb-8">
-        <CardContent className="p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
-              Portfolio Overview
-            </h3>
-            <div className="flex items-center space-x-3">
-              <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-400/30 px-3 py-1">
-                <Star className="w-3 h-3 mr-1" />
-                Premium
-              </Badge>
-              <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30 px-3 py-1">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                Active
-              </Badge>
+      <div className="mb-8 px-6">
+        {/* Portfolio Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-1">Portfolio Overview</h2>
+            <p className="text-white/60 text-sm">Your investment performance</p>
+          </div>
+          <div className="flex space-x-2">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-500 px-3 py-1.5 rounded-full">
+              <span className="text-white text-xs font-semibold">Premium</span>
+            </div>
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-3 py-1.5 rounded-full">
+              <span className="text-white text-xs font-semibold">Active</span>
             </div>
           </div>
-          
-          <div className="grid grid-cols-2 gap-6 mb-6">
-            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-sm font-medium">Total Invested</p>
+        </div>
+
+        {/* Main Portfolio Cards */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {/* Total Invested */}
+          <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl p-6 border border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 bg-blue-500/20 rounded-2xl flex items-center justify-center">
                 <Wallet className="w-5 h-5 text-blue-400" />
               </div>
-              <p className="text-3xl font-bold text-white">₹{totalInvested.toLocaleString()}</p>
-              <p className="text-blue-400 text-sm mt-1">Principal amount</p>
+              <div className="text-white/50 text-xs font-medium">Total</div>
             </div>
-            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-sm font-medium">Current Value</p>
+            <div className="mb-2">
+              <p className="text-white/60 text-sm font-medium">Invested</p>
+              <p className="text-2xl font-bold text-white">₹{totalInvested.toLocaleString()}</p>
+            </div>
+            <div className="flex items-center space-x-1">
+              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+              <span className="text-blue-400 text-xs font-medium">Principal amount</span>
+            </div>
+          </div>
+
+          {/* Current Value */}
+          <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl p-6 border border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 bg-purple-500/20 rounded-2xl flex items-center justify-center">
                 <Target className="w-5 h-5 text-purple-400" />
               </div>
-              <p className="text-3xl font-bold text-white">₹{totalValue.toLocaleString()}</p>
-              <p className="text-purple-400 text-sm mt-1">Market value</p>
+              <div className="text-white/50 text-xs font-medium">Current</div>
             </div>
-            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-sm font-medium">Total Yield</p>
+            <div className="mb-2">
+              <p className="text-white/60 text-sm font-medium">Value</p>
+              <p className="text-2xl font-bold text-white">₹{totalValue.toLocaleString()}</p>
+            </div>
+            <div className="flex items-center space-x-1">
+              <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+              <span className="text-purple-400 text-xs font-medium">Market value</span>
+            </div>
+          </div>
+
+          {/* Total Yield */}
+          <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl p-6 border border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 bg-green-500/20 rounded-2xl flex items-center justify-center">
                 <DollarSign className="w-5 h-5 text-green-400" />
               </div>
-              <p className="text-3xl font-bold text-green-400">₹{totalYield.toLocaleString()}</p>
-              <p className="text-green-400 text-sm mt-1">Generated income</p>
+              <div className="text-white/50 text-xs font-medium">Total</div>
             </div>
-            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-sm font-medium">ROI</p>
+            <div className="mb-2">
+              <p className="text-white/60 text-sm font-medium">Yield</p>
+              <p className="text-2xl font-bold text-green-400">₹{totalYield.toLocaleString()}</p>
+            </div>
+            <div className="flex items-center space-x-1">
+              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+              <span className="text-green-400 text-xs font-medium">Generated income</span>
+            </div>
+          </div>
+
+          {/* ROI */}
+          <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl p-6 border border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`w-10 h-10 ${roi >= 0 ? 'bg-green-500/20' : 'bg-red-500/20'} rounded-2xl flex items-center justify-center`}>
                 {roi >= 0 ? (
                   <ArrowUpRight className="w-5 h-5 text-green-400" />
                 ) : (
                   <ArrowDownRight className="w-5 h-5 text-red-400" />
                 )}
               </div>
-              <p className={`text-3xl font-bold ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <div className="text-white/50 text-xs font-medium">ROI</div>
+            </div>
+            <div className="mb-2">
+              <p className="text-white/60 text-sm font-medium">Return</p>
+              <p className={`text-2xl font-bold ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                 {roi > 0 ? '+' : ''}{roi.toFixed(2)}%
               </p>
-              <p className={`text-sm mt-1 ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            </div>
+            <div className="flex items-center space-x-1">
+              <div className={`w-1.5 h-1.5 ${roi >= 0 ? 'bg-green-400' : 'bg-red-400'} rounded-full`}></div>
+              <span className={`text-xs font-medium ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                 {roi >= 0 ? 'Outperforming' : 'Underperforming'}
-              </p>
+              </span>
             </div>
           </div>
-          
-          <div className="mb-4">
-            <div className="flex justify-between text-sm text-slate-400 mb-2">
-              <span>Portfolio Performance</span>
-              <span className="font-medium">{roi >= 0 ? 'Excellent' : 'Needs Attention'}</span>
-            </div>
-            <div className="relative">
-              <Progress value={Math.min(100, Math.max(0, 50 + roi))} className="h-4" />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse rounded-full" />
+        </div>
+
+        {/* Performance Bar */}
+        <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl p-6 border border-white/10">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-white font-medium">Portfolio Performance</span>
+            <span className={`text-sm font-semibold ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {roi >= 0 ? 'Excellent' : 'Needs Attention'}
+            </span>
+          </div>
+          <div className="relative h-3 bg-white/10 rounded-full overflow-hidden">
+            <div 
+              className={`absolute left-0 top-0 h-full rounded-full transition-all duration-1000 ${
+                roi >= 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500' : 'bg-gradient-to-r from-red-400 to-red-500'
+              }`}
+              style={{ width: `${Math.min(100, Math.max(0, 50 + roi))}%` }}
+            >
+              <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full" />
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   };
 
@@ -537,13 +588,16 @@ export default function RWA() {
     const isPositive = priceChange >= 0;
     
     return (
-      <Card className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-105 hover:border-blue-400/50 group">
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between mb-4">
+      <div className="group relative">
+        <div className="bg-gradient-to-br from-white/8 to-white/[0.02] backdrop-blur-2xl rounded-3xl p-6 border border-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl">
+          {/* Asset Icon and Verification */}
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">
               <div className="relative">
-                {getAssetIcon(token.assetType, "w-12 h-12")}
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
+                <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl flex items-center justify-center border border-white/10">
+                  {getAssetIcon(token.assetType, "w-8 h-8")}
+                </div>
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center border-2 border-black">
                   <CheckCircle className="w-3 h-3 text-white" />
                 </div>
               </div>
@@ -551,69 +605,79 @@ export default function RWA() {
                 <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
                   {token.tokenName}
                 </h3>
-                <p className="text-slate-400 text-sm">{token.tokenSymbol}</p>
+                <p className="text-white/60 text-sm font-medium">{token.tokenSymbol}</p>
               </div>
             </div>
-            <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30">
-              Verified
-            </Badge>
+            <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1.5 rounded-full border border-blue-500/30">
+              <span className="text-blue-300 text-xs font-semibold">Verified</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <p className="text-slate-400 text-xs mb-1">Price</p>
-              <p className="text-white text-xl font-bold">₹{parseFloat(token.marketData?.price || 0).toLocaleString()}</p>
-              <div className="flex items-center space-x-1 mt-1">
-                {isPositive ? (
-                  <ArrowUpRight className="w-3 h-3 text-green-400" />
-                ) : (
-                  <ArrowDownRight className="w-3 h-3 text-red-400" />
-                )}
-                <span className={`text-xs font-medium ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                  {isPositive ? '+' : ''}{priceChange.toFixed(2)}%
-                </span>
+          {/* Price and Yield */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-white/60 text-sm font-medium">Price</p>
+                <div className={`flex items-center space-x-1 px-2 py-1 rounded-full ${
+                  isPositive ? 'bg-green-500/20' : 'bg-red-500/20'
+                }`}>
+                  {isPositive ? (
+                    <ArrowUpRight className="w-3 h-3 text-green-400" />
+                  ) : (
+                    <ArrowDownRight className="w-3 h-3 text-red-400" />
+                  )}
+                  <span className={`text-xs font-semibold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                    {isPositive ? '+' : ''}{priceChange.toFixed(2)}%
+                  </span>
+                </div>
               </div>
+              <p className="text-xl font-bold text-white">₹{parseFloat(token.marketData?.price || 0).toLocaleString()}</p>
             </div>
-            <div>
-              <p className="text-slate-400 text-xs mb-1">Expected Yield</p>
-              <p className="text-green-400 text-xl font-bold">{token.expectedYield}%</p>
-              <p className="text-slate-400 text-xs mt-1">Annual return</p>
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <div className="flex justify-between text-xs text-slate-400 mb-2">
-              <span>Market Cap</span>
-              <span>₹{parseFloat(token.marketData?.marketCap || 0).toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-xs text-slate-400 mb-2">
-              <span>24h Volume</span>
-              <span>₹{parseFloat(token.marketData?.volume24h || 0).toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-xs text-slate-400">
-              <span>Liquidity</span>
-              <span>₹{parseFloat(token.marketData?.liquidity || 0).toLocaleString()}</span>
+            <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-white/60 text-sm font-medium">Expected Yield</p>
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+              </div>
+              <p className="text-xl font-bold text-green-400">{token.expectedYield}%</p>
+              <p className="text-white/40 text-xs mt-1">Annual return</p>
             </div>
           </div>
 
+          {/* Market Data */}
+          <div className="space-y-3 mb-6">
+            <div className="flex justify-between items-center">
+              <span className="text-white/60 text-sm">Market Cap</span>
+              <span className="text-white font-semibold">₹{parseFloat(token.marketData?.marketCap || 0).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-white/60 text-sm">24h Volume</span>
+              <span className="text-white font-semibold">₹{parseFloat(token.marketData?.volume24h || 0).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-white/60 text-sm">Liquidity</span>
+              <span className="text-white font-semibold">₹{parseFloat(token.marketData?.liquidity || 0).toLocaleString()}</span>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
           <div className="flex space-x-3">
-            <Button
+            <button
               onClick={() => handleTokenDetails(token.id)}
-              className="flex-1 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white border-none shadow-lg"
+              className="flex-1 bg-white/10 hover:bg-white/15 backdrop-blur-xl text-white font-semibold py-3 px-4 rounded-2xl border border-white/20 hover:border-white/30 transition-all duration-300 flex items-center justify-center space-x-2"
             >
-              <Eye className="w-4 h-4 mr-2" />
-              Details
-            </Button>
-            <Button
+              <Eye className="w-4 h-4" />
+              <span>Details</span>
+            </button>
+            <button
               onClick={() => handleTokenInvest(token.id)}
-              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-none shadow-lg"
+              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-3 px-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
             >
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              Invest
-            </Button>
+              <ShoppingCart className="w-4 h-4" />
+              <span>Invest</span>
+            </button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   };
 
@@ -768,20 +832,22 @@ export default function RWA() {
         <TabNavigation />
 
         {/* Content Based on Active Tab */}
-        <div className="space-y-6">
+        <div className="px-6">
           {activeTab === 'marketplace' && (
-            <div>
+            <div className="space-y-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                  Trending Assets
-                </h2>
-                <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30 px-3 py-1">
-                  <TrendingUp className="w-3 h-3 mr-1" />
-                  {tokens.length} Available
-                </Badge>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">Trending Assets</h2>
+                  <p className="text-white/60 text-sm">Premium tokenized investments</p>
+                </div>
+                <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
+                  <span className="text-green-300 text-xs font-semibold">
+                    {Array.isArray(tokens) ? tokens.length : 0} Available
+                  </span>
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {tokens.map((token: any) => (
+              <div className="space-y-4">
+                {Array.isArray(tokens) && tokens.map((token: any) => (
                   <TokenCard key={token.id} token={token} />
                 ))}
               </div>
@@ -791,93 +857,95 @@ export default function RWA() {
           {activeTab === 'portfolio' && (
             <div>
               <PortfolioSummary />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {investments.map((investment: any) => (
-                  <Card key={investment.id} className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-bold text-white">{investment.tokenName}</h3>
-                          <p className="text-slate-400 text-sm">{investment.tokenSymbol}</p>
-                        </div>
-                        <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30">
-                          Active
-                        </Badge>
+              <div className="space-y-4">
+                {Array.isArray(investments) && investments.map((investment: any) => (
+                  <div key={investment.id} className="bg-gradient-to-br from-white/8 to-white/[0.02] backdrop-blur-2xl rounded-3xl p-6 border border-white/10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h3 className="text-lg font-bold text-white">{investment.tokenName}</h3>
+                        <p className="text-white/60 text-sm">{investment.tokenSymbol}</p>
                       </div>
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                          <p className="text-slate-400 text-xs mb-1">Invested</p>
-                          <p className="text-white text-lg font-bold">₹{parseFloat(investment.totalInvested).toLocaleString()}</p>
-                        </div>
-                        <div>
-                          <p className="text-slate-400 text-xs mb-1">Current Value</p>
-                          <p className="text-white text-lg font-bold">₹{parseFloat(investment.currentValue).toLocaleString()}</p>
-                        </div>
-                        <div>
-                          <p className="text-slate-400 text-xs mb-1">Tokens</p>
-                          <p className="text-white text-lg font-bold">{parseFloat(investment.tokensOwned).toFixed(2)}</p>
-                        </div>
-                        <div>
-                          <p className="text-slate-400 text-xs mb-1">Yield</p>
-                          <p className="text-green-400 text-lg font-bold">₹{parseFloat(investment.yieldEarned).toLocaleString()}</p>
-                        </div>
+                      <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
+                        <span className="text-green-300 text-xs font-semibold">Active</span>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <p className="text-white/60 text-sm mb-1">Invested</p>
+                        <p className="text-white text-lg font-bold">₹{parseFloat(investment.totalInvested || 0).toLocaleString()}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <p className="text-white/60 text-sm mb-1">Current Value</p>
+                        <p className="text-white text-lg font-bold">₹{parseFloat(investment.currentValue || 0).toLocaleString()}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <p className="text-white/60 text-sm mb-1">Tokens Owned</p>
+                        <p className="text-white text-lg font-bold">{parseFloat(investment.tokensOwned || 0).toFixed(2)}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <p className="text-white/60 text-sm mb-1">Yield Earned</p>
+                        <p className="text-green-400 text-lg font-bold">₹{parseFloat(investment.yieldEarned || 0).toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
           )}
 
           {activeTab === 'assets' && (
-            <div>
+            <div className="space-y-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                  My Assets
-                </h2>
-                <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30 px-3 py-1">
-                  <Building className="w-3 h-3 mr-1" />
-                  {assets.length} Assets
-                </Badge>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">My Assets</h2>
+                  <p className="text-white/60 text-sm">Your tokenized property portfolio</p>
+                </div>
+                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1.5 rounded-full border border-blue-500/30">
+                  <span className="text-blue-300 text-xs font-semibold">
+                    {Array.isArray(assets) ? assets.length : 0} Assets
+                  </span>
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {assets.map((asset: any) => (
-                  <Card key={asset.id} className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-4">
-                          {getAssetIcon(asset.assetType, "w-12 h-12")}
-                          <div>
-                            <h3 className="text-lg font-bold text-white">{asset.name}</h3>
-                            <p className="text-slate-400 text-sm">{asset.category}</p>
-                          </div>
-                        </div>
-                        <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30">
-                          {asset.verificationStatus}
-                        </Badge>
-                      </div>
-                      <p className="text-slate-400 text-sm mb-4">{asset.description}</p>
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                          <p className="text-slate-400 text-xs mb-1">Value</p>
-                          <p className="text-white text-lg font-bold">₹{parseFloat(asset.value).toLocaleString()}</p>
+              <div className="space-y-4">
+                {Array.isArray(assets) && assets.map((asset: any) => (
+                  <div key={asset.id} className="bg-gradient-to-br from-white/8 to-white/[0.02] backdrop-blur-2xl rounded-3xl p-6 border border-white/10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl flex items-center justify-center border border-white/10">
+                          {getAssetIcon(asset.assetType, "w-6 h-6")}
                         </div>
                         <div>
-                          <p className="text-slate-400 text-xs mb-1">Location</p>
-                          <p className="text-white text-sm">{asset.location}</p>
+                          <h3 className="text-lg font-bold text-white">{asset.name}</h3>
+                          <p className="text-white/60 text-sm">{asset.category}</p>
                         </div>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <Badge className={`${asset.tokenizationStatus === 'tokenized' ? 'bg-green-500/20 text-green-300' : 'bg-orange-500/20 text-orange-300'}`}>
+                      <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
+                        <span className="text-green-300 text-xs font-semibold">{asset.verificationStatus}</span>
+                      </div>
+                    </div>
+                    <p className="text-white/60 text-sm mb-4">{asset.description}</p>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <p className="text-white/60 text-sm mb-1">Asset Value</p>
+                        <p className="text-white text-lg font-bold">₹{parseFloat(asset.value || 0).toLocaleString()}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <p className="text-white/60 text-sm mb-1">Location</p>
+                        <p className="text-white text-sm">{asset.location}</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className={`px-3 py-1.5 rounded-full ${asset.tokenizationStatus === 'tokenized' ? 'bg-green-500/20 border border-green-500/30' : 'bg-orange-500/20 border border-orange-500/30'}`}>
+                        <span className={`text-xs font-semibold ${asset.tokenizationStatus === 'tokenized' ? 'text-green-300' : 'text-orange-300'}`}>
                           {asset.tokenizationStatus}
-                        </Badge>
-                        <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-none shadow-lg">
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Details
-                        </Button>
+                        </span>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2 px-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+                        <Eye className="w-4 h-4" />
+                        <span>View Details</span>
+                      </button>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
