@@ -789,68 +789,245 @@ export default function RWA() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Ultra-Premium Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-red-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-green-500/10 via-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse delay-2000" />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-gradient-to-r from-orange-500/10 via-yellow-500/10 to-green-500/10 rounded-full blur-3xl animate-pulse delay-3000" />
-      </div>
-
-      <div className="relative z-10 p-6 pb-24">
-        {/* Ultra-Premium Header */}
-        <div className="flex items-center justify-between mb-8">
-          <button
-            onClick={() => setLocation('/dashboard')}
-            className="p-4 rounded-2xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-xl hover:from-slate-700/50 hover:to-slate-600/50 transition-all duration-300 border border-slate-600/30"
-          >
-            <ArrowLeft className="h-6 w-6" />
-          </button>
-          
-          <div className="text-center">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-              Real World Assets
-            </h1>
-            <p className="text-slate-400 text-sm mt-1">Premium tokenized investment platform</p>
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            <button className="p-4 rounded-2xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-xl hover:from-slate-700/50 hover:to-slate-600/50 transition-all duration-300 border border-slate-600/30">
-              <Search className="h-6 w-6" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
+      <div className="max-w-sm mx-auto bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-3xl min-h-screen">
+        {/* Header */}
+        <div className="px-6 pt-12 pb-6">
+          <div className="flex items-center justify-between mb-2">
+            <button
+              onClick={() => setLocation('/dashboard')}
+              className="w-8 h-8 bg-gray-700/80 rounded-full flex items-center justify-center"
+            >
+              <ArrowLeft className="w-4 h-4 text-white" />
             </button>
-            <button className="p-4 rounded-2xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-xl hover:from-slate-700/50 hover:to-slate-600/50 transition-all duration-300 border border-slate-600/30">
-              <Filter className="h-6 w-6" />
-            </button>
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-white">Real World Assets</h1>
+              <p className="text-white/60 text-sm">Premium tokenized investment platform</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button className="w-8 h-8 bg-gray-700/80 rounded-full flex items-center justify-center">
+                <Search className="w-4 h-4 text-white" />
+              </button>
+              <button className="w-8 h-8 bg-gray-700/80 rounded-full flex items-center justify-center">
+                <Filter className="w-4 h-4 text-white" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Market Overview */}
-        <MarketOverview />
+        {/* Premium Market Overview Cards */}
+        <div className="px-6 mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            {/* Market Cap */}
+            <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-8 h-8 bg-green-500/20 rounded-xl flex items-center justify-center">
+                  <DollarSign className="w-4 h-4 text-green-400" />
+                </div>
+                <div className="bg-green-500/20 px-2 py-1 rounded-full">
+                  <span className="text-green-400 text-xs font-semibold">+13%</span>
+                </div>
+              </div>
+              <div className="mb-1">
+                <p className="text-white/60 text-xs font-medium">Market Cap</p>
+                <p className="text-white text-xl font-bold">₹{(marketData as any)?.totalMarketCap ? ((marketData as any).totalMarketCap / 1000000).toFixed(1) : '24.2'}M</p>
+              </div>
+            </div>
+
+            {/* 24h Volume */}
+            <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                  <Activity className="w-4 h-4 text-blue-400" />
+                </div>
+                <div className="bg-blue-500/20 px-2 py-1 rounded-full">
+                  <span className="text-blue-400 text-xs font-semibold">Active</span>
+                </div>
+              </div>
+              <div className="mb-1">
+                <p className="text-white/60 text-xs font-medium">24h Volume</p>
+                <p className="text-white text-xl font-bold">₹{(marketData as any)?.volume24h ? ((marketData as any).volume24h / 1000000).toFixed(1) : '8.6'}M</p>
+              </div>
+            </div>
+
+            {/* Avg Yield */}
+            <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-8 h-8 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                  <Percent className="w-4 h-4 text-purple-400" />
+                </div>
+                <div className="bg-purple-500/20 px-2 py-1 rounded-full">
+                  <span className="text-purple-400 text-xs font-semibold">Premium</span>
+                </div>
+              </div>
+              <div className="mb-1">
+                <p className="text-white/60 text-xs font-medium">Avg Yield</p>
+                <p className="text-white text-xl font-bold">{(marketData as any)?.avgYield ? (marketData as any).avgYield.toFixed(1) : '10.4'}%</p>
+              </div>
+            </div>
+
+            {/* Assets */}
+            <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-8 h-8 bg-orange-500/20 rounded-xl flex items-center justify-center">
+                  <Globe className="w-4 h-4 text-orange-400" />
+                </div>
+                <div className="bg-orange-500/20 px-2 py-1 rounded-full">
+                  <span className="text-orange-400 text-xs font-semibold">Verified</span>
+                </div>
+              </div>
+              <div className="mb-1">
+                <p className="text-white/60 text-xs font-medium">Assets</p>
+                <p className="text-white text-xl font-bold">{(marketData as any)?.activeTokens || '5'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Market Trend */}
+          <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20 mb-4">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-white/80 text-sm font-medium">Market Trend</p>
+              <div className="bg-red-500/20 px-3 py-1 rounded-full">
+                <span className="text-red-400 text-xs font-semibold">Bearish</span>
+              </div>
+            </div>
+            <div className="relative h-2 bg-gray-700/50 rounded-full overflow-hidden">
+              <div className="absolute left-0 top-0 h-full w-[35%] bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
+            </div>
+          </div>
+
+          {/* Timeframe Selector */}
+          <div className="flex space-x-2 mb-6">
+            {['1H', '1D', '1W', '1M', '1Y'].map((timeframe) => (
+              <button
+                key={timeframe}
+                onClick={() => setSelectedTimeframe(timeframe)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  selectedTimeframe === timeframe
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                    : 'bg-gray-700/50 text-white/60 hover:bg-gray-600/50 hover:text-white'
+                }`}
+              >
+                {timeframe}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Tab Navigation */}
         <TabNavigation />
 
-        {/* Content Based on Active Tab */}
-        <div className="px-6">
-          {activeTab === 'marketplace' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">Trending Assets</h2>
-                  <p className="text-white/60 text-sm">Premium tokenized investments</p>
+        {/* Market Insights Section */}
+        {activeTab === 'analytics' && (
+          <div className="px-6 mb-6">
+            <h3 className="text-xl font-bold text-white mb-4">Market Insights</h3>
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-2xl p-4 border border-green-500/30">
+                <div className="w-10 h-10 bg-green-500/30 rounded-2xl flex items-center justify-center mb-3">
+                  <TrendingUp className="w-5 h-5 text-green-400" />
                 </div>
+                <p className="text-white font-semibold text-sm mb-1">Top Performer</p>
+                <p className="text-white/60 text-xs">Real Estate tokens with 18% returns</p>
+              </div>
+              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl p-4 border border-blue-500/30">
+                <div className="w-10 h-10 bg-blue-500/30 rounded-2xl flex items-center justify-center mb-3">
+                  <Users className="w-5 h-5 text-blue-400" />
+                </div>
+                <p className="text-white font-semibold text-sm mb-1">Most Popular</p>
+                <p className="text-white/60 text-xs">Gold tokens with 2.3k active investors</p>
+              </div>
+              <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl p-4 border border-orange-500/30">
+                <div className="w-10 h-10 bg-orange-500/30 rounded-2xl flex items-center justify-center mb-3">
+                  <Zap className="w-5 h-5 text-orange-400" />
+                </div>
+                <p className="text-white font-semibold text-sm mb-1">Trending</p>
+                <p className="text-white/60 text-xs">Art tokens up 45% in volume</p>
+              </div>
+            </div>
+
+            {/* AI Powered Cards */}
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold">Market Opportunity</h4>
+                      <p className="text-white/60 text-sm">Commodity sector undervalued by 8.5%</p>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 px-3 py-1.5 rounded-full border border-purple-500/30">
+                    <span className="text-purple-300 text-xs font-semibold">AI Powered</span>
+                  </div>
+                </div>
+                <button className="w-full bg-gray-700/50 hover:bg-gray-600/50 text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2">
+                  <span>Analyze</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center">
+                      <Shield className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold">Risk Assessment</h4>
+                      <p className="text-white/60 text-sm">Portfolio diversification score: 85%</p>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 px-3 py-1.5 rounded-full border border-purple-500/30">
+                    <span className="text-purple-300 text-xs font-semibold">AI Powered</span>
+                  </div>
+                </div>
+                <button className="w-full bg-gray-700/50 hover:bg-gray-600/50 text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2">
+                  <span>Review</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+                      <Target className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold">Yield Optimization</h4>
+                      <p className="text-white/60 text-sm">Potential yield increase of 3.2%</p>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 px-3 py-1.5 rounded-full border border-purple-500/30">
+                    <span className="text-purple-300 text-xs font-semibold">AI Powered</span>
+                  </div>
+                </div>
+                <button className="w-full bg-gray-700/50 hover:bg-gray-600/50 text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2">
+                  <span>Optimize</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Content Based on Active Tab */}
+        <div className="px-6 pb-20">
+          {activeTab === 'marketplace' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-white">Trending Assets</h2>
                 <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
                   <span className="text-green-300 text-xs font-semibold">
                     {Array.isArray(tokens) ? tokens.length : 0} Available
                   </span>
                 </div>
               </div>
-              <div className="space-y-4">
-                {Array.isArray(tokens) && tokens.map((token: any) => (
-                  <TokenCard key={token.id} token={token} />
-                ))}
-              </div>
+              {Array.isArray(tokens) && tokens.map((token: any) => (
+                <TokenCard key={token.id} token={token} />
+              ))}
             </div>
           )}
 
@@ -859,8 +1036,8 @@ export default function RWA() {
               <PortfolioSummary />
               <div className="space-y-4">
                 {Array.isArray(investments) && investments.map((investment: any) => (
-                  <div key={investment.id} className="bg-gradient-to-br from-white/8 to-white/[0.02] backdrop-blur-2xl rounded-3xl p-6 border border-white/10">
-                    <div className="flex items-center justify-between mb-4">
+                  <div key={investment.id} className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+                    <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">{investment.tokenName}</h3>
                         <p className="text-white/60 text-sm">{investment.tokenSymbol}</p>
@@ -869,21 +1046,21 @@ export default function RWA() {
                         <span className="text-green-300 text-xs font-semibold">Active</span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/60 text-sm mb-1">Invested</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gray-700/30 rounded-xl p-3">
+                        <p className="text-white/60 text-xs mb-1">Invested</p>
                         <p className="text-white text-lg font-bold">₹{parseFloat(investment.totalInvested || 0).toLocaleString()}</p>
                       </div>
-                      <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/60 text-sm mb-1">Current Value</p>
+                      <div className="bg-gray-700/30 rounded-xl p-3">
+                        <p className="text-white/60 text-xs mb-1">Current</p>
                         <p className="text-white text-lg font-bold">₹{parseFloat(investment.currentValue || 0).toLocaleString()}</p>
                       </div>
-                      <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/60 text-sm mb-1">Tokens Owned</p>
+                      <div className="bg-gray-700/30 rounded-xl p-3">
+                        <p className="text-white/60 text-xs mb-1">Tokens</p>
                         <p className="text-white text-lg font-bold">{parseFloat(investment.tokensOwned || 0).toFixed(2)}</p>
                       </div>
-                      <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/60 text-sm mb-1">Yield Earned</p>
+                      <div className="bg-gray-700/30 rounded-xl p-3">
+                        <p className="text-white/60 text-xs mb-1">Yield</p>
                         <p className="text-green-400 text-lg font-bold">₹{parseFloat(investment.yieldEarned || 0).toLocaleString()}</p>
                       </div>
                     </div>
@@ -894,64 +1071,49 @@ export default function RWA() {
           )}
 
           {activeTab === 'assets' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">My Assets</h2>
-                  <p className="text-white/60 text-sm">Your tokenized property portfolio</p>
-                </div>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-white">My Assets</h2>
                 <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-3 py-1.5 rounded-full border border-blue-500/30">
                   <span className="text-blue-300 text-xs font-semibold">
                     {Array.isArray(assets) ? assets.length : 0} Assets
                   </span>
                 </div>
               </div>
-              <div className="space-y-4">
-                {Array.isArray(assets) && assets.map((asset: any) => (
-                  <div key={asset.id} className="bg-gradient-to-br from-white/8 to-white/[0.02] backdrop-blur-2xl rounded-3xl p-6 border border-white/10">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                          {getAssetIcon(asset.assetType, "w-6 h-6")}
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-white">{asset.name}</h3>
-                          <p className="text-white/60 text-sm">{asset.category}</p>
-                        </div>
+              {Array.isArray(assets) && assets.map((asset: any) => (
+                <div key={asset.id} className="bg-gradient-to-br from-gray-600/30 to-gray-700/30 backdrop-blur-2xl rounded-2xl p-4 border border-gray-600/20">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-gray-700/50 to-gray-600/50 rounded-xl flex items-center justify-center border border-gray-600/20">
+                        {getAssetIcon(asset.assetType, "w-5 h-5")}
                       </div>
-                      <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
-                        <span className="text-green-300 text-xs font-semibold">{asset.verificationStatus}</span>
+                      <div>
+                        <h3 className="text-white font-semibold">{asset.name}</h3>
+                        <p className="text-white/60 text-sm">{asset.category}</p>
                       </div>
                     </div>
-                    <p className="text-white/60 text-sm mb-4">{asset.description}</p>
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/60 text-sm mb-1">Asset Value</p>
-                        <p className="text-white text-lg font-bold">₹{parseFloat(asset.value || 0).toLocaleString()}</p>
-                      </div>
-                      <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/60 text-sm mb-1">Location</p>
-                        <p className="text-white text-sm">{asset.location}</p>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div className={`px-3 py-1.5 rounded-full ${asset.tokenizationStatus === 'tokenized' ? 'bg-green-500/20 border border-green-500/30' : 'bg-orange-500/20 border border-orange-500/30'}`}>
-                        <span className={`text-xs font-semibold ${asset.tokenizationStatus === 'tokenized' ? 'text-green-300' : 'text-orange-300'}`}>
-                          {asset.tokenizationStatus}
-                        </span>
-                      </div>
-                      <button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2 px-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-                        <Eye className="w-4 h-4" />
-                        <span>View Details</span>
-                      </button>
+                    <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
+                      <span className="text-green-300 text-xs font-semibold">{asset.verificationStatus}</span>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <div className="grid grid-cols-2 gap-3 mb-3">
+                    <div className="bg-gray-700/30 rounded-xl p-3">
+                      <p className="text-white/60 text-xs mb-1">Value</p>
+                      <p className="text-white text-lg font-bold">₹{parseFloat(asset.value || 0).toLocaleString()}</p>
+                    </div>
+                    <div className="bg-gray-700/30 rounded-xl p-3">
+                      <p className="text-white/60 text-xs mb-1">Location</p>
+                      <p className="text-white text-sm">{asset.location}</p>
+                    </div>
+                  </div>
+                  <button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2">
+                    <Eye className="w-4 h-4" />
+                    <span>View Details</span>
+                  </button>
+                </div>
+              ))}
             </div>
           )}
-
-          {activeTab === 'analytics' && <AnalyticsDashboard />}
         </div>
       </div>
     </div>
