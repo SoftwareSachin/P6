@@ -1,143 +1,104 @@
-import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React, { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { 
+  ArrowLeft, 
   TrendingUp, 
   TrendingDown, 
-  Search, 
-  Eye, 
-  Plus,
-  BarChart3,
-  Briefcase,
-  Star,
-  ArrowUpRight,
-  ArrowDownRight,
-  IndianRupee,
+  BarChart3, 
+  Wallet, 
+  Settings,
   Activity,
-  Target,
-  Zap
+  Search,
+  Bell
 } from "lucide-react";
 
-// Trading SVG Icons
+// Premium Trading SVG Components
 function TradingDashboardSVG() {
   return (
-    <div className="w-8 h-8 relative">
-      <svg viewBox="0 0 32 32" className="w-full h-full">
-        <defs>
-          <linearGradient id="tradingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00C851" />
-            <stop offset="50%" stopColor="#007E33" />
-            <stop offset="100%" stopColor="#004D20" />
-          </linearGradient>
-          <filter id="tradingGlow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        
-        <rect x="2" y="8" width="28" height="20" rx="3" fill="url(#tradingGrad)" filter="url(#tradingGlow)" opacity="0.9"/>
-        <rect x="4" y="10" width="24" height="16" rx="2" fill="#FFFFFF" opacity="0.15"/>
-        
-        {/* Chart lines */}
-        <path d="M6 20 L10 16 L14 18 L18 12 L22 14 L26 10" stroke="#FFFFFF" strokeWidth="2" fill="none" opacity="0.9"/>
-        <circle cx="6" cy="20" r="2" fill="#FFFFFF"/>
-        <circle cx="10" cy="16" r="2" fill="#FFFFFF"/>
-        <circle cx="14" cy="18" r="2" fill="#FFFFFF"/>
-        <circle cx="18" cy="12" r="2" fill="#FFFFFF"/>
-        <circle cx="22" cy="14" r="2" fill="#FFFFFF"/>
-        <circle cx="26" cy="10" r="2" fill="#FFFFFF"/>
-        
-        {/* Arrow indicator */}
-        <polygon points="24,4 28,8 24,12" fill="#00C851" opacity="0.8"/>
-        <rect x="20" y="6" width="4" height="4" fill="#00C851" opacity="0.6"/>
-      </svg>
-    </div>
+    <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+      <defs>
+        <linearGradient id="dashboardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#00C851" />
+          <stop offset="50%" stopColor="#007E33" />
+          <stop offset="100%" stopColor="#004D20" />
+        </linearGradient>
+      </defs>
+      <rect x="4" y="8" width="24" height="16" rx="4" fill="url(#dashboardGradient)" />
+      <path d="M8 18 L12 14 L16 16 L20 12 L24 14" stroke="white" strokeWidth="2" fill="none" />
+    </svg>
   );
 }
 
 function StocksSVG() {
   return (
-    <div className="w-6 h-6 relative">
-      <svg viewBox="0 0 24 24" className="w-full h-full">
-        <defs>
-          <linearGradient id="stocksGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2563EB" />
-            <stop offset="100%" stopColor="#1D4ED8" />
-          </linearGradient>
-        </defs>
-        <rect x="2" y="2" width="20" height="20" rx="4" fill="url(#stocksGrad)" opacity="0.1"/>
-        <path d="M3 12 L7 8 L11 12 L15 6 L21 10" stroke="url(#stocksGrad)" strokeWidth="2" fill="none"/>
-        <circle cx="7" cy="8" r="2" fill="#2563EB"/>
-        <circle cx="15" cy="6" r="2" fill="#2563EB"/>
-      </svg>
-    </div>
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="stocksGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#007AFF" />
+          <stop offset="100%" stopColor="#0051D5" />
+        </linearGradient>
+      </defs>
+      <rect x="3" y="4" width="18" height="16" rx="3" fill="url(#stocksGradient)" opacity="0.9" />
+      <path d="M7 16 L10 13 L13 15 L17 11" stroke="white" strokeWidth="2" fill="none" />
+      <circle cx="7" cy="16" r="1.5" fill="white" />
+      <circle cx="10" cy="13" r="1.5" fill="white" />
+      <circle cx="13" cy="15" r="1.5" fill="white" />
+      <circle cx="17" cy="11" r="1.5" fill="white" />
+    </svg>
   );
 }
 
 function PortfolioSVG() {
   return (
-    <div className="w-6 h-6 relative">
-      <svg viewBox="0 0 24 24" className="w-full h-full">
-        <defs>
-          <linearGradient id="portfolioGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#7C3AED" />
-            <stop offset="100%" stopColor="#5B21B6" />
-          </linearGradient>
-        </defs>
-        <rect x="3" y="4" width="18" height="16" rx="3" stroke="url(#portfolioGrad)" strokeWidth="2" fill="none"/>
-        <rect x="6" y="8" width="4" height="8" fill="url(#portfolioGrad)" opacity="0.7"/>
-        <rect x="11" y="6" width="4" height="10" fill="url(#portfolioGrad)" opacity="0.8"/>
-        <rect x="16" y="10" width="4" height="6" fill="url(#portfolioGrad)" opacity="0.6"/>
-      </svg>
-    </div>
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="portfolioGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFD700" />
+          <stop offset="100%" stopColor="#FFA500" />
+        </linearGradient>
+      </defs>
+      <rect x="3" y="6" width="18" height="12" rx="3" fill="url(#portfolioGradient)" />
+      <circle cx="8" cy="12" r="2" fill="white" opacity="0.9" />
+      <circle cx="16" cy="12" r="1.5" fill="white" opacity="0.7" />
+      <circle cx="12" cy="10" r="1" fill="white" opacity="0.8" />
+    </svg>
   );
 }
 
 function OrdersSVG() {
   return (
-    <div className="w-6 h-6 relative">
-      <svg viewBox="0 0 24 24" className="w-full h-full">
-        <defs>
-          <linearGradient id="ordersGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F59E0B" />
-            <stop offset="100%" stopColor="#D97706" />
-          </linearGradient>
-        </defs>
-        <rect x="4" y="6" width="16" height="12" rx="2" stroke="url(#ordersGrad)" strokeWidth="2" fill="none"/>
-        <line x1="8" y1="10" x2="16" y2="10" stroke="url(#ordersGrad)" strokeWidth="1.5"/>
-        <line x1="8" y1="14" x2="14" y2="14" stroke="url(#ordersGrad)" strokeWidth="1.5"/>
-        <circle cx="6" cy="2" r="2" fill="url(#ordersGrad)"/>
-      </svg>
-    </div>
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="ordersGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FF3B30" />
+          <stop offset="100%" stopColor="#D70015" />
+        </linearGradient>
+      </defs>
+      <rect x="4" y="4" width="16" height="16" rx="3" fill="url(#ordersGradient)" />
+      <rect x="7" y="8" width="10" height="2" rx="1" fill="white" opacity="0.9" />
+      <rect x="7" y="12" width="6" height="2" rx="1" fill="white" opacity="0.7" />
+      <rect x="7" y="16" width="8" height="2" rx="1" fill="white" opacity="0.8" />
+    </svg>
   );
 }
 
 function WatchlistSVG() {
   return (
-    <div className="w-6 h-6 relative">
-      <svg viewBox="0 0 24 24" className="w-full h-full">
-        <defs>
-          <linearGradient id="watchlistGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#DC2626" />
-            <stop offset="100%" stopColor="#991B1B" />
-          </linearGradient>
-        </defs>
-        <circle cx="12" cy="12" r="9" stroke="url(#watchlistGrad)" strokeWidth="2" fill="none"/>
-        <circle cx="12" cy="12" r="3" fill="url(#watchlistGrad)"/>
-        <line x1="12" y1="6" x2="12" y2="10" stroke="url(#watchlistGrad)" strokeWidth="2"/>
-        <line x1="18" y1="12" x2="14" y2="12" stroke="url(#watchlistGrad)" strokeWidth="2"/>
-      </svg>
-    </div>
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="watchlistGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#AF52DE" />
+          <stop offset="100%" stopColor="#8E44AD" />
+        </linearGradient>
+      </defs>
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
+            fill="url(#watchlistGradient)" />
+    </svg>
   );
 }
 
+// Data Interfaces
 interface Stock {
   id: number;
   symbol: string;
@@ -199,33 +160,29 @@ interface Order {
 export default function TradingPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
-  const queryClient = useQueryClient();
+  const [location, setLocation] = useLocation();
 
-  // Fetch market indices
-  const { data: indices = [] } = useQuery<MarketIndex[]>({
-    queryKey: ["/api/trading/market/indices"],
-    refetchInterval: 5000 // Refresh every 5 seconds
-  });
-
-  // Fetch stocks
-  const { data: stocks = [] } = useQuery<Stock[]>({
-    queryKey: ["/api/trading/stocks", { search: searchQuery }],
+  const { data: stocks = [], isLoading: stocksLoading } = useQuery<Stock[]>({
+    queryKey: ['/api/trading/stocks'],
     refetchInterval: 10000
   });
 
-  // Fetch portfolios
-  const { data: portfolios = [] } = useQuery<Portfolio[]>({
-    queryKey: ["/api/trading/portfolios"]
+  const { data: stockPrices = [], isLoading: pricesLoading } = useQuery<StockPrice[]>({
+    queryKey: ['/api/trading/stocks/prices'],
+    refetchInterval: 5000
   });
 
-  // Fetch orders
-  const { data: orders = [] } = useQuery<Order[]>({
-    queryKey: ["/api/trading/orders"]
+  const { data: indices = [], isLoading: indicesLoading } = useQuery<MarketIndex[]>({
+    queryKey: ['/api/trading/market/indices'],
+    refetchInterval: 5000
   });
 
-  // Fetch watchlists
-  const { data: watchlists = [] } = useQuery({
-    queryKey: ["/api/trading/watchlists"]
+  const { data: portfolios = [], isLoading: portfoliosLoading } = useQuery<Portfolio[]>({
+    queryKey: ['/api/trading/portfolios'],
+  });
+
+  const { data: orders = [], isLoading: ordersLoading } = useQuery<Order[]>({
+    queryKey: ['/api/trading/orders'],
   });
 
   const formatCurrency = (amount: string | number) => {
@@ -245,379 +202,373 @@ export default function TradingPage() {
     return `₹${value.toFixed(2)}`;
   };
 
-  const getChangeColor = (change: string) => {
-    const changeNum = parseFloat(change);
-    return changeNum >= 0 ? "text-green-600" : "text-red-600";
-  };
-
-  const getChangeIcon = (change: string) => {
-    const changeNum = parseFloat(change);
-    return changeNum >= 0 ? ArrowUpRight : ArrowDownRight;
-  };
+  if (stocksLoading || pricesLoading || indicesLoading || portfoliosLoading || ordersLoading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white/70 font-medium text-lg">Loading Trading Platform...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      {/* Header */}
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-40">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <TradingDashboardSVG />
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  Trading Dashboard
-                </h1>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
-                  Professional stock trading platform
-                </p>
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      {/* Ultra-Premium Ambient Background */}
+      <div className="fixed inset-0 bg-black">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/10 via-blue-900/10 to-purple-900/10"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-pink-500/5 rounded-full blur-3xl animate-pulse delay-3000"></div>
+      </div>
+
+      <div className="relative z-10 pb-20">
+        {/* Ultra-Premium Header */}
+        <div className="sticky top-0 bg-black/80 backdrop-blur-3xl border-b border-white/10 z-50">
+          <div className="px-6 py-5">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setLocation('/')}
+                className="p-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 group"
+              >
+                <ArrowLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+              </button>
+              
+              <div className="text-center">
+                <div className="flex items-center gap-3 justify-center mb-1">
+                  <TradingDashboardSVG />
+                  <h1 className="text-2xl font-bold text-white bg-gradient-to-r from-white via-emerald-200 to-white bg-clip-text text-transparent">
+                    Trading Pro
+                  </h1>
+                </div>
+                <p className="text-white/60 text-sm font-medium">Live Market Dashboard</p>
               </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2 px-3 py-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                <Activity className="w-4 h-4 text-green-600" />
-                <span className="text-sm font-medium text-green-800 dark:text-green-300">
-                  Market Open
-                </span>
+              
+              <div className="flex items-center gap-3">
+                <button className="p-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                  <Bell className="w-5 h-5 text-white" />
+                </button>
+                <button className="p-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 group">
+                  <Settings className="w-5 h-5 text-white group-hover:rotate-90 transition-transform duration-300" />
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Market Indices Banner */}
-      <div className="px-6 py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur border-b border-slate-200/30 dark:border-slate-700/30">
-        <div className="flex space-x-6 overflow-x-auto">
-          {indices.map((index) => {
-            const ChangeIcon = getChangeIcon(index.change);
-            return (
-              <div key={index.id} className="flex items-center space-x-2 min-w-fit">
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {index.name}
-                </span>
-                <span className="text-sm font-bold text-slate-900 dark:text-white">
-                  {formatNumber(index.currentValue)}
-                </span>
-                <div className={`flex items-center space-x-1 ${getChangeColor(index.change)}`}>
-                  <ChangeIcon className="w-3 h-3" />
-                  <span className="text-xs font-medium">
-                    {index.change} ({index.changePercent}%)
-                  </span>
-                </div>
+        <div className="px-6">
+          {/* Ultra-Premium Tab Navigation */}
+          <div className="mb-8 pt-6">
+            <div className="flex items-center justify-center">
+              <div className="bg-white/5 backdrop-blur-3xl rounded-2xl p-2 border border-white/10">
+                {[
+                  { id: "dashboard", label: "Dashboard", icon: TradingDashboardSVG },
+                  { id: "stocks", label: "Stocks", icon: StocksSVG },
+                  { id: "portfolio", label: "Portfolio", icon: PortfolioSVG },
+                  { id: "orders", label: "Orders", icon: OrdersSVG },
+                  { id: "watchlist", label: "Watchlist", icon: WatchlistSVG }
+                ].map((tab) => {
+                  const IconComponent = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 ${
+                        activeTab === tab.id
+                          ? 'bg-white text-black font-semibold shadow-lg'
+                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <IconComponent />
+                      <span className="text-sm font-medium">{tab.label}</span>
+                    </button>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="px-6 py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50">
-            <TabsTrigger value="dashboard" className="flex items-center space-x-2">
-              <BarChart3 className="w-4 h-4" />
-              <span>Dashboard</span>
-            </TabsTrigger>
-            <TabsTrigger value="stocks" className="flex items-center space-x-2">
-              <StocksSVG />
-              <span>Stocks</span>
-            </TabsTrigger>
-            <TabsTrigger value="portfolio" className="flex items-center space-x-2">
-              <PortfolioSVG />
-              <span>Portfolio</span>
-            </TabsTrigger>
-            <TabsTrigger value="orders" className="flex items-center space-x-2">
-              <OrdersSVG />
-              <span>Orders</span>
-            </TabsTrigger>
-            <TabsTrigger value="watchlist" className="flex items-center space-x-2">
-              <WatchlistSVG />
-              <span>Watchlist</span>
-            </TabsTrigger>
-          </TabsList>
+            </div>
+          </div>
 
           {/* Dashboard Tab */}
-          <TabsContent value="dashboard" className="space-y-6 mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-blue-100 text-sm">Available Balance</p>
-                      <p className="text-2xl font-bold">{formatCurrency(75000)}</p>
-                    </div>
-                    <IndianRupee className="w-8 h-8 text-blue-200" />
+          {activeTab === "dashboard" && (
+            <div className="space-y-8">
+              {/* Market Overview */}
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-2xl flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-white" />
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-green-100 text-sm">Total P&L</p>
-                      <p className="text-2xl font-bold">+{formatCurrency(5000)}</p>
-                    </div>
-                    <TrendingUp className="w-8 h-8 text-green-200" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-purple-100 text-sm">Invested Value</p>
-                      <p className="text-2xl font-bold">{formatCurrency(45000)}</p>
-                    </div>
-                    <Briefcase className="w-8 h-8 text-purple-200" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-orange-500 to-orange-600 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-orange-100 text-sm">Day P&L</p>
-                      <p className="text-2xl font-bold">+{formatCurrency(1200)}</p>
-                    </div>
-                    <Zap className="w-8 h-8 text-orange-200" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Top Gainers/Losers */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2 text-green-600">
-                    <TrendingUp className="w-5 h-5" />
-                    <span>Top Gainers</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {stocks.slice(0, 5).map((stock, index) => (
-                      <div key={stock.id} className="flex items-center justify-between p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                        <div>
-                          <p className="font-medium text-slate-900 dark:text-white">{stock.symbol}</p>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">{stock.name}</p>
+                  <h2 className="text-2xl font-bold text-white">Market Overview</h2>
+                  <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                  <span className="text-emerald-400 text-sm font-medium">Live</span>
+                </div>
+                
+                <div className="grid grid-cols-1 gap-4">
+                  {indices.map((index, idx) => (
+                    <div key={index.id} className="group">
+                      <div className="bg-white/5 backdrop-blur-3xl rounded-3xl p-6 border border-white/10 hover:border-white/20 transition-all duration-500 hover:bg-white/10 hover:scale-[1.01] shadow-2xl">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-4">
+                            <div className={`w-16 h-16 bg-gradient-to-r ${
+                              idx === 0 ? 'from-emerald-500 to-teal-500' :
+                              idx === 1 ? 'from-blue-500 to-purple-500' :
+                              'from-pink-500 to-rose-500'
+                            } rounded-2xl flex items-center justify-center shadow-xl`}>
+                              <span className="text-white font-bold text-lg">{index.symbol.slice(0, 2)}</span>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-white">{index.name}</h3>
+                              <p className="text-white/60 text-sm font-medium">{index.symbol}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-3xl font-bold text-white mb-2">{formatNumber(index.currentValue)}</div>
+                            <div className={`text-sm font-bold px-4 py-2 rounded-full ${
+                              parseFloat(index.change) >= 0 
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                                : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                            }`}>
+                              {parseFloat(index.change) >= 0 ? '+' : ''}{index.change} ({index.changePercent}%)
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-bold text-slate-900 dark:text-white">{formatCurrency(2500 + index * 100)}</p>
-                          <p className="text-sm text-green-600">+{(2 + index * 0.5).toFixed(2)}%</p>
+                        
+                        <div className="grid grid-cols-3 gap-4 mt-6">
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">Open</div>
+                            <div className="text-white font-bold">{formatNumber(index.open)}</div>
+                          </div>
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">High</div>
+                            <div className="text-emerald-400 font-bold">{formatNumber(index.high)}</div>
+                          </div>
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">Low</div>
+                            <div className="text-red-400 font-bold">{formatNumber(index.low)}</div>
+                          </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2 text-red-600">
-                    <TrendingDown className="w-5 h-5" />
-                    <span>Top Losers</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {stocks.slice(5, 10).map((stock, index) => (
-                      <div key={stock.id} className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                        <div>
-                          <p className="font-medium text-slate-900 dark:text-white">{stock.symbol}</p>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">{stock.name}</p>
+              {/* Portfolio Summary */}
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                    <Wallet className="w-5 h-5 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white">Portfolio Performance</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 gap-4">
+                  {portfolios.map((portfolio) => (
+                    <div key={portfolio.id} className="group">
+                      <div className="bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-3xl rounded-3xl p-6 border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.01] shadow-2xl">
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl">
+                              <Wallet className="w-8 h-8 text-white" />
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-white">{portfolio.name}</h3>
+                              <p className="text-white/60 text-sm font-medium">Total Investment: {formatCurrency(portfolio.totalInvestment)}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-3xl font-bold text-white mb-2">{formatCurrency(portfolio.totalValue)}</div>
+                            <div className={`text-sm font-bold px-4 py-2 rounded-full ${
+                              parseFloat(portfolio.totalPnl) >= 0 
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                                : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                            }`}>
+                              {parseFloat(portfolio.totalPnl) >= 0 ? '+' : ''}{formatCurrency(portfolio.totalPnl)} ({portfolio.totalPnlPercent}%)
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-bold text-slate-900 dark:text-white">{formatCurrency(1800 + index * 120)}</p>
-                          <p className="text-sm text-red-600">-{(1.2 + index * 0.3).toFixed(2)}%</p>
+                        
+                        <div className="grid grid-cols-4 gap-4">
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">Holdings</div>
+                            <div className="text-white font-bold text-lg">15</div>
+                          </div>
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">Day P&L</div>
+                            <div className="text-emerald-400 font-bold text-lg">+₹3,420</div>
+                          </div>
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">Returns</div>
+                            <div className="text-emerald-400 font-bold text-lg">+{portfolio.totalPnlPercent}%</div>
+                          </div>
+                          <div className="bg-white/5 rounded-2xl p-4 text-center">
+                            <div className="text-white/60 text-sm font-medium mb-1">Invested</div>
+                            <div className="text-white font-bold text-lg">{formatNumber(portfolio.totalInvestment)}</div>
+                          </div>
                         </div>
                       </div>
-                    ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Top Stocks */}
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 text-white" />
                   </div>
-                </CardContent>
-              </Card>
+                  <h2 className="text-2xl font-bold text-white">Top Gainers</h2>
+                </div>
+                
+                <div className="space-y-3">
+                  {stocks.slice(0, 6).map((stock, idx) => {
+                    const price = stockPrices.find(p => p.stockId === stock.id);
+                    return (
+                      <div key={stock.id} className="group">
+                        <div className="bg-white/5 backdrop-blur-3xl rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10 hover:scale-[1.01] shadow-xl">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className={`w-14 h-14 bg-gradient-to-r ${
+                                idx % 5 === 0 ? 'from-blue-500 to-purple-500' :
+                                idx % 5 === 1 ? 'from-emerald-500 to-teal-500' :
+                                idx % 5 === 2 ? 'from-pink-500 to-rose-500' :
+                                idx % 5 === 3 ? 'from-orange-500 to-red-500' :
+                                'from-indigo-500 to-purple-500'
+                              } rounded-xl flex items-center justify-center shadow-lg`}>
+                                <span className="text-white font-bold text-sm">{stock.symbol.slice(0, 2)}</span>
+                              </div>
+                              <div>
+                                <h3 className="text-lg font-bold text-white">{stock.symbol}</h3>
+                                <p className="text-white/60 text-sm font-medium">{stock.name}</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-xl font-bold text-white mb-1">{formatCurrency(price?.price || '0')}</div>
+                              <div className={`text-sm font-bold px-3 py-1 rounded-full ${
+                                parseFloat(price?.change || '0') >= 0 
+                                  ? 'bg-emerald-500/20 text-emerald-300' 
+                                  : 'bg-red-500/20 text-red-300'
+                              }`}>
+                                {parseFloat(price?.change || '0') >= 0 ? '+' : ''}{price?.change || '0'} ({price?.changePercent || '0'}%)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
-          </TabsContent>
+          )}
 
           {/* Stocks Tab */}
-          <TabsContent value="stocks" className="space-y-6 mt-6">
-            <div className="flex items-center space-x-4">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                <Input
+          {activeTab === "stocks" && (
+            <div className="space-y-6">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40 w-5 h-5" />
+                <input
+                  type="text"
                   placeholder="Search stocks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50"
+                  className="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-all duration-300"
                 />
               </div>
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="w-4 h-4 mr-2" />
-                Add to Watchlist
-              </Button>
-            </div>
-
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-              <CardHeader>
-                <CardTitle>All Stocks</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {stocks.map((stock) => (
-                    <div key={stock.id} className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
-                          {stock.symbol.substring(0, 2)}
+              
+              <div className="space-y-3">
+                {stocks.map((stock, idx) => {
+                  const price = stockPrices.find(p => p.stockId === stock.id);
+                  return (
+                    <div key={stock.id} className="bg-white/5 backdrop-blur-3xl rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-14 h-14 bg-gradient-to-r ${
+                            idx % 4 === 0 ? 'from-blue-500 to-purple-500' :
+                            idx % 4 === 1 ? 'from-emerald-500 to-teal-500' :
+                            idx % 4 === 2 ? 'from-pink-500 to-rose-500' :
+                            'from-orange-500 to-red-500'
+                          } rounded-xl flex items-center justify-center shadow-lg`}>
+                            <span className="text-white font-bold text-sm">{stock.symbol.slice(0, 2)}</span>
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-bold text-white">{stock.symbol}</h3>
+                            <p className="text-white/60 text-sm">{stock.name}</p>
+                            <p className="text-white/40 text-xs">{stock.sector}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium text-slate-900 dark:text-white">{stock.symbol}</p>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">{stock.name}</p>
-                          <p className="text-xs text-slate-500 dark:text-slate-500">{stock.sector} • {stock.exchange}</p>
+                        <div className="text-right">
+                          <div className="text-xl font-bold text-white">{formatCurrency(price?.price || '0')}</div>
+                          <div className={`text-sm font-medium px-3 py-1 rounded-full ${
+                            parseFloat(price?.change || '0') >= 0 
+                              ? 'bg-emerald-500/20 text-emerald-300' 
+                              : 'bg-red-500/20 text-red-300'
+                          }`}>
+                            {parseFloat(price?.change || '0') >= 0 ? '+' : ''}{price?.change || '0'} ({price?.changePercent || '0'}%)
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-slate-900 dark:text-white">{formatCurrency(2500)}</p>
-                        <p className="text-sm text-green-600">+2.5%</p>
-                        <Badge variant="outline" className="text-xs mt-1">
-                          {formatNumber(stock.marketCap)}
-                        </Badge>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Portfolio Tab */}
-          <TabsContent value="portfolio" className="space-y-6 mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <Card className="lg:col-span-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-                <CardHeader>
-                  <CardTitle>Your Holdings</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {portfolios.map((portfolio) => (
-                      <div key={portfolio.id} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="font-medium text-slate-900 dark:text-white">{portfolio.name}</h3>
-                          <Badge variant={parseFloat(portfolio.totalPnl) >= 0 ? "default" : "destructive"}>
-                            {portfolio.totalPnlPercent}%
-                          </Badge>
-                        </div>
-                        <div className="grid grid-cols-3 gap-4 text-sm">
-                          <div>
-                            <p className="text-slate-600 dark:text-slate-400">Invested</p>
-                            <p className="font-medium text-slate-900 dark:text-white">{formatCurrency(portfolio.totalInvestment)}</p>
-                          </div>
-                          <div>
-                            <p className="text-slate-600 dark:text-slate-400">Current</p>
-                            <p className="font-medium text-slate-900 dark:text-white">{formatCurrency(portfolio.totalValue)}</p>
-                          </div>
-                          <div>
-                            <p className="text-slate-600 dark:text-slate-400">P&L</p>
-                            <p className={`font-medium ${getChangeColor(portfolio.totalPnl)}`}>
-                              {formatCurrency(portfolio.totalPnl)}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button className="w-full bg-green-600 hover:bg-green-700">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    Buy Stocks
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <TrendingDown className="w-4 h-4 mr-2" />
-                    Sell Holdings
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <Target className="w-4 h-4 mr-2" />
-                    Set Price Alert
-                  </Button>
-                </CardContent>
-              </Card>
+          {activeTab === "portfolio" && (
+            <div className="space-y-6">
+              <div className="text-center py-12">
+                <Wallet className="w-16 h-16 text-white/40 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">Portfolio Coming Soon</h3>
+                <p className="text-white/60">Detailed portfolio analytics will be available here</p>
+              </div>
             </div>
-          </TabsContent>
+          )}
 
           {/* Orders Tab */}
-          <TabsContent value="orders" className="space-y-6 mt-6">
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-              <CardHeader>
-                <CardTitle>Order Book</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {orders.map((order) => (
-                    <div key={order.id} className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                      <div>
-                        <p className="font-medium text-slate-900 dark:text-white">{order.orderId}</p>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
-                          {order.type} • {order.orderType} • Qty: {order.quantity}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-slate-900 dark:text-white">{formatCurrency(order.totalAmount)}</p>
-                        <Badge 
-                          variant={order.status === 'executed' ? 'default' : order.status === 'pending' ? 'secondary' : 'destructive'}
-                        >
-                          {order.status}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+          {activeTab === "orders" && (
+            <div className="space-y-6">
+              <div className="text-center py-12">
+                <BarChart3 className="w-16 h-16 text-white/40 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">No Orders Yet</h3>
+                <p className="text-white/60">Your trading orders will appear here</p>
+              </div>
+            </div>
+          )}
 
           {/* Watchlist Tab */}
-          <TabsContent value="watchlist" className="space-y-6 mt-6">
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-slate-200/50 dark:border-slate-700/50">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>My Watchlist</span>
-                  <Button size="sm">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Stock
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {stocks.slice(0, 8).map((stock) => (
-                    <div key={stock.id} className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                      <div className="flex items-center space-x-3">
-                        <Star className="w-5 h-5 text-yellow-500 fill-current" />
-                        <div>
-                          <p className="font-medium text-slate-900 dark:text-white">{stock.symbol}</p>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">{stock.name}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-slate-900 dark:text-white">{formatCurrency(2500)}</p>
-                        <p className="text-sm text-green-600">+2.5%</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          {activeTab === "watchlist" && (
+            <div className="space-y-6">
+              <div className="text-center py-12">
+                <WatchlistSVG />
+                <h3 className="text-xl font-bold text-white mb-2">Create Your Watchlist</h3>
+                <p className="text-white/60">Add stocks to track their performance</p>
+              </div>
+            </div>
+          )}
+
+          {/* Ultra-Premium Trading Actions */}
+          <div className="grid grid-cols-2 gap-4 mt-8 mb-8">
+            <button className="group relative overflow-hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white py-6 px-6 rounded-3xl font-bold text-lg transition-all duration-500 hover:scale-105 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <div className="relative flex items-center justify-center gap-3">
+                <TrendingUp className="w-6 h-6" />
+                Buy Stocks
+              </div>
+            </button>
+            
+            <button className="group relative overflow-hidden bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white py-6 px-6 rounded-3xl font-bold text-lg transition-all duration-500 hover:scale-105 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <div className="relative flex items-center justify-center gap-3">
+                <TrendingDown className="w-6 h-6" />
+                Sell Stocks
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
