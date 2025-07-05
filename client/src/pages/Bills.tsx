@@ -148,6 +148,7 @@ export default function Bills() {
   const [, setLocation] = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedProvider, setSelectedProvider] = useState<string>("");
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [consumerNumber, setConsumerNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [billDetails, setBillDetails] = useState<any>(null);
@@ -155,6 +156,41 @@ export default function Bills() {
   const { toast } = useToast();
 
 
+
+  // Sample Bill Plans for different categories
+  const billPlans = {
+    electricity: [
+      { id: 'basic', name: 'Basic Plan', amount: 500, description: 'Up to 100 units' },
+      { id: 'standard', name: 'Standard Plan', amount: 1000, description: 'Up to 300 units' },
+      { id: 'premium', name: 'Premium Plan', amount: 1500, description: 'Up to 500 units' },
+      { id: 'unlimited', name: 'Unlimited Plan', amount: 2000, description: 'Unlimited usage' }
+    ],
+    water: [
+      { id: 'basic', name: 'Basic Plan', amount: 300, description: 'Up to 5000L' },
+      { id: 'standard', name: 'Standard Plan', amount: 600, description: 'Up to 15000L' },
+      { id: 'family', name: 'Family Plan', amount: 900, description: 'Up to 25000L' }
+    ],
+    gas: [
+      { id: 'single', name: 'Single Cylinder', amount: 850, description: '1 LPG Cylinder' },
+      { id: 'double', name: 'Double Cylinder', amount: 1700, description: '2 LPG Cylinders' },
+      { id: 'commercial', name: 'Commercial', amount: 2500, description: 'Commercial usage' }
+    ],
+    internet: [
+      { id: 'basic', name: 'Basic Broadband', amount: 599, description: '100 Mbps, 1000GB' },
+      { id: 'premium', name: 'Premium Broadband', amount: 999, description: '200 Mbps, Unlimited' },
+      { id: 'ultra', name: 'Ultra Broadband', amount: 1499, description: '500 Mbps, Unlimited' }
+    ],
+    insurance: [
+      { id: 'health', name: 'Health Insurance', amount: 5000, description: 'Annual premium' },
+      { id: 'life', name: 'Life Insurance', amount: 12000, description: 'Annual premium' },
+      { id: 'vehicle', name: 'Vehicle Insurance', amount: 8000, description: 'Annual premium' }
+    ],
+    credit_card: [
+      { id: 'minimum', name: 'Minimum Payment', amount: 500, description: '5% of outstanding' },
+      { id: 'partial', name: 'Partial Payment', amount: 2000, description: 'Custom amount' },
+      { id: 'full', name: 'Full Payment', amount: 15000, description: 'Complete outstanding' }
+    ]
+  };
 
   // Sample Bill Details
   const sampleBillDetails = {
@@ -174,11 +210,19 @@ export default function Bills() {
   const handleCategorySelect = (category: any) => {
     setSelectedCategory(category.id);
     setSelectedProvider("");
+    setSelectedPlan("");
+    setConsumerNumber("");
+    setAmount("");
+    setBillDetails(null);
     setShowBillDetails(false);
   };
 
   const handleProviderSelect = (provider: any) => {
     setSelectedProvider(provider.id);
+    setSelectedPlan("");
+    setConsumerNumber("");
+    setAmount("");
+    setBillDetails(null);
     setShowBillDetails(false);
   };
 
@@ -201,8 +245,8 @@ export default function Bills() {
   const handlePayment = () => {
     console.log('🔄 Payment button clicked');
     
-    if (!selectedCategory || !selectedProvider || !consumerNumber || !amount) {
-      console.log('❌ Missing required fields:', { selectedCategory, selectedProvider, consumerNumber, amount });
+    if (!selectedCategory || !selectedProvider || !selectedPlan || !consumerNumber || !amount) {
+      console.log('❌ Missing required fields:', { selectedCategory, selectedProvider, selectedPlan, consumerNumber, amount });
       toast({
         title: "Missing Information",
         description: "Please fill all required fields.",
@@ -392,8 +436,52 @@ export default function Bills() {
           </Card>
         )}
 
+        {/* Plan Selection */}
+        {selectedProvider && !selectedPlan && (
+          <Card className="apple-pay-card border-0 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mr-3">
+                  <Star className="h-4 w-4 text-white" />
+                </div>
+                Select Plan
+              </h3>
+              
+              <div className="space-y-4">
+                {(billPlans[selectedCategory as keyof typeof billPlans] || []).map((plan: any) => (
+                  <div
+                    key={plan.id}
+                    onClick={() => {
+                      setSelectedPlan(plan.id);
+                      setAmount(plan.amount.toString());
+                    }}
+                    className="relative group cursor-pointer transition-all duration-300 hover:scale-105"
+                  >
+                    <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:border-green-400/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-green-400/20">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-white text-lg">{plan.name}</h4>
+                            <p className="text-gray-400 text-sm mt-1">{plan.description}</p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-white">₹{plan.amount}</div>
+                            {selectedPlan === plan.id && (
+                              <Check className="h-5 w-5 text-green-400 mt-1 ml-auto" />
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Consumer Number Input */}
-        {selectedProvider && (
+        {selectedProvider && selectedPlan && (
           <Card className="apple-pay-card border-0">
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
