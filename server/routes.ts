@@ -590,6 +590,114 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // DTH Recharge API endpoints
+  app.post('/api/dth/recharge', async (req: any, res) => {
+    try {
+      const { provider, subscriberNumber, amount, plan, type } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      if (!provider || !subscriberNumber || !amount) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Get user's current balance
+      const user = await storage.getUser(userId);
+      if (!user || parseFloat(user.balance) < parseFloat(amount)) {
+        return res.status(400).json({ message: "Insufficient balance" });
+      }
+
+      // Generate unique transaction ID
+      const transactionId = `DTH_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create transaction record
+      const transactionData = {
+        userId: user.id,
+        merchantName: provider,
+        amount: amount.toString(),
+        type: 'debit',
+        category: 'dth_recharge',
+        status: 'completed',
+        note: `DTH Recharge for ${subscriberNumber}`,
+        transactionId,
+        isOffline: false
+      };
+
+      const transaction = await storage.createTransaction(transactionData);
+
+      // Update user balance
+      const newBalance = parseFloat(user.balance) - parseFloat(amount);
+      await storage.updateBalance(user.id, newBalance);
+
+      res.json({
+        success: true,
+        transactionId: transaction.id,
+        message: "DTH recharge successful",
+        newBalance: newBalance.toFixed(2)
+      });
+    } catch (error) {
+      console.error("Error processing DTH recharge:", error);
+      res.status(500).json({ message: "DTH recharge failed" });
+    }
+  });
+
+  // Bill Payment API endpoints
+  app.post('/api/bills/pay', async (req: any, res) => {
+    try {
+      const { category, provider, consumerNumber, amount, billDetails, type } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      if (!category || !provider || !consumerNumber || !amount) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Get user's current balance
+      const user = await storage.getUser(userId);
+      if (!user || parseFloat(user.balance) < parseFloat(amount)) {
+        return res.status(400).json({ message: "Insufficient balance" });
+      }
+
+      // Generate unique transaction ID
+      const billTransactionId = `BILL_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create transaction record
+      const transactionData = {
+        userId: user.id,
+        merchantName: `${category} - ${provider}`,
+        amount: amount.toString(),
+        type: 'debit',
+        category: 'bill_payment',
+        status: 'completed',
+        note: `${category} bill payment for ${consumerNumber}`,
+        transactionId: billTransactionId,
+        isOffline: false
+      };
+
+      const transaction = await storage.createTransaction(transactionData);
+
+      // Update user balance
+      const newBalance = parseFloat(user.balance) - parseFloat(amount);
+      await storage.updateBalance(user.id, newBalance);
+
+      res.json({
+        success: true,
+        transactionId: transaction.id,
+        message: "Bill payment successful",
+        newBalance: newBalance.toFixed(2)
+      });
+    } catch (error) {
+      console.error("Error processing bill payment:", error);
+      res.status(500).json({ message: "Bill payment failed" });
+    }
+  });
+
   // PWA-specific routes
   app.get('/manifest.json', (req, res) => {
     res.setHeader('Content-Type', 'application/manifest+json');

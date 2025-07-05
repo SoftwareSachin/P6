@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { ApplePayQRCodeSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayWalletSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
+import { ApplePayDTHSVG, ApplePayBillsSVG } from "@/components/DTHBillsSVGs";
 
 // Apple Pay Style Quick Actions Grid
 export const ApplePayQuickActions = () => {
@@ -62,6 +63,26 @@ export const ApplePayQuickActions = () => {
     },
     {
       id: 6,
+      title: "DTH Recharge",
+      subtitle: "TV & Satellite",
+      icon: ApplePayDTHSVG,
+      href: "/dth",
+      gradient: "linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #AF52DE 100%)",
+      glowColor: "rgba(0, 122, 255, 0.4)",
+      description: "Recharge your DTH"
+    },
+    {
+      id: 7,
+      title: "Pay Bills",
+      subtitle: "Utilities & More",
+      icon: ApplePayBillsSVG,
+      href: "/bills",
+      gradient: "linear-gradient(135deg, #30D158 0%, #00C896 50%, #007AFF 100%)",
+      glowColor: "rgba(48, 209, 88, 0.4)",
+      description: "Pay all your bills"
+    },
+    {
+      id: 8,
       title: "Merchants",
       subtitle: "Near You",
       icon: ApplePayMerchantSVG,

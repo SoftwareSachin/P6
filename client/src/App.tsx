@@ -23,6 +23,8 @@ import Settings from "@/pages/Settings";
 import Merchants from "@/pages/Merchants";
 import Transit from "@/pages/Transit";
 import Wallet from "@/pages/Wallet";
+import DTH from "@/pages/DTH";
+import Bills from "@/pages/Bills";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -111,6 +113,8 @@ function Router() {
         <Route path="/merchants" component={Merchants} />
         <Route path="/transit" component={Transit} />
         <Route path="/wallet" component={Wallet} />
+        <Route path="/dth" component={DTH} />
+        <Route path="/bills" component={Bills} />
         <Route path="*" component={ApplePayDashboard} />
       </Switch>
     </div>
