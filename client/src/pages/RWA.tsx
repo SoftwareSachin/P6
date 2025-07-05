@@ -3,163 +3,223 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-// Premium Progress Component
-const Progress = ({ value, className }: { value: number; className?: string }) => (
-  <div className={`w-full bg-white/10 rounded-full h-2 ${className}`}>
-    <div 
-      className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
-      style={{ width: `${value}%` }}
-    />
-  </div>
-);
-import { ArrowLeft, TrendingUp, TrendingDown, Building, Car, Coins, Palette, FileText, Eye, ShoppingCart, BarChart3, Wallet, Target, Activity, DollarSign, PieChart, Star, Zap, Shield, Globe, AlertTriangle, Clock, CheckCircle, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, Building, Car, Coins, Palette, FileText, Eye, ShoppingCart, BarChart3, Wallet, Target, Activity, DollarSign, PieChart, Star, Zap, Shield, Globe, AlertTriangle, Clock, CheckCircle, ArrowUpRight, ArrowDownRight, Search, Filter, Percent, Award, Users, Briefcase, Brain, Sparkles, ChevronRight, Info } from 'lucide-react';
 import { useLocation } from 'wouter';
 
-// Premium SVG Icons for RWA
-const RealEstateSVG = () => (
-  <svg className="w-12 h-12" viewBox="0 0 64 64" fill="none">
+// Premium Progress Component
+const Progress = ({ value, className }: { value: number; className?: string }) => (
+  <div className={`w-full bg-white/10 rounded-full h-2 overflow-hidden ${className}`}>
+    <div 
+      className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500 ease-out relative"
+      style={{ width: `${value}%` }}
+    >
+      <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full" />
+    </div>
+  </div>
+);
+
+// Ultra-Premium RWA Asset SVG Icons
+const RealEstateSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none">
     <defs>
       <linearGradient id="realEstateGradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#3B82F6" />
-        <stop offset="50%" stopColor="#1E40AF" />
-        <stop offset="100%" stopColor="#1E3A8A" />
+        <stop offset="33%" stopColor="#1E40AF" />
+        <stop offset="66%" stopColor="#1E3A8A" />
+        <stop offset="100%" stopColor="#1E293B" />
+      </linearGradient>
+      <linearGradient id="realEstateAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#60A5FA" />
+        <stop offset="100%" stopColor="#3B82F6" />
       </linearGradient>
       <filter id="realEstateGlow">
-        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-        <feMerge> 
+        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+        <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
+      <filter id="realEstateShadow">
+        <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.3"/>
+      </filter>
     </defs>
-    <rect x="8" y="20" width="48" height="36" rx="4" fill="url(#realEstateGradient)" filter="url(#realEstateGlow)"/>
-    <rect x="12" y="16" width="40" height="4" rx="2" fill="#60A5FA"/>
-    <rect x="16" y="28" width="8" height="8" rx="1" fill="rgba(255,255,255,0.3)"/>
-    <rect x="28" y="28" width="8" height="8" rx="1" fill="rgba(255,255,255,0.3)"/>
-    <rect x="40" y="28" width="8" height="8" rx="1" fill="rgba(255,255,255,0.3)"/>
-    <rect x="24" y="44" width="16" height="12" rx="2" fill="rgba(255,255,255,0.2)"/>
-    <circle cx="32" cy="12" r="3" fill="#FBBF24"/>
+    <ellipse cx="40" cy="70" rx="32" ry="6" fill="rgba(0,0,0,0.15)" />
+    <rect x="10" y="25" width="60" height="40" rx="6" fill="url(#realEstateGradient)" filter="url(#realEstateShadow)" />
+    <rect x="14" y="20" width="52" height="8" rx="4" fill="url(#realEstateAccent)" />
+    <rect x="18" y="35" width="12" height="12" rx="2" fill="rgba(255,255,255,0.25)" />
+    <rect x="34" y="35" width="12" height="12" rx="2" fill="rgba(255,255,255,0.25)" />
+    <rect x="50" y="35" width="12" height="12" rx="2" fill="rgba(255,255,255,0.25)" />
+    <rect x="26" y="52" width="28" height="13" rx="3" fill="rgba(255,255,255,0.15)" />
+    <circle cx="40" cy="58" r="2" fill="rgba(255,255,255,0.8)" />
+    <circle cx="40" cy="14" r="4" fill="#FBBF24" filter="url(#realEstateGlow)" />
+    <circle cx="40" cy="14" r="2" fill="#F59E0B" />
   </svg>
 );
 
-const VehicleSVG = () => (
-  <svg className="w-12 h-12" viewBox="0 0 64 64" fill="none">
+const VehicleSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none">
     <defs>
       <linearGradient id="vehicleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#DC2626" />
-        <stop offset="50%" stopColor="#B91C1C" />
+        <stop offset="0%" stopColor="#EF4444" />
+        <stop offset="33%" stopColor="#DC2626" />
+        <stop offset="66%" stopColor="#B91C1C" />
         <stop offset="100%" stopColor="#991B1B" />
       </linearGradient>
-      <filter id="vehicleGlow">
-        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-    <ellipse cx="32" cy="48" rx="28" ry="8" fill="rgba(0,0,0,0.1)"/>
-    <path d="M12 32 L52 32 L48 24 L16 24 Z" fill="url(#vehicleGradient)" filter="url(#vehicleGlow)"/>
-    <rect x="8" y="32" width="48" height="12" rx="6" fill="url(#vehicleGradient)"/>
-    <circle cx="18" cy="44" r="6" fill="#374151"/>
-    <circle cx="46" cy="44" r="6" fill="#374151"/>
-    <circle cx="18" cy="44" r="3" fill="#9CA3AF"/>
-    <circle cx="46" cy="44" r="3" fill="#9CA3AF"/>
-    <rect x="20" y="28" width="6" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
-    <rect x="28" y="28" width="6" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
-    <rect x="36" y="28" width="6" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
-  </svg>
-);
-
-const GoldSVG = () => (
-  <svg className="w-12 h-12" viewBox="0 0 64 64" fill="none">
-    <defs>
-      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FBBF24" />
-        <stop offset="50%" stopColor="#F59E0B" />
-        <stop offset="100%" stopColor="#D97706" />
+      <linearGradient id="vehicleAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#F87171" />
+        <stop offset="100%" stopColor="#EF4444" />
       </linearGradient>
-      <filter id="goldGlow">
+      <filter id="vehicleGlow">
         <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-        <feMerge> 
+        <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
+      <filter id="vehicleShadow">
+        <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.3"/>
+      </filter>
     </defs>
-    <rect x="12" y="24" width="40" height="20" rx="4" fill="url(#goldGradient)" filter="url(#goldGlow)"/>
-    <rect x="16" y="20" width="32" height="8" rx="2" fill="#FDE047"/>
-    <rect x="20" y="28" width="24" height="12" rx="2" fill="rgba(255,255,255,0.2)"/>
-    <text x="32" y="38" textAnchor="middle" className="text-xs font-bold" fill="#92400E">GOLD</text>
-    <circle cx="48" cy="16" r="8" fill="#FDE047" opacity="0.8"/>
-    <circle cx="48" cy="16" r="4" fill="#FBBF24"/>
+    <ellipse cx="40" cy="68" rx="36" ry="8" fill="rgba(0,0,0,0.15)" />
+    <path d="M14 38 L66 38 L60 28 L20 28 Z" fill="url(#vehicleAccent)" />
+    <rect x="10" y="38" width="60" height="16" rx="8" fill="url(#vehicleGradient)" filter="url(#vehicleShadow)" />
+    <circle cx="22" cy="58" r="8" fill="#374151" />
+    <circle cx="58" cy="58" r="8" fill="#374151" />
+    <circle cx="22" cy="58" r="4" fill="#9CA3AF" />
+    <circle cx="58" cy="58" r="4" fill="#9CA3AF" />
+    <circle cx="22" cy="58" r="2" fill="#D1D5DB" />
+    <circle cx="58" cy="58" r="2" fill="#D1D5DB" />
+    <rect x="24" y="32" width="8" height="6" rx="2" fill="rgba(255,255,255,0.4)" />
+    <rect x="36" y="32" width="8" height="6" rx="2" fill="rgba(255,255,255,0.4)" />
+    <rect x="48" y="32" width="8" height="6" rx="2" fill="rgba(255,255,255,0.4)" />
+    <rect x="30" y="42" width="20" height="4" rx="2" fill="rgba(255,255,255,0.2)" />
   </svg>
 );
 
-const ArtSVG = () => (
-  <svg className="w-12 h-12" viewBox="0 0 64 64" fill="none">
+const CommoditySVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none">
+    <defs>
+      <linearGradient id="commodityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FBBF24" />
+        <stop offset="33%" stopColor="#F59E0B" />
+        <stop offset="66%" stopColor="#D97706" />
+        <stop offset="100%" stopColor="#92400E" />
+      </linearGradient>
+      <linearGradient id="commodityShine" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FDE047" />
+        <stop offset="100%" stopColor="#FBBF24" />
+      </linearGradient>
+      <filter id="commodityGlow">
+        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <filter id="commodityShadow">
+        <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.3"/>
+      </filter>
+    </defs>
+    <ellipse cx="40" cy="68" rx="32" ry="6" fill="rgba(0,0,0,0.15)" />
+    <rect x="15" y="30" width="50" height="28" rx="6" fill="url(#commodityGradient)" filter="url(#commodityShadow)" />
+    <rect x="19" y="25" width="42" height="10" rx="3" fill="url(#commodityShine)" />
+    <rect x="23" y="38" width="34" height="16" rx="3" fill="rgba(255,255,255,0.2)" />
+    <text x="40" y="49" textAnchor="middle" className="text-sm font-bold" fill="#92400E">GOLD</text>
+    <circle cx="58" cy="18" r="10" fill="url(#commodityShine)" filter="url(#commodityGlow)" />
+    <circle cx="58" cy="18" r="6" fill="#FBBF24" />
+    <circle cx="58" cy="18" r="3" fill="#FDE047" />
+    <path d="M22 18 L28 12 L34 18 L28 24 Z" fill="#FDE047" filter="url(#commodityGlow)" />
+  </svg>
+);
+
+const ArtSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none">
     <defs>
       <linearGradient id="artGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#8B5CF6" />
-        <stop offset="50%" stopColor="#7C3AED" />
+        <stop offset="0%" stopColor="#A855F7" />
+        <stop offset="33%" stopColor="#8B5CF6" />
+        <stop offset="66%" stopColor="#7C3AED" />
         <stop offset="100%" stopColor="#6D28D9" />
       </linearGradient>
+      <linearGradient id="artFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#C4B5FD" />
+        <stop offset="100%" stopColor="#A855F7" />
+      </linearGradient>
       <filter id="artGlow">
-        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-        <feMerge> 
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
+      <filter id="artShadow">
+        <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.3"/>
+      </filter>
     </defs>
-    <rect x="8" y="12" width="48" height="40" rx="4" fill="url(#artGradient)" filter="url(#artGlow)"/>
-    <rect x="12" y="16" width="40" height="32" rx="2" fill="rgba(255,255,255,0.1)"/>
-    <circle cx="20" cy="28" r="4" fill="#FBBF24"/>
-    <path d="M28 24 L36 32 L44 24 L44 36 L28 36 Z" fill="#EC4899"/>
-    <rect x="32" y="40" width="8" height="8" rx="1" fill="#10B981"/>
+    <ellipse cx="40" cy="68" rx="32" ry="6" fill="rgba(0,0,0,0.15)" />
+    <rect x="10" y="15" width="60" height="48" rx="6" fill="url(#artFrame)" filter="url(#artShadow)" />
+    <rect x="14" y="19" width="52" height="40" rx="4" fill="url(#artGradient)" />
+    <rect x="18" y="23" width="44" height="32" rx="2" fill="rgba(255,255,255,0.1)" />
+    <circle cx="26" cy="35" r="5" fill="#FBBF24" filter="url(#artGlow)" />
+    <path d="M35 30 L45 40 L55 30 L55 45 L35 45 Z" fill="#EC4899" filter="url(#artGlow)" />
+    <rect x="38" y="48" width="12" height="8" rx="2" fill="#10B981" />
+    <circle cx="60" cy="32" r="3" fill="#F59E0B" />
+    <circle cx="65" cy="38" r="2" fill="#EF4444" />
   </svg>
 );
 
-const BondsSVG = () => (
-  <svg className="w-12 h-12" viewBox="0 0 64 64" fill="none">
+const BondsSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none">
     <defs>
       <linearGradient id="bondsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#059669" />
-        <stop offset="50%" stopColor="#047857" />
+        <stop offset="0%" stopColor="#10B981" />
+        <stop offset="33%" stopColor="#059669" />
+        <stop offset="66%" stopColor="#047857" />
         <stop offset="100%" stopColor="#065F46" />
       </linearGradient>
+      <linearGradient id="bondsAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#6EE7B7" />
+        <stop offset="100%" stopColor="#10B981" />
+      </linearGradient>
       <filter id="bondsGlow">
-        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-        <feMerge> 
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
+      <filter id="bondsShadow">
+        <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.3"/>
+      </filter>
     </defs>
-    <rect x="12" y="16" width="40" height="32" rx="4" fill="url(#bondsGradient)" filter="url(#bondsGlow)"/>
-    <rect x="16" y="20" width="32" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
-    <rect x="16" y="28" width="24" height="2" rx="1" fill="rgba(255,255,255,0.2)"/>
-    <rect x="16" y="32" width="20" height="2" rx="1" fill="rgba(255,255,255,0.2)"/>
-    <rect x="16" y="36" width="28" height="2" rx="1" fill="rgba(255,255,255,0.2)"/>
-    <circle cx="48" cy="28" r="8" fill="#34D399" opacity="0.8"/>
-    <text x="48" y="32" textAnchor="middle" className="text-xs font-bold" fill="#065F46">₹</text>
+    <ellipse cx="40" cy="68" rx="32" ry="6" fill="rgba(0,0,0,0.15)" />
+    <rect x="15" y="20" width="50" height="40" rx="6" fill="url(#bondsGradient)" filter="url(#bondsShadow)" />
+    <rect x="19" y="25" width="42" height="6" rx="2" fill="url(#bondsAccent)" />
+    <rect x="19" y="35" width="30" height="3" rx="1" fill="rgba(255,255,255,0.3)" />
+    <rect x="19" y="40" width="25" height="3" rx="1" fill="rgba(255,255,255,0.3)" />
+    <rect x="19" y="45" width="35" height="3" rx="1" fill="rgba(255,255,255,0.3)" />
+    <rect x="19" y="50" width="28" height="3" rx="1" fill="rgba(255,255,255,0.3)" />
+    <circle cx="58" cy="35" r="10" fill="#34D399" filter="url(#bondsGlow)" />
+    <text x="58" y="39" textAnchor="middle" className="text-sm font-bold" fill="#065F46">₹</text>
+    <circle cx="25" cy="10" r="6" fill="#6EE7B7" />
+    <circle cx="25" cy="10" r="3" fill="#10B981" />
   </svg>
 );
 
-const getAssetIcon = (assetType: string) => {
+const getAssetIcon = (assetType: string, className?: string) => {
   switch (assetType) {
     case 'real_estate':
-      return <RealEstateSVG />;
+      return <RealEstateSVG className={className} />;
     case 'vehicle':
-      return <VehicleSVG />;
+      return <VehicleSVG className={className} />;
     case 'commodity':
-      return <GoldSVG />;
+      return <CommoditySVG className={className} />;
     case 'art':
-      return <ArtSVG />;
+      return <ArtSVG className={className} />;
     case 'bonds':
-      return <BondsSVG />;
+      return <BondsSVG className={className} />;
     default:
-      return <Building className="w-12 h-12 text-blue-500" />;
+      return <Building className={`w-16 h-16 text-blue-500 ${className}`} />;
   }
 };
 
@@ -169,6 +229,15 @@ export default function RWA() {
   const [selectedTimeframe, setSelectedTimeframe] = useState<'1H' | '1D' | '1W' | '1M' | '1Y'>('1D');
   const [marketTrend, setMarketTrend] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [marketData, setMarketData] = useState({
+    totalMarketCap: 24200000000,
+    volume24h: 1800000000,
+    avgYield: 8.5,
+    activeTokens: 156,
+    trendingUp: true,
+    changePercent: 12.5
+  });
 
   // Fetch RWA tokens for marketplace
   const { data: tokens = [], isLoading: tokensLoading } = useQuery({
@@ -196,658 +265,610 @@ export default function RWA() {
     setLocation(`/rwa/token/${tokenId}`);
   };
 
-  // Real-time market simulation
+  // Real-time market simulation with enhanced effects
   useEffect(() => {
     const interval = setInterval(() => {
       setMarketTrend(prev => {
         const change = (Math.random() - 0.5) * 2;
-        return Math.max(-10, Math.min(10, prev + change));
+        return Math.max(-15, Math.min(15, prev + change));
       });
-    }, 3000);
+      
+      setMarketData(prev => ({
+        ...prev,
+        totalMarketCap: prev.totalMarketCap + (Math.random() - 0.5) * 100000000,
+        volume24h: prev.volume24h + (Math.random() - 0.5) * 50000000,
+        avgYield: Math.max(0, prev.avgYield + (Math.random() - 0.5) * 0.5),
+        changePercent: prev.changePercent + (Math.random() - 0.5) * 2
+      }));
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Premium Market Stats Component
-  const MarketStats = () => (
-    <div className="grid grid-cols-2 gap-4 mb-6">
-      <Card className="bg-gradient-to-br from-green-500/20 to-emerald-600/20 border-green-500/30 backdrop-blur-sm">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
+  // Ultra-Premium Market Overview Header
+  const MarketOverview = () => (
+    <div className="mb-8">
+      <Card className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-2xl shadow-2xl">
+        <CardContent className="p-8">
+          {/* Market Status Header */}
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <p className="text-green-400 text-xs font-medium">Total Market Cap</p>
-              <p className="text-white text-lg font-bold">₹24.2B</p>
-              <div className="flex items-center space-x-1 mt-1">
-                <ArrowUpRight className="w-3 h-3 text-green-400" />
-                <span className="text-green-400 text-xs">+12.5%</span>
-              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+                RWA Market
+              </h2>
+              <p className="text-slate-400 text-sm mt-1">Real-time tokenized asset ecosystem</p>
             </div>
-            <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-green-400" />
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <div className={`w-3 h-3 rounded-full ${marketData.trendingUp ? 'bg-green-400' : 'bg-red-400'} animate-pulse shadow-lg`} />
+                <span className="text-xs text-slate-300 font-medium">Live Market</span>
+              </div>
+              <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30 px-3 py-1">
+                <Zap className="w-3 h-3 mr-1" />
+                Premium
+              </Badge>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      <Card className="bg-gradient-to-br from-blue-500/20 to-purple-600/20 border-blue-500/30 backdrop-blur-sm">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-blue-400 text-xs font-medium">24h Volume</p>
-              <p className="text-white text-lg font-bold">₹1.8B</p>
-              <div className="flex items-center space-x-1 mt-1">
-                <Activity className="w-3 h-3 text-blue-400" />
-                <span className="text-blue-400 text-xs">Active</span>
+          {/* Market Stats Grid */}
+          <div className="grid grid-cols-4 gap-6 mb-6">
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-2">
+                <DollarSign className="w-5 h-5 text-green-400 mr-1" />
+                <p className="text-slate-400 text-xs font-medium">Market Cap</p>
+              </div>
+              <p className="text-2xl font-bold text-white">
+                ₹{(marketData.totalMarketCap / 1000000000).toFixed(1)}B
+              </p>
+              <div className="flex items-center justify-center space-x-1 mt-1">
+                <ArrowUpRight className="w-4 h-4 text-green-400" />
+                <span className="text-green-400 text-sm font-medium">+{marketData.changePercent.toFixed(1)}%</span>
               </div>
             </div>
-            <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-blue-400" />
+
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Activity className="w-5 h-5 text-blue-400 mr-1" />
+                <p className="text-slate-400 text-xs font-medium">24h Volume</p>
+              </div>
+              <p className="text-2xl font-bold text-white">
+                ₹{(marketData.volume24h / 1000000000).toFixed(1)}B
+              </p>
+              <div className="flex items-center justify-center space-x-1 mt-1">
+                <Activity className="w-4 h-4 text-blue-400" />
+                <span className="text-blue-400 text-sm font-medium">Active</span>
+              </div>
             </div>
+
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Percent className="w-5 h-5 text-purple-400 mr-1" />
+                <p className="text-slate-400 text-xs font-medium">Avg Yield</p>
+              </div>
+              <p className="text-2xl font-bold text-white">{marketData.avgYield.toFixed(1)}%</p>
+              <div className="flex items-center justify-center space-x-1 mt-1">
+                <Star className="w-4 h-4 text-purple-400" />
+                <span className="text-purple-400 text-sm font-medium">Premium</span>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Globe className="w-5 h-5 text-orange-400 mr-1" />
+                <p className="text-slate-400 text-xs font-medium">Assets</p>
+              </div>
+              <p className="text-2xl font-bold text-white">{marketData.activeTokens}</p>
+              <div className="flex items-center justify-center space-x-1 mt-1">
+                <CheckCircle className="w-4 h-4 text-orange-400" />
+                <span className="text-orange-400 text-sm font-medium">Verified</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Market Trend Visualization */}
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-slate-400">Market Trend</span>
+              <span className="text-sm font-medium text-white">
+                {marketTrend > 0 ? 'Bullish' : marketTrend < 0 ? 'Bearish' : 'Neutral'}
+              </span>
+            </div>
+            <div className="relative">
+              <Progress value={Math.max(0, Math.min(100, 50 + marketTrend * 2))} className="h-3" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse rounded-full" />
+            </div>
+          </div>
+
+          {/* Timeframe Selector */}
+          <div className="flex justify-center space-x-2">
+            {(['1H', '1D', '1W', '1M', '1Y'] as const).map((timeframe) => (
+              <button
+                key={timeframe}
+                onClick={() => setSelectedTimeframe(timeframe)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  selectedTimeframe === timeframe
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                    : 'bg-slate-800/50 text-slate-400 hover:bg-slate-700/50 hover:text-white'
+                }`}
+              >
+                {timeframe}
+              </button>
+            ))}
           </div>
         </CardContent>
       </Card>
     </div>
   );
 
+  // Ultra-Premium Tab Navigation
+  const TabNavigation = () => (
+    <div className="mb-8">
+      <div className="flex items-center justify-center">
+        <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-2 border border-slate-600/30">
+          <div className="flex space-x-2">
+            {([
+              { id: 'marketplace', label: 'Marketplace', icon: ShoppingCart },
+              { id: 'portfolio', label: 'Portfolio', icon: Briefcase },
+              { id: 'assets', label: 'Assets', icon: Building },
+              { id: 'analytics', label: 'Analytics', icon: BarChart3 }
+            ] as const).map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`flex items-center space-x-3 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  activeTab === id
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg transform scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // Premium Portfolio Summary
   const PortfolioSummary = () => {
-    const totalInvested = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.totalInvested), 0);
-    const totalValue = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.currentValue), 0);
-    const totalYield = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.yieldEarned), 0);
+    const totalInvested = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.totalInvested || 0), 0);
+    const totalValue = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.currentValue || 0), 0);
+    const totalYield = investments.reduce((sum: number, inv: any) => sum + parseFloat(inv.yieldEarned || 0), 0);
     const roi = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
 
     return (
-      <Card className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-purple-500/30 backdrop-blur-sm mb-6">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white text-lg font-bold">Portfolio Overview</h3>
-            <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30">
-              Premium
-            </Badge>
+      <Card className="bg-gradient-to-br from-purple-900/40 via-pink-900/30 to-purple-900/40 border-purple-500/30 backdrop-blur-xl shadow-2xl mb-8">
+        <CardContent className="p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+              Portfolio Overview
+            </h3>
+            <div className="flex items-center space-x-3">
+              <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-400/30 px-3 py-1">
+                <Star className="w-3 h-3 mr-1" />
+                Premium
+              </Badge>
+              <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30 px-3 py-1">
+                <TrendingUp className="w-3 h-3 mr-1" />
+                Active
+              </Badge>
+            </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <p className="text-gray-400 text-xs">Total Invested</p>
-              <p className="text-white text-xl font-bold">₹{totalInvested.toLocaleString()}</p>
-            </div>
-            <div>
-              <p className="text-gray-400 text-xs">Current Value</p>
-              <p className="text-white text-xl font-bold">₹{totalValue.toLocaleString()}</p>
-            </div>
-            <div>
-              <p className="text-gray-400 text-xs">Total Yield</p>
-              <p className="text-green-400 text-lg font-bold">₹{totalYield.toLocaleString()}</p>
-            </div>
-            <div>
-              <p className="text-gray-400 text-xs">ROI</p>
-              <div className="flex items-center space-x-1">
-                {roi >= 0 ? (
-                  <ArrowUpRight className="w-4 h-4 text-green-400" />
-                ) : (
-                  <ArrowDownRight className="w-4 h-4 text-red-400" />
-                )}
-                <p className={`text-lg font-bold ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {roi > 0 ? '+' : ''}{roi.toFixed(2)}%
-                </p>
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Total Invested</p>
+                <Wallet className="w-5 h-5 text-blue-400" />
               </div>
+              <p className="text-3xl font-bold text-white">₹{totalInvested.toLocaleString()}</p>
+              <p className="text-blue-400 text-sm mt-1">Principal amount</p>
+            </div>
+            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Current Value</p>
+                <Target className="w-5 h-5 text-purple-400" />
+              </div>
+              <p className="text-3xl font-bold text-white">₹{totalValue.toLocaleString()}</p>
+              <p className="text-purple-400 text-sm mt-1">Market value</p>
+            </div>
+            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Total Yield</p>
+                <DollarSign className="w-5 h-5 text-green-400" />
+              </div>
+              <p className="text-3xl font-bold text-green-400">₹{totalYield.toLocaleString()}</p>
+              <p className="text-green-400 text-sm mt-1">Generated income</p>
+            </div>
+            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">ROI</p>
+                {roi >= 0 ? (
+                  <ArrowUpRight className="w-5 h-5 text-green-400" />
+                ) : (
+                  <ArrowDownRight className="w-5 h-5 text-red-400" />
+                )}
+              </div>
+              <p className={`text-3xl font-bold ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {roi > 0 ? '+' : ''}{roi.toFixed(2)}%
+              </p>
+              <p className={`text-sm mt-1 ${roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {roi >= 0 ? 'Outperforming' : 'Underperforming'}
+              </p>
             </div>
           </div>
           
-          <div className="mb-3">
-            <div className="flex justify-between text-xs text-gray-400 mb-1">
+          <div className="mb-4">
+            <div className="flex justify-between text-sm text-slate-400 mb-2">
               <span>Portfolio Performance</span>
-              <span>{roi > 0 ? 'Outperforming' : 'Underperforming'}</span>
+              <span className="font-medium">{roi >= 0 ? 'Excellent' : 'Needs Attention'}</span>
             </div>
-            <Progress value={Math.min(100, Math.max(0, 50 + roi))} className="h-3" />
+            <div className="relative">
+              <Progress value={Math.min(100, Math.max(0, 50 + roi))} className="h-4" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse rounded-full" />
+            </div>
           </div>
         </CardContent>
       </Card>
     );
   };
 
+  // Ultra-Premium Token Card
+  const TokenCard = ({ token }: { token: any }) => {
+    const priceChange = parseFloat(token.marketData?.priceChange24h || 0);
+    const isPositive = priceChange >= 0;
+    
+    return (
+      <Card className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-105 hover:border-blue-400/50 group">
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                {getAssetIcon(token.assetType, "w-12 h-12")}
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-3 h-3 text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
+                  {token.tokenName}
+                </h3>
+                <p className="text-slate-400 text-sm">{token.tokenSymbol}</p>
+              </div>
+            </div>
+            <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30">
+              Verified
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <p className="text-slate-400 text-xs mb-1">Price</p>
+              <p className="text-white text-xl font-bold">₹{parseFloat(token.marketData?.price || 0).toLocaleString()}</p>
+              <div className="flex items-center space-x-1 mt-1">
+                {isPositive ? (
+                  <ArrowUpRight className="w-3 h-3 text-green-400" />
+                ) : (
+                  <ArrowDownRight className="w-3 h-3 text-red-400" />
+                )}
+                <span className={`text-xs font-medium ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                  {isPositive ? '+' : ''}{priceChange.toFixed(2)}%
+                </span>
+              </div>
+            </div>
+            <div>
+              <p className="text-slate-400 text-xs mb-1">Expected Yield</p>
+              <p className="text-green-400 text-xl font-bold">{token.expectedYield}%</p>
+              <p className="text-slate-400 text-xs mt-1">Annual return</p>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <div className="flex justify-between text-xs text-slate-400 mb-2">
+              <span>Market Cap</span>
+              <span>₹{parseFloat(token.marketData?.marketCap || 0).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-xs text-slate-400 mb-2">
+              <span>24h Volume</span>
+              <span>₹{parseFloat(token.marketData?.volume24h || 0).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-xs text-slate-400">
+              <span>Liquidity</span>
+              <span>₹{parseFloat(token.marketData?.liquidity || 0).toLocaleString()}</span>
+            </div>
+          </div>
+
+          <div className="flex space-x-3">
+            <Button
+              onClick={() => handleTokenDetails(token.id)}
+              className="flex-1 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white border-none shadow-lg"
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Details
+            </Button>
+            <Button
+              onClick={() => handleTokenInvest(token.id)}
+              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-none shadow-lg"
+            >
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              Invest
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  // Analytics Dashboard
+  const AnalyticsDashboard = () => {
+    const insights = [
+      {
+        title: "AI Investment Recommendation",
+        description: "Real estate tokens showing 15% growth potential",
+        icon: Brain,
+        color: "from-purple-500 to-pink-500",
+        action: "Explore"
+      },
+      {
+        title: "Market Opportunity",
+        description: "Commodity sector undervalued by 8.5%",
+        icon: TrendingUp,
+        color: "from-green-500 to-emerald-500",
+        action: "Analyze"
+      },
+      {
+        title: "Risk Assessment",
+        description: "Portfolio diversification score: 85%",
+        icon: Shield,
+        color: "from-blue-500 to-cyan-500",
+        action: "Review"
+      },
+      {
+        title: "Yield Optimization",
+        description: "Potential yield increase of 3.2%",
+        icon: Target,
+        color: "from-orange-500 to-red-500",
+        action: "Optimize"
+      }
+    ];
+
+    return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {insights.map((insight, index) => (
+            <Card key={index} className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-105 group">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${insight.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <insight.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30">
+                    <Sparkles className="w-3 h-3 mr-1" />
+                    AI Powered
+                  </Badge>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
+                  {insight.title}
+                </h3>
+                <p className="text-slate-400 text-sm mb-4">{insight.description}</p>
+                <Button className="w-full bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white border-none shadow-lg">
+                  <ChevronRight className="w-4 h-4 mr-2" />
+                  {insight.action}
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <Card className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl">
+          <CardContent className="p-8">
+            <h3 className="text-2xl font-bold text-white mb-6">Market Insights</h3>
+            <div className="grid grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">Top Performer</h4>
+                <p className="text-slate-400 text-sm">Real Estate tokens leading with 18.5% returns</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">Most Popular</h4>
+                <p className="text-slate-400 text-sm">Gold tokens with 2.3K active investors</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Zap className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">Trending</h4>
+                <p className="text-slate-400 text-sm">Art tokens gaining 45% in volume</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
+
   if (tokensLoading || investmentsLoading || assetsLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-xl">Loading RWA data...</div>
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <Building className="w-8 h-8 text-white" />
+          </div>
+          <div className="text-white text-xl font-bold mb-2">Loading RWA Platform</div>
+          <div className="text-slate-400">Fetching tokenized assets...</div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Ultra-Premium Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-3/4 right-1/4 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute bottom-1/4 left-1/3 w-56 h-56 bg-green-500/10 rounded-full blur-3xl animate-pulse delay-2000" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-red-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-green-500/10 via-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse delay-2000" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-gradient-to-r from-orange-500/10 via-yellow-500/10 to-green-500/10 rounded-full blur-3xl animate-pulse delay-3000" />
       </div>
 
       <div className="relative z-10 p-6 pb-24">
-        {/* Header */}
+        {/* Ultra-Premium Header */}
         <div className="flex items-center justify-between mb-8">
           <button
             onClick={() => setLocation('/dashboard')}
-            className="p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+            className="p-4 rounded-2xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-xl hover:from-slate-700/50 hover:to-slate-600/50 transition-all duration-300 border border-slate-600/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
           
           <div className="text-center">
-            <h1 className="text-2xl font-bold">Real World Assets</h1>
-            <p className="text-gray-400 text-sm">Tokenized Asset Investment Platform</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+              Real World Assets
+            </h1>
+            <p className="text-slate-400 text-sm mt-1">Premium tokenized investment platform</p>
           </div>
           
-          <div className="w-12" />
-        </div>
-
-        {/* Ultra-Premium Market Overview */}
-        <div className="mb-8">
-          <Card className="bg-gradient-to-br from-gray-900/50 to-black/50 border-white/20 backdrop-blur-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-white text-xl font-bold">RWA Market</h2>
-                  <p className="text-gray-400 text-sm">Real-time tokenized asset data</p>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className={`w-3 h-3 rounded-full ${marketTrend >= 0 ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
-                  <span className="text-xs text-gray-400">Live</span>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <p className="text-gray-400 text-xs">Market Cap</p>
-                  <p className="text-white text-lg font-bold">₹24.2B</p>
-                  <div className="flex items-center justify-center space-x-1 mt-1">
-                    <ArrowUpRight className="w-3 h-3 text-green-400" />
-                    <span className="text-green-400 text-xs">+12.5%</span>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <p className="text-gray-400 text-xs">24h Volume</p>
-                  <p className="text-white text-lg font-bold">₹1.8B</p>
-                  <div className="flex items-center justify-center space-x-1 mt-1">
-                    <Activity className="w-3 h-3 text-blue-400" />
-                    <span className="text-blue-400 text-xs">Active</span>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <p className="text-gray-400 text-xs">Assets</p>
-                  <p className="text-white text-lg font-bold">5,234</p>
-                  <div className="flex items-center justify-center space-x-1 mt-1">
-                    <Zap className="w-3 h-3 text-yellow-400" />
-                    <span className="text-yellow-400 text-xs">Growing</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-4">
-                <div className="flex justify-between text-xs text-gray-400 mb-2">
-                  <span>Market Trend</span>
-                  <span>{marketTrend >= 0 ? 'Bullish' : 'Bearish'} {Math.abs(marketTrend).toFixed(1)}%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full transition-all duration-1000 ${
-                      marketTrend >= 0 
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-400' 
-                        : 'bg-gradient-to-r from-red-500 to-red-400'
-                    }`}
-                    style={{ width: `${Math.min(100, Math.max(0, 50 + marketTrend * 2))}%` }}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Advanced Tab Navigation */}
-        <div className="flex bg-gradient-to-r from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-1 mb-8 border border-white/10">
-          {[
-            { id: 'marketplace', label: 'Marketplace', icon: ShoppingCart, color: 'blue' },
-            { id: 'portfolio', label: 'Portfolio', icon: Wallet, color: 'purple' },
-            { id: 'assets', label: 'Assets', icon: Target, color: 'green' },
-            { id: 'analytics', label: 'Analytics', icon: BarChart3, color: 'orange' }
-          ].map(({ id, label, icon: Icon, color }) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id as any)}
-              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl transition-all duration-300 ${
-                activeTab === id
-                  ? `bg-gradient-to-r from-${color}-500 to-${color}-600 text-white font-semibold shadow-lg scale-105`
-                  : 'text-white/70 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              <span className="text-sm font-medium">{label}</span>
+          <div className="flex items-center space-x-3">
+            <button className="p-4 rounded-2xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-xl hover:from-slate-700/50 hover:to-slate-600/50 transition-all duration-300 border border-slate-600/30">
+              <Search className="h-6 w-6" />
             </button>
-          ))}
+            <button className="p-4 rounded-2xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-xl hover:from-slate-700/50 hover:to-slate-600/50 transition-all duration-300 border border-slate-600/30">
+              <Filter className="h-6 w-6" />
+            </button>
+          </div>
         </div>
 
-        {/* Marketplace Tab */}
-        {activeTab === 'marketplace' && (
-          <div className="space-y-6">
-            <MarketStats />
-            
-            {/* Trending Assets Header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold text-white mb-2">Trending Assets</h2>
-                <p className="text-gray-400 text-sm">Top performing tokenized assets today</p>
+        {/* Market Overview */}
+        <MarketOverview />
+
+        {/* Tab Navigation */}
+        <TabNavigation />
+
+        {/* Content Based on Active Tab */}
+        <div className="space-y-6">
+          {activeTab === 'marketplace' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+                  Trending Assets
+                </h2>
+                <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30 px-3 py-1">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  {tokens.length} Available
+                </Badge>
               </div>
-              <div className="flex space-x-2">
-                {['1H', '1D', '1W', '1M'].map((timeframe) => (
-                  <button
-                    key={timeframe}
-                    onClick={() => setSelectedTimeframe(timeframe as any)}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-all duration-300 ${
-                      selectedTimeframe === timeframe
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-white/10 text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    {timeframe}
-                  </button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {tokens.map((token: any) => (
+                  <TokenCard key={token.id} token={token} />
                 ))}
               </div>
             </div>
+          )}
 
-            <div className="grid gap-4">
-              {tokens.map((token: any, index: number) => {
-                const randomPrice = (Math.random() * 5 + 2).toFixed(2);
-                const isPositive = Math.random() > 0.4;
-                const priceChange = isPositive ? `+${randomPrice}` : `-${randomPrice}`;
-                const liquidityPercentage = ((parseFloat(token.totalSupply) - parseFloat(token.availableSupply)) / parseFloat(token.totalSupply) * 100);
-                
-                return (
-                  <Card 
-                    key={token.id} 
-                    className="group relative overflow-hidden bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
-                    style={{
-                      background: `
-                        linear-gradient(135deg, 
-                          rgba(255,255,255,0.08) 0%, 
-                          rgba(255,255,255,0.02) 100%
-                        ),
-                        linear-gradient(45deg, 
-                          rgba(59, 130, 246, 0.1) 0%, 
-                          rgba(147, 51, 234, 0.1) 50%,
-                          rgba(16, 185, 129, 0.1) 100%
-                        )
-                      `,
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1) inset'
-                    }}
-                  >
-                    <CardContent className="p-6 relative z-10">
-                      {/* Premium Header */}
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="relative">
-                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                              {getAssetIcon(token.assetType || 'real_estate')}
-                            </div>
-                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-black animate-pulse" />
-                          </div>
-                          <div>
-                            <h3 className="text-lg font-bold text-white mb-1">
-                              {token.tokenName}
-                            </h3>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-gray-400 text-sm font-mono">{token.tokenSymbol}</span>
-                              <Badge className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/30 text-xs px-2 py-0.5">
-                                <Star className="w-3 h-3 mr-1" />
-                                {token.yieldRate}% APY
-                              </Badge>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="text-right">
-                          <p className="text-white text-xl font-bold">
-                            ₹{parseFloat(token.pricePerToken).toLocaleString()}
-                          </p>
-                          <div className={`flex items-center space-x-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                            {isPositive ? (
-                              <ArrowUpRight className="w-3 h-3" />
-                            ) : (
-                              <ArrowDownRight className="w-3 h-3" />
-                            )}
-                            <span className="text-sm font-medium">{priceChange}%</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Advanced Metrics */}
-                      <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div className="bg-white/5 rounded-xl p-3 backdrop-blur-sm">
-                          <p className="text-gray-400 text-xs mb-1">Market Cap</p>
-                          <p className="text-white font-semibold text-sm">₹{(parseFloat(token.pricePerToken) * parseFloat(token.totalSupply) / 1000000).toFixed(1)}M</p>
-                        </div>
-                        <div className="bg-white/5 rounded-xl p-3 backdrop-blur-sm">
-                          <p className="text-gray-400 text-xs mb-1">Volume 24h</p>
-                          <p className="text-white font-semibold text-sm">₹{(Math.random() * 50 + 10).toFixed(1)}K</p>
-                        </div>
-                        <div className="bg-white/5 rounded-xl p-3 backdrop-blur-sm">
-                          <p className="text-gray-400 text-xs mb-1">Supply</p>
-                          <p className="text-white font-semibold text-sm">{parseFloat(token.availableSupply).toLocaleString()}</p>
-                        </div>
-                      </div>
-                      
-                      {/* Liquidity Progress */}
-                      <div className="mb-6">
-                        <div className="flex justify-between text-xs text-gray-400 mb-2">
-                          <span>Liquidity Pool</span>
-                          <span>{liquidityPercentage.toFixed(1)}% Filled</span>
-                        </div>
-                        <div className="relative w-full bg-gray-800/50 rounded-full h-3 overflow-hidden">
-                          <div 
-                            className="bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 h-3 rounded-full transition-all duration-1000 relative"
-                            style={{ width: `${liquidityPercentage}%` }}
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Premium Action Buttons */}
-                      <div className="flex space-x-3">
-                        <Button
-                          onClick={() => handleTokenDetails(token.id)}
-                          variant="outline"
-                          className="flex-1 bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all duration-300"
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          Analyze
-                        </Button>
-                        <Button
-                          onClick={() => handleTokenInvest(token.id)}
-                          className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group"
-                        >
-                          <TrendingUp className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
-                          Invest Now
-                        </Button>
-                      </div>
-                    </CardContent>
-                    
-                    {/* Floating Glow Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Portfolio Tab */}
-        {activeTab === 'portfolio' && (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold mb-2">Investment Portfolio</h2>
-              <p className="text-gray-400">Track your RWA investments</p>
-            </div>
-
-            {investments.length === 0 ? (
-              <div className="text-center py-12">
-                <Wallet className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">No Investments Yet</h3>
-                <p className="text-gray-400 mb-6">Start investing in tokenized real-world assets</p>
-                <Button
-                  onClick={() => setActiveTab('marketplace')}
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
-                >
-                  Explore Marketplace
-                </Button>
-              </div>
-            ) : (
-              <div className="grid gap-6">
+          {activeTab === 'portfolio' && (
+            <div>
+              <PortfolioSummary />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {investments.map((investment: any) => (
-                  <Card key={investment.id} className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <Card key={investment.id} className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl">
                     <CardContent className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-white">Investment #{investment.id}</h3>
-                        <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-bold text-white">{investment.tokenName}</h3>
+                          <p className="text-slate-400 text-sm">{investment.tokenSymbol}</p>
+                        </div>
+                        <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30">
                           Active
                         </Badge>
                       </div>
-                      
                       <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                          <p className="text-gray-400 text-xs">Tokens Owned</p>
-                          <p className="text-white font-semibold">{parseFloat(investment.tokensOwned).toLocaleString()}</p>
+                          <p className="text-slate-400 text-xs mb-1">Invested</p>
+                          <p className="text-white text-lg font-bold">₹{parseFloat(investment.totalInvested).toLocaleString()}</p>
                         </div>
                         <div>
-                          <p className="text-gray-400 text-xs">Current Value</p>
-                          <p className="text-white font-semibold">₹{parseFloat(investment.currentValue).toLocaleString()}</p>
+                          <p className="text-slate-400 text-xs mb-1">Current Value</p>
+                          <p className="text-white text-lg font-bold">₹{parseFloat(investment.currentValue).toLocaleString()}</p>
                         </div>
                         <div>
-                          <p className="text-gray-400 text-xs">Total Invested</p>
-                          <p className="text-white font-semibold">₹{parseFloat(investment.totalInvested).toLocaleString()}</p>
+                          <p className="text-slate-400 text-xs mb-1">Tokens</p>
+                          <p className="text-white text-lg font-bold">{parseFloat(investment.tokensOwned).toFixed(2)}</p>
                         </div>
                         <div>
-                          <p className="text-gray-400 text-xs">Yield Earned</p>
-                          <p className="text-green-400 font-semibold">₹{parseFloat(investment.yieldEarned).toLocaleString()}</p>
+                          <p className="text-slate-400 text-xs mb-1">Yield</p>
+                          <p className="text-green-400 text-lg font-bold">₹{parseFloat(investment.yieldEarned).toLocaleString()}</p>
                         </div>
                       </div>
-                      
-                      <div className="mb-4">
-                        <div className="flex justify-between text-xs text-gray-400 mb-1">
-                          <span>ROI</span>
-                          <span className="text-green-400">
-                            +{(((parseFloat(investment.currentValue) - parseFloat(investment.totalInvested)) / parseFloat(investment.totalInvested)) * 100).toFixed(2)}%
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <Button
-                        onClick={() => handleTokenDetails(investment.tokenId)}
-                        variant="outline"
-                        className="w-full bg-transparent border-white/30 text-white hover:bg-white/10"
-                      >
-                        <BarChart3 className="w-4 h-4 mr-2" />
-                        View Analytics
-                      </Button>
                     </CardContent>
                   </Card>
                 ))}
               </div>
-            )}
-          </div>
-        )}
-
-        {/* Analytics Tab */}
-        {activeTab === 'analytics' && (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold mb-2">Market Analytics</h2>
-              <p className="text-gray-400">Advanced insights and performance metrics</p>
             </div>
+          )}
 
-            {/* Performance Overview */}
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 border-green-500/30 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-green-400 text-lg font-bold">Total Returns</h3>
-                      <p className="text-green-300 text-2xl font-bold">+₹45,230</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <TrendingUp className="w-6 h-6 text-green-400" />
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <ArrowUpRight className="w-4 h-4 text-green-400" />
-                    <span className="text-green-400 text-sm">+18.5% this month</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 border-blue-500/30 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-blue-400 text-lg font-bold">Risk Score</h3>
-                      <p className="text-blue-300 text-2xl font-bold">Medium</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <Shield className="w-6 h-6 text-blue-400" />
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 text-blue-400" />
-                    <span className="text-blue-400 text-sm">Diversified portfolio</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Market Insights */}
-            <Card className="bg-gradient-to-br from-purple-600/20 to-pink-700/20 border-purple-500/30 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <h3 className="text-white text-lg font-bold mb-4">Market Insights</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-xl">
-                    <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                    </div>
-                    <div>
-                      <p className="text-white font-medium">Real Estate tokens showing strong momentum</p>
-                      <p className="text-gray-400 text-sm">Average +12.3% growth in luxury properties</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-xl">
-                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <Globe className="w-4 h-4 text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-white font-medium">Government bonds maintain stability</p>
-                      <p className="text-gray-400 text-sm">Consistent 8.5% annual returns</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-xl">
-                    <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
-                      <AlertTriangle className="w-4 h-4 text-red-400" />
-                    </div>
-                    <div>
-                      <p className="text-white font-medium">Luxury vehicle market volatility</p>
-                      <p className="text-gray-400 text-sm">Consider diversification strategy</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* AI Recommendations */}
-            <Card className="bg-gradient-to-br from-orange-600/20 to-red-700/20 border-orange-500/30 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-orange-400" />
-                  </div>
-                  <h3 className="text-white text-lg font-bold">AI Recommendations</h3>
-                </div>
-                <div className="space-y-3">
-                  <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-white font-medium">Luxury Apartment Mumbai</h4>
-                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                        Buy Signal
-                      </Badge>
-                    </div>
-                    <p className="text-gray-400 text-sm">Expected 15% return based on market analysis</p>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <Star className="w-4 h-4 text-yellow-400" />
-                      <span className="text-yellow-400 text-sm">High confidence</span>
-                    </div>
-                  </div>
-                  <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-white font-medium">Gold Reserves Token</h4>
-                      <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
-                        Hold
-                      </Badge>
-                    </div>
-                    <p className="text-gray-400 text-sm">Stable asset for portfolio balance</p>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <Shield className="w-4 h-4 text-blue-400" />
-                      <span className="text-blue-400 text-sm">Low risk</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Assets Tab */}
-        {activeTab === 'assets' && (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold mb-2">My Tokenized Assets</h2>
-              <p className="text-gray-400">Physical assets you have tokenized</p>
-            </div>
-
-            <div className="grid gap-6">
-              {assets.map((asset: any) => (
-                <Card key={asset.id} className="bg-white/10 backdrop-blur-sm border-white/20">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        {getAssetIcon(asset.assetType)}
-                      </div>
-                      
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-white">{asset.name}</h3>
-                          <Badge className={`${
-                            asset.tokenizationStatus === 'tokenized'
-                              ? 'bg-green-500/20 text-green-400 border-green-500/30'
-                              : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
-                          }`}>
-                            {asset.tokenizationStatus.replace('_', ' ').toUpperCase()}
-                          </Badge>
-                        </div>
-                        
-                        <p className="text-gray-400 text-sm mb-4">{asset.description}</p>
-                        
-                        <div className="grid grid-cols-2 gap-4 mb-4">
+          {activeTab === 'assets' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+                  My Assets
+                </h2>
+                <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border-blue-400/30 px-3 py-1">
+                  <Building className="w-3 h-3 mr-1" />
+                  {assets.length} Assets
+                </Badge>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {assets.map((asset: any) => (
+                  <Card key={asset.id} className="bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 border-slate-600/30 backdrop-blur-xl shadow-2xl">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-4">
+                          {getAssetIcon(asset.assetType, "w-12 h-12")}
                           <div>
-                            <p className="text-gray-400 text-xs">Asset Value</p>
-                            <p className="text-white font-semibold">₹{parseFloat(asset.value).toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-gray-400 text-xs">Location</p>
-                            <p className="text-white font-semibold">{asset.location}</p>
+                            <h3 className="text-lg font-bold text-white">{asset.name}</h3>
+                            <p className="text-slate-400 text-sm">{asset.category}</p>
                           </div>
                         </div>
-                        
-                        <div className="flex space-x-3">
-                          <Button
-                            variant="outline"
-                            className="flex-1 bg-transparent border-white/30 text-white hover:bg-white/10"
-                          >
-                            <FileText className="w-4 h-4 mr-2" />
-                            Documents
-                          </Button>
-                          {asset.tokenizationStatus === 'tokenized' && (
-                            <Button
-                              className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600"
-                            >
-                              <Coins className="w-4 h-4 mr-2" />
-                              Manage Tokens
-                            </Button>
-                          )}
+                        <Badge className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border-green-400/30">
+                          {asset.verificationStatus}
+                        </Badge>
+                      </div>
+                      <p className="text-slate-400 text-sm mb-4">{asset.description}</p>
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <p className="text-slate-400 text-xs mb-1">Value</p>
+                          <p className="text-white text-lg font-bold">₹{parseFloat(asset.value).toLocaleString()}</p>
+                        </div>
+                        <div>
+                          <p className="text-slate-400 text-xs mb-1">Location</p>
+                          <p className="text-white text-sm">{asset.location}</p>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      <div className="flex justify-between items-center">
+                        <Badge className={`${asset.tokenizationStatus === 'tokenized' ? 'bg-green-500/20 text-green-300' : 'bg-orange-500/20 text-orange-300'}`}>
+                          {asset.tokenizationStatus}
+                        </Badge>
+                        <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-none shadow-lg">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+          {activeTab === 'analytics' && <AnalyticsDashboard />}
+        </div>
       </div>
     </div>
   );
