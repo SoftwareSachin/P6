@@ -11,359 +11,138 @@ import { useToast } from "@/hooks/use-toast";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { ApplePayContactlessSVG, ApplePaySecuritySVG, ApplePaySuccessSVG } from "@/components/ApplePaySVGs";
 
-// Ultra-Premium Apple Pay-Inspired Bill Payment SVG Components
-const UltraPremiumElectricitySVG = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ultraElectricityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFD700" />
-        <stop offset="25%" stopColor="#FFA500" />
-        <stop offset="50%" stopColor="#FF8C00" />
-        <stop offset="75%" stopColor="#FF7F00" />
-        <stop offset="100%" stopColor="#FF6B35" />
-      </linearGradient>
-      <linearGradient id="ultraElectricityShine" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.8)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-      <filter id="electricityGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <filter id="electricityInnerShadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="2" result="offset-blur"/>
-        <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
-        <feFlood floodColor="rgba(0,0,0,0.3)" floodOpacity="1" result="color"/>
-        <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
-        <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
-      </filter>
-    </defs>
-    
-    {/* Main container with sophisticated gradients */}
-    <rect width="100" height="100" rx="24" fill="url(#ultraElectricityGradient)" filter="url(#electricityGlow)"/>
-    <rect width="100" height="100" rx="24" fill="url(#ultraElectricityInnerShadow)" opacity="0.6"/>
-    
-    {/* Lightning bolt with premium effects */}
-    <g transform="translate(50,50)">
-      <path d="M-8,-20 L-15,0 L-5,0 L-12,20 L8,0 L-2,0 L5,-20 Z" 
-            fill="white" 
-            stroke="rgba(255,255,255,0.8)" 
-            strokeWidth="0.5"
-            filter="url(#electricityInnerShadow)"/>
-      
-      {/* Energy particles */}
-      <circle cx="-10" cy="-12" r="1.5" fill="rgba(255,255,255,0.9)" className="animate-ping" />
-      <circle cx="8" cy="-8" r="1" fill="rgba(255,255,255,0.7)" className="animate-ping" style={{ animationDelay: '0.5s' }} />
-      <circle cx="-6" cy="12" r="1.2" fill="rgba(255,255,255,0.8)" className="animate-ping" style={{ animationDelay: '1s' }} />
-    </g>
-    
-    {/* Shine effect */}
-    <rect x="15" y="0" width="30" height="100" rx="24" fill="url(#ultraElectricityShine)" opacity="0.4" className="animate-pulse"/>
-    
-    {/* Border highlight */}
-    <rect width="100" height="100" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-  </svg>
+// Import animated GIF assets
+import electricityGif from "@assets/fetchpik.com-iconscout-FZ6hv1bYEM_1751714582814.gif";
+import waterGif from "@assets/fetchpik.com-iconscout-19ln0myIkf_1751714737699.gif";
+import gasGif from "@assets/fetchpik.com-iconscout-02uV3Iexwc_1751714791611.gif";
+import internetGif from "@assets/fetchpik.com-iconscout-JTYtB9K1V5_1751714904995.gif";
+import insuranceGif from "@assets/fetchpik.com-iconscout-YjzfiHsFE9_1751714952532.gif";
+import creditCardGif from "@assets/fetchpik.com-iconscout-hVBXKMblTj_1751715019536.gif";
+
+// Premium Animated GIF Components
+const ElectricityIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <img 
+    src={electricityGif} 
+    alt="Electricity" 
+    className={`${className} object-contain drop-shadow-lg`}
+  />
 );
 
-const UltraPremiumWaterSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ultraWaterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#00D4FF" />
-        <stop offset="25%" stopColor="#00BFFF" />
-        <stop offset="50%" stopColor="#1E90FF" />
-        <stop offset="75%" stopColor="#0080FF" />
-        <stop offset="100%" stopColor="#0066CC" />
-      </linearGradient>
-      <linearGradient id="ultraWaterShine" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.7)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-      <filter id="waterGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <radialGradient id="waterBubble" cx="30%" cy="30%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0.8)" />
-        <stop offset="70%" stopColor="rgba(255,255,255,0.3)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </radialGradient>
-    </defs>
-    
-    {/* Main container */}
-    <rect width="100" height="100" rx="24" fill="url(#ultraWaterGradient)" filter="url(#waterGlow)"/>
-    
-    {/* Water drop with premium effects */}
-    <g transform="translate(50,50)">
-      <path d="M0,-20 Q15,-5 15,5 Q15,20 0,25 Q-15,20 -15,5 Q-15,-5 0,-20" 
-            fill="white" 
-            stroke="rgba(255,255,255,0.6)" 
-            strokeWidth="0.5"/>
-      
-      {/* Water bubble highlights */}
-      <ellipse cx="-3" cy="-8" rx="4" ry="6" fill="url(#waterBubble)" opacity="0.6"/>
-      <circle cx="2" cy="-2" r="2" fill="rgba(255,255,255,0.5)"/>
-      
-      {/* Floating water droplets */}
-      <circle cx="-18" cy="-10" r="1.5" fill="rgba(255,255,255,0.8)" className="animate-bounce" />
-      <circle cx="18" cy="-5" r="1" fill="rgba(255,255,255,0.6)" className="animate-bounce" style={{ animationDelay: '0.3s' }} />
-      <circle cx="-12" cy="15" r="1.2" fill="rgba(255,255,255,0.7)" className="animate-bounce" style={{ animationDelay: '0.6s' }} />
-    </g>
-    
-    {/* Shine effect */}
-    <rect x="20" y="0" width="25" height="100" rx="24" fill="url(#ultraWaterShine)" opacity="0.4" className="animate-pulse"/>
-    
-    {/* Border highlight */}
-    <rect width="100" height="100" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-  </svg>
+const WaterIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <img 
+    src={waterGif} 
+    alt="Water" 
+    className={`${className} object-contain drop-shadow-lg`}
+  />
 );
 
-const UltraPremiumInternetSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ultraInternetGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#8A2BE2" />
-        <stop offset="25%" stopColor="#7B68EE" />
-        <stop offset="50%" stopColor="#6A0DAD" />
-        <stop offset="75%" stopColor="#5A4FCF" />
-        <stop offset="100%" stopColor="#4B0082" />
-      </linearGradient>
-      <filter id="internetGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <linearGradient id="ultraInternetShine" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.6)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-    </defs>
-    
-    {/* Main container */}
-    <rect width="100" height="100" rx="24" fill="url(#ultraInternetGradient)" filter="url(#internetGlow)"/>
-    
-    {/* WiFi signal waves */}
-    <g transform="translate(50,50)">
-      <circle cx="0" cy="0" r="25" stroke="white" strokeWidth="3" fill="none" opacity="0.8" className="animate-pulse"/>
-      <circle cx="0" cy="0" r="18" stroke="white" strokeWidth="2.5" fill="none" opacity="0.6" className="animate-pulse" style={{ animationDelay: '0.2s' }}/>
-      <circle cx="0" cy="0" r="11" stroke="white" strokeWidth="2" fill="none" opacity="0.7" className="animate-pulse" style={{ animationDelay: '0.4s' }}/>
-      <circle cx="0" cy="0" r="4" fill="white" className="animate-ping"/>
-      
-      {/* Signal particles */}
-      <circle cx="-20" cy="-15" r="1" fill="rgba(255,255,255,0.8)" className="animate-ping" />
-      <circle cx="18" cy="-12" r="1.2" fill="rgba(255,255,255,0.6)" className="animate-ping" style={{ animationDelay: '0.3s' }} />
-      <circle cx="-15" cy="20" r="0.8" fill="rgba(255,255,255,0.7)" className="animate-ping" style={{ animationDelay: '0.6s' }} />
-      <circle cx="22" cy="8" r="1" fill="rgba(255,255,255,0.9)" className="animate-ping" style={{ animationDelay: '0.9s' }} />
-    </g>
-    
-    {/* Shine effect */}
-    <rect x="20" y="0" width="30" height="100" rx="24" fill="url(#ultraInternetShine)" opacity="0.4" className="animate-pulse"/>
-    
-    {/* Border highlight */}
-    <rect width="100" height="100" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-  </svg>
+const GasIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <img 
+    src={gasGif} 
+    alt="Gas" 
+    className={`${className} object-contain drop-shadow-lg`}
+  />
 );
 
-const UltraPremiumInsuranceSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ultraInsuranceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#32CD32" />
-        <stop offset="25%" stopColor="#2ECC71" />
-        <stop offset="50%" stopColor="#228B22" />
-        <stop offset="75%" stopColor="#27AE60" />
-        <stop offset="100%" stopColor="#006400" />
-      </linearGradient>
-      <filter id="insuranceGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <linearGradient id="ultraInsuranceShine" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.7)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-    </defs>
-    
-    {/* Main container */}
-    <rect width="100" height="100" rx="24" fill="url(#ultraInsuranceGradient)" filter="url(#insuranceGlow)"/>
-    
-    {/* Shield with premium effects */}
-    <g transform="translate(50,50)">
-      <path d="M0,-25 L20,-15 L20,10 Q20,25 0,30 Q-20,25 -20,10 L-20,-15 Z" 
-            fill="white" 
-            stroke="rgba(255,255,255,0.6)" 
-            strokeWidth="0.5"/>
-      
-      {/* Checkmark */}
-      <path d="M-8,0 L-2,6 L12,-8" 
-            stroke="url(#ultraInsuranceGradient)" 
-            strokeWidth="3" 
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"/>
-      
-      {/* Protection particles */}
-      <circle cx="-25" cy="-10" r="1" fill="rgba(255,255,255,0.8)" className="animate-ping" />
-      <circle cx="25" cy="-5" r="1.2" fill="rgba(255,255,255,0.6)" className="animate-ping" style={{ animationDelay: '0.4s' }} />
-      <circle cx="-18" cy="20" r="0.8" fill="rgba(255,255,255,0.7)" className="animate-ping" style={{ animationDelay: '0.8s' }} />
-      <circle cx="22" cy="15" r="1" fill="rgba(255,255,255,0.9)" className="animate-ping" style={{ animationDelay: '1.2s' }} />
-    </g>
-    
-    {/* Shine effect */}
-    <rect x="15" y="0" width="35" height="100" rx="24" fill="url(#ultraInsuranceShine)" opacity="0.4" className="animate-pulse"/>
-    
-    {/* Border highlight */}
-    <rect width="100" height="100" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-  </svg>
+const InternetIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <img 
+    src={internetGif} 
+    alt="Internet" 
+    className={`${className} object-contain drop-shadow-lg`}
+  />
 );
 
-const UltraPremiumCreditCardSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ultraCreditGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FF69B4" />
-        <stop offset="25%" stopColor="#FF1493" />
-        <stop offset="50%" stopColor="#DC143C" />
-        <stop offset="75%" stopColor="#B91372" />
-        <stop offset="100%" stopColor="#8B008B" />
-      </linearGradient>
-      <filter id="creditGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <linearGradient id="ultraCreditShine" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.8)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-    </defs>
-    
-    {/* Main container */}
-    <rect width="100" height="100" rx="24" fill="url(#ultraCreditGradient)" filter="url(#creditGlow)"/>
-    
-    {/* Credit card with premium effects */}
-    <g transform="translate(50,50)">
-      <rect x="-25" y="-15" width="50" height="30" rx="6" fill="white" stroke="rgba(255,255,255,0.8)" strokeWidth="0.5"/>
-      
-      {/* Magnetic stripe */}
-      <rect x="-25" y="-5" width="50" height="5" fill="url(#ultraCreditGradient)" opacity="0.8"/>
-      
-      {/* EMV chip */}
-      <rect x="8" y="2" width="8" height="6" rx="1" fill="url(#ultraCreditGradient)" opacity="0.9"/>
-      <rect x="9" y="3" width="6" height="4" rx="0.5" fill="rgba(255,215,0,0.8)"/>
-      
-      {/* Card number dots */}
-      <circle cx="-18" cy="8" r="1" fill="url(#ultraCreditGradient)" opacity="0.6"/>
-      <circle cx="-14" cy="8" r="1" fill="url(#ultraCreditGradient)" opacity="0.6"/>
-      <circle cx="-10" cy="8" r="1" fill="url(#ultraCreditGradient)" opacity="0.6"/>
-      <circle cx="-6" cy="8" r="1" fill="url(#ultraCreditGradient)" opacity="0.6"/>
-      
-      {/* Contactless symbol */}
-      <g transform="translate(-20,-8) scale(0.6)">
-        <path d="M0,0 Q8,-4 8,4 Q8,12 0,8" stroke="url(#ultraCreditGradient)" strokeWidth="1.5" fill="none"/>
-        <path d="M3,2 Q6,1 6,5 Q6,9 3,6" stroke="url(#ultraCreditGradient)" strokeWidth="1.5" fill="none"/>
-      </g>
-      
-      {/* Security particles */}
-      <circle cx="-30" cy="-20" r="1" fill="rgba(255,255,255,0.8)" className="animate-ping" />
-      <circle cx="30" cy="-18" r="1.2" fill="rgba(255,255,255,0.6)" className="animate-ping" style={{ animationDelay: '0.3s' }} />
-      <circle cx="-25" cy="25" r="0.8" fill="rgba(255,255,255,0.7)" className="animate-ping" style={{ animationDelay: '0.6s' }} />
-    </g>
-    
-    {/* Shine effect */}
-    <rect x="10" y="0" width="40" height="100" rx="24" fill="url(#ultraCreditShine)" opacity="0.4" className="animate-pulse"/>
-    
-    {/* Border highlight */}
-    <rect width="100" height="100" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-  </svg>
+const InsuranceIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <img 
+    src={insuranceGif} 
+    alt="Insurance" 
+    className={`${className} object-contain drop-shadow-lg`}
+  />
 );
 
-const UltraPremiumGasSVG = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ultraGasGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FF6B6B" />
-        <stop offset="25%" stopColor="#FF5757" />
-        <stop offset="50%" stopColor="#EE5A52" />
-        <stop offset="75%" stopColor="#E55039" />
-        <stop offset="100%" stopColor="#C44569" />
-      </linearGradient>
-      <filter id="gasGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-      <linearGradient id="ultraGasShine" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-        <stop offset="50%" stopColor="rgba(255,255,255,0.6)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-    </defs>
-    
-    {/* Main container */}
-    <rect width="100" height="100" rx="24" fill="url(#ultraGasGradient)" filter="url(#gasGlow)"/>
-    
-    {/* Gas flame with premium effects */}
-    <g transform="translate(50,50)">
-      {/* Flame base */}
-      <path d="M-8,10 Q-12,5 -10,-5 Q-8,-15 0,-18 Q8,-15 10,-5 Q12,5 8,10 Q0,15 -8,10" 
-            fill="white" 
-            stroke="rgba(255,255,255,0.6)" 
-            strokeWidth="0.5"/>
-      
-      {/* Inner flame */}
-      <path d="M-4,8 Q-6,3 -5,-3 Q-4,-8 0,-10 Q4,-8 5,-3 Q6,3 4,8 Q0,10 -4,8" 
-            fill="rgba(255,100,100,0.3)" 
-            opacity="0.7"/>
-      
-      {/* Gas particles */}
-      <circle cx="-15" cy="-8" r="1" fill="rgba(255,255,255,0.8)" className="animate-ping" />
-      <circle cx="12" cy="-12" r="1.2" fill="rgba(255,255,255,0.6)" className="animate-ping" style={{ animationDelay: '0.4s' }} />
-      <circle cx="-10" cy="18" r="0.8" fill="rgba(255,255,255,0.7)" className="animate-ping" style={{ animationDelay: '0.8s' }} />
-      
-      {/* Heat waves */}
-      <path d="M-20,-25 Q-18,-20 -20,-15 Q-22,-10 -20,-5" 
-            stroke="rgba(255,255,255,0.4)" 
-            strokeWidth="1" 
-            fill="none" 
-            className="animate-pulse"/>
-      <path d="M20,-25 Q22,-20 20,-15 Q18,-10 20,-5" 
-            stroke="rgba(255,255,255,0.4)" 
-            strokeWidth="1" 
-            fill="none" 
-            className="animate-pulse" 
-            style={{ animationDelay: '0.5s' }}/>
-    </g>
-    
-    {/* Shine effect */}
-    <rect x="25" y="0" width="20" height="100" rx="24" fill="url(#ultraGasShine)" opacity="0.4" className="animate-pulse"/>
-    
-    {/* Border highlight */}
-    <rect width="100" height="100" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-  </svg>
+const CreditCardIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <img 
+    src={creditCardGif} 
+    alt="Credit Card" 
+    className={`${className} object-contain drop-shadow-lg`}
+  />
 );
 
-
+// Bill Categories with GIF Icons
+const billCategories = [
+  {
+    id: 'electricity',
+    name: 'Electricity',
+    icon: ElectricityIcon,
+    gradient: 'linear-gradient(135deg, #FFD700, #FFA500)',
+    providers: [
+      { id: 'bescom', name: 'BESCOM', description: 'Bangalore Electricity Supply Company' },
+      { id: 'kseb', name: 'KSEB', description: 'Kerala State Electricity Board' },
+      { id: 'tneb', name: 'TNEB', description: 'Tamil Nadu Electricity Board' },
+      { id: 'msedcl', name: 'MSEDCL', description: 'Maharashtra State Electricity Distribution' }
+    ]
+  },
+  {
+    id: 'water',
+    name: 'Water',
+    icon: WaterIcon,
+    gradient: 'linear-gradient(135deg, #00D4FF, #0080FF)',
+    providers: [
+      { id: 'bwssb', name: 'BWSSB', description: 'Bangalore Water Supply and Sewerage Board' },
+      { id: 'kwa', name: 'KWA', description: 'Kerala Water Authority' },
+      { id: 'twad', name: 'TWAD', description: 'Tamil Nadu Water and Drainage Board' },
+      { id: 'mwd', name: 'MWD', description: 'Maharashtra Water Department' }
+    ]
+  },
+  {
+    id: 'gas',
+    name: 'Gas',
+    icon: GasIcon,
+    gradient: 'linear-gradient(135deg, #FF6B6B, #FF4757)',
+    providers: [
+      { id: 'igl', name: 'IGL', description: 'Indraprastha Gas Limited' },
+      { id: 'mgl', name: 'MGL', description: 'Mahanagar Gas Limited' },
+      { id: 'adani', name: 'Adani Gas', description: 'Adani Total Gas Limited' },
+      { id: 'gail', name: 'GAIL', description: 'Gas Authority of India Limited' }
+    ]
+  },
+  {
+    id: 'internet',
+    name: 'Internet',
+    icon: InternetIcon,
+    gradient: 'linear-gradient(135deg, #00D4AA, #00B4D8)',
+    providers: [
+      { id: 'airtel', name: 'Airtel', description: 'Airtel Broadband' },
+      { id: 'jio', name: 'Jio Fiber', description: 'Reliance Jio Fiber' },
+      { id: 'bsnl', name: 'BSNL', description: 'Bharat Sanchar Nigam Limited' },
+      { id: 'act', name: 'ACT', description: 'ACT Fibernet' }
+    ]
+  },
+  {
+    id: 'insurance',
+    name: 'Insurance',
+    icon: InsuranceIcon,
+    gradient: 'linear-gradient(135deg, #A855F7, #7C3AED)',
+    providers: [
+      { id: 'lic', name: 'LIC', description: 'Life Insurance Corporation of India' },
+      { id: 'icici', name: 'ICICI Prudential', description: 'ICICI Prudential Life Insurance' },
+      { id: 'hdfc', name: 'HDFC Life', description: 'HDFC Standard Life Insurance' },
+      { id: 'sbi', name: 'SBI Life', description: 'SBI Life Insurance' }
+    ]
+  },
+  {
+    id: 'credit_card',
+    name: 'Credit Card',
+    icon: CreditCardIcon,
+    gradient: 'linear-gradient(135deg, #FFB800, #FF8C00)',
+    providers: [
+      { id: 'sbi_card', name: 'SBI Card', description: 'State Bank of India Credit Card' },
+      { id: 'hdfc_card', name: 'HDFC Bank', description: 'HDFC Bank Credit Card' },
+      { id: 'icici_card', name: 'ICICI Bank', description: 'ICICI Bank Credit Card' },
+      { id: 'axis_card', name: 'Axis Bank', description: 'Axis Bank Credit Card' }
+    ]
+  }
+];
 
 export default function Bills() {
   const [, setLocation] = useLocation();
@@ -375,82 +154,7 @@ export default function Bills() {
   const [showBillDetails, setShowBillDetails] = useState(false);
   const { toast } = useToast();
 
-  // Bill Categories
-  const billCategories = [
-    {
-      id: "electricity",
-      name: "Electricity",
-      icon: UltraPremiumElectricitySVG,
-      color: "#FFD700",
-      gradient: "linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)",
-      providers: [
-        { id: "bses", name: "BSES Delhi", quickAmounts: [500, 1000, 1500, 2000] },
-        { id: "tata", name: "Tata Power", quickAmounts: [600, 1200, 1800, 2400] },
-        { id: "adani", name: "Adani Electricity", quickAmounts: [550, 1100, 1650, 2200] },
-        { id: "mseb", name: "MSEB Maharashtra", quickAmounts: [400, 800, 1200, 1600] }
-      ]
-    },
-    {
-      id: "water",
-      name: "Water",
-      icon: UltraPremiumWaterSVG,
-      color: "#00BFFF",
-      gradient: "linear-gradient(135deg, #00BFFF 0%, #0066CC 100%)",
-      providers: [
-        { id: "djb", name: "Delhi Jal Board", quickAmounts: [200, 400, 600, 800] },
-        { id: "bmc", name: "BMC Mumbai", quickAmounts: [250, 500, 750, 1000] },
-        { id: "bwssb", name: "BWSSB Bangalore", quickAmounts: [300, 600, 900, 1200] }
-      ]
-    },
-    {
-      id: "gas",
-      name: "Gas",
-      icon: UltraPremiumGasSVG,
-      color: "#FF6B6B",
-      gradient: "linear-gradient(135deg, #FF6B6B 0%, #E74C3C 100%)",
-      providers: [
-        { id: "indane", name: "Indane Gas", quickAmounts: [900, 1000, 1100, 1200] },
-        { id: "hp", name: "HP Gas", quickAmounts: [850, 950, 1050, 1150] },
-        { id: "bharat", name: "Bharat Gas", quickAmounts: [880, 980, 1080, 1180] }
-      ]
-    },
-    {
-      id: "internet",
-      name: "Internet",
-      icon: UltraPremiumInternetSVG,
-      color: "#8A2BE2",
-      gradient: "linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%)",
-      providers: [
-        { id: "jio", name: "JioFiber", quickAmounts: [399, 699, 999, 1499] },
-        { id: "airtel", name: "Airtel Xstream", quickAmounts: [499, 899, 1299, 1799] },
-        { id: "bsnl", name: "BSNL Broadband", quickAmounts: [329, 599, 999, 1299] }
-      ]
-    },
-    {
-      id: "insurance",
-      name: "Insurance",
-      icon: UltraPremiumInsuranceSVG,
-      color: "#32CD32",
-      gradient: "linear-gradient(135deg, #32CD32 0%, #006400 100%)",
-      providers: [
-        { id: "lic", name: "LIC Premium", quickAmounts: [5000, 10000, 15000, 25000] },
-        { id: "icici", name: "ICICI Lombard", quickAmounts: [3000, 8000, 12000, 20000] },
-        { id: "hdfc", name: "HDFC Life", quickAmounts: [4000, 9000, 14000, 22000] }
-      ]
-    },
-    {
-      id: "credit",
-      name: "Credit Card",
-      icon: UltraPremiumCreditCardSVG,
-      color: "#FF69B4",
-      gradient: "linear-gradient(135deg, #FF69B4 0%, #DC143C 100%)",
-      providers: [
-        { id: "hdfc", name: "HDFC Credit Card", quickAmounts: [2000, 5000, 10000, 15000] },
-        { id: "icici", name: "ICICI Credit Card", quickAmounts: [3000, 6000, 12000, 18000] },
-        { id: "sbi", name: "SBI Credit Card", quickAmounts: [2500, 5500, 11000, 16000] }
-      ]
-    }
-  ];
+
 
   // Sample Bill Details
   const sampleBillDetails = {
