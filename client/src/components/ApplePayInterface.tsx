@@ -8,6 +8,35 @@ import { Link } from "wouter";
 import { ApplePayQRCodeSVG, ApplePaySendMoneySVG, ApplePayContactlessSVG, ApplePayWalletSVG, ApplePayTransitSVG, ApplePayMerchantSVG, ApplePaySecuritySVG, ApplePayBiometricSVG } from "@/components/ApplePaySVGs";
 import { ApplePayDTHSVG, ApplePayBillsSVG } from "@/components/DTHBillsSVGs";
 
+// Premium RWA Tokenization SVG
+const ApplePayRWASVG = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="rwaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFD700" />
+        <stop offset="50%" stopColor="#FFA500" />
+        <stop offset="100%" stopColor="#FF8C00" />
+      </linearGradient>
+      <filter id="rwaGlow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <rect x="4" y="6" width="16" height="12" rx="3" fill="url(#rwaGradient)" filter="url(#rwaGlow)"/>
+    <rect x="6" y="8" width="12" height="8" rx="2" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="8" cy="10" r="1" fill="currentColor"/>
+    <circle cx="12" cy="10" r="1" fill="currentColor"/>
+    <circle cx="16" cy="10" r="1" fill="currentColor"/>
+    <rect x="7" y="13" width="10" height="1" rx="0.5" fill="rgba(255,255,255,0.5)"/>
+    <rect x="9" y="15" width="6" height="1" rx="0.5" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="20" cy="4" r="3" fill="#10B981" opacity="0.9"/>
+    <path d="M19 3 L20.5 4.5 L22 3" stroke="white" strokeWidth="1" fill="none"/>
+  </svg>
+);
+
 // Apple Pay Style Quick Actions Grid
 export const ApplePayQuickActions = () => {
   const quickActions = [
@@ -83,13 +112,13 @@ export const ApplePayQuickActions = () => {
     },
     {
       id: 8,
-      title: "Merchants",
-      subtitle: "Near You",
-      icon: ApplePayMerchantSVG,
-      href: "/merchants",
-      gradient: "linear-gradient(135deg, #64D2FF 0%, #007AFF 100%)",
-      glowColor: "rgba(100, 210, 255, 0.3)",
-      description: "Find nearby stores"
+      title: "RWA Tokens",
+      subtitle: "Asset Investment",
+      icon: ApplePayRWASVG,
+      href: "/rwa",
+      gradient: "linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)",
+      glowColor: "rgba(255, 215, 0, 0.4)",
+      description: "Tokenized real assets"
     }
   ];
 

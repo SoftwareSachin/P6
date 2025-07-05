@@ -186,6 +186,77 @@ export const offlineTransactionLogs = pgTable("offline_transaction_logs", {
   syncedAt: timestamp("synced_at") // when synced to online systems
 });
 
+// RWA Tokenization Tables
+export const rwassets = pgTable("rwassets", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  assetType: varchar("asset_type").notNull(), // 'real_estate', 'vehicle', 'commodity', 'art', 'bonds', 'stocks'
+  category: varchar("category").notNull(), // 'residential', 'commercial', 'luxury_car', 'gold', 'silver'
+  value: decimal("value", { precision: 15, scale: 2 }).notNull(),
+  location: varchar("location"),
+  imageUrl: varchar("image_url"),
+  documentUrl: varchar("document_url"),
+  verificationStatus: varchar("verification_status").notNull().default("pending"), // 'pending', 'verified', 'rejected'
+  tokenizationStatus: varchar("tokenization_status").notNull().default("not_tokenized"), // 'not_tokenized', 'tokenizing', 'tokenized'
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const rwaTokens = pgTable("rwa_tokens", {
+  id: serial("id").primaryKey(),
+  assetId: integer("asset_id").notNull().references(() => rwassets.id),
+  tokenSymbol: varchar("token_symbol").notNull().unique(),
+  tokenName: varchar("token_name").notNull(),
+  totalSupply: decimal("total_supply", { precision: 15, scale: 2 }).notNull(),
+  availableSupply: decimal("available_supply", { precision: 15, scale: 2 }).notNull(),
+  pricePerToken: decimal("price_per_token", { precision: 10, scale: 2 }).notNull(),
+  minimumInvestment: decimal("minimum_investment", { precision: 10, scale: 2 }).notNull().default("100.00"),
+  yieldRate: decimal("yield_rate", { precision: 5, scale: 2 }).default("0.00"), // Annual yield percentage
+  contractAddress: varchar("contract_address"),
+  tradingEnabled: boolean("trading_enabled").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const rwaInvestments = pgTable("rwa_investments", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  tokenId: integer("token_id").notNull().references(() => rwaTokens.id),
+  tokensOwned: decimal("tokens_owned", { precision: 15, scale: 2 }).notNull(),
+  totalInvested: decimal("total_invested", { precision: 15, scale: 2 }).notNull(),
+  currentValue: decimal("current_value", { precision: 15, scale: 2 }).notNull(),
+  yieldEarned: decimal("yield_earned", { precision: 15, scale: 2 }).default("0.00"),
+  purchaseDate: timestamp("purchase_date").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
+});
+
+export const rwaTransactions = pgTable("rwa_transactions", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  tokenId: integer("token_id").notNull().references(() => rwaTokens.id),
+  type: varchar("type").notNull(), // 'buy', 'sell', 'yield_payment'
+  quantity: decimal("quantity", { precision: 15, scale: 2 }).notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  totalAmount: decimal("total_amount", { precision: 15, scale: 2 }).notNull(),
+  status: varchar("status").notNull().default("pending"), // 'pending', 'completed', 'failed'
+  transactionHash: varchar("transaction_hash"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const rwaMarketData = pgTable("rwa_market_data", {
+  id: serial("id").primaryKey(),
+  tokenId: integer("token_id").notNull().references(() => rwaTokens.id),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  volume24h: decimal("volume_24h", { precision: 15, scale: 2 }).default("0.00"),
+  priceChange24h: decimal("price_change_24h", { precision: 5, scale: 2 }).default("0.00"),
+  marketCap: decimal("market_cap", { precision: 15, scale: 2 }).default("0.00"),
+  liquidity: decimal("liquidity", { precision: 15, scale: 2 }).default("0.00"),
+  timestamp: timestamp("timestamp").defaultNow(),
+});
+
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 export type InsertTransaction = typeof transactions.$inferInsert;
@@ -207,6 +278,18 @@ export type OfflinePaymentSession = typeof offlinePaymentSessions.$inferSelect;
 export type InsertOfflineTransactionLog = typeof offlineTransactionLogs.$inferInsert;
 export type OfflineTransactionLog = typeof offlineTransactionLogs.$inferSelect;
 
+// RWA Types
+export type InsertRWAsset = typeof rwassets.$inferInsert;
+export type RWAsset = typeof rwassets.$inferSelect;
+export type InsertRWAToken = typeof rwaTokens.$inferInsert;
+export type RWAToken = typeof rwaTokens.$inferSelect;
+export type InsertRWAInvestment = typeof rwaInvestments.$inferInsert;
+export type RWAInvestment = typeof rwaInvestments.$inferSelect;
+export type InsertRWATransaction = typeof rwaTransactions.$inferInsert;
+export type RWATransaction = typeof rwaTransactions.$inferSelect;
+export type InsertRWAMarketData = typeof rwaMarketData.$inferInsert;
+export type RWAMarketData = typeof rwaMarketData.$inferSelect;
+
 export const insertTransactionSchema = createInsertSchema(transactions).omit({
   id: true,
   createdAt: true,
@@ -216,4 +299,33 @@ export const insertPaymentRequestSchema = createInsertSchema(paymentRequests).om
   id: true,
   createdAt: true,
   updatedAt: true,
+});
+
+export const insertRWAssetSchema = createInsertSchema(rwassets).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertRWATokenSchema = createInsertSchema(rwaTokens).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertRWAInvestmentSchema = createInsertSchema(rwaInvestments).omit({
+  id: true,
+  purchaseDate: true,
+  lastUpdated: true,
+});
+
+export const insertRWATransactionSchema = createInsertSchema(rwaTransactions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertRWAMarketDataSchema = createInsertSchema(rwaMarketData).omit({
+  id: true,
+  timestamp: true,
 });

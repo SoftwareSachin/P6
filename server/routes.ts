@@ -718,6 +718,166 @@ export async function registerRoutes(app: Express): Promise<Server> {
     // Icons will be served from client/public/icons by Vite
   });
 
+  // RWA Tokenization API routes
+  app.get('/api/rwa/assets', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const assets = await storage.getRWAssets(userId);
+      res.json(assets);
+    } catch (error) {
+      console.error("Error fetching RWA assets:", error);
+      res.status(500).json({ message: "Failed to fetch RWA assets" });
+    }
+  });
+
+  app.get('/api/rwa/tokens', async (req: any, res) => {
+    try {
+      const { limit = 50, offset = 0 } = req.query;
+      const tokens = await storage.getRWATokens(Number(limit), Number(offset));
+      res.json(tokens);
+    } catch (error) {
+      console.error("Error fetching RWA tokens:", error);
+      res.status(500).json({ message: "Failed to fetch RWA tokens" });
+    }
+  });
+
+  app.get('/api/rwa/token/:tokenId', async (req: any, res) => {
+    try {
+      const { tokenId } = req.params;
+      const token = await storage.getRWAToken(Number(tokenId));
+      
+      if (!token) {
+        return res.status(404).json({ message: "Token not found" });
+      }
+      
+      // Get market data for the token
+      const marketData = await storage.getRWAMarketData(Number(tokenId));
+      
+      res.json({ ...token, marketData });
+    } catch (error) {
+      console.error("Error fetching RWA token:", error);
+      res.status(500).json({ message: "Failed to fetch RWA token" });
+    }
+  });
+
+  app.get('/api/rwa/investments', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const investments = await storage.getRWAInvestments(userId);
+      res.json(investments);
+    } catch (error) {
+      console.error("Error fetching RWA investments:", error);
+      res.status(500).json({ message: "Failed to fetch RWA investments" });
+    }
+  });
+
+  app.post('/api/rwa/invest', async (req: any, res) => {
+    try {
+      const { tokenId, amount } = req.body;
+      const userId = mockUser.id;
+
+      if (!tokenId || !amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid investment parameters" });
+      }
+
+      // Get current user balance
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const currentBalance = parseFloat(user.balance);
+      const investmentAmount = parseFloat(amount);
+
+      if (currentBalance < investmentAmount) {
+        return res.status(400).json({ message: "Insufficient balance" });
+      }
+
+      // Get token details
+      const token = await storage.getRWAToken(tokenId);
+      if (!token) {
+        return res.status(404).json({ message: "Token not found" });
+      }
+
+      const pricePerToken = parseFloat(token.pricePerToken);
+      const tokensToReceive = investmentAmount / pricePerToken;
+
+      // Check minimum investment
+      if (investmentAmount < parseFloat(token.minimumInvestment)) {
+        return res.status(400).json({ 
+          message: `Minimum investment required: ₹${token.minimumInvestment}` 
+        });
+      }
+
+      // Create investment record
+      const investmentData = {
+        userId,
+        tokenId,
+        tokensOwned: tokensToReceive.toString(),
+        totalInvested: investmentAmount.toString(),
+        currentValue: investmentAmount.toString(),
+        yieldEarned: "0.00"
+      };
+
+      const investment = await storage.createRWAInvestment(investmentData);
+
+      // Create transaction record
+      const transactionData = {
+        userId,
+        merchantName: `RWA Investment - ${token.tokenName}`,
+        merchantImage: "https://example.com/rwa-icon.png",
+        amount: investmentAmount.toString(),
+        type: 'debit' as const,
+        category: 'investment' as const,
+        status: 'completed' as const,
+        note: `Purchased ${tokensToReceive.toFixed(2)} ${token.tokenSymbol} tokens`,
+        transactionId: `RWA${Date.now()}${Math.random().toString(36).substr(2, 9)}`.toUpperCase(),
+        isOffline: false
+      };
+
+      await storage.createTransaction(transactionData);
+
+      // Update user balance
+      await storage.updateBalance(userId, currentBalance - investmentAmount);
+
+      // Create RWA transaction
+      const rwaTransactionData = {
+        userId,
+        tokenId,
+        type: 'buy' as const,
+        quantity: tokensToReceive.toString(),
+        price: pricePerToken.toString(),
+        totalAmount: investmentAmount.toString(),
+        status: 'completed' as const,
+        transactionHash: `0x${Math.random().toString(16).substring(2, 66)}`
+      };
+
+      await storage.createRWATransaction(rwaTransactionData);
+
+      res.json({
+        success: true,
+        investment,
+        tokensReceived: tokensToReceive,
+        message: "Investment completed successfully"
+      });
+
+    } catch (error) {
+      console.error("Error processing RWA investment:", error);
+      res.status(500).json({ message: "Failed to process investment" });
+    }
+  });
+
+  app.get('/api/rwa/transactions', async (req: any, res) => {
+    try {
+      const userId = mockUser.id;
+      const transactions = await storage.getRWATransactions(userId);
+      res.json(transactions);
+    } catch (error) {
+      console.error("Error fetching RWA transactions:", error);
+      res.status(500).json({ message: "Failed to fetch RWA transactions" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

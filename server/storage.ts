@@ -7,6 +7,11 @@ import {
   bankAccounts,
   otpVerifications,
   offlinePaymentSessions,
+  rwassets,
+  rwaTokens,
+  rwaInvestments,
+  rwaTransactions,
+  rwaMarketData,
   type User,
   type UpsertUser,
   type Transaction,
@@ -20,6 +25,16 @@ import {
   type OtpVerification,
   type InsertOfflinePaymentSession,
   type OfflinePaymentSession,
+  type RWAsset,
+  type InsertRWAsset,
+  type RWAToken,
+  type InsertRWAToken,
+  type RWAInvestment,
+  type InsertRWAInvestment,
+  type RWATransaction,
+  type InsertRWATransaction,
+  type RWAMarketData,
+  type InsertRWAMarketData,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, or, like, gt, lt, sql } from "drizzle-orm";
@@ -57,6 +72,21 @@ export interface IStorage {
   createPaymentSession(session: InsertOfflinePaymentSession): Promise<OfflinePaymentSession>;
   updatePaymentSession(sessionId: string, updates: Partial<OfflinePaymentSession>): Promise<void>;
   getPaymentSession(sessionId: string): Promise<OfflinePaymentSession | undefined>;
+  
+  // RWA operations
+  getRWAssets(userId: string): Promise<RWAsset[]>;
+  createRWAsset(asset: InsertRWAsset): Promise<RWAsset>;
+  updateRWAsset(assetId: number, updates: Partial<RWAsset>): Promise<void>;
+  getRWATokens(limit?: number, offset?: number): Promise<RWAToken[]>;
+  getRWAToken(tokenId: number): Promise<RWAToken | undefined>;
+  createRWAToken(token: InsertRWAToken): Promise<RWAToken>;
+  getRWAInvestments(userId: string): Promise<RWAInvestment[]>;
+  createRWAInvestment(investment: InsertRWAInvestment): Promise<RWAInvestment>;
+  updateRWAInvestment(investmentId: number, updates: Partial<RWAInvestment>): Promise<void>;
+  createRWATransaction(transaction: InsertRWATransaction): Promise<RWATransaction>;
+  getRWATransactions(userId: string): Promise<RWATransaction[]>;
+  updateRWAMarketData(marketData: InsertRWAMarketData): Promise<void>;
+  getRWAMarketData(tokenId: number): Promise<RWAMarketData | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -252,6 +282,122 @@ export class DatabaseStorage implements IStorage {
       .from(offlinePaymentSessions)
       .where(eq(offlinePaymentSessions.sessionId, sessionId));
     return session || undefined;
+  }
+
+  // RWA operations
+  async getRWAssets(userId: string): Promise<RWAsset[]> {
+    return await db
+      .select()
+      .from(rwassets)
+      .where(eq(rwassets.userId, userId))
+      .orderBy(desc(rwassets.createdAt));
+  }
+
+  async createRWAsset(asset: InsertRWAsset): Promise<RWAsset> {
+    const [newAsset] = await db
+      .insert(rwassets)
+      .values(asset)
+      .returning();
+    return newAsset;
+  }
+
+  async updateRWAsset(assetId: number, updates: Partial<RWAsset>): Promise<void> {
+    await db
+      .update(rwassets)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(rwassets.id, assetId));
+  }
+
+  async getRWATokens(limit: number = 50, offset: number = 0): Promise<RWAToken[]> {
+    return await db
+      .select()
+      .from(rwaTokens)
+      .where(eq(rwaTokens.tradingEnabled, true))
+      .orderBy(desc(rwaTokens.createdAt))
+      .limit(limit)
+      .offset(offset);
+  }
+
+  async getRWAToken(tokenId: number): Promise<RWAToken | undefined> {
+    const [token] = await db
+      .select()
+      .from(rwaTokens)
+      .where(eq(rwaTokens.id, tokenId));
+    return token || undefined;
+  }
+
+  async createRWAToken(token: InsertRWAToken): Promise<RWAToken> {
+    const [newToken] = await db
+      .insert(rwaTokens)
+      .values(token)
+      .returning();
+    return newToken;
+  }
+
+  async getRWAInvestments(userId: string): Promise<RWAInvestment[]> {
+    return await db
+      .select()
+      .from(rwaInvestments)
+      .where(eq(rwaInvestments.userId, userId))
+      .orderBy(desc(rwaInvestments.purchaseDate));
+  }
+
+  async createRWAInvestment(investment: InsertRWAInvestment): Promise<RWAInvestment> {
+    const [newInvestment] = await db
+      .insert(rwaInvestments)
+      .values(investment)
+      .returning();
+    return newInvestment;
+  }
+
+  async updateRWAInvestment(investmentId: number, updates: Partial<RWAInvestment>): Promise<void> {
+    await db
+      .update(rwaInvestments)
+      .set({ ...updates, lastUpdated: new Date() })
+      .where(eq(rwaInvestments.id, investmentId));
+  }
+
+  async createRWATransaction(transaction: InsertRWATransaction): Promise<RWATransaction> {
+    const [newTransaction] = await db
+      .insert(rwaTransactions)
+      .values(transaction)
+      .returning();
+    return newTransaction;
+  }
+
+  async getRWATransactions(userId: string): Promise<RWATransaction[]> {
+    return await db
+      .select()
+      .from(rwaTransactions)
+      .where(eq(rwaTransactions.userId, userId))
+      .orderBy(desc(rwaTransactions.createdAt));
+  }
+
+  async updateRWAMarketData(marketData: InsertRWAMarketData): Promise<void> {
+    await db
+      .insert(rwaMarketData)
+      .values(marketData)
+      .onConflictDoUpdate({
+        target: rwaMarketData.tokenId,
+        set: {
+          price: marketData.price,
+          volume24h: marketData.volume24h,
+          priceChange24h: marketData.priceChange24h,
+          marketCap: marketData.marketCap,
+          liquidity: marketData.liquidity,
+          timestamp: new Date()
+        }
+      });
+  }
+
+  async getRWAMarketData(tokenId: number): Promise<RWAMarketData | undefined> {
+    const [data] = await db
+      .select()
+      .from(rwaMarketData)
+      .where(eq(rwaMarketData.tokenId, tokenId))
+      .orderBy(desc(rwaMarketData.timestamp))
+      .limit(1);
+    return data || undefined;
   }
 }
 

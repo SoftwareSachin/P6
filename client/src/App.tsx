@@ -25,6 +25,7 @@ import Transit from "@/pages/Transit";
 import Wallet from "@/pages/Wallet";
 import DTH from "@/pages/DTH";
 import Bills from "@/pages/Bills";
+import RWA from "@/pages/RWA";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -116,6 +117,7 @@ function Router() {
         <Route path="/wallet" component={Wallet} />
         <Route path="/dth" component={DTH} />
         <Route path="/bills" component={Bills} />
+        <Route path="/rwa" component={RWA} />
         <Route path="*" component={ApplePayDashboard} />
       </Switch>
     </div>
