@@ -311,71 +311,82 @@ export default function RWA() {
           </div>
 
           {/* Market Stats Grid */}
-          <div className="grid grid-cols-4 gap-6 mb-6">
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <DollarSign className="w-5 h-5 text-green-400 mr-1" />
-                <p className="text-slate-400 text-xs font-medium">Market Cap</p>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <DollarSign className="w-4 h-4 text-green-400" />
+                  <p className="text-slate-300 text-sm font-medium">Market Cap</p>
+                </div>
               </div>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-xl font-bold text-white mb-1">
                 ₹{(marketData.totalMarketCap / 1000000000).toFixed(1)}B
               </p>
-              <div className="flex items-center justify-center space-x-1 mt-1">
-                <ArrowUpRight className="w-4 h-4 text-green-400" />
-                <span className="text-green-400 text-sm font-medium">+{marketData.changePercent.toFixed(1)}%</span>
+              <div className="flex items-center space-x-1">
+                <ArrowUpRight className="w-3 h-3 text-green-400" />
+                <span className="text-green-400 text-xs font-medium">+{marketData.changePercent.toFixed(1)}%</span>
               </div>
             </div>
 
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Activity className="w-5 h-5 text-blue-400 mr-1" />
-                <p className="text-slate-400 text-xs font-medium">24h Volume</p>
+            <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Activity className="w-4 h-4 text-blue-400" />
+                  <p className="text-slate-300 text-sm font-medium">24h Volume</p>
+                </div>
               </div>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-xl font-bold text-white mb-1">
                 ₹{(marketData.volume24h / 1000000000).toFixed(1)}B
               </p>
-              <div className="flex items-center justify-center space-x-1 mt-1">
-                <Activity className="w-4 h-4 text-blue-400" />
-                <span className="text-blue-400 text-sm font-medium">Active</span>
+              <div className="flex items-center space-x-1">
+                <Activity className="w-3 h-3 text-blue-400" />
+                <span className="text-blue-400 text-xs font-medium">Active</span>
               </div>
             </div>
 
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Percent className="w-5 h-5 text-purple-400 mr-1" />
-                <p className="text-slate-400 text-xs font-medium">Avg Yield</p>
+            <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Percent className="w-4 h-4 text-purple-400" />
+                  <p className="text-slate-300 text-sm font-medium">Avg Yield</p>
+                </div>
               </div>
-              <p className="text-2xl font-bold text-white">{marketData.avgYield.toFixed(1)}%</p>
-              <div className="flex items-center justify-center space-x-1 mt-1">
-                <Star className="w-4 h-4 text-purple-400" />
-                <span className="text-purple-400 text-sm font-medium">Premium</span>
+              <p className="text-xl font-bold text-white mb-1">{marketData.avgYield.toFixed(1)}%</p>
+              <div className="flex items-center space-x-1">
+                <Star className="w-3 h-3 text-purple-400" />
+                <span className="text-purple-400 text-xs font-medium">Premium</span>
               </div>
             </div>
 
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Globe className="w-5 h-5 text-orange-400 mr-1" />
-                <p className="text-slate-400 text-xs font-medium">Assets</p>
+            <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-600/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Globe className="w-4 h-4 text-orange-400" />
+                  <p className="text-slate-300 text-sm font-medium">Assets</p>
+                </div>
               </div>
-              <p className="text-2xl font-bold text-white">{marketData.activeTokens}</p>
-              <div className="flex items-center justify-center space-x-1 mt-1">
-                <CheckCircle className="w-4 h-4 text-orange-400" />
-                <span className="text-orange-400 text-sm font-medium">Verified</span>
+              <p className="text-xl font-bold text-white mb-1">{marketData.activeTokens}</p>
+              <div className="flex items-center space-x-1">
+                <CheckCircle className="w-3 h-3 text-orange-400" />
+                <span className="text-orange-400 text-xs font-medium">Verified</span>
               </div>
             </div>
           </div>
 
           {/* Market Trend Visualization */}
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-slate-400">Market Trend</span>
-              <span className="text-sm font-medium text-white">
+          <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-600/20 mb-4">
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-sm text-slate-300 font-medium">Market Trend</span>
+              <span className={`text-sm font-bold px-3 py-1 rounded-full ${
+                marketTrend > 0 ? 'bg-green-500/20 text-green-400' : 
+                marketTrend < 0 ? 'bg-red-500/20 text-red-400' : 
+                'bg-slate-500/20 text-slate-400'
+              }`}>
                 {marketTrend > 0 ? 'Bullish' : marketTrend < 0 ? 'Bearish' : 'Neutral'}
               </span>
             </div>
             <div className="relative">
               <Progress value={Math.max(0, Math.min(100, 50 + marketTrend * 2))} className="h-3" />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse rounded-full" />
             </div>
           </div>
 
@@ -388,7 +399,7 @@ export default function RWA() {
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                   selectedTimeframe === timeframe
                     ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                    : 'bg-slate-800/50 text-slate-400 hover:bg-slate-700/50 hover:text-white'
+                    : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 hover:text-white border border-slate-600/30'
                 }`}
               >
                 {timeframe}
@@ -403,11 +414,11 @@ export default function RWA() {
   // Ultra-Premium Tab Navigation
   const TabNavigation = () => (
     <div className="mb-8">
-      <div className="flex items-center justify-center">
-        <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-2 border border-slate-600/30">
-          <div className="flex space-x-2">
+      <div className="flex items-center justify-center px-4">
+        <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-2 border border-slate-600/30 w-full max-w-md">
+          <div className="grid grid-cols-4 gap-1">
             {([
-              { id: 'marketplace', label: 'Marketplace', icon: ShoppingCart },
+              { id: 'marketplace', label: 'Market', icon: ShoppingCart },
               { id: 'portfolio', label: 'Portfolio', icon: Briefcase },
               { id: 'assets', label: 'Assets', icon: Building },
               { id: 'analytics', label: 'Analytics', icon: BarChart3 }
@@ -415,14 +426,14 @@ export default function RWA() {
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
-                className={`flex items-center space-x-3 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                className={`flex flex-col items-center justify-center px-3 py-3 rounded-xl text-xs font-medium transition-all duration-300 ${
                   activeTab === id
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg transform scale-105'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
                 }`}
               >
-                <Icon className="w-5 h-5" />
-                <span className="hidden sm:inline">{label}</span>
+                <Icon className="w-4 h-4 mb-1" />
+                <span>{label}</span>
               </button>
             ))}
           </div>
