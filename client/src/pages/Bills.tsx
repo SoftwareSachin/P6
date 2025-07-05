@@ -237,14 +237,22 @@ export default function Bills() {
     const category = billCategories.find(c => c.id === selectedCategory);
     const provider = category?.providers.find(p => p.id === selectedProvider);
     
-    billPaymentMutation.mutate({
+    // Store bill payment details in localStorage to pre-fill Send Money page
+    const billPaymentDetails = {
+      recipient: provider?.name,
+      amount: parseFloat(amount),
+      description: `${category?.name} - ${provider?.name} (${consumerNumber})`,
+      type: 'bill_payment',
       category: category?.name,
       provider: provider?.name,
       consumerNumber,
-      amount: parseFloat(amount),
-      billDetails,
-      type: 'bill_payment'
-    });
+      billDetails
+    };
+    
+    localStorage.setItem('billPaymentDetails', JSON.stringify(billPaymentDetails));
+    
+    // Navigate to Send Money page with pre-filled information
+    setLocation('/send');
   };
 
   const selectedCategoryData = billCategories.find(c => c.id === selectedCategory);
@@ -293,7 +301,7 @@ export default function Bills() {
         <div className="w-10" />
       </div>
 
-      <div className="relative p-6 space-y-6 z-10">
+      <div className="relative p-6 space-y-6 z-10 pb-24">
         {/* Bill Categories */}
         <Card className="apple-pay-card border-0 backdrop-blur-sm">
           <CardContent className="p-6">
@@ -467,23 +475,21 @@ export default function Bills() {
               </div>
 
               {/* Quick Amount Buttons */}
-              {selectedProviderData && (
-                <div className="grid grid-cols-4 gap-3 mb-6">
-                  {selectedProviderData.quickAmounts.map((quickAmount) => (
-                    <Button
-                      key={quickAmount}
-                      onClick={() => setAmount(quickAmount.toString())}
-                      className={`h-12 rounded-xl ${
-                        amount === quickAmount.toString() 
-                          ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
-                          : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
-                      }`}
-                    >
-                      ₹{quickAmount}
-                    </Button>
-                  ))}
-                </div>
-              )}
+              <div className="grid grid-cols-4 gap-3 mb-6">
+                {[100, 200, 500, 1000].map((quickAmount) => (
+                  <Button
+                    key={quickAmount}
+                    onClick={() => setAmount(quickAmount.toString())}
+                    className={`h-12 rounded-xl ${
+                      amount === quickAmount.toString() 
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
+                        : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
+                    }`}
+                  >
+                    ₹{quickAmount}
+                  </Button>
+                ))}
+              </div>
 
               <Button
                 onClick={handlePayment}

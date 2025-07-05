@@ -158,6 +158,42 @@ export default function SendMoney() {
         console.error('Error parsing DTH payment information:', error);
       }
     }
+
+    // Handle bill payment pre-fill
+    const billPaymentDetails = localStorage.getItem('billPaymentDetails');
+    if (billPaymentDetails) {
+      try {
+        const billDetails = JSON.parse(billPaymentDetails);
+        console.log('Bill payment details found:', billDetails);
+        
+        // Create a merchant contact for the bill payment
+        const billMerchant = {
+          id: 'bill-merchant-' + Date.now(),
+          name: billDetails.recipient,
+          phone: '+91 1800 BILL PAY',
+          avatar: `https://api.dicebear.com/7.x/shapes/svg?seed=${billDetails.recipient}`,
+          upiId: `${billDetails.recipient.toLowerCase().replace(/\s+/g, '')}@bill`,
+          favorite: false,
+          lastTransaction: 'Bill Payment',
+          verified: true,
+          isBillMerchant: true,
+          billDetails: billDetails
+        };
+
+        // Auto-select this merchant and move to amount step
+        setSelectedContact(billMerchant);
+        setStep('amount');
+        setAmount(billDetails.amount.toString());
+        setNote(billDetails.description);
+        
+        console.log('Pre-filled bill payment:', billDetails.recipient);
+        
+        // Clean up localStorage
+        localStorage.removeItem('billPaymentDetails');
+      } catch (error) {
+        console.error('Error parsing bill payment information:', error);
+      }
+    }
   }, [location]);
 
   const allContacts = [
