@@ -1062,13 +1062,17 @@ export default function SendMoney() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white">{selectedContact?.name}</h3>
+                  <div className="flex items-center space-x-2 mb-1">
+                    <h3 className="text-xl font-bold text-white">{selectedContact?.name}</h3>
+                    {selectedContact?.verified && (
+                      <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full">
+                        <ApplePaySecuritySVG className="w-3 h-3 text-green-400" />
+                        <span className="text-green-400 text-xs font-medium">Verified</span>
+                      </div>
+                    )}
+                  </div>
                   <p className="text-gray-400">{selectedContact?.upiId}</p>
                   <p className="text-gray-500 text-sm">{selectedContact?.phone}</p>
-                </div>
-                <div className="flex items-center space-x-1 bg-green-500/20 px-3 py-1 rounded-full">
-                  <ApplePaySecuritySVG className="w-4 h-4 text-green-400" />
-                  <span className="text-green-400 text-xs font-medium">Verified</span>
                 </div>
               </div>
             </CardContent>
