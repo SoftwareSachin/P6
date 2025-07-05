@@ -437,7 +437,7 @@ export default function DTH() {
         </div>
       </div>
 
-      <div className="px-4 py-8 space-y-10 relative z-10 max-w-lg mx-auto">
+      <div className="px-4 py-8 pb-32 space-y-10 relative z-10 max-w-lg mx-auto">
         {/* Ultra-Premium DTH Providers Selection */}
         <Card 
           className="border-0 overflow-hidden"
@@ -640,7 +640,7 @@ export default function DTH() {
                 </div>
               </div>
               
-              <div className="space-y-8">
+              <div className="space-y-8 mb-24">
                 <div>
                   <label 
                     className="block text-white text-base font-semibold mb-4"
@@ -683,25 +683,27 @@ export default function DTH() {
                   />
                 </div>
                 
-                <Button
-                  onClick={handleGetPlans}
-                  disabled={!subscriberNumber || subscriberNumber.length < 10}
-                  className="w-full h-16 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 active:scale-95 apple-pay-button"
-                  style={{
-                    background: subscriberNumber && subscriberNumber.length >= 10 
-                      ? 'linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #AF52DE 100%)'
-                      : 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    boxShadow: subscriberNumber && subscriberNumber.length >= 10 
-                      ? '0 8px 24px rgba(0,122,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2)'
-                      : '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
-                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
-                  }}
-                >
-                  <Signal className="h-6 w-6 mr-3" />
-                  Get Available Plans
-                </Button>
+                <div className="mb-8">
+                  <Button
+                    onClick={handleGetPlans}
+                    disabled={!subscriberNumber || subscriberNumber.length < 10}
+                    className="w-full h-16 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 active:scale-95 apple-pay-button"
+                    style={{
+                      background: subscriberNumber && subscriberNumber.length >= 10 
+                        ? 'linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #AF52DE 100%)'
+                        : 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      boxShadow: subscriberNumber && subscriberNumber.length >= 10 
+                        ? '0 8px 24px rgba(0,122,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2)'
+                        : '0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+                      fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                    }}
+                  >
+                    <Signal className="h-6 w-6 mr-3" />
+                    Get Available Plans
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
