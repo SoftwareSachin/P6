@@ -122,6 +122,42 @@ export default function SendMoney() {
         console.log('⚠️ No pending booking found in localStorage');
       }
     }
+
+    // Handle DTH recharge payments
+    const dthPaymentDetails = localStorage.getItem('paymentDetails');
+    if (dthPaymentDetails) {
+      try {
+        const paymentInfo = JSON.parse(dthPaymentDetails);
+        console.log('DTH payment details found:', paymentInfo);
+        
+        // Create a merchant contact for the DTH recharge
+        const dthMerchant = {
+          id: 'dth-merchant-' + Date.now(),
+          name: paymentInfo.merchantName,
+          phone: '+91 1800 DTH CARE',
+          avatar: `https://api.dicebear.com/7.x/shapes/svg?seed=${paymentInfo.merchantName}`,
+          upiId: `${paymentInfo.merchantName.toLowerCase().replace(/\s+/g, '')}@dth`,
+          favorite: false,
+          lastTransaction: 'DTH Recharge',
+          verified: true,
+          isDTHMerchant: true,
+          paymentInfo: paymentInfo
+        };
+
+        // Auto-select this merchant and move to amount step
+        setSelectedContact(dthMerchant);
+        setStep('amount');
+        setAmount(paymentInfo.amount);
+        setNote(paymentInfo.note);
+        
+        console.log('Pre-filled DTH payment:', paymentInfo.merchantName);
+        
+        // Clean up localStorage
+        localStorage.removeItem('paymentDetails');
+      } catch (error) {
+        console.error('Error parsing DTH payment information:', error);
+      }
+    }
   }, [location]);
 
   const allContacts = [

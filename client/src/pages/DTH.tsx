@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Tv, Signal, AlertCircle, Check, Star, Clock, Zap, Shield, Smartphone, CreditCard, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Tv, Signal, AlertCircle, Check, Star, Clock, Zap, Shield, Smartphone, CreditCard, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -165,8 +165,6 @@ export default function DTH() {
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [showPlans, setShowPlans] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [animationStep, setAnimationStep] = useState(0);
   const { toast } = useToast();
 
   // Ultra-Premium DTH Providers with Apple Pay Aesthetics
@@ -279,49 +277,7 @@ export default function DTH() {
     }
   ];
 
-  // Enhanced DTH Recharge Mutation with Apple Pay Effects
-  const rechargeMutation = useMutation({
-    mutationFn: async (rechargeData: any) => {
-      setIsProcessing(true);
-      setAnimationStep(1);
-      
-      // Simulate processing steps with animations
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setAnimationStep(2);
-      
-      const response = await fetch('/api/dth/recharge', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(rechargeData),
-      });
-      
-      await new Promise(resolve => setTimeout(resolve, 800));
-      setAnimationStep(3);
-      
-      if (!response.ok) throw new Error('Recharge failed');
-      return response.json();
-    },
-    onSuccess: () => {
-      setAnimationStep(4);
-      setTimeout(() => {
-        toast({
-          title: "✨ DTH Recharge Successful!",
-          description: "Your DTH has been recharged successfully with premium features.",
-        });
-        queryClient.invalidateQueries({ queryKey: ['/api/user/balance'] });
-        setLocation('/dashboard');
-      }, 1500);
-    },
-    onError: (error: any) => {
-      setIsProcessing(false);
-      setAnimationStep(0);
-      toast({
-        title: "⚠️ Recharge Failed",
-        description: error.message || "Please try again later.",
-        variant: "destructive",
-      });
-    },
-  });
+
 
   const handleProviderSelect = (provider: any) => {
     setSelectedProvider(provider.id);
@@ -358,13 +314,18 @@ export default function DTH() {
     }
 
     const provider = dthProviders.find(p => p.id === selectedProvider);
-    rechargeMutation.mutate({
-      provider: provider?.name,
-      subscriberNumber,
-      amount: parseFloat(amount),
-      plan: selectedPlan,
-      type: 'dth'
-    });
+    
+    // Store payment details in localStorage for the send page
+    localStorage.setItem('paymentDetails', JSON.stringify({
+      merchantName: `${provider?.name} DTH`,
+      amount: amount,
+      note: `DTH Recharge - ${selectedPlan?.name || 'Custom'} plan for ${subscriberNumber}`,
+      category: 'dth_recharge',
+      fromPage: 'dth'
+    }));
+    
+    // Redirect to send money page
+    setLocation('/send');
   };
 
   return (
@@ -913,37 +874,20 @@ export default function DTH() {
             {/* Ultra-Premium Recharge Button */}
             <Button
               onClick={handleRecharge}
-              disabled={isProcessing}
               className="w-full h-20 rounded-3xl text-xl font-bold transition-all duration-500 hover:scale-105 active:scale-95 apple-pay-button"
               style={{
-                background: isProcessing 
-                  ? 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)'
-                  : 'linear-gradient(135deg, #007AFF 0%, #5856D6 30%, #AF52DE 70%, #FF2D92 100%)',
+                background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 30%, #AF52DE 70%, #FF2D92 100%)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255,255,255,0.3)',
-                boxShadow: isProcessing 
-                  ? '0 8px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)'
-                  : '0 16px 48px rgba(0,122,255,0.5), 0 8px 24px rgba(175,82,222,0.3), inset 0 1px 0 rgba(255,255,255,0.3)',
+                boxShadow: '0 16px 48px rgba(0,122,255,0.5), 0 8px 24px rgba(175,82,222,0.3), inset 0 1px 0 rgba(255,255,255,0.3)',
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif'
               }}
             >
-              {isProcessing ? (
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>
-                    {animationStep === 1 && "Connecting to Provider..."}
-                    {animationStep === 2 && "Processing Payment..."}
-                    {animationStep === 3 && "Confirming Recharge..."}
-                    {animationStep === 4 && "Recharge Successful!"}
-                  </span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <CreditCard className="h-8 w-8" />
-                  <span>Recharge Now - ₹{amount}</span>
-                  <Zap className="h-8 w-8" />
-                </div>
-              )}
+              <div className="flex items-center gap-4">
+                <CreditCard className="h-8 w-8" />
+                <span>Proceed to Payment - ₹{amount}</span>
+                <ArrowRight className="h-8 w-8" />
+              </div>
             </Button>
           </div>
         )}

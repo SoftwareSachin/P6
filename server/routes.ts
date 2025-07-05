@@ -594,7 +594,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/dth/recharge', async (req: any, res) => {
     try {
       const { provider, subscriberNumber, amount, plan, type } = req.body;
-      const userId = req.user?.id;
+      const userId = mockUser.id; // Use mockUser for consistency
 
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
