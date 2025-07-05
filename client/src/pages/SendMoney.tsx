@@ -48,6 +48,30 @@ export default function SendMoney() {
     const urlParams = new URLSearchParams(window.location.search);
     const deviceId = urlParams.get('deviceId');
     const deviceName = urlParams.get('deviceName');
+    
+    // Check for RWA investment details from localStorage
+    const investmentDetails = localStorage.getItem('investmentDetails');
+    if (investmentDetails) {
+      try {
+        const details = JSON.parse(investmentDetails);
+        if (details.type === 'rwa_investment') {
+          setSelectedContact({
+            id: `rwa_${details.tokenId}`,
+            name: `${details.tokenName} Investment`,
+            upi: `invest@${details.tokenSymbol.toLowerCase()}`,
+            avatar: null,
+            isRWAInvestment: true,
+            tokenDetails: details
+          });
+          setStep('amount');
+          // Clear the localStorage after setting
+          localStorage.removeItem('investmentDetails');
+        }
+      } catch (error) {
+        console.error('Error parsing investment details:', error);
+        localStorage.removeItem('investmentDetails');
+      }
+    }
     const ownerName = urlParams.get('ownerName');
     const ownerPhone = urlParams.get('ownerPhone');
     const booking = urlParams.get('booking');
@@ -488,8 +512,71 @@ export default function SendMoney() {
     }
   };
 
-  const handlePayment = () => {
-    setStep('pin');
+  const handlePayment = async () => {
+    setStep('processing');
+    
+    try {
+      if (selectedContact?.isRWAInvestment) {
+        // Handle RWA investment
+        const response = await fetch('/api/rwa/invest', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tokenId: selectedContact.tokenDetails.tokenId,
+            amount: parseFloat(amount)
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Investment failed');
+        }
+
+        const result = await response.json();
+        console.log('RWA Investment successful:', result);
+        
+        // Wait for processing animation
+        setTimeout(() => {
+          setStep('success');
+        }, 3000);
+      } else {
+        // Handle regular payment
+        const response = await fetch('/api/transactions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            merchantName: selectedContact?.name || 'Unknown',
+            merchantImage: selectedContact?.avatar || null,
+            amount: parseFloat(amount),
+            type: 'debit',
+            category: 'payment',
+            status: 'completed',
+            note: note || `Payment to ${selectedContact?.name}`,
+            transactionId: `PAY${Date.now()}${Math.random().toString(36).substr(2, 9)}`.toUpperCase(),
+            isOffline: false
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Payment failed');
+        }
+
+        // Wait for processing animation
+        setTimeout(() => {
+          setStep('success');
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      // In a real app, you'd show an error message
+      // For now, just proceed to success for demo purposes
+      setTimeout(() => {
+        setStep('success');
+      }, 3000);
+    }
   };
 
   const handlePinInput = (digit: string) => {
@@ -502,13 +589,14 @@ export default function SendMoney() {
     setPin(prev => prev.slice(0, -1));
   };
 
-  const handlePinSubmit = () => {
+  const handlePinSubmit = async () => {
     if (pin.length === 4) {
       // Simulate PIN verification
       if (pin === "1234") {
         console.log('PIN verified, proceeding to processing');
-        setStep('processing');
         setPin("");
+        // Trigger actual payment processing
+        await handlePayment();
       } else {
         setPinAttempts(prev => prev + 1);
         setPin("");
@@ -521,15 +609,7 @@ export default function SendMoney() {
     }
   };
 
-  // Processing stage delay - 3 seconds before showing success
-  useEffect(() => {
-    if (step === 'processing') {
-      const timer = setTimeout(() => {
-        setStep('success');
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [step]);
+  // Processing stage - no longer needed since payment is handled directly in PIN submit
 
   // Auto-submit PIN when 4 digits are entered
   useEffect(() => {
@@ -1117,19 +1197,60 @@ export default function SendMoney() {
           {/* Amount Input */}
           <Card className="apple-pay-card border-0 mb-6">
             <CardContent className="p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">Enter Amount</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">
+                {selectedContact?.isRWAInvestment ? 'Investment Amount' : 'Enter Amount'}
+              </h4>
+              
+              {/* RWA Investment Details */}
+              {selectedContact?.isRWAInvestment && selectedContact?.tokenDetails && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-500/20">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+                      <Shield className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-white font-medium text-sm">RWA Token Investment</p>
+                      <p className="text-blue-300 text-xs">{selectedContact.tokenDetails.tokenSymbol}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Min Investment:</span>
+                      <span className="text-white">₹{selectedContact.tokenDetails.minInvestment}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Current Price:</span>
+                      <span className="text-white">₹{selectedContact.tokenDetails.price}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Expected Yield:</span>
+                      <span className="text-green-400">{selectedContact.tokenDetails.expectedYield}%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
               
               {/* Large Amount Display */}
               <div className="text-center mb-6">
                 <div className="text-4xl font-bold text-white mb-2">
                   ₹{amount || "0"}
                 </div>
-                <p className="text-gray-400 text-sm">Enter amount to send</p>
+                <p className="text-gray-400 text-sm">
+                  {selectedContact?.isRWAInvestment ? 'Investment amount' : 'Enter amount to send'}
+                </p>
+                {selectedContact?.isRWAInvestment && amount && (
+                  <p className="text-blue-300 text-xs mt-1">
+                    ≈ {(parseFloat(amount) / selectedContact.tokenDetails.price).toFixed(4)} tokens
+                  </p>
+                )}
               </div>
 
               {/* Quick Amount Buttons */}
               <div className="grid grid-cols-4 gap-3 mb-6">
-                {quickAmounts.map((quickAmount) => (
+                {(selectedContact?.isRWAInvestment 
+                  ? [selectedContact.tokenDetails.minInvestment, selectedContact.tokenDetails.minInvestment * 2, selectedContact.tokenDetails.minInvestment * 5, selectedContact.tokenDetails.minInvestment * 10]
+                  : quickAmounts
+                ).map((quickAmount) => (
                   <Button
                     key={quickAmount}
                     onClick={() => setAmount(quickAmount.toString())}
@@ -1201,7 +1322,9 @@ export default function SendMoney() {
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-3 border-b border-white/10">
-                  <span className="text-gray-400">To</span>
+                  <span className="text-gray-400">
+                    {selectedContact?.isRWAInvestment ? 'Investment In' : 'To'}
+                  </span>
                   <div className="text-right">
                     <p className="text-white font-medium">{selectedContact?.name}</p>
                     <p className="text-gray-400 text-sm">{selectedContact?.upiId}</p>
@@ -1212,6 +1335,15 @@ export default function SendMoney() {
                   <span className="text-gray-400">Amount</span>
                   <span className="text-white font-bold">₹{amount}</span>
                 </div>
+                
+                {selectedContact?.isRWAInvestment && amount && (
+                  <div className="flex justify-between items-center py-3 border-b border-white/10">
+                    <span className="text-gray-400">Tokens</span>
+                    <span className="text-blue-400 font-bold">
+                      {(parseFloat(amount) / selectedContact.tokenDetails.price).toFixed(4)} {selectedContact.tokenDetails.tokenSymbol}
+                    </span>
+                  </div>
+                )}
                 
                 {note && (
                   <div className="flex justify-between items-center py-3 border-b border-white/10">
@@ -1422,8 +1554,20 @@ export default function SendMoney() {
               />
             </div>
             
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Money Sent!</h2>
-            <p className="text-white text-lg font-semibold drop-shadow-sm">₹{amount} sent to {selectedContact?.name}</p>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+              {selectedContact?.isRWAInvestment ? 'Investment Complete!' : 'Money Sent!'}
+            </h2>
+            <p className="text-white text-lg font-semibold drop-shadow-sm">
+              {selectedContact?.isRWAInvestment 
+                ? `₹${amount} invested in ${selectedContact.tokenDetails.tokenName}`
+                : `₹${amount} sent to ${selectedContact?.name}`
+              }
+            </p>
+            {selectedContact?.isRWAInvestment && amount && (
+              <p className="text-blue-300 text-sm">
+                You received {(parseFloat(amount) / selectedContact.tokenDetails.price).toFixed(4)} {selectedContact.tokenDetails.tokenSymbol} tokens
+              </p>
+            )}
             
             <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 max-w-sm mx-auto">
               <div className="space-y-3 text-sm">

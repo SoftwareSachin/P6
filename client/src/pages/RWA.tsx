@@ -265,11 +265,31 @@ export default function RWA() {
   });
 
   const handleTokenInvest = (tokenId: number) => {
-    setLocation(`/rwa/invest/${tokenId}`);
+    // Find the token to get its details
+    const tokenArray = Array.isArray(tokens) ? tokens : [];
+    const token = tokenArray.find((t: any) => t.id === tokenId);
+    
+    if (token) {
+      // Store investment details in localStorage for the Send Money page
+      const investmentDetails = {
+        type: 'rwa_investment',
+        tokenId: token.id,
+        tokenName: token.tokenName,
+        tokenSymbol: token.tokenSymbol,
+        minInvestment: token.minInvestment || 1000,
+        expectedYield: token.expectedYield || 0,
+        price: token.marketData?.price || 100
+      };
+      localStorage.setItem('investmentDetails', JSON.stringify(investmentDetails));
+      
+      // Navigate to send money page
+      setLocation('/send');
+    }
   };
 
   const handleTokenDetails = (tokenId: number) => {
-    setLocation(`/rwa/token/${tokenId}`);
+    // For now, show token details in the same page or navigate to a dedicated details view
+    alert(`Token Details for ID: ${tokenId}\nThis would show detailed information about the token.`);
   };
 
   // Real-time market simulation
