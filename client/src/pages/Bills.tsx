@@ -199,7 +199,10 @@ export default function Bills() {
   };
 
   const handlePayment = () => {
+    console.log('🔄 Payment button clicked');
+    
     if (!selectedCategory || !selectedProvider || !consumerNumber || !amount) {
+      console.log('❌ Missing required fields:', { selectedCategory, selectedProvider, consumerNumber, amount });
       toast({
         title: "Missing Information",
         description: "Please fill all required fields.",
@@ -210,6 +213,8 @@ export default function Bills() {
 
     const category = billCategories.find(c => c.id === selectedCategory);
     const provider = category?.providers.find(p => p.id === selectedProvider);
+    
+    console.log('📋 Found category and provider:', { category: category?.name, provider: provider?.name });
     
     // Store bill payment details in localStorage to pre-fill Send Money page
     const billPaymentDetails = {
@@ -223,10 +228,13 @@ export default function Bills() {
       billDetails
     };
     
+    console.log('💾 Storing bill payment details:', billPaymentDetails);
     localStorage.setItem('billPaymentDetails', JSON.stringify(billPaymentDetails));
     
+    console.log('🚀 Navigating to /send');
     // Navigate to Send Money page with pre-filled information
     setLocation('/send');
+    console.log('✅ Navigation command sent');
   };
 
   const selectedCategoryData = billCategories.find(c => c.id === selectedCategory);

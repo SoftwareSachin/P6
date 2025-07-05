@@ -103,6 +103,7 @@ function Router() {
         <Route path="/dashboard" component={ApplePayDashboard} />
         <Route path="/qr-scanner" component={QRScanner} />
         <Route path="/send-money" component={SendMoney} />
+        <Route path="/send" component={SendMoney} />
         <Route path="/offline-payments" component={OfflinePayments} />
         <Route path="/payment" component={PaymentScreen} />
         <Route path="/pin-entry" component={PinEntry} />
