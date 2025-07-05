@@ -784,68 +784,77 @@ export default function DTH() {
                       }}
                     >
                       <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
+                        <div className="flex flex-col space-y-4">
+                          {/* Plan Header with Price */}
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1 min-w-0">
                               <h4 
-                                className="text-lg font-bold text-white"
+                                className="text-lg font-bold text-white mb-2 line-clamp-1"
                                 style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
                               >
                                 {plan.name}
                               </h4>
-                              {plan.popular && (
-                                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1">
-                                  <Star className="h-3 w-3 mr-1" />
-                                  POPULAR
-                                </Badge>
-                              )}
-                              {plan.savings && (
-                                <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-2 py-1">
-                                  {plan.savings}
-                                </Badge>
-                              )}
-                            </div>
-                            
-                            <p className="text-white/80 text-sm mb-3">{plan.description}</p>
-                            
-                            <div className="grid grid-cols-2 gap-4 text-xs text-white/70">
-                              <div className="flex items-center gap-2">
-                                <Tv className="h-4 w-4" />
-                                <span>{plan.channels}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Clock className="h-4 w-4" />
-                                <span>{plan.duration}</span>
+                              
+                              {/* Badges Row */}
+                              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                                {plan.popular && (
+                                  <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1 whitespace-nowrap">
+                                    <Star className="h-3 w-3 mr-1" />
+                                    POPULAR
+                                  </Badge>
+                                )}
+                                {plan.savings && (
+                                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-2 py-1 whitespace-nowrap">
+                                    {plan.savings}
+                                  </Badge>
+                                )}
                               </div>
                             </div>
                             
-                            <div className="flex flex-wrap gap-2 mt-3">
-                              {plan.features.map((feature, idx) => (
-                                <Badge 
-                                  key={idx}
-                                  className="text-xs bg-white/10 text-white/80 border border-white/20"
-                                  style={{ backdropFilter: 'blur(10px)' }}
-                                >
-                                  {feature}
-                                </Badge>
-                              ))}
+                            {/* Price Section */}
+                            <div className="text-right ml-4 flex-shrink-0">
+                              <div className="text-3xl font-bold text-white mb-1">
+                                ₹{plan.price}
+                              </div>
+                              {plan.originalPrice > plan.price && (
+                                <div className="text-sm text-white/50 line-through">
+                                  ₹{plan.originalPrice}
+                                </div>
+                              )}
+                              {selectedPlan?.id === plan.id && (
+                                <div className="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full mt-2 mx-auto">
+                                  <Check className="h-5 w-5 text-white" />
+                                </div>
+                              )}
                             </div>
                           </div>
                           
-                          <div className="text-right ml-6">
-                            <div className="text-3xl font-bold text-white mb-1">
-                              ₹{plan.price}
+                          {/* Plan Description */}
+                          <p className="text-white/80 text-sm leading-relaxed">{plan.description}</p>
+                          
+                          {/* Plan Details */}
+                          <div className="grid grid-cols-2 gap-4 text-xs text-white/70">
+                            <div className="flex items-center gap-2">
+                              <Tv className="h-4 w-4 flex-shrink-0" />
+                              <span className="truncate">{plan.channels}</span>
                             </div>
-                            {plan.originalPrice > plan.price && (
-                              <div className="text-sm text-white/50 line-through">
-                                ₹{plan.originalPrice}
-                              </div>
-                            )}
-                            {selectedPlan?.id === plan.id && (
-                              <div className="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full mt-2">
-                                <Check className="h-5 w-5 text-white" />
-                              </div>
-                            )}
+                            <div className="flex items-center gap-2">
+                              <Clock className="h-4 w-4 flex-shrink-0" />
+                              <span className="truncate">{plan.duration}</span>
+                            </div>
+                          </div>
+                          
+                          {/* Features */}
+                          <div className="flex flex-wrap gap-2">
+                            {plan.features.map((feature, idx) => (
+                              <Badge 
+                                key={idx}
+                                className="text-xs bg-white/10 text-white/80 border border-white/20 whitespace-nowrap"
+                                style={{ backdropFilter: 'blur(10px)' }}
+                              >
+                                {feature}
+                              </Badge>
+                            ))}
                           </div>
                         </div>
                       </CardContent>
